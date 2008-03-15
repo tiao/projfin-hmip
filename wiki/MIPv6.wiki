@@ -1,4 +1,3 @@
-#summary Estudo bibliográfico sobre MIPv6.
+#summary Estudo bibliográfico sobre MIPv6
 
 a fazer
-
