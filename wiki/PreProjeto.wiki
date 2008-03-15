@@ -1,5 +1,5 @@
 #summary Mobilidade em Redes IP: Análise dos Protocolos MIPv6 e HMIPv6
-#labels PréProjeto,Justificativas,Objetivos
+#labels Pré-Projeto,Justificativas,Objetivos
 
 = Justificativas =
 
