@@ -16,7 +16,9 @@ Para os testes será utilizado um _"filesytem"_ baseado no n3, existem diversos 
 Existe um pacote chamado _"uml utilities"_, que possui várias ferramentas serão utilizadas no ambiente de testes. Faça o download da ultima versão e instale o pacote:
 
   `# wget http://prdownloads.sourceforge.net/user-mode-linux/uml_utilities_20040406.tar.bz2`
+
   `# tar jxvf uml_utilities_20040406.tar.bz2 && cd cd tools-20040406"`
+
   `# make && make install`
 
 
