@@ -1,5 +1,5 @@
 #summary Maquina Virtual com suporte ao MIPv6
-#labels UML,kernel
+#labels uml,kernel,mipl,radvd
 
 = Introdução =
 
