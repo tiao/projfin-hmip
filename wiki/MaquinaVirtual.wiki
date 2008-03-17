@@ -5,7 +5,7 @@
 
 Devido a facilidade, rapidez para construção de ambientes de testes de rede este projeto fará o uso de máquinas virtuais. Será utilizado a máquina virtual UML (_"User Mode Linux"_) que é incorporada ao kernel e apresenta um alto desempenho em execução.
 
-Nesta documentação também será abordado a compilação do kernel com suporte ao MIPv6, instalação do MIPL (_"Mobile IPv6 for Linux"_) uma implementação do IPv6 Móvel para o Linux, e a instalação do RADVD (_"Router ADVertisement Daemon"_) necessário em redes IPv6 para gerar _"router advertisement"_ e escutar _"router solicitations"_.
+Nesta documentação também será abordado a compilação do kernel com suporte ao MIPv6, a instalação do MIPL (_"Mobile IPv6 for Linux"_) uma implementação do IPv6 Móvel para o Linux, e a instalação do RADVD (_"Router ADVertisement Daemon"_) necessário em redes IPv6 para gerar _"router advertisement"_ e escutar _"router solicitations"_.
 
 = UML =
 
@@ -13,7 +13,12 @@ O uso das máquinas virtuais UML é muito fácil, simplesmente é necessário um
 
 Para os testes será utilizado um _"filesytem"_ baseado no n3, existem diversos _"filesystem"_ disponíveis, porém este é bem pequeno comparado a outros e atende todas as necessidades dos testes. Está disponível para download em http://.
 
-Existe uma ferramenta chamada uml-tools.
+Existe um pacote chamado _"uml utilities"_, que possui várias ferramentas serão utilizadas no ambiente de testes. Faça o download da ultima versão e instale o pacote:
+
+  # wget http://prdownloads.sourceforge.net/user-mode-linux/uml_utilities_20040406.tar.bz2
+  # tar jxvf uml_utilities_20040406.tar.bz2 && cd cd tools-20040406
+  # make && make install
+
 
 Para mais informações acesse [http://user-mode-linux.sourceforge.net User-mode Linux Kernel Home Page].
 
