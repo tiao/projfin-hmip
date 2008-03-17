@@ -34,7 +34,18 @@ Para este ambiente de testes será utilizado a versão 2.6.22.2 do kernel. Entã
 # cd linux-2.6.22.2
 }}}
 
+Como o ambiente de testes será utilizando máquinas virtuais devemos compilar o kernel para essa arquitetura:
 
+{{{
+#  export ARCH=um
+}}} 
+
+Configurando kernel:
+
+{{{
+# make defconfig
+# make menuconfig
+}}}
 
 = MIPL =
 
