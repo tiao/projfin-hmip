@@ -7,7 +7,7 @@ Devido a facilidade, rapidez para construção de ambientes de testes de rede es
 
 Nesta documentação também será abordado a compilação do kernel com suporte ao MIPv6. O kernel utilizado é 2.6.22.2, está versão já incorporou à arvore o suporte ao MIPv6, em versões mais antigas será necessário aplicar um _"patch"_.
 
-Para uso do MIPv6 é necessário a instalação do MIPL (_"Mobile IPv6 for Linux"_), uma implementação do IPv6 Móvel para o Linux, desenvolvida pela Universidade de Tecnologia de Helsink, na Finlândia. 
+Para uso do MIPv6 é necessário a instalação do MIPL (_"Mobile IPv6 for Linux"_), uma implementação do IPv6 Móvel para o Linux, desenvolvida pela Universidade de Tecnologia de Helsink, na Finlândia. Em redes IPv6 é necessário um programa radvd.
 
 
 = UML =
@@ -19,3 +19,5 @@ Para os testes será utilizado um _"filesytem"_ baseado no n3, existem diversos 
 Existe uma ferramenta chamada uml-tools.
 
 Para mais informações acesse [http://user-mode-linux.sourceforge.net User-mode Linux Kernel Home Page].
+
+Incompleto ...
