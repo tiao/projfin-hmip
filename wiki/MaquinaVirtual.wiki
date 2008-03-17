@@ -26,7 +26,15 @@ Para mais informações acesse [http://user-mode-linux.sourceforge.net User-mode
 
 = KERNEL =
 
-a fazer.
+Para este ambiente de testes será utilizado a versão 2.6.22.2 do kernel. Então faça o download dos códigos fontes do kernel:
+
+{{{
+# wget http://kernel.org/pub/linux/kernel/v2.6/linux-2.6.22.2.tar.bz2
+# tar jxvf linux-2.6.22.2.tar.bz2
+# cd linux-2.6.22.2
+}}}
+
+
 
 = MIPL =
 
