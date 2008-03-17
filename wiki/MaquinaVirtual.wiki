@@ -1,0 +1,20 @@
+#summary Maquina Virtual com suporte ao MIPv6
+#labels uml,kernel,mipl,radvd
+
+= Introdução =
+
+Devido a facilidade, rapidez para construção de ambientes de testes de rede este projeto fará o uso de máquinas virtuais. Será utilizado as máquina virtual UML (_"User Mode Linux"_) que é incorporada ao kernel e apresenta um alto desempenho em execução.
+
+Nesta documentação também será abordado a compilação do kernel com suporte ao MIPv6. O kernel utilizado é 2.6.22.2, está versão já incorporou à arvore o suporte ao MIPv6, em versões mais antigas será necessário aplicar um _"patch"_.
+
+Para uso do MIPv6 é necessário a instalação do MIPL (_"Mobile IPv6 for Linux"_), uma implementação do IPv6 Móvel para o Linux, desenvolvida pela Universidade de Tecnologia de Helsink, na Finlândia. 
+
+
+= UML =
+
+O uso das máquinas virtuais UML é muito fácil, simplesmente é necessário um kernel compilado  para este tipo especifico de arquitetura e _"filesystem"_.
+
+Para os testes será utilizado um _"filesytem"_ baseado no n3, existem diversos _"filesystem"_ disponíveis, porém este é bem pequeno comparado a outros e atende todas as necessidades dos testes. Está disponível para download em http://.
+
+Existe uma ferramenta chamada uml-tools.
+
