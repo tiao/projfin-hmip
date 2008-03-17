@@ -12,9 +12,10 @@ Para uso do MIPv6 é necessário a instalação do MIPL (_"Mobile IPv6 for Linux
 
 = UML =
 
-O uso das máquinas virtuais UML é muito fácil, simplesmente é necessário um kernel compilado  para este tipo especifico de arquitetura e _"filesystem"_.
+O uso das máquinas virtuais UML é muito fácil, simplesmente é necessário um kernel compilado  para este tipo especifico de arquitetura e um _"filesystem"_.
 
 Para os testes será utilizado um _"filesytem"_ baseado no n3, existem diversos _"filesystem"_ disponíveis, porém este é bem pequeno comparado a outros e atende todas as necessidades dos testes. Está disponível para download em http://.
 
 Existe uma ferramenta chamada uml-tools.
 
+Para mais informações acesse [http://user-mode-linux.sourceforge.net User-mode Linux Kernel Home Page].
