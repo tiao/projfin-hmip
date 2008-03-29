@@ -2,6 +2,3 @@
 #labels rfc3775
 
 a fazer
-
-[http://docs.google.com/?tab=mo&pli=1#folders/folder.0.c50610c1-da9c-4715-ade1-6135e4392e8b]
-http://docs.google.com/?tab=mo&pli=1#folders/folder.0.c50610c1-da9c-4715-ade1-6135e4392e8b
