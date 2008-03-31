@@ -1,4 +1,38 @@
 #summary Estudo bibliográfico sobre MIPv6
 #labels rfc3775
 
+= Introdução =
+
+O protocolo IPv6 Móvel (MIPv6) permite que terminais de rede se movimentem e continuem suas comunicações com outros terminais, mesmo estando em outra rede. O movimento é transparente as camadas superiores de transporte e de aplicação. Sem suporte ao MIPv6 os pacotes destinados ao terminal móvel serão perdidos, quando ele não estiver em sua rede de origem.
+
+O MIPv6 não resolve todos os problemas de mobilidade, problemas de _handover_, de acessibilidade, controle de acesso são resolvidos na camada de enlace. MIPv6 trata  problemas de mobilidade relacionados a camada de rede.
+
+= Terminologia do MIPv6 =
+
+Alguns termos especiais definidos pelo MIPv6:
+
+*Nó móvel*: é o terminal de rede que pode trocar seu ponto de acesso a internet sem deixar de ser alcançável via seu endereço domiciliar.
+
+*Endereço domiciliar*: é o endereço estático associado ao nó móvel na rede domiciliar.
+Link domiciliar: link onde o prefixo de subrede do nó movel é definido.
+
+*Link externo*: algum link que não seja link domiciliar do nó móvel.
+
+_*Care-of-address*_: endereço IP dado ao nó móvel quando estiver em um link externo, o prefixo da rede deste endereço é o da rede externa.
+
+*Nó correspondente*: é o nó com quem o nó móvel esta se correspondendo, pode ser móvel ou fixo.
+
+*Agente domiciliar*: é um roteador no link domiciliar com quem o nó móvel registra seu _care-of-address_ sempre que esta em um link externo.
+
+*Movimento*: é uma troca de ponto de acesso na Internet.
+
+_*Binding*_: é associação do endereço domiciliar do nó móvel com seu _care-of-address_.
+
+
+= Operação do MIPv6 =
+
+Um nó móvel sempre está acessível pelo seu endereço domiciliar, os pacotes destinados ao nó móvel quando ele está na sua rede domiciliar são roteados da forma convencional da Internet.
+
+Quando o nó móvel se movimenta para um link externo,  adquire um endereço na nova rede o _care-of-address_. O nó pode adquirir o endereço por _stateless autoconfiguration_ ou _stateful autoconfiguration_. Pacotes podem ser endereçados também para o _care-of-address_.
+
 a fazer
