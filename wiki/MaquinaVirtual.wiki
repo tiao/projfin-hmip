@@ -11,7 +11,7 @@ Nesta documentação também será abordado a compilação do kernel com suporte
 
 O uso das máquinas virtuais UML é muito fácil, simplesmente é necessário um kernel compilado  para este tipo especifico de arquitetura e um _filesystem_.
 
-Para os testes será utilizado um _filesytem_ baseado no [http://wiki.n3network.ch/index.php/N3_Virtual_Linux_Router N3 Virtual Linux Router], é um  pequeno e mínimo _filesystem_ com vários utilitários de rede e é dedicado a testes de roteamento. Está disponível para download em http://.
+Para os testes será utilizado um _filesytem_ baseado no [http://wiki.n3network.ch/index.php/N3_Virtual_Linux_Router N3 Virtual Linux Router], é um  pequeno e mínimo _filesystem_ com vários utilitários de rede e é dedicado a testes de roteamento. Está disponível para download em http://projfin-hmip.code.google.com/files/n3vlr-0.11-mipv6.img . Obs: Não concluida ainda.
 
 Existe um pacote chamado _uml utilities_, que possui várias ferramentas que serão utilizadas no ambiente de testes. Faça o download e instale o pacote:
 
