@@ -3,17 +3,17 @@
 
 = Introdução =
 
-Devido a facilidade, rapidez para construção de ambientes de testes de rede este projeto fará o uso de máquinas virtuais. Será utilizado a máquina virtual UML (_"User Mode Linux"_) que é incorporada ao kernel e apresenta um alto desempenho em execução.
+Devido a facilidade, rapidez para construção de ambientes de testes de rede este projeto fará o uso de máquinas virtuais. Será utilizado a máquina virtual UML (_User Mode Linux_) que é incorporada ao kernel e apresenta um alto desempenho em execução.
 
-Nesta documentação também será abordado a compilação do kernel com suporte ao MIPv6, a instalação do MIPL (_"Mobile IPv6 for Linux"_) uma implementação do IPv6 Móvel para o Linux, e a instalação do RADVD (_"Router ADVertisement Daemon"_) necessário em redes IPv6 para gerar _"router advertisement"_ e escutar _"router solicitations"_.
+Nesta documentação também será abordado a compilação do kernel com suporte ao MIPv6, a instalação do MIPL (_Mobile IPv6 for Linux_) uma implementação do IPv6 Móvel para o Linux, e a instalação do RADVD (_Router ADVertisement Daemon_) necessário em redes IPv6 para gerar _router advertisement_ e escutar _router solicitations_.
 
 = UML =
 
-O uso das máquinas virtuais UML é muito fácil, simplesmente é necessário um kernel compilado  para este tipo especifico de arquitetura e um _"filesystem"_.
+O uso das máquinas virtuais UML é muito fácil, simplesmente é necessário um kernel compilado  para este tipo especifico de arquitetura e um _filesystem_.
 
-Para os testes será utilizado um _"filesytem"_ baseado no [http://wiki.n3network.ch/index.php/N3_Virtual_Linux_Router N3 Virtual Linux Router], é um  pequeno e mínimo _"filesystem"_ com vários utilitários de rede e é dedicado a testes de roteamento. Está disponível para download em http://.
+Para os testes será utilizado um _filesytem_ baseado no [http://wiki.n3network.ch/index.php/N3_Virtual_Linux_Router N3 Virtual Linux Router], é um  pequeno e mínimo _filesystem_ com vários utilitários de rede e é dedicado a testes de roteamento. Está disponível para download em http://.
 
-Existe um pacote chamado _"uml utilities"_, que possui várias ferramentas que serão utilizadas no ambiente de testes. Faça o download e instale o pacote:
+Existe um pacote chamado _uml utilities_, que possui várias ferramentas que serão utilizadas no ambiente de testes. Faça o download e instale o pacote:
 
 {{{ 
 # wget http://prdownloads.sourceforge.net/user-mode-linux/uml_utilities_20040406.tar.bz2
@@ -68,23 +68,22 @@ CONFIG_XFRM_USER=y
 }}}
 
 O _home agent_ e o nó móvel precisam:
-
 {{{
 CONFIG_IPV6_TUNNEL=y
 CONFIG_IPV6_MULTIPLE_TABLES=y
 }}}
 
 O nó móvel também precisa:
-
 {{{
 CONFIG_IPV6_SUBTREES=y
 }}}
 
 Para alguns indicadores de movimento do nó móvel, pode ser setado:
-
 {{{
 CONFIG_ARPD=y
 }}}
+
+
 
 
 = MIPL =
