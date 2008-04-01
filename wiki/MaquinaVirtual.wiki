@@ -51,7 +51,28 @@ No menu _UML-specific options_ é interessante selecionar esta opção _Host fil
 
 Para configurar o kernel com suporte ao MIPv6, no menu _Networking ---> Networking options_ selecione as opções: _*Transformation user configuration interface*_, _*PF_KEY sockets*_, _*PF_KEY MIGRATE*_, _*The IPv6 protocol*_, _*IPv6: ESP transformation*_, _*IPv6: Mobility*_, _*IPv6: MIPv6 route optimization mode*_, _*IPv6: Multiple Routing Tables*_, _*IPv6: source address based routing*_.
 
-Para verificar se o kernel está configurado corretamente existe um shell script _*chkconf_kernel.sh*_ que acompanha o pacote do MIPL, 
+Para verificar se o kernel está configurado corretamente para ter suporte ao MIPv6 existe um shell script _*chkconf_kernel.sh*_ que acompanha o pacote do MIPL.
+
+Pelo menos estas opções devem estar configuradas, no arquivo .config:
+
+{{{
+CONFIG_EXPERIMENTAL=y
+CONFIG_SYSVIPC=y
+CONFIG_PROC_FS=y
+CONFIG_NET=y
+CONFIG_INET=y 
+CONFIG_IPV6=y
+CONFIG_IPV6_MIP6=y
+CONFIG_XFRM=y
+CONFIG_XFRM_USER=y
+}}}
+
+O _home agent_ e o nó móvel também precisam:
+
+{{{
+CONFIG_IPV6_TUNNEL=y
+CONFIG_IPV6_MULTIPLE_TABLES=y
+}}}
 
 = MIPL =
 
