@@ -53,7 +53,7 @@ Para configurar o kernel com suporte ao MIPv6, no menu _Networking ---> Networki
 
 Para verificar se o kernel está configurado corretamente para ter suporte ao MIPv6 existe um shell script _*chkconf_kernel.sh*_ que acompanha o pacote do MIPL.
 
-Pelo menos estas opções devem estar configuradas, no arquivo .config:
+Pelo menos estas opções devem estar setadas, no arquivo .config:
 
 {{{
 CONFIG_EXPERIMENTAL=y
@@ -67,12 +67,25 @@ CONFIG_XFRM=y
 CONFIG_XFRM_USER=y
 }}}
 
-O _home agent_ e o nó móvel também precisam:
+O _home agent_ e o nó móvel precisam:
 
 {{{
 CONFIG_IPV6_TUNNEL=y
 CONFIG_IPV6_MULTIPLE_TABLES=y
 }}}
+
+O nó móvel também precisa:
+
+{{{
+CONFIG_IPV6_SUBTREES=y
+}}}
+
+Para alguns indicadores de movimento do nó móvel, pode ser setado:
+
+{{{
+CONFIG_ARPD=y
+}}}
+
 
 = MIPL =
 
