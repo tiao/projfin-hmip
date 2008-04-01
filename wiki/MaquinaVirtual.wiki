@@ -49,7 +49,7 @@ Configurando kernel:
 
 No menu _UML-specific options_ é interessante selecionar esta opção _Host filesystem_ para as maquinas virtuais terem acesso ao filesystem do host.
 
-Para configurar o kernel com suporte ao MIPv6, no menu _Networking ---> Networking options_ selecione as opções: _*Transformation user configuration interface*_, _*PF_KEY sockets*_, _*PF_KEY MIGRATE*_, _*The IPv6 protocol*_, _*IPv6: ESP transformation*_, _*IPv6: Mobility*_, _*IPv6: MIPv6 route optimization mode*_, _*IPv6: Multiple Routing Tables*_, _*IPv6: source address based routing*_.
+Para configurar o kernel com suporte ao MIPv6, no menu _Networking ---> Networking options_ selecione as opções: _*Transformation user configuration interface*_, _*PF_KEY sockets*_, _*PF_KEY MIGRATE*_, _*IP: ARP daemon support*_, _*The IPv6 protocol*_, _*IPv6: ESP transformation*_, _*IPv6: Mobility*_, _*IPv6: MIPv6 route optimization mode*_, _*IPv6: Multiple Routing Tables*_, _*IPv6: source address based routing*_.
 
 Para verificar se o kernel está configurado corretamente para ter suporte ao MIPv6 existe um shell script _*chkconf_kernel.sh*_ que acompanha o pacote do MIPL.
 
@@ -83,8 +83,24 @@ Para alguns indicadores de movimento do nó móvel, pode ser setado:
 CONFIG_ARPD=y
 }}}
 
+Para suporte ao IPsec é necessário pelo menos:
+{{{
+CONFIG_INET6_ESP=y
+}}}
 
+Para utilizar IPsec nos túneis:
+{{{
+CONFIG_NET_KEY=y
+CONFIG_NET_KEY_MIGRATE=y
+}}} 
 
+Após configurado o kernel deve ser compilado, os seus módulos serão instalados no diretório uml-modules para depois serem copiados para o _filesystem_ da máquina virtual.
+{{{
+# make
+# strip linux
+# make modules_install INSTALL_MOD_PATH=uml-modules
+# unset arch
+}}}
 
 = MIPL =
 
