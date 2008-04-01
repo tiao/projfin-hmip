@@ -49,7 +49,9 @@ Configurando kernel:
 
 No menu _UML-specific options_ é interessante selecionar esta opção _Host filesystem_ para as maquinas virtuais terem acesso ao filesystem do host.
 
-Para configurar o kernel com suporte ao MIPv6, no menu _Networking ---> Networking options_ selecione as opções: _The IPv6 protocol_, _IPv6: Mobility_, _IPv6: MIPv6 route optimization mode_, _IPv6: Multiple Routing Tables_, _IPv6: source address based routing_, _IPv6: ESP transformation_, _PF_KEY sockets_, _PF_KEY MIGRATE_, _Transformation user configuration interface_.
+Para configurar o kernel com suporte ao MIPv6, no menu _Networking ---> Networking options_ selecione as opções: _*Transformation user configuration interface*_, _*PF_KEY sockets*_, _*PF_KEY MIGRATE*_, _*The IPv6 protocol*_, _*IPv6: ESP transformation*_, _*IPv6: Mobility*_, _*IPv6: MIPv6 route optimization mode*_, _*IPv6: Multiple Routing Tables*_, _*IPv6: source address based routing*_.
+
+Para verificar se o kernel está configurado corretamente existe um shell script _*chkconf_kernel.sh*_ que acompanha o pacote do MIPL, 
 
 = MIPL =
 
