@@ -34,6 +34,6 @@ _*Binding*_: é associação do endereço domiciliar do nó móvel com seu _care
 
 Um nó móvel sempre está acessível pelo seu endereço domiciliar e enquanto estiver na sua rede domiciliar todos os pacotes destinados a ele são roteados da forma convencional na Internet.
 
-Quando o nó móvel se movimenta para um link externo,  adquire um endereço na nova rede o _care-of-address_. O nó pode adquirir o endereço por _stateless autoconfiguration_ ou _stateful autoconfiguration_. Pacotes podem ser endereçados também para o _care-of-address_.
+Quando o nó móvel se movimenta para um link externo, adquire um endereço na nova rede o _care-of-address_. O nó adquire o endereço das formas convencionais do IPv6 ou por _stateless autoconfiguration_ ou _stateful autoconfiguration_. Pacotes podem ser endereçados também para o _care-of-address_.
 
 a fazer
