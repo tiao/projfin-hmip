@@ -34,10 +34,12 @@ _*Binding*_: é associação do endereço domiciliar do nó móvel com seu _care
 
 Um nó móvel sempre está acessível pelo seu endereço domiciliar e enquanto estiver na sua rede domiciliar todos os pacotes destinados a ele são roteados da forma convencional na Internet.
 
-Quando o nó móvel se movimenta para um link externo adquire um endereço na nova rede o _care-of-address_, que é obtido pelas formas convencionais do IPv6 por _stateless autoconfiguration_ ou _stateful autoconfiguration_. Pacotes podem ser endereçados também para o _care-of-address_.
+Quando o nó móvel se movimenta para um link externo adquire um endereço na nova rede o _care-of-address_, que é obtido pelas formas convencionais do IPv6 por _stateless autoconfiguration_ ou _stateful autoconfiguration_. Pacotes para o nó móvel poderão ser endereçados também para o _care-of-address_.
 
 No link externo o nó móvel envia uma mensagem de _Binding Update_ para seu agente domiciliar fazer a associação de seu endereço domiciliar com o seu \_care-of-address_. O agente domiciliar registra a mensagem em seu _cache_ e envia um _Binding Acknowledgement_ passando a atuar como um _proxy_ interceptando todos os pacotes com destino ao nó móvel e enviando-lhes via túnel. O nó móvel pode informar também ao nó correspondente sua localização.
 
 A comunicação entre o nó móvel e o correspondente pode ser com tunelamento bidirecional onde todos os pacotes são encaminhados via agente domiciliar, neste caso o nó correspondente não precisa ter suporte ao MIPv6. O outro modo mais eficiente o nó móvel envia um _Biding Update_ para o nó correspondente e este pode endereçar os pacotes diretamente ao _care-of-address_, diminuindo o tráfego na rede.
+
+
 
 a fazer
