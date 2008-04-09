@@ -65,5 +65,6 @@ Nó Móvel             Agente Domiciliar        Nó Correspondente(MIPv6)      N
     |<--------------------------------------------------->|                        |
     |                          |                          |                        |
 }}}
+*Operações básicas do MIPv6*
 
 a fazer
