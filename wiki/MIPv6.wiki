@@ -55,13 +55,13 @@ Nó Móvel             Agente Domiciliar        Nó Correspondente(MIPv6)      N
     |                          |  Binding Acknowledgment  |                        |
     |<----------------------------------------------------|                        |
     |                          |                          |                        |
-    |       Pacote (via túnel) |                          |  Pacote (home addres)  | 
+    |      Pacotes (via túnel) |                          | Pacotes (home addres)  | 
     |<-------------------------|<--------------------------------------------------|
     |                          |                          |                        |
-    |                          |                          |                        |
+    |  Pacotes (Nó Corresp.)   |  Pacotes (via túnel)     |                        |
     |------------------------->|-------------------------------------------------->|
     |                          |                          |                        |
-    |                          |                          |                        |
+    |                       Pacotes                       |                        |
     |<--------------------------------------------------->|                        |
     |                          |                          |                        |
 }}}
