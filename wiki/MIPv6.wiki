@@ -1,13 +1,13 @@
 #summary Estudo bibliográfico sobre MIPv6
 #labels rfc3775
 
-= Introdução =
+== Introdução ==
 
 O protocolo IPv6 Móvel (MIPv6) permite que terminais de rede se movimentem e continuem suas comunicações com outros terminais, mesmo estando em outra rede. A mobilidade é transparente as camadas de transporte e de aplicação. Sem suporte ao MIPv6 os pacotes destinados ao terminal móvel serão perdidos, quando ele não estiver em sua rede de origem.
 
 O MIPv6 não resolve todos os problemas de mobilidade, problemas de _handover_, de acessibilidade, controle de acesso são resolvidos na camada de enlace. MIPv6 trata  problemas de mobilidade relacionados a camada de rede.
 
-= Terminologia do MIPv6 =
+== Terminologia do MIPv6 ==
 
 Alguns termos definidos pelo MIPv6:
 
@@ -30,7 +30,7 @@ _*Care-of-address*_: endereço IP dado ao nó móvel quando estiver em um link e
 _*Binding*_: é associação do endereço domiciliar do nó móvel com seu _care-of-address_.
 
 
-= Operação do MIPv6 =
+== Operação do MIPv6 ==
 
 Um nó móvel sempre está acessível pelo seu endereço domiciliar e enquanto estiver na sua rede domiciliar todos os pacotes destinados a ele serão roteados da forma convencional na Internet.
 
@@ -66,5 +66,6 @@ Nó Móvel             Agente Domiciliar        Nó Correspondente(MIPv6)      N
     |                          |                          |                        |
 }}}
 
+== Nó Móvel ==
 
 a fazer
