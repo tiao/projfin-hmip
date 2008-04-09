@@ -41,7 +41,7 @@ No link externo o nó móvel envia uma mensagem de _Binding Update_ para seu age
 A comunicação entre o nó móvel e o correspondente pode ser com tunelamento bidirecional onde todos os pacotes são encaminhados via agente domiciliar, neste caso o nó correspondente não precisa ter suporte ao MIPv6. O outro modo mais eficiente o nó móvel envia um _Biding Update_ para o nó correspondente e este pode endereçar os pacotes diretamente ao _care-of-address_, diminuindo o tráfego na rede.
 
 {{{
-Nó Móvel             Agente Domiciliar         Nó Corresp. (MIPv6)
+Nó Móvel             Agente Domiciliar        Nó Correspondente(MIPv6)      Nó Correspondente
     |                          |                          |                        |
     |  Binding Update          |                          |                        |
     |------------------------->|                          |                        |
