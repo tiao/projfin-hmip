@@ -72,7 +72,7 @@ Uma das mais complicadas tarefas em mobilidade é a detecção dos movimentos do
 
 Para dectetar o movimento deve-se utilizar o protocolo _Neighbor Unreachability Detection_ que é capaz de perceber que o roteador padrão não está mais alcançável, neste caso o nó deve descobrir um novo roteador padrão.
 
- _Router Discovery_ é o protocolo que permite que nós IPv6 descubram roteadores existentes no seu enlace, através das mensagens _Router Advertisement_ e _Router Solicitation_. Um roteador IPv6 periodicamente envia mensagens de _Router Advertisement_ para todo o enlace, desta forma os nós podem configurar seu endereço de rede e roteadores padrão. O nó também pode enviar uma mensagem de _Router Solicitation_ recebendo como resposta um _Router Advertisement_.
+_Router Discovery_ é o protocolo que permite que nós IPv6 descubram roteadores existentes no seu enlace, através das mensagens _Router Advertisement_ e _Router Solicitation_. Um roteador IPv6 periodicamente envia mensagens de _Router Advertisement_ para todo o enlace, desta forma os nós podem configurar seu endereço de rede e roteadores padrão. O nó também pode enviar uma mensagem de _Router Solicitation_ recebendo como resposta um _Router Advertisement_.
 
 Assim quando 
 
