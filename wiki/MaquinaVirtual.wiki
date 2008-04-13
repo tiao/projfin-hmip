@@ -170,6 +170,9 @@ Compilando e instalando:
 
 = RADVD =
 
-O RADVD (_Router ADVertisement Daemon_)é um serviço para roteadores IPv6. Ele envia mensagens _Router Advertisement_ e responde a _Router Solicitation_ especificadas na RFC 2641. Essas mensagens são utilizadas para _stateless autoconfiguration_.
+O RADVD (_Router ADVertisement Daemon_)é um serviço para roteadores IPv6. Ele envia mensagens _Router Advertisement_ e responde a _Router Solicitation_ especificadas na RFC 2641. Essas mensagens são utilizadas para _stateless autoconfiguration_. Faça o donwload do pacote:
+{{{
+# wget http://www.litech.org/radvd/dist/radvd-1.1.tar.gz
+# tar xvzf radvd-1.1.tar.gz && cd radvd-1.1
+}}}
 
-Faça o donwload do pacote
