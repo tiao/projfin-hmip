@@ -107,7 +107,7 @@ Como se faz uso de máquinas virtuais é necessário copiar os módulos para o _
 {{{
 # mkdir loop
 # mount -o loop <seu_fs> loop
-# cp -rf linux-2.6.22.2/uml_modules/lib/modules/* loop/lib/modules
+# cp -rf linux-2.6.22.2/uml-modules/lib/modules/* loop/lib/modules
 }}}
  
 = MIPL =
@@ -115,10 +115,20 @@ Como se faz uso de máquinas virtuais é necessário copiar os módulos para o _
 O MIPL (_Mobile IPv6 for Linux_) é uma implementação de Suporte a Mobilidade no IPv6 (RFC 3775), desenvolvida na Universidade Tecnólogica de Helsinki. É um programa em _user space_ que trabalha junto com MIPv6 habilitado no kernel.
 
 As versões 1.x do MIPL são destinadas as série 2.4 do kernel e as versões 2.x a série 2.6, será feito o download do mipv6-2.0.2.tar.gz a versão mais recente para o kernel 2.6.
-
 {{{
 # wget http://www.mobile-ipv6.org/software/download/mipv6-2.0.2.tar.gz
 # tar xvzf mipv6-2.0.2.tar.gz && cd mipv6-2.0.2
+}}}
+
+O MIPL será configurado para usar os _headers_ do kernel 2.6.22.2, ser instalado no _filesystem_ da maquina virtual e habilitar um terminal virtual para acessar o MIPL em tempo de execução:
+{{{
+# CPPFLAGS='-isystem ../linux-2.6.22.2/include'./configure --prefix=../loop/usr --enable-vt 
+}}}
+
+Compilando e instalando:
+{{{
+# make
+# make install
 }}}
 
 = RADVD =
