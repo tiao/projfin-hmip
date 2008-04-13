@@ -54,7 +54,7 @@ Para configurar o kernel com suporte ao MIPv6, no menu _Networking ---> Networki
 
 Para verificar se o kernel está configurado corretamente para ter suporte ao MIPv6 existe um shell script _*chkconf_kernel.sh*_ que acompanha o pacote do MIPL.
 
-Pelo menos estas opções devem estar setadas, no arquivo .config:
+Opções mínimas que devem ser setadas, no arquivo .config:
 
 {{{
 CONFIG_EXPERIMENTAL=y
@@ -66,12 +66,16 @@ CONFIG_IPV6=y
 CONFIG_IPV6_MIP6=y
 CONFIG_XFRM=y
 CONFIG_XFRM_USER=y
+CONFIG_XFRM_SUB_POLICY=y
+CONFIG_INET6_XFRM_MODE_ROUTEOPTIMIZATION=y
 }}}
 
 O _home agent_ e o nó móvel precisam:
 {{{
 CONFIG_IPV6_TUNNEL=y
+CONFIG_IPV6_ADVANCED_ROUTER=y
 CONFIG_IPV6_MULTIPLE_TABLES=y
+
 }}}
 
 O nó móvel também precisa:
@@ -116,8 +120,8 @@ O MIPL (_Mobile IPv6 for Linux_) é uma implementação de Suporte a Mobilidade 
 
 As versões 1.x do MIPL são destinadas as série 2.4 do kernel e as versões 2.x a série 2.6, será feito o download do mipv6-2.0.2.tar.gz a versão mais recente para o kernel 2.6.
 {{{
-# wget http://www.mobile-ipv6.org/software/download/mipv6-2.0.2.tar.gz
-# tar xvzf mipv6-2.0.2.tar.gz && cd mipv6-2.0.2
+# wget ftp://ftp.linux-ipv6.org/pub/usagi/patch/mipv6/umip-0.4/daemon/tarball/mipv6-daemon-umip-0.4.tar.gz
+# tar xvzf mipv6-daemon-umip-0.4.tar.gz && cd mipv6-daemon-umip-0.4
 }}}
 
 O MIPL será configurado para usar os _headers_ do kernel 2.6.22.2, ser instalado no _filesystem_ da maquina virtual e habilitar um terminal virtual para acessar o MIPL em tempo de execução:
