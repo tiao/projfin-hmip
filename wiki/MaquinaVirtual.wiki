@@ -98,6 +98,7 @@ CONFIG_NET_KEY=y
 CONFIG_NET_KEY_MIGRATE=y
 }}}
 
+Para configurar no menu estas são as opções:
 {{{
 Code maturity level options
 --> Prompt for development and/or incomplete code/drivers [CONFIG_EXPERIMENTAL]
