@@ -11,7 +11,7 @@ Nesta documentação também será abordado a compilação do kernel com suporte
 
 O uso das máquinas virtuais UML é muito fácil, simplesmente é necessário um kernel compilado  para este tipo especifico de arquitetura e um _filesystem_.
 
-Para os testes será utilizado um _filesytem_ baseado no [http://wiki.n3network.ch/index.php/N3_Virtual_Linux_Router N3 Virtual Linux Router][1], é um  pequeno e mínimo _filesystem_ com vários utilitários de rede e é dedicado a testes de roteamento. Está disponível para download em http://projfin-hmip.googlecode.com/files/n3vlr-0.11-mipv6.img . Obs: Não concluida ainda.
+Para os testes será utilizado um _filesytem_ baseado no [http://wiki.n3network.ch/index.php/N3_Virtual_Linux_Router N3 Virtual Linux Router], é um  pequeno e mínimo _filesystem_ com MIPL, RADVD e vários utilitários de rede já instalados é dedicado a testes de roteamento. Está disponível para download em http://projfin-hmip.googlecode.com/files/n3vlr-0.11-mipv6.img . Obs: Não concluida ainda.
 
 Neste endereço http://uml.nagafix.co.uk/ há vários _filesystems_ disponíveis para download.
 
@@ -24,8 +24,6 @@ Existe um pacote chamado _uml utilities_, que possui várias ferramentas que ser
 }}}
 
 Para mais informações acesse [http://user-mode-linux.sourceforge.net User-mode Linux Kernel Home Page].
-
-[1] - Neste _filesystem_ já está instalado o MIPv6 e o RADVD.
 
 = KERNEL =
 
@@ -122,8 +120,6 @@ As versões 1.x do MIPL são destinadas as série 2.4 do kernel e as versões 2.
 # wget http://www.mobile-ipv6.org/software/download/mipv6-2.0.2.tar.gz
 # tar xvzf mipv6-2.0.2.tar.gz && cd mipv6-2.0.2
 }}}
-
-
 
 = RADVD =
 
