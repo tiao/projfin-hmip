@@ -122,7 +122,7 @@ As versões 1.x do MIPL são destinadas as série 2.4 do kernel e as versões 2.
 
 O MIPL será configurado para usar os _headers_ do kernel 2.6.22.2, ser instalado no _filesystem_ da maquina virtual e habilitar um terminal virtual para acessar o MIPL em tempo de execução:
 {{{
-# CPPFLAGS='-isystem ../linux-2.6.22.2/include'./configure --prefix=../loop/usr --enable-vt 
+# CPPFLAGS='-isystem ../linux-2.6.22.2/include' ./configure --prefix=../loop/usr --enable-vt 
 }}}
 
 Compilando e instalando:
