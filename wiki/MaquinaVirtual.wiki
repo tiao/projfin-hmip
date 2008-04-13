@@ -15,7 +15,7 @@ Para os testes será utilizado um _filesytem_ baseado no [http://wiki.n3network.
 
 {{{
 tar jxvf n3vlr-0.11-mipv6.img.tar.bz2
-}}]
+}}}
 
 Neste endereço http://uml.nagafix.co.uk/ há vários _filesystems_ disponíveis para download.
 
