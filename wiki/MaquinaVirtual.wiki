@@ -48,13 +48,13 @@ Configurando kernel:
 # make menuconfig
 }}}
 
-No menu _UML-specific options_ é interessante selecionar esta opção _*Host filesystem*_ para as maquinas virtuais terem acesso ao filesystem do host.
+É interessante habilitar a opção _*HOSTFS*_ para as máquinas virtuais terem acesso ao _filesystem_ do _host_.
+{{{
+UML-specific options
+-->Host filesystem [HOSTFS]
+}}}
 
-Para configurar o kernel com suporte ao MIPv6, no menu _Networking ---> Networking options_ selecione as opções: _*Transformation user configuration interface*_, _*Transformation sub policy support*_, _*PF_KEY sockets*_, _*PF_KEY MIGRATE*_, _*IP: ARP daemon support*_, _*The IPv6 protocol*_, _*IPv6: ESP transformation*_, _*IPv6: Mobility*_, _*IPv6: MIPv6 route optimization mode*_, _*IPv6: IPv6-in-IPv6 tunnel*_, _*IPv6: Multiple Routing Tables*_, _*IPv6: source address based routing*_.
-
-Para verificar se o kernel está configurado corretamente para ter suporte ao MIPv6 existe um shell script _*chkconf_kernel.sh*_ que acompanha o pacote do MIPL.
-
-Opções mínimas que devem ser setadas, no arquivo .config:
+Para configurar o kernel com suporte ao MIPv6 estas são as opções mínimas que devem ser setadas, no arquivo .config:
 
 {{{
 CONFIG_EXPERIMENTAL=y
@@ -73,7 +73,6 @@ CONFIG_INET6_XFRM_MODE_ROUTEOPTIMIZATION=y
 O _home agent_ e o nó móvel precisam:
 {{{
 CONFIG_IPV6_TUNNEL=y
-CONFIG_IPV6_ADVANCED_ROUTER=y
 CONFIG_IPV6_MULTIPLE_TABLES=y
 
 }}}
@@ -97,7 +96,40 @@ Para utilizar IPsec nos túneis:
 {{{
 CONFIG_NET_KEY=y
 CONFIG_NET_KEY_MIGRATE=y
-}}} 
+}}}
+
+{{{
+Code maturity level options
+--> Prompt for development and/or incomplete code/drivers [CONFIG_EXPERIMENTAL]
+
+General setup 
+--> System V IPC [CONFIG_SYSVIPC]
+
+Networking
+--> Networking support [CONFIG_NET]
+--> Networking options
+    --> Transformation user configuration interface [CONFIG_XFRM_USER]
+    --> Transformation sub policy support [CONFIG_XFRM_SUB_POLICY]
+    --> Transformation migrate database [CONFIG_XFRM_MIGRATE]
+    --> PF_KEY sockets [CONFIG_NET_KEY]
+    --> PF_KEY MIGRATE [CONFIG_NET_KEY_MIGRATE]
+    --> TCP/IP networking [CONFIG_INET]
+    --> The IPv6 protocol [CONFIG_IPV6]
+    --> IPv6: AH transformation [CONFIG_INET6_AH]
+    --> IPv6: ESP transformation [CONFIG_INET6_ESP]
+    --> IPv6: IPComp transformation [CONFIG_INET6_IPCOMP]
+    --> IPv6: Mobility [CONFIG_IPV6_MIP6]
+    --> IPv6: IPsec transport mode [CONFIG_INET6_XFRM_MODE_TRANSPORT]
+    --> IPv6: IPsec tunnel mode [CONFIG_INET6_XFRM_MODE_TUNNEL]
+    --> IPv6: MIPv6 route optimization mode [CONFIG_INET6_XFRM_MODE_ROUTEOPTIMIZATION]
+    --> IPv6: IPv6-in-IPv6 tunnel [CONFIG_IPV6_TUNNEL]
+    --> IPv6: Multiple Routing Tables [CONFIG_IPV6_MULTIPLE_TABLES]
+    --> IPv6: source address based routing [CONFIG_IPV6_SUBTREES]
+File systems
+--> Pseudo filesystems
+    --> /proc file system support [CONFIG_PROC_FS]
+}}}
+Para verificar se o kernel está configurado corretamente para ter suporte ao MIPv6 existe um shell script _*chkconf_kernel.sh*_ que acompanha o pacote do MIPL.
 
 Após configurado o kernel deve ser compilado, os seus módulos serão instalados no diretório uml-modules para depois serem copiados para o _filesystem_ da máquina virtual.
 {{{
