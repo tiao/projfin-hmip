@@ -23,7 +23,7 @@ Existe um pacote chamado _uml utilities_, que possui várias ferramentas que ser
 
 {{{ 
 # wget http://prdownloads.sourceforge.net/user-mode-linux/uml_utilities_20040406.tar.bz2
-# tar jxvf uml_utilities_20040406.tar.bz2 && cd cd tools-20040406
+# tar jxvf uml_utilities_20040406.tar.bz2 && cd tools
 # make && make install 
 }}}
 
