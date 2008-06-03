@@ -135,7 +135,7 @@ File systems
 --> Pseudo filesystems
     --> /proc file system support [CONFIG_PROC_FS]
 }}}
-Para verificar se o kernel está configurado corretamente para ter suporte ao MIPv6 existe um shell script _*chkconf_kernel.sh*_ que acompanha o pacote do MIPL.
+Para verificar se o kernel está configurado corretamente com suporte a MIPv6 existe um shell script _*chkconf_kernel.sh*_ que acompanha o pacote do MIPL.
 
 Após configurado o kernel deve ser compilado, os seus módulos serão instalados no diretório uml-modules para depois serem copiados para o _filesystem_ da máquina virtual.
 {{{
