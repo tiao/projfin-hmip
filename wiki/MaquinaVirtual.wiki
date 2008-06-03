@@ -3,7 +3,7 @@
 
 = Introdução =
 
-Na análise do protocolo MIPv6 será montado um ambiente de testes que fará o uso de máquinas virtuais, devido a facilidade e rapidez para construção de cenários. Neste trabalho será utilizado a máquina virtual UML (_User Mode Linux_), pois é incorporada ao kernel e apresenta um alto desempenho em execução.
+Na análise do protocolo MIPv6 será montado um ambiente de testes que fará o uso de máquinas virtuais, devido a facilidade e rapidez para construção dos cenários. Neste trabalho será utilizado a máquina virtual UML (_User Mode Linux_), pois é incorporada ao kernel e apresenta um alto desempenho em execução.
 
 Para testes do protocolo é necessário um kernel Linux compilado com suporte ao MIPv6, uma instalação do MIPL (_Mobile IPv6 for Linux_) uma implementação do IPv6 Móvel para o Linux, e a instalação do RADVD (_Router ADVertisement Daemon_) necessário em redes IPv6 para gerar _router advertisement_ e escutar _router solicitations_.
 
