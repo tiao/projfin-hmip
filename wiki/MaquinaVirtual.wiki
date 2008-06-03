@@ -1,23 +1,23 @@
-#summary Maquina Virtual com suporte ao MIPv6
+#summary Ambientes de testes do MIPv6
 #labels uml,kernel,mipl,radvd
 
 = Introdução =
 
-Devido a facilidade, rapidez para construção de ambientes de testes de rede este projeto fará o uso de máquinas virtuais. Será utilizado a máquina virtual UML (_User Mode Linux_) que é incorporada ao kernel e apresenta um alto desempenho em execução.
+Para facilitar o estudo do MIPv6 se fará o uso de máquinas virtuais, devido a facilidade e rapidez para construção de ambientes de testes de rede. Será utilizado a máquina virtual UML (_User Mode Linux_) que é incorporada ao kernel e apresenta um alto desempenho em execução.
 
-Nesta documentação também será abordado a compilação do kernel com suporte ao MIPv6, a instalação do MIPL (_Mobile IPv6 for Linux_) uma implementação do IPv6 Móvel para o Linux, e a instalação do RADVD (_Router ADVertisement Daemon_) necessário em redes IPv6 para gerar _router advertisement_ e escutar _router solicitations_.
+Na preparação do ambiente de teste será abordado a compilação do kernel com suporte ao MIPv6, a instalação do MIPL (_Mobile IPv6 for Linux_) uma implementação do IPv6 Móvel para o Linux, e a instalação do RADVD (_Router ADVertisement Daemon_) necessário em redes IPv6 para gerar _router advertisement_ e escutar _router solicitations_.
 
 = UML =
 
-O uso das máquinas virtuais UML é muito fácil, simplesmente é necessário um kernel compilado  para este tipo especifico de arquitetura e um _filesystem_.
+O uso das máquinas virtuais UML é muito fácil, simplesmente é necessário um kernel compilado para este tipo especifico de arquitetura e um _file system_.
 
-Para os testes será utilizado um _filesytem_ baseado no [http://wiki.n3network.ch/index.php/N3_Virtual_Linux_Router N3 Virtual Linux Router], é um  pequeno e mínimo _filesystem_ com MIPL, RADVD e vários utilitários de rede já instalados é dedicado a testes de roteamento. Está disponível para download em [http://projfin-hmip.googlecode.com/files/n3vlr-0.11-mipv6.img.tar.bz2 n3vlr-0.11-mipv6.img]. A senha de root é xxxx, para utilizar descompacte-a:
+Para os testes será utilizado um _file sytem_ baseado no [http://wiki.n3network.ch/index.php/N3_Virtual_Linux_Router N3 Virtual Linux Router], é um  pequeno e mínimo _file system_ com MIPL, RADVD e vários utilitários de rede já instalados é dedicado a testes de roteamento. Está disponível para download em [http://projfin-hmip.googlecode.com/files/n3vlr-0.11-mipv6.img.tar.bz2 n3vlr-0.11-mipv6.img]. A senha de root é xxxx, para utilizar descompacte-a:
 
 {{{
 tar jxvf n3vlr-0.11-mipv6.img.tar.bz2
 }}}
 
-Neste endereço http://uml.nagafix.co.uk/ há vários _filesystems_ disponíveis para download.
+Neste endereço http://uml.nagafix.co.uk/ há vários _file systems_ disponíveis para download.
 
 Existe um pacote chamado _uml utilities_, que possui várias ferramentas que serão utilizadas no ambiente de testes. Faça o download e instale o pacote:
 
