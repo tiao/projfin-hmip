@@ -9,18 +9,17 @@ Para testes do protocolo é necessário um kernel Linux compilado com suporte ao
 
 = UML =
 
-O uso das máquinas virtuais UML é muito fácil, simplesmente é necessário um kernel compilado para este tipo especifico de arquitetura e um _file system_.
-Reescrever e falar sobre UML...
+_User Mode Linux_ (UML) é uma máquina virtual para sistemas Linux, é uma implementação que permite que o Kernel Linux rode no sistema operacional Linux como um processo normal, diferente de outras tecnologias de virtualização que emulam uma plataforma física. Com UML é possível criar máquinas virtuais para ajudar no desenvolvimento de aplicações, serviços de rede, implementação clusters de rede, testes de segurança.
 
-Para os testes será utilizado um _file sytem_ baseado no [http://wiki.n3network.ch/index.php/N3_Virtual_Linux_Router N3 Virtual Linux Router], é um  pequeno e mínimo _file system_ com MIPL, RADVD e vários utilitários de rede já instalados é dedicado a testes de roteamento. Está disponível para download em [http://projfin-hmip.googlecode.com/files/n3vlr-0.11-mipv6.img.tar.bz2 n3vlr-0.11-mipv6.img]. A senha de root é xxxx, para utilizar descompacte-a:
+Para usar a máquina virtual é necessário somente uma versão do Kernel Linux compilado para a arquitetura UML e um sistema de arquivos.
+
+No ambiente de testes será utilizado um sistema de arquivos baseado na distribuição de Linux Debian, que está disponível para download junto com outros sistemas de arquivos em http://uml.nagafix.co.uk/. Para utilizar é necessário descompactar:
 
 {{{
-tar jxvf n3vlr-0.11-mipv6.img.tar.bz2
+# tar jxvf DebianFS.bz2
 }}}
 
-Neste endereço http://uml.nagafix.co.uk/ há vários _file systems_ disponíveis para download.
-
-Existe um pacote chamado _uml utilities_, que possui várias ferramentas que serão utilizadas no ambiente de testes. Faça o download e instale o pacote:
+Um pacote de ferramentas para UML chamado _uml utilities_ deve ser instalado no sistema hospedeiro para permitir interligar as máquinas virtuais em rede, e auxiliar no ambiente de testes. Faça o download e instale o pacote.
 
 {{{ 
 # wget http://prdownloads.sourceforge.net/user-mode-linux/uml_utilities_20040406.tar.bz2
@@ -32,7 +31,7 @@ Para mais informações acesse [http://user-mode-linux.sourceforge.net User-mode
 
 = KERNEL =
 
-Para este ambiente de testes será utilizado a versão 2.6.22.2 do kernel. Então faça o download dos códigos fontes do kernel:
+O suporte nativo do protocolo MIPv6 no Kernel já é disponível após a versão 2.6.17, para os cenários de testes será utilizado a versão 2.6.25 do kernel. Para iniciar o trabalho de compilação é necessário fazer o download dos codigos fontes do kernel:
 
 {{{
 # wget http://kernel.org/pub/linux/kernel/v2.6/linux-2.6.22.2.tar.bz2
@@ -40,7 +39,7 @@ Para este ambiente de testes será utilizado a versão 2.6.22.2 do kernel. Entã
 # cd linux-2.6.22.2
 }}}
 
-Como o ambiente de testes será utilizando máquinas virtuais devemos compilar o kernel para essa arquitetura:
+Como o ambiente de testes será utilizando máquinas virtuais devemos compilar o kernel para a implementação UML:
 
 {{{
 #  export ARCH=um
@@ -53,13 +52,14 @@ Configurando kernel:
 # make menuconfig
 }}}
 
-É interessante habilitar a opção _*HOSTFS*_ para as máquinas virtuais terem acesso ao _filesystem_ do _host_.
+É interessante habilitar a opção _*HOSTFS*_ para as máquinas virtuais terem acesso ao sistema de arquivos do hospedeiro.
+
 {{{
 UML-specific options
 -->Host filesystem [HOSTFS]
 }}}
 
-Para configurar o kernel com suporte ao MIPv6 estas são as opções mínimas que devem ser setadas, no arquivo .config:
+Para configurar o kernel com suporte ao MIPv6 estas são as opções mínimas que devem ser setadas:
 
 {{{
 CONFIG_EXPERIMENTAL=y
@@ -75,14 +75,15 @@ CONFIG_XFRM_SUB_POLICY=y
 CONFIG_INET6_XFRM_MODE_ROUTEOPTIMIZATION=y
 }}}
 
-O _home agent_ e o nó móvel precisam:
+Opções que o agente domiciliar e o nó móvel necessitam:
+
 {{{
 CONFIG_IPV6_TUNNEL=y
 CONFIG_IPV6_MULTIPLE_TABLES=y
 
 }}}
 
-O nó móvel também precisa:
+Opção que o nó móvel também necessita:
 {{{
 CONFIG_IPV6_SUBTREES=y
 }}}
@@ -103,7 +104,7 @@ CONFIG_NET_KEY=y
 CONFIG_NET_KEY_MIGRATE=y
 }}}
 
-Para configurar no menu estas são as opções:
+No menu de configuração estas são as opções que devem ser setadas:
 {{{
 Code maturity level options
 --> Prompt for development and/or incomplete code/drivers [CONFIG_EXPERIMENTAL]
@@ -135,9 +136,11 @@ File systems
 --> Pseudo filesystems
     --> /proc file system support [CONFIG_PROC_FS]
 }}}
-Para verificar se o kernel está configurado corretamente com suporte a MIPv6 existe um shell script _*chkconf_kernel.sh*_ que acompanha o pacote do MIPL.
 
-Após configurado o kernel deve ser compilado, os seus módulos serão instalados no diretório uml-modules para depois serem copiados para o _filesystem_ da máquina virtual.
+Para verificar se o kernel está configurado corretamente com suporte a MIPv6 existe o shell script _*chkconf_kernel.sh*_ que acompanha o pacote do MIPL.
+
+Após configuração o kernel deve ser compilado, os seus módulos devem ser copiados para o sistema de arquivos usado pela máquina virtual, por isso serão instalados no diretório uml-modules para depois serem copiados para o sistema de arquivos.
+
 {{{
 # make
 # strip linux
@@ -145,11 +148,12 @@ Após configurado o kernel deve ser compilado, os seus módulos serão instalado
 # unset arch
 }}}
 
-Como se faz uso de máquinas virtuais é necessário copiar os módulos para o _filesystem_ que será utilizado. Para isso:
+Para copiar os módulos do kernel para o sistema de arquivos:
+
 {{{
 # mkdir loop
-# mount -o loop <seu_fs> loop
-# cp -rf linux-2.6.22.2/uml-modules/lib/modules/* loop/lib/modules
+# mount -o loop DebianFS loop
+# cp -rf linux-2.6.25/uml-modules/lib/modules/* loop/lib/modules
 }}}
  
 = MIPL =
