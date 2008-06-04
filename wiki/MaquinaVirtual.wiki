@@ -31,7 +31,7 @@ Para mais informações acesse [http://user-mode-linux.sourceforge.net User-mode
 
 = KERNEL =
 
-O suporte nativo do protocolo MIPv6 no Kernel já é disponível após a versão 2.6.17, para os cenários de testes será utilizado a versão 2.6.25 do kernel. Para iniciar o trabalho de compilação é necessário fazer o download dos códigos fontes do kernel:
+O suporte nativo do protocolo MIPv6 no Kernel já é disponível desde a versão 2.6.17, para os cenários de testes será utilizado a versão 2.6.25 do kernel. Para iniciar o trabalho de compilação é necessário fazer o download dos códigos fontes do kernel:
 
 {{{
 # wget http://kernel.org/pub/linux/kernel/v2.6/linux-2.6.22.2.tar.bz2
