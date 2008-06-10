@@ -11,7 +11,7 @@ Para testes do protocolo é necessário um kernel Linux compilado com suporte ao
 
 _User Mode Linux_ (UML) é uma máquina virtual para sistemas Linux, é uma implementação que permite que o Kernel Linux rode no sistema operacional Linux como um processo normal, diferente de outras tecnologias de virtualização que emulam uma plataforma física. Com UML é possível criar máquinas virtuais para ajudar no desenvolvimento de aplicações, serviços de rede, implementação clusters de rede, testes de segurança.
 
-Para utilizar uma máquina virtual UML somente é preciso de uma versão do Kernel Linux compilado para a arquitetura UML e um sistema de arquivos. No endereço http://uml.nagafix.co.uk/ há disponível vários sistemas de arquivos, neste ambiente de testes será utilizado um baseado no Linux Debian. Para isso faça o donwload:
+Para utilizar uma máquina virtual UML somente é necessário uma versão do Kernel Linux compilado para a arquitetura UML e um sistema de arquivos. No endereço http://uml.nagafix.co.uk/ há disponível vários sistemas de arquivos, no ambiente de testes será utilizado um baseado no Linux Debian. Para isso faça o donwload:
 
 {{{
 # wget http://uml.nagafix.co.uk/Debian-4.0/Debian-4.0-x86-root_fs.bz2
@@ -28,7 +28,7 @@ Um pacote de ferramentas para UML chamado _uml utilities_ deve ser instalado no 
 
 = KERNEL =
 
-Para o ambiente de testes é preciso de um kernel compilado para a arquitetura UML e com suporte a MIPv6. O suporte nativo do protocolo MIPv6 no Kernel já é disponível desde a versão 2.6.17, nos cenários de testes será utilizado a versão 2.6.25 do kernel. Para iniciar o trabalho de compilação é necessário fazer o download dos códigos fontes do kernel:
+Para o ambiente de testes é preciso de um kernel compilado para a arquitetura UML e com suporte a MIPv6. No kernel o suporte nativo do protocolo MIPv6 está disponível desde a versão 2.6.17, nestes cenários de testes será utilizado a versão 2.6.25 do kernel. Para iniciar o trabalho de compilação é necessário fazer o download dos códigos fontes do kernel:
 
 {{{
 # wget http://kernel.org/pub/linux/kernel/v2.6/linux-2.6.22.2.tar.bz2
