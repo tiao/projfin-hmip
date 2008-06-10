@@ -28,7 +28,7 @@ Um pacote de ferramentas para UML chamado _uml utilities_ deve ser instalado no 
 
 = KERNEL =
 
-Para o ambiente de testes é preciso de um kernel compilado para a arquitetura UML e com suporte a MIPv6. No kernel o suporte nativo do protocolo MIPv6 está disponível desde a versão 2.6.17, nestes cenários de testes será utilizado a versão 2.6.25 do kernel. Para iniciar o trabalho de compilação é necessário fazer o download dos códigos fontes do kernel:
+Para o ambiente de testes é preciso um kernel compilado para a arquitetura UML com suporte a MIPv6. No kernel o suporte nativo do protocolo MIPv6 está disponível desde a versão 2.6.17, nestes cenários de testes será utilizado a versão 2.6.25 do kernel. Para iniciar o trabalho de compilação é necessário fazer o download dos códigos fontes do kernel:
 
 {{{
 # wget http://kernel.org/pub/linux/kernel/v2.6/linux-2.6.22.2.tar.bz2
@@ -151,12 +151,18 @@ Para copiar os módulos do kernel para o sistema de arquivos:
 # mount -o loop DebianFS loop
 # cp -rf linux-2.6.25/uml-modules/lib/modules/* loop/lib/modules
 }}}
+
+É preciso copiar os arquivos fontes do kernel para o sistema de arquivos, pois o MIPL precisa para a sua compilação.
+{{{
+# cp -r linux-2.6.25 loop/usr/src/
+# ln -s loop/usr/src/linux-2.6.25 loop/usr/src/linux
+}}}
  
 = PACOTES DE DESENVOLVIMENTO =
 
 Os programas MIPL e RADVD deverão ser compilados na máquina virtual, por isso se faz necessário a instalação dos pacotes de desenvolvimento no sistema de arquivos.
 
-Para poder fazer o download dos pacotes será necessário a criação de uma rede entre o hospedeiro e a máquina virtual. Neste caso deve-se criar uma interface virtual no hospedeiro, o módulo tun deve estar carregado no sistema.
+Para poder fazer o download dos pacotes será necessário a criação de uma rede entre o hospedeiro e a máquina virtual. Neste caso deve-se criar uma interface virtual no hospedeiro, o módulo _tun_ deve estar carregado no sistema.
 {{{
 # modprobe tun
 # tunctl -u <nome do usuário>
@@ -169,7 +175,7 @@ Configurando a interface virtual do hospedeiro:
 
 Iniciando a máquina virtual:
 {{{
-# ./linux ubda=DebianFS
+# ./linux ubda=DebianFS mem=128M eth0=tuntap,tap0,fe:f0:00:00:00:01,192.168.1.254
 }}}
 
 = MIPL =
@@ -182,7 +188,6 @@ Faça o download da ultima versão estável do MIPL:
 # tar xvzf mipv6-daemon-umip-0.4.tar.gz && cd mipv6-daemon-umip-0.4
 }}}
 
-O MIPL será configurado para usar os _headers_ do kernel 2.6.22.2, ser instalado no _filesystem_ da maquina virtual e habilitar um terminal virtual para acessar o MIPL em tempo de execução:
 {{{
 # CPPFLAGS='-isystem ../linux-2.6.22.2/include' ./configure --prefix=../loop/usr --enable-vt 
 }}}
