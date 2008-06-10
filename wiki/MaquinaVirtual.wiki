@@ -28,7 +28,7 @@ Um pacote de ferramentas para UML chamado _uml utilities_ deve ser instalado no 
 
 = KERNEL =
 
-O suporte nativo do protocolo MIPv6 no Kernel já é disponível desde a versão 2.6.17, para os cenários de testes será utilizado a versão 2.6.25 do kernel. Para iniciar o trabalho de compilação é necessário fazer o download dos códigos fontes do kernel:
+Para o ambiente de testes é preciso de um kernel compilado para a arquitetura UML e com suporte a MIPv6. O suporte nativo do protocolo MIPv6 no Kernel já é disponível desde a versão 2.6.17, nos cenários de testes será utilizado a versão 2.6.25 do kernel. Para iniciar o trabalho de compilação é necessário fazer o download dos códigos fontes do kernel:
 
 {{{
 # wget http://kernel.org/pub/linux/kernel/v2.6/linux-2.6.22.2.tar.bz2
@@ -36,8 +36,7 @@ O suporte nativo do protocolo MIPv6 no Kernel já é disponível desde a versão
 # cd linux-2.6.22.2
 }}}
 
-Como o ambiente de testes será utilizando máquinas virtuais devemos compilar o kernel para a arquitetura UML:
-
+Configurando a arquitetura na qual o kernel será compilado:
 {{{
 #  export ARCH=um
 }}} 
@@ -153,6 +152,7 @@ Para copiar os módulos do kernel para o sistema de arquivos:
 # cp -rf linux-2.6.25/uml-modules/lib/modules/* loop/lib/modules
 }}}
  
+= PACOTES DE DESENVOLVIMENTO =
 Para compilar os programas que serão utilizados no ambiente de testes é necessário a instalação de  alguns pacotes de desenvolvimento no sistema de arquivos para isso faça o download de um kernel já compilado para a arquitetura UML. Disponível em link.
 
 Será necessário a criação de uma rede entre o hospedeiro e a máquina virtual, para poder fazer o download dos pacotes. Para isso deve-se criar uma interface virtual no hospedeiro,  o módulo tun deve estar carregado no sistema.
