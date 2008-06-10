@@ -11,9 +11,12 @@ Para testes do protocolo é necessário um kernel Linux compilado com suporte ao
 
 _User Mode Linux_ (UML) é uma máquina virtual para sistemas Linux, é uma implementação que permite que o Kernel Linux rode no sistema operacional Linux como um processo normal, diferente de outras tecnologias de virtualização que emulam uma plataforma física. Com UML é possível criar máquinas virtuais para ajudar no desenvolvimento de aplicações, serviços de rede, implementação clusters de rede, testes de segurança.
 
-Para usar a máquina virtual UML é necessário somente uma versão do Kernel Linux compilado para a arquitetura UML e um sistema de arquivos.
+Para utilizar uma máquina virtual UML somente é preciso de uma versão do Kernel Linux compilado para a arquitetura UML e um sistema de arquivos. No endereço http://uml.nagafix.co.uk/ há disponível vários sistemas de arquivos, neste ambiente de testes será utilizado um baseado no Linux Debian. Para isso faça o donwload:
 
-No ambiente de testes será utilizado um sistema de arquivos baseado na distribuição Linux Debian, que está disponível para download junto com outros sistemas de arquivos em http://uml.nagafix.co.uk/. 
+{{{
+# wget http://uml.nagafix.co.uk/Debian-4.0/Debian-4.0-x86-root_fs.bz2
+# tar jxvf Debian-4.0-x86-root_fs.bz2
+}}}
 
 Um pacote de ferramentas para UML chamado _uml utilities_ deve ser instalado no sistema hospedeiro para permitir interligar as máquinas virtuais em rede, e auxiliar no ambiente de testes. Para isso:
 
@@ -22,8 +25,6 @@ Um pacote de ferramentas para UML chamado _uml utilities_ deve ser instalado no 
 # tar jxvf uml_utilities_20040406.tar.bz2 && cd tools
 # make && make install 
 }}}
-
-Para mais informações acesse [http://user-mode-linux.sourceforge.net User-mode Linux Kernel Home Page].
 
 = KERNEL =
 
@@ -152,6 +153,19 @@ Para copiar os módulos do kernel para o sistema de arquivos:
 # cp -rf linux-2.6.25/uml-modules/lib/modules/* loop/lib/modules
 }}}
  
+Para compilar os programas que serão utilizados no ambiente de testes é necessário a instalação de  alguns pacotes de desenvolvimento no sistema de arquivos para isso faça o download de um kernel já compilado para a arquitetura UML. Disponível em link.
+
+Será necessário a criação de uma rede entre o hospedeiro e a máquina virtual, para poder fazer o download dos pacotes. Para isso deve-se criar uma interface virtual no hospedeiro,  o módulo tun deve estar carregado no sistema.
+{{{
+# modprobe tun
+# tunctl -u <nome do usuário>
+}}}
+
+Configurando a interface virtual do hospedeiro:
+{{{
+# ifconfig tap0 192.168.1.2 net mask 255.255.255.0
+}}}
+
 = MIPL =
 
 O MIPL (_Mobile IPv6 for Linux_) é uma implementação de Suporte a Mobilidade no IPv6 (RFC 3775), desenvolvida na Universidade Tecnólogica de Helsinki. É um programa em _user space_ que trabalha junto com MIPv6 habilitado no kernel.
