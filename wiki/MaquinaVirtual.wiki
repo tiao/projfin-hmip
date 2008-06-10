@@ -15,7 +15,7 @@ Para usar a máquina virtual UML é necessário somente uma versão do Kernel Li
 
 No ambiente de testes será utilizado um sistema de arquivos baseado na distribuição Linux Debian, que está disponível para download junto com outros sistemas de arquivos em http://uml.nagafix.co.uk/. 
 
-Um pacote de ferramentas para UML chamado _uml utilities_ deve ser instalado no sistema hospedeiro para permitir interligar as máquinas virtuais em rede, e auxiliar no ambiente de testes. Faça o download e instale o pacote.
+Um pacote de ferramentas para UML chamado _uml utilities_ deve ser instalado no sistema hospedeiro para permitir interligar as máquinas virtuais em rede, e auxiliar no ambiente de testes. Para isso:
 
 {{{ 
 # wget http://prdownloads.sourceforge.net/user-mode-linux/uml_utilities_20040406.tar.bz2
