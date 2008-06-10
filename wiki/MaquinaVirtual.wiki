@@ -11,13 +11,9 @@ Para testes do protocolo é necessário um kernel Linux compilado com suporte ao
 
 _User Mode Linux_ (UML) é uma máquina virtual para sistemas Linux, é uma implementação que permite que o Kernel Linux rode no sistema operacional Linux como um processo normal, diferente de outras tecnologias de virtualização que emulam uma plataforma física. Com UML é possível criar máquinas virtuais para ajudar no desenvolvimento de aplicações, serviços de rede, implementação clusters de rede, testes de segurança.
 
-Para usar a máquina virtual é necessário somente uma versão do Kernel Linux compilado para a arquitetura UML e um sistema de arquivos.
+Para usar a máquina virtual UML é necessário somente uma versão do Kernel Linux compilado para a arquitetura UML e um sistema de arquivos.
 
-No ambiente de testes será utilizado um sistema de arquivos baseado na distribuição de Linux Debian, que está disponível para download junto com outros sistemas de arquivos em http://uml.nagafix.co.uk/. Para utilizar é necessário descompactar:
-
-{{{
-# tar jxvf DebianFS.bz2
-}}}
+No ambiente de testes será utilizado um sistema de arquivos baseado na distribuição Linux Debian, que está disponível para download junto com outros sistemas de arquivos em http://uml.nagafix.co.uk/. 
 
 Um pacote de ferramentas para UML chamado _uml utilities_ deve ser instalado no sistema hospedeiro para permitir interligar as máquinas virtuais em rede, e auxiliar no ambiente de testes. Faça o download e instale o pacote.
 
@@ -137,9 +133,9 @@ File systems
     --> /proc file system support [CONFIG_PROC_FS]
 }}}
 
-Para verificar se o kernel está configurado corretamente com suporte a MIPv6 existe o shell script _*chkconf_kernel.sh*_ que acompanha o pacote do MIPL.
+Para verificar se o kernel está configurado corretamente para MIPv6 existe o shell script _*chkconf_kernel.sh*_ que acompanha o pacote do MIPL.
 
-Após configuração o kernel deve ser compilado, os seus módulos devem ser copiados para o sistema de arquivos usado pela máquina virtual, por isso serão instalados no diretório uml-modules para depois serem copiados para o sistema de arquivos.
+Após a configuração o kernel deve ser compilado, os seus módulos devem ser copiados para o sistema de arquivos usado pela máquina virtual, por isso serão instalados no diretório uml-modules para depois serem copiados.
 
 {{{
 # make
