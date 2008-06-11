@@ -195,13 +195,13 @@ uml# echo deb http://security.debian.org/ etch/updates main contrib > /etc/apt/s
 }}}
 
 Os seguinte pacotes de desenvolvimento serão instalados:
- *gcc-4.1
- *libc6-dev
- *make
- *libtool
- *automake1.9
- *autoconf2.13
- *bison
+ * gcc-4.1
+ * libc6-dev
+ * make
+ * libtool
+ * automake1.9
+ * autoconf2.13
+ * bison
 
 {{{
 uml# apt-get update
@@ -214,24 +214,24 @@ O MIPL (_Mobile IPv6 for Linux_) é uma implementação de Suporte a Mobilidade 
 
 Faça o download da ultima versão estável do MIPL:
 {{{
-# wget ftp://ftp.linux-ipv6.org/pub/usagi/patch/mipv6/umip-0.4/daemon/tarball/mipv6-daemon-umip-0.4.tar.gz
-# tar xvzf mipv6-daemon-umip-0.4.tar.gz && cd mipv6-daemon-umip-0.4
+uml# wget ftp://ftp.linux-ipv6.org/pub/usagi/patch/mipv6/umip-0.4/daemon/tarball/mipv6-daemon-umip-0.4.tar.gz
+uml# tar xvzf mipv6-daemon-umip-0.4.tar.gz && cd mipv6-daemon-umip-0.4
 }}}
 
 {{{
-# CPPFLAGS='-isystem /usr/src/linux/include' ./configure --enable-vt 
+uml# CPPFLAGS='-isystem /usr/src/linux/include' ./configure --enable-vt 
 }}}
 
 Compilando e instalando:
 {{{
-# make
-# make install
+uml# make
+uml# make install
 }}}
 
 = RADVD =
 
 O RADVD (_Router ADVertisement Daemon_)é um serviço para roteadores IPv6. Ele envia mensagens _Router Advertisement_ e responde a _Router Solicitation_ especificadas na RFC 2641. Essas mensagens são utilizadas para _stateless autoconfiguration_. Faça o donwload do pacote:
 {{{
-# wget http://www.litech.org/radvd/dist/radvd-1.1.tar.gz
-# tar xvzf radvd-1.1.tar.gz && cd radvd-1.1
+uml# wget http://www.litech.org/radvd/dist/radvd-1.1.tar.gz
+uml# tar xvzf radvd-1.1.tar.gz && cd radvd-1.1
 }}}
