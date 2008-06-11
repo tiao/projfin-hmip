@@ -5,17 +5,18 @@
 
 Na análise do protocolo MIPv6 será montado um ambiente de testes que fará o uso de máquinas virtuais, devido a facilidade e rapidez para construção dos cenários. Neste trabalho será utilizado a máquina virtual UML (_User Mode Linux_), pois é incorporada ao kernel e apresenta um alto desempenho em execução.
 
-Para testes do protocolo é necessário um kernel Linux compilado com suporte ao MIPv6, uma instalação do MIPL (_Mobile IPv6 for Linux_) uma implementação do IPv6 Móvel para o Linux, e a instalação do RADVD (_Router ADVertisement Daemon_) necessário em redes IPv6 para gerar _router advertisement_ e escutar _router solicitations_.
+Para testes do protocolo é necessário um kernel Linux compilado com suporte ao MIPv6, uma  instalação do MIPL (_Mobile IPv6 for Linux_) uma implementação do IPv6 Móvel para o Linux, e a instalação do RADVD (_Router ADVertisement Daemon_) necessário em redes IPv6 para gerar _router advertisement_ e escutar _router solicitations_.
 
 = UML =
-
+ 
 _User Mode Linux_ (UML) é uma máquina virtual para sistemas Linux, é uma implementação que permite que o Kernel Linux rode no sistema operacional Linux como um processo normal, diferente de outras tecnologias de virtualização que emulam uma plataforma física. Com UML é possível criar máquinas virtuais para ajudar no desenvolvimento de aplicações, serviços de rede, implementação clusters de rede, testes de segurança.
 
 Para utilizar uma máquina virtual UML somente é necessário uma versão do Kernel Linux compilado para a arquitetura UML e um sistema de arquivos. No endereço http://uml.nagafix.co.uk/ há disponível vários sistemas de arquivos, no ambiente de testes será utilizado um baseado no Linux Debian. Para isso faça o donwload:
 
 {{{
 # wget http://uml.nagafix.co.uk/Debian-4.0/Debian-4.0-x86-root_fs.bz2
-# tar jxvf Debian-4.0-x86-root_fs.bz2
+# bunzip2 Debian-4.0-x86-root_fs.bz2
+# mv  Debian-4.0-x86-root_fs DebianFS
 }}}
 
 Um pacote de ferramentas para UML chamado _uml utilities_ deve ser instalado no sistema hospedeiro para permitir interligar as máquinas virtuais em rede, e auxiliar no ambiente de testes. Para isso:
@@ -185,7 +186,7 @@ Iniciando a máquina virtual:
 Configurando a rede na maquina virtual:
 {{{
 uml# ifconfig eth0 192.168.1.2 netmask 255.255.255.0
-uml# echo nameserver <seu_dns> > /etc/nameserver
+uml# echo nameserver <seu_dns> > /etc/resolv.conf
 }}}
 
 Na distribuição Linux Debian há um gerenciador de pacotes o _*apt*_ que facilita a instalação de programas, ele permite procurar e instalar pacotes. Para utilizar é necessário configurar um repositório de pacotes:
@@ -193,7 +194,19 @@ Na distribuição Linux Debian há um gerenciador de pacotes o _*apt*_ que facil
 uml# echo deb http://security.debian.org/ etch/updates main contrib > /etc/apt/source.list
 }}}
 
+Os seguinte pacotes de desenvolvimento serão instalados:
+ *gcc-4.1
+ *libc6-dev
+ *make
+ *libtool
+ *automake1.9
+ *autoconf2.13
+ *bison
 
+{{{
+uml# apt-get update
+uml# apt-get install gcc-4.1 libc6-dev make libtool automake1.9 autoconf2.13 bison
+}}}
 
 = MIPL =
 
@@ -206,7 +219,7 @@ Faça o download da ultima versão estável do MIPL:
 }}}
 
 {{{
-# CPPFLAGS='-isystem ../linux-2.6.22.2/include' ./configure --prefix=../loop/usr --enable-vt 
+# CPPFLAGS='-isystem /usr/src/linux/include' ./configure --enable-vt 
 }}}
 
 Compilando e instalando:
