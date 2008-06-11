@@ -168,7 +168,7 @@ Para poder fazer o download dos pacotes será necessário a criação de uma red
 # tunctl -u <nome do usuário>
 }}}
 
-Configurando a interface virtual do hospedeiro, habilitando o roteamento de pacotes e o _nat_ dos pacotes da máquina virtual:
+Configurando a interface virtual do hospedeiro, habilitando o roteamento de pacotes e o _nat_ para os pacotes da máquina virtual:
 {{{
 # ifconfig tap0 192.168.1.1 netmask 255.255.255.0
 # echo 1 > /proc/sys/net/ipv4/ip_forward
@@ -187,6 +187,13 @@ Configurando a rede na maquina virtual:
 uml# ifconfig eth0 192.168.1.2 netmask 255.255.255.0
 uml# echo nameserver <seu_dns> > /etc/nameserver
 }}}
+
+Na distribuição Linux Debian há um gerenciador de pacotes o _*apt*_ que facilita a instalação de programas, ele permite procurar e instalar pacotes. Para utilizar é necessário configurar um repositório de pacotes:
+{{{
+uml# echo deb http://security.debian.org/ etch/updates main contrib > /etc/apt/source.list
+}}}
+
+
 
 = MIPL =
 
