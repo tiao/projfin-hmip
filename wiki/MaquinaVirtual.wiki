@@ -162,20 +162,30 @@ Para copiar os módulos do kernel para o sistema de arquivos:
 
 Os programas MIPL e RADVD deverão ser compilados na máquina virtual, por isso se faz necessário a instalação dos pacotes de desenvolvimento no sistema de arquivos.
 
-Para poder fazer o download dos pacotes será necessário a criação de uma rede entre o hospedeiro e a máquina virtual. Neste caso deve-se criar uma interface virtual no hospedeiro, o módulo _tun_ deve estar carregado no sistema.
+Para poder fazer o download dos pacotes será necessário a criação de uma rede entre o hospedeiro e a máquina virtual. Neste caso deve-se criar uma interface virtual no hospedeiro, o módulo _*tun*_ deve estar carregado no sistema.
 {{{
 # modprobe tun
 # tunctl -u <nome do usuário>
 }}}
 
-Configurando a interface virtual do hospedeiro:
+Configurando a interface virtual do hospedeiro, habilitando o roteamento de pacotes e o _nat_ dos pacotes da máquina virtual:
 {{{
-# ifconfig tap0 192.168.1.2 net mask 255.255.255.0
+# ifconfig tap0 192.168.1.1 netmask 255.255.255.0
+# echo 1 > /proc/sys/net/ipv4/ip_forward
+# iptables -t nat -I POSTROUTING -o eth0 -j MASQUERADE
+# iptables -I FORWARD -i tap0 -j ACCEPT
+# iptables -I FORWARD -o tap0 -j ACCEPT
 }}}
 
 Iniciando a máquina virtual:
 {{{
-# ./linux ubda=DebianFS mem=128M eth0=tuntap,tap0,fe:f0:00:00:00:01,192.168.1.254
+# ./linux ubda=DebianFS mem=128M eth0=tuntap,tap0
+}}}
+
+Configurando a rede na maquina virtual:
+{{{
+uml# ifconfig eth0 192.168.1.2 netmask 255.255.255.0
+uml# echo nameserver <seu_dns> > /etc/nameserver
 }}}
 
 = MIPL =
