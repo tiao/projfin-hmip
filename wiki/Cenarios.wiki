@@ -3,5 +3,3 @@
 == Definição de Cenários ==
 
 Após os estudos bibliográficos sobre o protocolo MIPv6 e a preparação de um ambiente de testes que permite a simulação de cenários para analisar e testar as funcionalidades do protocolo. Iniciou-se a etapa para definir que tipos de cenários seriam analisados.
-
-Baseados nos modos de operação do protocolo MIPv6 
