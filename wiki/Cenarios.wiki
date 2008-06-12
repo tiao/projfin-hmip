@@ -4,6 +4,6 @@
 
 Após os estudos bibliográficos sobre o protocolo MIPv6 e a preparação de um ambiente de testes que permite a simulação de cenários para analisar e testar as funcionalidades do protocolo. Iniciou-se a etapa para definir que tipos de cenários seriam analisados.
 
-Para analisar alguns mecanismos do protocolo e testar seus modos de operação foi pensado em dois cenários base. No primeiro cenário a comunicação entre um dispositivo móvel e um dispositivo estático, no segundo comunicação entre dois dispositivos móveis. Nestes dois cenários testes nos modos com tunelamento bidirecional e com otimização de roteamento.
+Para analisar alguns mecanismos do protocolo e testar seus modos de operação dois cenários base foram definidos. No primeiro cenário a comunicação entre um dispositivo móvel e um dispositivo estático, no segundo comunicação entre dois dispositivos móveis. Nestes dois cenários testes nos modos com tunelamento bidirecional e com otimização de roteamento.
 
 == Cenário 1 ==
