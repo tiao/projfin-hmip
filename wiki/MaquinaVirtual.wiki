@@ -246,7 +246,7 @@ uml# tar xvzf radvd-1.1.tar.gz && cd radvd-1.1
 
 == Gerador de trafego ==
 
-Para auxiliar nos testes do protocolo MIPv6 foi criado uma simples aplicação chamada *gen* que permite gerar um trafego do tipo UDP na rede. O programa foi desenvolvido utilizando a linguagem C e a API de _sockets_, é semelhante a ferramenta _ping_, porém utiliza as camadas de aplicação e de transporte. Com o *gen* permite-se observar a transparecia do protocolo para as camadas superiores a de rede.
+Para auxiliar nos testes do protocolo MIPv6 foi criado uma simples aplicação chamada *gen* que permite gerar um trafego do tipo UDP na rede. O programa foi desenvolvido utilizando a linguagem C e a API de _sockets_, é semelhante a ferramenta _ping_, porém utiliza as camadas de aplicação e de transporte. Com o *gen* permite-se observar a transparecia do protocolo com as camadas superiores a de rede.
 
 O programa encontra-se disponível em http://. Para compila-lo basta:
 {{{
