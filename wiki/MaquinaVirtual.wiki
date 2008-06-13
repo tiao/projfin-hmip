@@ -155,8 +155,11 @@ Para copiar os módulos do kernel para o sistema de arquivos:
 
 É preciso copiar os arquivos fontes do kernel para o sistema de arquivos, pois o MIPL precisa para a sua compilação.
 {{{
-# cp -r linux-2.6.25.6 loop/usr/src/
-# ln -s loop/usr/src/linux-2.6.25.6 loop/usr/src/linux
+# cp -r linux-2.6.25.6.tar.bz2 loop/usr/src/
+# cd loop/usr/src
+# tar jxvf linux-2.6.25.6.tar.bz2
+# ln -s linux-2.6.25.6 linux
+# rm linux-2.6.25.6.tar.bz2
 }}}
  
 = PACOTES DE DESENVOLVIMENTO =
