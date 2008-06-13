@@ -27,6 +27,14 @@ Um pacote de ferramentas para UML chamado _uml utilities_ deve ser instalado no 
 # make && make install 
 }}}
 
+O _uml_switch_ que acompanha este pacote não permite a simulação de mobilidade, algumas alterações no código do _uml_switch_foram feitas pelo desenvolvedor do projeto "Avaliação do Protocolo Fast Handover MIPv6" que permitem a simulação da mobilidade. Será preciso desta versão para o ambiente, para isso:
+
+{{{
+# wget http://algum.lugar
+# tar xvzf uml_switch.tar.gz && cd uml_switch
+# make && make install
+}}}
+
 == Kernel ==
 
 Para o ambiente de testes é preciso um kernel compilado para a arquitetura UML com suporte a MIPv6. No kernel o suporte nativo do protocolo MIPv6 está disponível desde a versão 2.6.17, nestes cenários de testes será utilizado a versão 2.6.25.6 do kernel. Para iniciar o trabalho de compilação é necessário fazer o download dos códigos fontes do kernel:
