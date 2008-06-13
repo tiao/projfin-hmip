@@ -1,4 +1,4 @@
-#summary Configurações do cenário 1.
+#summary Configurações do cenário 1
 
 Nesta seção esta o conteúdo de todos os arquivos de configuração usados para a simulação do cenário 1.
 
