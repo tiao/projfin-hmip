@@ -65,4 +65,30 @@ kill $(pidof xterm)
 echo "Fim da simulacao"
 }}}
 
-Configuração das máquinas virtuais
+Configuração das máquinas virtuais:
+ * *Nó Móvel*
+{{{
+#node will run as Mobile Node
+NodeConfig MN;
+
+Interface "eth0";
+
+# suporte a otimização de roteamento
+DoRouteOptimizationCN disabled;
+
+OptimisticHandoff disabled;
+
+# suporte a IPsec
+UseMnHaIPsec disabled;
+
+SendMobPfxSols disabled;
+
+UseCnBuAck disabled;
+
+MnDiscardHaParamProb disabled;
+
+MnHomeLink "eth0" {
+	HomeAddress 2000:a::1/64;
+	HomeAgentAddress 2000:a::2;
+}
+}}}
