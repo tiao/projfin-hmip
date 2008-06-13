@@ -207,10 +207,13 @@ Os seguinte pacotes de desenvolvimento serão instalados:
  * autoconf2.13
  * bison
  * telnet
+ * indent
+ * flex
+ * patch
 
 {{{
 uml# apt-get update
-uml# apt-get install gcc-4.1 libc6-dev make libtool automake1.9 autoconf2.13 bison telnet
+uml# apt-get install gcc-4.1 libc6-dev make libtool automake1.9 autoconf2.13 bison telnet indent flex patch
 }}}
 
 = MIPL =
