@@ -57,12 +57,12 @@ echo "Pressione <enter> para o no retornar a rede"
 read a
 kill -USR1 $PID
 
-echo "Pressione <enter> para parar simulação"
+echo "Pressione <enter> para parar a simulação"
 read a
 kill $(pidof linux)
 kill $(pidof xterm)
 
-echo "Fim da Simulacao"
+echo "Fim da simulacao"
 }}}
 
 Configuração das máquinas virtuais
