@@ -172,7 +172,7 @@ Para copiar os módulos do kernel para o sistema de arquivos:
  
 == Preparando o sistema de arquivos ==
 
-Alguns pacotes de desenvolvimento, bibliotecas deverão ser instalados na sistema de arquivos, pois os programas MIPL e RADVD serão compilados na máquina virtual. E para auxiliar na analise dos cenários serão instaladas algumas ferramentas de rede.
+Alguns pacotes de desenvolvimento, bibliotecas deverão ser instalados no sistema de arquivos, pois os programas MIPL e RADVD serão compilados na máquina virtual. E para auxiliar na analise dos cenários serão instaladas algumas ferramentas de rede.
 
 Para poder fazer o download dos pacotes é necessário a criação de uma rede entre o hospedeiro e a máquina virtual. Neste caso deve-se criar uma interface virtual no hospedeiro, o módulo _*tun*_ deve estar carregado no sistema.
 {{{
