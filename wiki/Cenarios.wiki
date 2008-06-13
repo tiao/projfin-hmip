@@ -12,7 +12,7 @@ No primeiro cenário será apresentado o movimento do nó móvel da sua rede dom
 
 Este cenário mostra três redes, na rede com o prefixo 2000:a:: está presente um roteador que  oferece o serviço de agente domiciliar e o nó móvel, na rede com prefixo 2000:c:: está o nó correspondente com que o nó móvel está se comunicando. E para rede com prefixo 2000:d:: que o nó móvel se move.
 
-Segue abaixo o script que inicia as máquinas e os _switches_ virtuais.
+Para simulação da rede foi construído um script que inicia as máquinas virtuais e as conecta nos _uml_switches_ gerando a topologia da rede do cenário 1.
 {{{
 #!/bin/sh
 
@@ -62,14 +62,9 @@ echo "Pressione <enter> para se movimentar"
 read a
 echo $PID
 kill -USR1 $PID
+
 echo "Pressione <enter> para retornar rede"
 read a
-kill -USR1 $PID
-sleep 0.2
-kill -USR1 $PID
-sleep 0.2
-kill -USR1 $PID
-sleep 0.2
 kill -USR1 $PID
 
 echo "Pressione <enter> para parar"
