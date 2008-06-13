@@ -16,7 +16,7 @@ Para utilizar uma máquina virtual UML somente é necessário uma versão do Ker
 {{{
 # wget http://uml.nagafix.co.uk/Debian-4.0/Debian-4.0-x86-root_fs.bz2
 # bunzip2 Debian-4.0-x86-root_fs.bz2
-# mv  Debian-4.0-x86-root_fs DebianFS
+# mv Debian-4.0-x86-root_fs DebianFS
 }}}
 
 Um pacote de ferramentas para UML chamado _uml utilities_ deve ser instalado no sistema hospedeiro para permitir interligar as máquinas virtuais em rede, e auxiliar no ambiente de testes. Para isso:
@@ -162,11 +162,11 @@ Para copiar os módulos do kernel para o sistema de arquivos:
 # rm linux-2.6.25.6.tar.bz2
 }}}
  
-== Pacotes de Desenvolvimento ==
+== Preparando o sistema de arquivos ==
 
-Os programas MIPL e RADVD deverão ser compilados na máquina virtual, por isso se faz necessário a instalação de alguns pacotes de desenvolvimento no sistema de arquivos.
+Alguns pacotes de desenvolvimento, bibliotecas deverão ser instalados na sistema de arquivos, pois os programas MIPL e RADVD serão compilados na máquina virtual. E para auxiliar na analise dos cenários serão instaladas algumas ferramentas de rede.
 
-Para poder fazer o download dos pacotes será necessário a criação de uma rede entre o hospedeiro e a máquina virtual. Neste caso deve-se criar uma interface virtual no hospedeiro, o módulo _*tun*_ deve estar carregado no sistema.
+Para poder fazer o download dos pacotes é necessário a criação de uma rede entre o hospedeiro e a máquina virtual. Neste caso deve-se criar uma interface virtual no hospedeiro, o módulo _*tun*_ deve estar carregado no sistema.
 {{{
 # modprobe tun
 # tunctl -u <nome do usuário>
@@ -198,7 +198,7 @@ Na distribuição Linux Debian há um gerenciador de pacotes o _*apt*_ que facil
 uml# echo deb http://security.debian.org/ etch/updates main contrib > /etc/apt/source.list
 }}}
 
-Os seguinte pacotes de desenvolvimento serão instalados:
+Os seguinte pacotes serão instalados:
  * gcc-4.1
  * libc6-dev
  * make
