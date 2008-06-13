@@ -62,10 +62,10 @@ echo "Pressione <enter> para os nos retornarem a rede"
 read a
 kill -USR1 $PID $PID2
 
-echo "Pressione <enter> para parar a Simulacao"
+echo "Pressione <enter> para parar a simulacao"
 read a
 kill $(pidof linux)
 kill $(pidof xterm)
 
-echo "Fim de simulacao"
+echo "Fim da simulacao"
 }}}
