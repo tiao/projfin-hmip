@@ -102,7 +102,7 @@ static void __md_trigger_movement_event(int event_type, int data,
 	e.iface = iface;
 	e.coa = coa;
 
-	MDBG2("strategy %d type %d iface %s (%d) " 	
+	MDBG("strategy %d type %d iface %s (%d) " 	
 	      "CoA %x:%x:%x:%x:%x:%x:%x:%x\n",
 	      e.md_strategy, e.event_type,
 	      e.iface->name, e.iface->ifindex, 
@@ -231,6 +231,16 @@ static void md_expire_coa(struct md_inet6_iface *iface, struct md_coa *coa)
 	list_add_tail(&coa->list, &iface->expired_coas);
 }
 
+#ifdef HMIP
+static void md_expire_rcoa(struct md_inet6_iface *iface, struct md_rcoa *rcoa)
+{
+	list_del(&rcoa->list);
+	MDBG2("expiring RCoA %x:%x:%x:%x:%x:%x:%x:%x on iface %s (%d)\n", 
+	      NIP6ADDR(&rcoa->addr), iface->name, iface->ifindex);
+	list_add_tail(&rcoa->list, &iface->expired_rcoas);
+}
+#endif
+
 static void md_reset_home_link(struct md_inet6_iface *i)
 {
 	i->home_link = 0;
@@ -272,6 +282,13 @@ static void md_expire_router(struct md_inet6_iface *iface,
 				if (!ipv6_pfx_cmp(&p->ple_prefix,
 						  &coa->addr, coa->plen))
 					md_expire_coa(iface, coa);
+			}
+			list_for_each_safe(clist, cn, &iface->rcoas) {
+				struct md_rcoa *rcoa;
+				rcoa = list_entry(clist, struct md_rcoa, list);
+				if(!ipv6_pfx_cmp(&old->map->nd_opt_map_globaladdr,
+						&rcoa->addr, 64))
+					md_expire_rcoa(iface, rcoa);
 			}
 		}
 		if (new == NULL)
@@ -374,7 +391,7 @@ static int update_coa(struct md_inet6_iface *iface,
 
 	if ((old = md_get_coa(&iface->coas, addr)) == NULL) {
 		list_add(&new->list, &iface->coas); 
-		MDBG2("adding CoA %x:%x:%x:%x:%x:%x:%x:%x on iface %s (%d)\n", 
+		MDBG("adding CoA %x:%x:%x:%x:%x:%x:%x:%x on iface %s (%d)\n", 
 		      NIP6ADDR(&new->addr), iface->name, iface->ifindex);
 		if (!(iface->iface_flags & MD_LINK_LOCAL_DAD)) {
 			__md_trigger_movement_event(ME_COA_NEW, 0, iface, new);
@@ -387,7 +404,7 @@ static int update_coa(struct md_inet6_iface *iface,
 		tsadd(old->valid_time, old->timestamp, oexp);
 		tsadd(new->valid_time, new->timestamp, nexp);
 
-		MDBG3("updating CoA "
+		MDBG("updating CoA "
 		      "%x:%x:%x:%x:%x:%x:%x:%x on iface %s (%d)\n", 
 		      NIP6ADDR(&old->addr), iface->name, iface->ifindex);
 
@@ -410,12 +427,68 @@ static int update_coa(struct md_inet6_iface *iface,
 	return 0;
 }
 
+#ifdef HMIP
+static void
+md_init_rcoa(struct md_rcoa *rcoa, struct nd_opt_map *map,
+		struct in6_addr *addr)
+{
+	memset(rcoa, 0, sizeof(struct md_rcoa));
+	INIT_LIST_HEAD(&rcoa->list);
+	rcoa->flags = map->nd_opt_map_flags_reserved;
+	rcoa->addr = *addr;
+}
+
+static struct md_rcoa *md_create_rcoa(struct md_inet6_iface *iface,
+				    struct nd_opt_map *map, struct in6_addr *addr)
+{
+	struct md_rcoa *rcoa = malloc(sizeof(struct md_rcoa));
+	if (rcoa != NULL) {
+		md_init_rcoa(rcoa, map, addr);
+		clock_gettime(CLOCK_REALTIME, &rcoa->timestamp);
+		tssetsec(rcoa->valid_time, map->nd_opt_map_valid_time);
+		MDBG3("creating RCoA %x:%x:%x:%x:%x:%x:%x:%x on "
+		      "iface %s (%d)\n", 
+		      NIP6ADDR(&coa->addr), iface->name, iface->ifindex);
+	}
+	return rcoa;
+}
+
+static int update_rcoa(struct md_inet6_iface *iface, struct nd_opt_map *map,
+					struct in6_addr *addr)
+{
+	struct md_rcoa *new, *old;
+
+	if (!in6_is_addr_routable_unicast(addr))
+		return 0;
+
+	if ((new = md_create_rcoa(iface, map, addr)) == NULL)
+		return -ENOMEM;
+
+	if((old = md_get_rcoa(&iface->rcoas, addr)) == NULL) {
+				list_add(&new->list, &iface->rcoas);
+
+		MDBG("adding RCoA %x:%x:%x:%x:%x:%x:%x:%x on iface %s (%d)\n", 
+		      NIP6ADDR(&new->addr), iface->name, iface->ifindex);
+	} else {
+		MDBG("updating RCoA "
+		      "%x:%x:%x:%x:%x:%x:%x:%x on iface %s (%d)\n", 
+		      NIP6ADDR(&old->addr), iface->name, iface->ifindex);
+
+		old->flags = new->flags;
+		old->timestamp = new->timestamp;
+		old->valid_time = new->valid_time;
+		free(new);
+	}
+	return 0;
+}
+#endif
+
 static int process_new_addr(struct ifaddrmsg *ifa, struct rtattr **rta_tb)
 {
 	struct md_inet6_iface *iface;
 	int res = 0;
 	
-	MDBG3("new address %x:%x:%x:%x:%x:%x:%x:%x on iface %d\n", 
+	MDBG("new address %x:%x:%x:%x:%x:%x:%x:%x on iface %d\n", 
 	      NIP6ADDR((struct in6_addr *)RTA_DATA(rta_tb[IFA_ADDRESS])), 
 	      ifa->ifa_index);
 
@@ -445,6 +518,8 @@ static void md_inet6_iface_init(struct md_inet6_iface *i, int ifindex)
 	INIT_LIST_HEAD(&i->expired_rtrs);
 	INIT_LIST_HEAD(&i->coas);
 	INIT_LIST_HEAD(&i->expired_coas);
+	INIT_LIST_HEAD(&i->rcoas);
+	INIT_LIST_HEAD(&i->expired_rcoas);
 	INIT_LIST_HEAD(&i->tqe.list);
 }
 
@@ -458,7 +533,7 @@ static int process_del_addr(struct ifaddrmsg *ifa, struct rtattr **rta_tb)
 	
 	int res = 0;
 
-	MDBG3("deleted address %x:%x:%x:%x:%x:%x:%x:%x on iface %d\n", 
+	MDBG("deleted address %x:%x:%x:%x:%x:%x:%x:%x on iface %d\n", 
 	      NIP6ADDR(addr), ifa->ifa_index);
 
 	if (ifa->ifa_scope != RT_SCOPE_UNIVERSE ||
@@ -857,7 +932,7 @@ md_create_router_prefix(struct md_router *rtr,
 		rtr->raddr_cnt++;
 	rtr->prefix_cnt++;
 
-	MDBG3("creating new prefix %x:%x:%x:%x:%x:%x:%x:%x/%d\n", 
+	MDBG("creating new prefix %x:%x:%x:%x:%x:%x:%x:%x/%d\n", 
 	     NIP6ADDR(&p->ple_prefix), p->ple_plen);
 
 	return p;
@@ -953,6 +1028,15 @@ static struct md_router *md_create_router(struct md_inet6_iface *iface,
 			tssetmsec(new->adv_ival,
 				  ntohl(r->nd_opt_adv_interval_ival));
 			break;
+#ifdef HMIP
+		case ND_OPT_MAP:
+			if (olen < sizeof(struct nd_opt_map))
+				goto free_rtr;
+
+			new->map = (struct nd_opt_map *)opt;
+			MDBG("Address MAP: %x:%x:%x:%x:%x:%x:%x:%x\n", NIP6ADDR(&new->map->nd_opt_map_globaladdr));
+			break;
+#endif
 		}
 		optlen -= olen;
 		opt += olen;
@@ -977,7 +1061,7 @@ static struct md_router *md_create_router(struct md_inet6_iface *iface,
 	new->lladdr = *saddr;
 	new->ifindex = iface->ifindex;
 
-	MDBG3("creating new router "
+	MDBG("creating new router "
 	      "%x:%x:%x:%x:%x:%x:%x:%x on interface %s (%d)\n", 
 	     NIP6ADDR(saddr), iface->name, iface->ifindex);
 
@@ -1177,9 +1261,9 @@ static void md_router_timeout_probe(struct tq_elem *tqe)
 static void md_update_router_stats(struct md_router *rtr)
 {
 	struct list_head *list;
-	struct in6_addr coa;
+	struct in6_addr coa, rcoa;
 
-	MDBG2("adding default route via %x:%x:%x:%x:%x:%x:%x:%x\n", 
+	MDBG("adding default route via %x:%x:%x:%x:%x:%x:%x:%x\n", 
 	      NIP6ADDR(&rtr->lladdr));
 
 	neigh_add(rtr->ifindex, NUD_STALE, NTF_ROUTER,
@@ -1212,6 +1296,21 @@ static void md_update_router_stats(struct md_router *rtr)
 					  rtr->hwa, rtr->hwalen, 1);
 		}
 	}
+	
+#ifdef HMIP
+	if(rtr->map != NULL) {
+		ipv6_addr_set(&rcoa,
+			(&(rtr->map)->nd_opt_map_globaladdr)->s6_addr32[0],
+			(&(rtr->map)->nd_opt_map_globaladdr)->s6_addr32[1],
+			(&(rtr->iface)->lladdr)->s6_addr32[2],
+			(&(rtr->iface)->lladdr)->s6_addr32[3]);
+
+			MDBG("add rcoa %x:%x:%x:%x:%x:%x:%x:%x on interface (%d)\n",
+						NIP6ADDR(&rcoa),rtr->ifindex);
+			update_rcoa(rtr->iface, rtr->map, &rcoa);
+	}
+#endif
+
 	if (rtr->hoplimit != 0) {
 		set_iface_proc_entry(PROC_SYS_IP6_CURHLIM,
 				     rtr->iface->name, rtr->hoplimit);
@@ -1622,7 +1721,7 @@ static void md_recv_ra(const struct icmp6_hdr *ih, ssize_t len,
 	    !conf.pmgr.accept_ra(iif, saddr, daddr, ra))
 		return;
 
-	MDBG2("received RA from %x:%x:%x:%x:%x:%x:%x:%x on iface %d\n", 
+	MDBG("received RA from %x:%x:%x:%x:%x:%x:%x:%x on iface %d\n", 
 	      NIP6ADDR(saddr), iif);
 
 	pthread_mutex_lock(&iface_lock);
