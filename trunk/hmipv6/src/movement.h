@@ -16,6 +16,38 @@
 #define DEFAULT_RETRANSMIT_TIMER 1 * TIME_SEC_MSEC
 #define DEFAULT_REACHABLE_TIME 30 * TIME_SEC_MSEC
 
+#define HMIP
+
+#ifdef HMIP
+struct nd_opt_map
+{
+    uint8_t   nd_opt_map_type;
+    uint8_t   nd_opt_map_length;
+    uint8_t   nd_opt_map_dist_pref;
+    uint8_t   nd_opt_map_flags_reserved;
+    uint32_t  nd_opt_map_valid_time;
+    struct in6_addr  nd_opt_map_globaladdr;
+};
+#define  ND_OPT_MAP     201 
+
+#define ND_OPT_MAP_FLAG_R        0x80
+#define ND_OPT_MAP_FLAG_M        0x40
+#define ND_OPT_MAP_FLAG_I        0x20
+#define ND_OPT_MAP_FLAG_T        0x10
+#define ND_OPT_MAP_FLAG_P        0x08
+#define ND_OPT_MAP_FLAG_V        0x04
+
+struct md_rcoa
+{
+	struct list_head list;
+	uint8_t flags;
+	struct in6_addr addr;
+	struct timespec timestamp;
+	struct timespec valid_time;
+	struct timespec preferred_time;
+};
+#endif
+
 struct md_router {
 	struct list_head list;
 	struct in6_addr lladdr;
@@ -39,6 +71,9 @@ struct md_router {
 	struct timespec timestamp;
 	struct tq_elem tqe;
 	struct list_head prefixes;
+#ifdef HMIP
+	struct nd_opt_map *map;
+#endif
 };
 
 struct md_coa {
@@ -110,6 +145,10 @@ struct md_inet6_iface {
 	struct list_head coas;
 	struct list_head expired_coas;
 	struct tq_elem tqe;
+#ifdef HMIP
+	struct list_head rcoas;
+	struct list_head expired_rcoas;
+#endif
 };
 
 enum {
@@ -177,6 +216,22 @@ static inline struct md_coa *md_get_coa(struct list_head *coa_list,
 	}
 	return NULL;
 }
+
+#ifdef HMIP
+static inline struct md_rcoa *md_get_rcoa(struct list_head *rcoa_list,
+					const struct in6_addr *rcoaddr)
+{
+	struct list_head *list;
+	struct md_rcoa *rcoa = NULL;
+
+	list_for_each(list, rcoa_list) {
+		rcoa = list_entry(list, struct md_rcoa, list);
+		if(rcoaddr == NULL || IN6_ARE_ADDR_EQUAL(&rcoa->addr, rcoaddr))
+			return rcoa;
+	}
+	return NULL;
+}
+#endif
 
 int md_init(void);
 void md_cleanup(void);
