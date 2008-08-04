@@ -1966,6 +1966,21 @@ static struct md_coa *mn_get_coa(const struct home_addr_info *hai, int iif,
 	return best_coa;
 }
 
+#ifdef HMIP
+static struct md_rcoa *mn_get_rcoa(const struct md_inet6_iface *iface,
+				struct list_head *rcoa_list)
+{
+	struct list_head *l;
+
+	list_for_each(l, rcoa_list){
+		struct md_rcoa *rcoa;
+		rcoa = list_entry(l, struct md_rcoa, list);
+			return rcoa;
+	}
+	return NULL; 
+}
+#endif
+
 static int mn_make_ho_verdict(const struct movement_event *me,
 			      const struct home_addr_info *hai, 
 			      struct md_router **next_rtr,
@@ -2086,6 +2101,9 @@ static void mn_chk_ho_verdict(struct home_addr_info *hai,
 	struct md_router *rtr = NULL;
 	struct md_coa *coa = NULL;
 	int move_home = 0;
+#ifdef HMIP
+	struct md_rcoa *rcoa = NULL;
+#endif
 
 	if (event->event_type == ME_COA_EXPIRED &&
 	    IN6_ARE_ADDR_EQUAL(&event->coa->addr, &hai->hoa.addr))
@@ -2116,6 +2134,14 @@ static void mn_chk_ho_verdict(struct home_addr_info *hai,
 			hai->primary_coa.iif = coa->ifindex;
 			hai->primary_coa.addr = coa->addr;
 			mn_update_coa_lifetime(&hai->primary_coa, coa);
+#ifdef HMIP
+			if((rcoa = mn_get_rcoa(event->iface, &event->iface->rcoas))
+					!= NULL) {
+				//hai->primary_coa.addr = rcoa->addr;	
+				hai->ha_addr = rcoa->map_addr;
+				hai->hoa.addr = rcoa->addr;
+			}
+#endif
 			break;
 		case MN_HO_RETURN_HOME:
 			hai->primary_coa.iif = rtr->ifindex;
