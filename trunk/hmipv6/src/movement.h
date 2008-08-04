@@ -42,6 +42,7 @@ struct md_rcoa
 	struct list_head list;
 	uint8_t flags;
 	struct in6_addr addr;
+	struct in6_addr map_addr;
 	struct timespec timestamp;
 	struct timespec valid_time;
 	struct timespec preferred_time;

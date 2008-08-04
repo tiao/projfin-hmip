@@ -435,6 +435,7 @@ md_init_rcoa(struct md_rcoa *rcoa, struct nd_opt_map *map,
 	memset(rcoa, 0, sizeof(struct md_rcoa));
 	INIT_LIST_HEAD(&rcoa->list);
 	rcoa->flags = map->nd_opt_map_flags_reserved;
+	rcoa->map_addr = map->nd_opt_map_globaladdr;
 	rcoa->addr = *addr;
 }
 
@@ -1289,6 +1290,20 @@ static void md_update_router_stats(struct md_router *rtr)
 
 			addr_add(&coa, p->ple_plen, 0, RT_SCOPE_UNIVERSE,
 				rtr->ifindex, p->ple_prefd_time,p->ple_valid_time);
+#ifdef HMIP
+			if(rtr->map != NULL) {
+				ipv6_addr_set(&rcoa,
+					(&(rtr->map)->nd_opt_map_globaladdr)->s6_addr32[0],
+					(&(rtr->map)->nd_opt_map_globaladdr)->s6_addr32[1],
+					(&(rtr->iface)->lladdr)->s6_addr32[2],
+					(&(rtr->iface)->lladdr)->s6_addr32[3]);
+
+				MDBG("add rcoa %x:%x:%x:%x:%x:%x:%x:%x on interface (%d)\n",
+							NIP6ADDR(&rcoa),rtr->ifindex);
+				update_rcoa(rtr->iface, rtr->map, &rcoa);
+	}
+#endif
+
 
 			if (p->ple_flags & ND_OPT_PI_FLAG_RADDR)
 				neigh_add(rtr->ifindex, NUD_STALE,
@@ -1296,20 +1311,6 @@ static void md_update_router_stats(struct md_router *rtr)
 					  rtr->hwa, rtr->hwalen, 1);
 		}
 	}
-	
-#ifdef HMIP
-	if(rtr->map != NULL) {
-		ipv6_addr_set(&rcoa,
-			(&(rtr->map)->nd_opt_map_globaladdr)->s6_addr32[0],
-			(&(rtr->map)->nd_opt_map_globaladdr)->s6_addr32[1],
-			(&(rtr->iface)->lladdr)->s6_addr32[2],
-			(&(rtr->iface)->lladdr)->s6_addr32[3]);
-
-			MDBG("add rcoa %x:%x:%x:%x:%x:%x:%x:%x on interface (%d)\n",
-						NIP6ADDR(&rcoa),rtr->ifindex);
-			update_rcoa(rtr->iface, rtr->map, &rcoa);
-	}
-#endif
 
 	if (rtr->hoplimit != 0) {
 		set_iface_proc_entry(PROC_SYS_IP6_CURHLIM,
