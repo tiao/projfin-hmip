@@ -74,12 +74,14 @@ Para dectetar o movimento deve-se utilizar o protocolo _Neighbor Unreachability 
 
 _Router Discovery_ é o protocolo que permite que nós IPv6 descubram roteadores existentes no seu enlace, através das mensagens _Router Advertisement_ e _Router Solicitation_. Um roteador IPv6 periodicamente envia mensagens de _Router Advertisement_ para todo o enlace, desta forma os nós podem configurar seu endereço de rede e roteadores padrão. O nó também pode enviar uma mensagem de _Router Solicitation_ recebendo como resposta um _Router Advertisement_.
 
-Assim quando 
+== Considerações sobre Segurança ==
+
+No processo de _Binding Update_ com o agente domiciliar pode se utilizar o protocolo IPsec nativo no IPv6 para tornar o processo mais seguro. A troca de mensagens pode ser feita utilizando o protocolo AH do IPsec, para isso é necessário um relacionamento prévio de segurança entre o nó móvel e o agente domiciliar, ou seja, uma chave secreta deve ser configurada nos dois nós. 
+
+No processo do registro do nó móvel com o nó correspondente torna-se impossível utilizar o IPsec para prover segurança no processo, pois o nó correspondente pode ser estar localizado em qualquer lugar na _Internet_. Para tornar o processo seguro faz-se necessário o uso de algum mecanismo global de autenticação automática. A solução proposta para esse problema é conhecida como _Return Routability Procedure_.
 
 
+=== Return Routability Procedure ===
+Na tentativa de tornar mais seguro o registro do nó móvel com o nó correspondente o MIPv6 introduz uma solução bastante inteligente o _Return Routability Procedure_, a idéia do processo é que o nó correspondente obtenha garantias que 
 
-
-
- 
-
-a fazer
+Vale ressaltar que o RR não é totalmente seguro. Um atacante, adequadamente localizado, pode capturar ambas as mensagens enviadas pelo CN com as informações secretas, e realizar o mesmo cálculo que o MN. Isto permitiria que mensagens de BU forjadas fossem criadas. Porém, se um atacante pode capturar tais mensagens, ele também pode implementar ataques similares contra o protocolo IPv6 sem mobilidade, por sua privilegiada posição na rede. Logo, o RR e MIPv6 não introduzem riscos adicionais ao protocolo IPv6 básico.
