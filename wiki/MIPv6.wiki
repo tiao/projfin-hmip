@@ -82,6 +82,6 @@ No processo do registro do nó móvel com o nó correspondente torna-se impossí
 
 
 === Return Routability Procedure ===
-Na tentativa de tornar mais seguro o registro do nó móvel com o nó correspondente o MIPv6 introduz uma solução bastante inteligente o _Return Routability Procedure_, a idéia do processo é que o nó correspondente obtenha garantias que 
+Na tentativa de tornar mais seguro o registro do nó móvel com o nó correspondente o MIPv6 introduz uma solução bastante inteligente o _Return Routability Procedure_, a idéia do processo é que o nó correspondente obtenha garantias que o nó móvel seja alcançável pelo seu endereço domiciliar e o _care-of-address_. Somente assim o nó correspondente esta apto para receber _Binding Updates_.
 
-Vale ressaltar que o RR não é totalmente seguro. Um atacante, adequadamente localizado, pode capturar ambas as mensagens enviadas pelo CN com as informações secretas, e realizar o mesmo cálculo que o MN. Isto permitiria que mensagens de BU forjadas fossem criadas. Porém, se um atacante pode capturar tais mensagens, ele também pode implementar ataques similares contra o protocolo IPv6 sem mobilidade, por sua privilegiada posição na rede. Logo, o RR e MIPv6 não introduzem riscos adicionais ao protocolo IPv6 básico.
+É importante lembrar que o _Return Routability Procedure_ não é totalmente seguro. Pois, um atacante pode capturar as mensagens enviadas pelo nó correspondente e forjar mensagens de _Binding Updates_. Obviamente o mesmo atacante conseguirá fazer o mesmo ataque em uma rede IPv6 sem mobilidade. Podemos concluir que o _Return Routability Procedure_ não introduz riscos adicionais ao protocolo IPv6 básico.
