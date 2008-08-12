@@ -1,0 +1,56 @@
+% Emerson Ribeiro de Mello -- mello@sj.cefetsc.edu.br
+% 2008-04-03
+% ----------------------------------------------------------------------- %
+% Modelo para monografia em LaTeX
+%
+% Este modelo faz uso da classe abntex para gerar um documento de acordo
+% com a norma ABNT 14724 para apresentação de trabalhos acadêmicos
+%
+% A classe abntex pode ser obtida em:
+% http://abntex.codigolivre.org.br
+%
+% Arquivo: monografia.tex (principal)
+% ----------------------------------------------------------------------- %
+
+\documentclass[ruledheader]{abnt}
+
+\usepackage{estilo-monografia}
+
+\begin{document}
+
+% inclusão das partes iniciais do documento
+\include{capa}
+\include{folhadeaprovacao}
+\include{dedicatoria}
+\include{agradecimentos}
+\include{resumo}
+\include{abstract}
+
+% listas automáticas: sumário, lista de figuras e lista de tabelas
+\tableofcontents
+\listoffigures
+\listoftables
+
+% inclusão dos capítulos
+\include{introducao}
+\include{mipv6}
+\include{simulacao}
+\include{cenarios}
+\include{mipl}
+\include{hmipv6}
+\include{conclusoes}
+
+% inclusão de apêndices (se houver)
+% \apendice
+% \include{apendice1}
+
+% inclusão de anexos (se houver)
+\anexo
+\include{anexo1}
+\include{anexo2}
+
+\bibliographystyle{abnt-alf}
+\bibliography{referencias}
+
+
+\end{document}
