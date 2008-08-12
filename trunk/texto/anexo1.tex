@@ -1,0 +1,145 @@
+% ----------------------------------------------------------------------- %
+% Arquivo: anexo1.tex
+% ----------------------------------------------------------------------- %
+
+\chapter{Gerador de tráfego}
+\label{c_anexo1}
+
+\begin{verbatim}
+ /*
+* gen-0.1
+*
+* (c) 2008 Cleiber Marques
+*
+* This program is free software; you can redistribute it and /or
+* modify it under the terms of the GNU General Public License
+* as published by the Free Software Foundation; either version
+* 2 of the License, or (at your option) any later version.
+*
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <errno.h>
+#include <string.h>
+#include <time.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <netdb.h>
+
+#define PORT 4950
+#define SIZE_PACK 100
+#define IPV6 
+/*#define LOOP*/
+
+int main(int argc, char **argv)
+{
+  int fd, numbytes, len;
+  char buf[SIZE_PACK];
+#ifdef IPV6
+  struct sockaddr_in6 gen, rcv;
+#else
+  struct sockaddr_in gen, rcv;
+#endif
+  struct tm *local;
+  time_t t;
+  char addr[INET6_ADDRSTRLEN];
+  /* Cria um socket UDP */
+#ifdef IPV6
+  printf("Program version IPv6\n");
+  if (!(fd = socket(AF_INET6, SOCK_DGRAM, 0))) {
+#else
+  printf("Program version IPv4\n");
+  if (!(fd = socket(AF_INET, SOCK_DGRAM, 0))) {
+#endif
+    fprintf(stderr, "Error in create socket\n");
+    exit (1);
+  }
+  bzero(&gen, sizeof(gen));
+#ifdef IPV6
+  gen.sin6_family = AF_INET6;
+  gen.sin6_port = htons(PORT);
+#else
+  gen.sin_family = AF_INET;
+  gen.sin_port = htons(PORT);
+#endif
+  if(argc == 1) {
+#ifdef IPV6
+    gen.sin6_addr = in6addr_any;
+#else
+    gen.sin_addr.s_addr = INADDR_ANY;
+#endif
+    /* Bind */
+    if (bind(fd, (struct sockaddr *)&gen, sizeof(gen)) == -1) {
+      fprintf(stderr, "Error in bind\n");
+      exit(1);
+    }
+    while(1) {
+      len = sizeof(rcv);
+      /* Recebe pacote */
+      if ((numbytes=recvfrom(fd, buf, SIZE_PACK , 0,
+          (struct sockaddr *)&rcv, &len)) == -1) {
+        fprintf(stderr,"Error in recvfrom\n");
+        exit(1);
+      }
+      /* Pega a hora do sistema e imprime */
+      t = time(NULL);
+      local = localtime(&t);
+#ifdef LOOP
+      /* Envia pacote */
+      if ((numbytes = sendto(fd, buf, SIZE_PACK, 0,
+          (struct sockaddr *)&rcv, sizeof(gen))) == -1) 
+        fprintf(stderr, "Error in sendto\n");
+#endif
+      /* Imprime log */
+#ifdef IPV6
+      inet_ntop(AF_INET6, &rcv.sin6_addr, addr, sizeof(addr));
+      printf("Receive packet [%d:%d:%d] %d bytes from %s seq=%d\n", local->tm_hour,
+        local->tm_min, local->tm_sec, numbytes, addr, buf[0]);
+#else
+      printf("Receive packet [%d:%d:%d] %d bytes from %s seq=%d\n", local->tm_hour,
+        local->tm_min, local->tm_sec, numbytes, inet_ntoa(rcv.sin_addr), buf[0]);
+#endif
+    }
+  } else {
+    int count = 0, i;
+#ifdef IPV6
+    inet_pton(AF_INET6, argv[1], &gen.sin6_addr);
+#else
+    inet_pton(AF_INET, argv[1], &gen.sin_addr);
+#endif
+    while(1) {
+      srand(time(NULL));
+
+      /* Completa o pacote com numeros randomicos */
+      for(i=0; i<SIZE_PACK; i++)
+        buf[i] = rand() % 10; 
+      /* Envia pacote */
+      if ((numbytes = sendto(fd, buf, SIZE_PACK, 0,
+          (struct sockaddr *)&gen, sizeof(gen))) == -1) {
+        fprintf(stderr, "Error in sendto\n");
+        exit(1);
+      }
+      /* Pega a hora do sistema e imprime  */
+      t = time(NULL);
+      local = localtime(&t);
+#ifdef LOOP
+      len = sizeof(rcv);
+      /* Recebe pacote */
+      if ((numbytes=recvfrom(fd, buf, SIZE_PACK , 0,
+          (struct sockaddr *)&rcv, &len)) == -1) {
+        fprintf(stderr,"Error in recvfrom\n");
+        exit(1);
+      }
+#endif
+      /* Imprime log */
+      printf("Send packet [%d:%d:%d] %d bytes from %s seq=%d\n",
+        local->tm_hour, local->tm_min, local->tm_sec, numbytes, argv[1], buf[0]);
+      sleep(1);
+    }
+  }
+}
+\end{verbatim}

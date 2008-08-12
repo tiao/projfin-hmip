@@ -1,0 +1,187 @@
+[General]
+img_extIsRegExp=false
+img_extensions=.eps .jpg .jpeg .png .pdf .ps .fig .gif .dvi
+kileprversion=2
+kileversion=2.0
+lastDocument=mipv6.tex
+masterDocument=
+name=monografia
+pkg_extIsRegExp=false
+pkg_extensions=.cls .sty
+src_extIsRegExp=false
+src_extensions=.tex .ltx .latex .dtx .ins .bib .mp
+
+[Tools]
+MakeIndex=
+QuickBuild=
+
+[item:abstract.tex]
+archive=true
+column=306
+encoding=ISO 8859-1
+highlight=LaTeX
+line=9
+open=false
+order=-1
+
+[item:agradecimentos.tex]
+archive=true
+column=8
+encoding=ISO 8859-1
+highlight=LaTeX
+line=0
+open=false
+order=4
+
+[item:anexo1.tex]
+archive=true
+column=0
+encoding=ISO 8859-1
+highlight=LaTeX
+line=6
+open=false
+order=-1
+
+[item:anexo2.tex]
+archive=true
+column=0
+encoding=ISO 8859-1
+highlight=LaTeX
+line=78
+open=false
+order=2
+
+[item:capa.tex]
+archive=true
+column=40
+encoding=ISO 8859-1
+highlight=LaTeX
+line=12
+open=false
+order=1
+
+[item:cenarios.tex]
+archive=true
+column=125
+encoding=ISO 8859-1
+highlight=LaTeX
+line=142
+open=true
+order=0
+
+[item:conclusoes.tex]
+archive=true
+column=145
+encoding=ISO 8859-1
+highlight=LaTeX
+line=9
+open=false
+order=2
+
+[item:dedicatoria.tex]
+archive=true
+column=28
+encoding=ISO 8859-1
+highlight=LaTeX
+line=14
+open=false
+order=3
+
+[item:estilo-monografia.sty]
+archive=true
+column=18
+encoding=ISO 8859-1
+highlight=LaTeX
+line=15
+open=false
+order=-1
+
+[item:folhadeaprovacao.tex]
+archive=true
+column=45
+encoding=ISO 8859-1
+highlight=LaTeX
+line=13
+open=false
+order=3
+
+[item:hmipv6.tex]
+archive=true
+column=137
+encoding=ISO 8859-1
+highlight=LaTeX
+line=27
+open=false
+order=2
+
+[item:introducao.tex]
+archive=true
+column=19
+encoding=ISO 8859-1
+highlight=LaTeX
+line=19
+open=false
+order=2
+
+[item:mipl.tex]
+archive=true
+column=19
+encoding=ISO 8859-1
+highlight=LaTeX
+line=5
+open=false
+order=-1
+
+[item:mipv6.tex]
+archive=true
+column=19
+encoding=ISO 8859-1
+highlight=LaTeX
+line=5
+open=true
+order=1
+
+[item:monografia.kilepr]
+archive=true
+column=0
+encoding=
+highlight=
+line=0
+open=false
+order=-1
+
+[item:monografia.tex]
+archive=true
+column=30
+encoding=ISO 8859-1
+highlight=LaTeX
+line=16
+open=false
+order=1
+
+[item:referencias.bib]
+archive=true
+column=13
+encoding=ISO 8859-1
+highlight=BibTeX
+line=15
+open=false
+order=6
+
+[item:resumo.tex]
+archive=true
+column=75
+encoding=ISO 8859-1
+highlight=LaTeX
+line=6
+open=false
+order=-1
+
+[item:simulacao.tex]
+archive=true
+column=1
+encoding=ISO 8859-1
+highlight=LaTeX
+line=278
+open=false
+order=1

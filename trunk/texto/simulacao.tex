@@ -1,0 +1,306 @@
+% ----------------------------------------------------------------------- %
+% Arquivo: simulacao.tex
+% ----------------------------------------------------------------------- 
+
+\chapter{Plataforma de Testes}
+\label{c_simulacao}
+O objetivo deste capítulo é descrever todos os procedimentos efetuados para montar um ambiente de simulação, que irá auxiliar na análise do protocolo MIPv6, vamos usar simulação devido a facilidade e rapidez para construção dos cenários, além disso realizar os experimentos fisicamente envolvem um alto custo e demandam muito tempo. No ambiente simulação faremos o uso da máquina virtual \textit{User Mode Linux} (UML), pois é incorporada ao kernel e apresenta um alto desempenho em execução.
+
+Nos testes envolvendo o protocolo é necessário um Kernel Linux compilado com suporte ao MIPv6, uma instalação do \textit{Mobile IPv6 for Linux} (MIPL) uma implementação do IPv6 Móvel para o Linux, e a instalação do \textit{Router ADVertisement Daemon} (RADVD) necessário em redes IPv6 para gerar \textit{router advertisement} e escutar \textit{router solicitations}.
+
+\section{UML}
+\label{s_uml}
+UML (\textit{User Mode Linux}) é uma máquina virtual para sistemas Linux, é uma implementação que permite que o Kernel Linux rode no sistema operacional Linux como um processo normal, diferente de outras tecnologias de virtualização que emulam uma plataforma física. Com UML é possível criar máquinas virtuais para ajudar no desenvolvimento de aplicações, serviços de rede, implementação clusters de rede, testes de segurança.
+
+Para utilizar uma máquina virtual UML somente é necessário uma versão do Kernel Linux compilado para a arquitetura UML e um sistema de arquivos. No endereço http://uml.nagafix.co.uk/ há disponível vários sistemas de arquivos, no ambiente de simulação utilizaremos um baseado no Linux Debian. Para iniciar a construção do ambiente de simulação vamos fazer o download do sistema de arquivos:
+
+\begin{verbatim}
+ # mkdir vm
+ # cd vm
+ # wget http://uml.nagafix.co.uk/Debian-4.0/Debian-4.0-x86-root_fs.bz2
+ # bunzip2 Debian-4.0-x86-root_fs.bz2
+ # mv Debian-4.0-x86-root_fs DebianFS
+\end{verbatim}
+
+Um pacote de ferramentas para UML chamado \textit{uml\_utilities} deve ser instalado no sistema hospedeiro para permitir interligar as máquinas virtuais em rede, e auxiliar no ambiente de testes.
+
+\begin{verbatim}
+ # wget http://prdownloads.sourceforge.net/user-mode-linux\
+ /uml_utilities_20040406.tar.bz2
+ # tar jxvf uml_utilities_20040406.tar.bz2 && cd tools
+ # make && make install 
+\end{verbatim}
+
+O \textit{uml\_switch} que acompanha este pacote não permite a simulação de mobilidade, algumas alterações no código do \textit{uml\_switch} foram feitas pelo desenvolvedor do projeto "Avaliação do Protocolo Fast Handover MIPv6" que permitem a simulação da mobilidade. Será preciso desta versão para o ambiente:
+
+\begin{verbatim}
+ # wget http://algum.lugar
+ # tar xvzf uml_switch.tar.gz && cd uml_switch
+ # make && make install
+\end{verbatim}
+
+\section{Kernel}
+\label{s_kernel}
+Para o ambiente de simulação precisamos um kernel compilado para a arquitetura UML com suporte a MIPv6. No kernel o suporte nativo do protocolo MIPv6 está disponível desde a versão 2.6.17, nestes cenários de testes será utilizado a versão 2.6.25.6 do kernel. Para iniciar o trabalho de compilação é necessário fazer o download dos códigos fontes do kernel:
+\begin{verbatim}
+ # wget http://kernel.org/pub/linux/kernel/v2.6/linux-2.6.25.6.tar.bz2
+ # tar jxvf linux-2.6.25.6.tar.bz2
+ # cd linux-2.6.22.6
+\end{verbatim}
+
+Configurando a arquitetura na qual o kernel será compilado:
+\begin{verbatim}
+ # export ARCH=um
+\end{verbatim}
+
+Configurando o kernel:
+\begin{verbatim}
+ # make defconfig
+ # make menuconfig
+\end{verbatim} 
+
+É interessante habilitar a opção HOSTFS para as máquinas virtuais terem acesso ao sistema de arquivos do hospedeiro.
+\begin{verbatim}
+ UML-specific options
+-->Host filesystem [HOSTFS]
+\end{verbatim}
+
+Para configurar o kernel com suporte ao MIPv6 estas são as opções mínimas que devem ser setadas:
+\begin{verbatim}
+ CONFIG_EXPERIMENTAL=y
+ CONFIG_SYSVIPC=y
+ CONFIG_PROC_FS=y
+ CONFIG_NET=y
+ CONFIG_INET=y 
+ CONFIG_IPV6=y
+ CONFIG_IPV6_MIP6=y
+ CONFIG_XFRM=y
+ CONFIG_XFRM_USER=y
+ CONFIG_XFRM_SUB_POLICY=y
+ CONFIG_INET6_XFRM_MODE_ROUTEOPTIMIZATION=y
+\end{verbatim}
+
+Opções que o agente domiciliar e o nó móvel necessitam:
+\begin{verbatim}
+ CONFIG_IPV6_TUNNEL=y
+ CONFIG_IPV6_MULTIPLE_TABLES=y
+\end{verbatim}
+
+Opção que o nó móvel também necessita:
+\begin{verbatim}
+ CONFIG_IPV6_SUBTREES=y
+\end{verbatim}
+
+Para alguns indicadores de movimento do nó móvel, pode ser setado:
+\begin{verbatim}
+ CONFIG_ARPD=y
+\end{verbatim}
+
+Para suporte ao IPsec é necessário pelo menos:
+\begin{verbatim}
+ CONFIG_INET6_ESP=y
+\end{verbatim}
+
+Para utilizar IPsec nos túneis:
+\begin{verbatim}
+ CONFIG_NET_KEY=y
+ CONFIG_NET_KEY_MIGRATE=y
+\end{verbatim}
+
+No menu de configuração estas são as opções que devem ser setadas:
+\begin{verbatim}
+Code maturity level options
+--> Prompt for development and/or incomplete code/drivers [CONFIG_EXPERIMENTAL]
+
+General setup 
+--> System V IPC [CONFIG_SYSVIPC]
+
+Networking
+--> Networking support [CONFIG_NET]
+--> Networking options
+    --> Transformation user configuration interface [CONFIG_XFRM_USER]
+    --> Transformation sub policy support [CONFIG_XFRM_SUB_POLICY]
+    --> Transformation migrate database [CONFIG_XFRM_MIGRATE]
+    --> PF_KEY sockets [CONFIG_NET_KEY]
+    --> PF_KEY MIGRATE [CONFIG_NET_KEY_MIGRATE]
+    --> TCP/IP networking [CONFIG_INET]
+    --> The IPv6 protocol [CONFIG_IPV6]
+    --> IPv6: AH transformation [CONFIG_INET6_AH]
+    --> IPv6: ESP transformation [CONFIG_INET6_ESP]
+    --> IPv6: IPComp transformation [CONFIG_INET6_IPCOMP]
+    --> IPv6: Mobility [CONFIG_IPV6_MIP6]
+    --> IPv6: IPsec transport mode [CONFIG_INET6_XFRM_MODE_TRANSPORT]
+    --> IPv6: IPsec tunnel mode [CONFIG_INET6_XFRM_MODE_TUNNEL]
+    --> IPv6: MIPv6 route optimization mode [XFRM_MODE_ROUTEOPTIMIZATION]
+    --> IPv6: IPv6-in-IPv6 tunnel [CONFIG_IPV6_TUNNEL]
+    --> IPv6: Multiple Routing Tables [CONFIG_IPV6_MULTIPLE_TABLES]
+    --> IPv6: source address based routing [CONFIG_IPV6_SUBTREES]
+File systems
+--> Pseudo filesystems
+    --> /proc file system support [CONFIG_PROC_FS]
+\end{verbatim}
+
+Para verificar se o kernel está configurado corretamente para MIPv6 existe o \textit{shell script} \textbf{\textit{chkconf\_kernel.sh}} que acompanha o pacote do MIPL.
+
+Após a configuração o kernel vamos compilá-lo e os seus módulos devem ser copiados para o sistema de arquivos, por isso serão instalados no diretório uml-modules para depois serem copiados.
+\begin{verbatim}
+ # make
+ # strip linux
+ # make modules_install INSTALL_MOD_PATH=uml-modules
+ # unset arch
+\end{verbatim}
+
+Para copiar os módulos do kernel para o sistema de arquivos:
+\begin{verbatim}
+# cd ..
+# mkdir loop
+# mount -o loop DebianFS loop
+# cp -rf linux-2.6.25.6/uml-modules/lib/modules/* loop/lib/modules
+\end{verbatim}
+
+É preciso copiar os arquivos fontes do kernel para o sistema de arquivos, pois o MIPL vai precisar para a sua compilação.
+\begin{verbatim}
+# cp -r linux-2.6.25.6.tar.bz2 loop/usr/src/
+# cd loop/usr/src
+# tar jxvf linux-2.6.25.6.tar.bz2
+# ln -s linux-2.6.25.6 linux
+# rm linux-2.6.25.6.tar.bz2
+# cd ../../../
+# umount loop
+\end{verbatim}
+
+\section{Preparando o sistema de arquivos}
+\label{s_prep}
+Alguns pacotes de desenvolvimento, bibliotecas deverão ser instalados no sistema de arquivos, pois os programas MIPL e RADVD serão compilados na máquina virtual. E para auxiliar na analise dos cenários serão instaladas algumas ferramentas de rede.
+
+Para poder fazer o download dos pacotes é necessário a criação de uma rede entre o hospedeiro e a máquina virtual. Neste caso deve-se criar uma interface virtual no hospedeiro, o módulo \textbf{\textit{tun}} deve estar carregado no sistema.
+\begin{verbatim}
+ # modprobe tun
+ # tunctl -u <nome do usuário>
+\end{verbatim}
+
+Configurando a interface virtual do hospedeiro, habilitando o roteamento de pacotes e o nat para os pacotes da máquina virtual:
+\begin{verbatim}
+# ifconfig tap0 192.168.1.1 netmask 255.255.255.0
+# echo 1 > /proc/sys/net/ipv4/ip_forward
+# iptables -t nat -I POSTROUTING -o eth0 -j MASQUERADE
+# iptables -I FORWARD -i tap0 -j ACCEPT
+# iptables -I FORWARD -o tap0 -j ACCEPT
+\end{verbatim}
+
+Iniciando a máquina virtual, para se logar use \textit{root} sem senha:
+\begin{verbatim}
+ # cp linux-2.6.25.6/linux .
+ # ./linux ubda=DebianFS mem=128M eth0=tuntap,tap0
+\end{verbatim}
+
+Configurando a rede na maquina virtual:
+\begin{verbatim}
+ uml# ifconfig eth0 192.168.1.2 netmask 255.255.255.0
+ uml# route add default gw 192.168.1.1
+ uml# echo nameserver <seu_dns> > /etc/resolv.conf
+\end{verbatim}
+
+Na distribuição Linux Debian há um gerenciador de pacotes o \textbf{\textit{apt}} que facilita a instalação de programas, ele permite procurar e instalar pacotes. Para utilizar é necessário configurar um repositório de pacotes:
+\begin{verbatim}
+ uml# echo deb http://security.debian.org/ etch/updates main contrib > \
+ /etc/apt/source.list
+\end{verbatim}
+
+Os seguinte pacotes serão instalados:
+\begin{itemize}
+ \item gcc-4.1
+ \item libc6-dev
+ \item make
+ \item libtool
+ \item automake1.9
+ \item autoconf2.13
+ \item bison
+ \item patch
+ \item flex
+ \item indent
+ \item telnet
+ \item tcpdump
+ \item tethereal
+ \item iproute
+ \item subversion
+\end{itemize}
+
+Para instalar utilizando o \textbf{\textit{apt}}:
+\begin{verbatim}
+ uml# apt-get update
+ uml# apt-get install gcc-4.1 libc6-dev make libtool automake1.9 \
+ autoconf2.13 bison patch flex indent telnet tcpdump tethereal  \
+ iproute subversion
+\end{verbatim}
+
+\section{MIPL}
+\label{s_mipl}
+O MIPL (\textit{Mobile IPv6 for Linux}) é uma implementação de Suporte a Mobilidade no IPv6 (RFC 3775), desenvolvida na Universidade Tecnólogica de Helsinki. É um programa em \textit{user space} que trabalha junto com MIPv6 habilitado no kernel.
+
+Vamos fazer o download da ultima versão estável do MIPL:
+\begin{verbatim}
+ uml# wget ftp://ftp.linux-ipv6.org/pub/usagi/patch/mipv6/umip-0.4/daemon\
+ /tarball/mipv6-daemon-umip-0.4.tar.gz
+ uml# tar xvzf mipv6-daemon-umip-0.4.tar.gz && cd mipv6-daemon-umip-0.4
+\end{verbatim}
+
+Vamos configurar o MIPL para buscar os cabeçalhos do kernel no local onde foram copiados, habilitaremos a compilação de um virtual terminal onde poderemos acessar para acompanhar o protocolo em execução.
+
+\begin{verbatim}
+ uml# CPPFLAGS='-isystem /usr/src/linux/include' ./configure --enable-vt 
+\end{verbatim}
+
+Compilando e instalando:
+\begin{verbatim}
+ uml# make
+ uml# make install
+\end{verbatim}
+
+\subsection{Configurando MIPL}
+Nesta seção pretende-se mostrar como configurar o \textit{daemon} do MIPL para rodar como um nó móvel, um agente domicili ou um nó correspondente, explanando todas as opções do seu arquivo de configuração.
+
+Esta são as opções comuns ao nó móvel, ao agente domiciliar e ao nó corresponde do arquivo de configuração do MIPL.
+\subsubsection{NodeConfig CN | HA | MN;}
+Indica se o \textit{daemon} deve rodar como nó correposdente, agente domiciliar ou nó móvel. A configuração padrão é CN.
+\subsubsection{DebugLevel number;}
+Indica ao \textit{daemon} o nivel de \textit{debug}, se o valor for maior que zero, o \textit{daemon} irá imprimir mensagens de \textit{debug} no console. A configuração padrao é 0.
+\subsubsection{DoRouteOptimizationCN boolean;}
+Indica se o nó deve participar da otimização de roteamento com o nó móvel. A configuração padrão é habilitado.
+
+Opções comuns ao nó móvel e ao agente domiciliar:
+Falta explicar vários parâmetros ainda.
+
+\section{RADVD}
+\label{s_radvd}
+O RADVD (\textit{Router ADVertisement Daemon})é um serviço para roteadores IPv6. Ele envia mensagens \textit{Router Advertisement} e responde a \textit{Router Solicitation} especificadas na RFC 2641. Essas mensagens são utilizadas para \textit{stateless autoconfiguration}. Vamos fazer o download do pacote, compilar e instalar:
+
+\begin{verbatim}
+ uml# wget http://www.litech.org/radvd/dist/radvd-1.1.tar.gz
+ uml# tar xvzf radvd-1.1.tar.gz && cd radvd-1.1
+ uml# make && make install
+\end{verbatim}
+
+\subsection{Configurando RADVD}
+Opções do arquivo de configuração ...
+
+\section{Gerador de tráfego}
+\label{s_trafego}
+Para auxiliar nos testes do protocolo MIPv6 foi criado uma simples aplicação chamada \textbf{\textit{gen}} que permite gerar trafegos TCP e UDP na rede. O programa foi desenvolvido utilizando a linguagem C e a API de \textit{sockets}, é semelhante a ferramenta \textit{ping}, porém utiliza as camadas de aplicação e de transporte. Com o \textbf{\textit{gen}} permite-se observar a transparência do protocolo com as camadas superiores a de rede.
+
+Vamos fazer o download do programa e sua compilação:
+\begin{verbatim}
+uml# wget http://
+uml# gcc -o gen gen.c
+uml# mv gen /bin
+\end{verbatim}
+
+Para utilizar o programa, é preciso que um nó da rede inicie o gen e fique esperando pacotes, desta forma:
+\begin{verbatim}
+ mn# gen
+\end{verbatim}
+
+E outro nó deve iniciar o gen passando como parâmetro o endereço IP do outro nó, desta forma:
+\begin{verbatim}
+ cn# gen 2000:a::1
+\end{verbatim}

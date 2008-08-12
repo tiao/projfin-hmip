@@ -1,0 +1,82 @@
+% ----------------------------------------------------------------------- %
+% Arquivo: hmipv6.tex
+% ----------------------------------------------------------------------- %
+\chapter{Visão geral do protocolo HMIPv6}
+\label{c_hmipv6}
+O modelo do protocolo MIPv6 apresenta alguns problemas que comprometem a sua escalabilidade na \textit{Internet}, alguns desses puderam ser observados nos cenários estudados. Dentre estes problemas podemos destacar:
+\begin{itemize}
+ \item tempo na detecção do movimento;
+ \item tempo na configuração do novo endereço na rede visitada, o \textit{care-of-address};
+ \item tempo do registro com o seu agente domiciliar;
+\end{itemize}
+
+Em um ambiente utilizando o MIPv6 com um excessivo numero de nós móveis a tendência é a perda na qualidade de serviço e o aumento do \textit{delay} na entrega dos pacotes.
+
+Com o intuito de minimizar os efeitos dos longos retardos no envio dos \textit{Binding Updates}, para o registro com o agente domiciliar ou o nó correspondente, e reduzir o tráfego de pacotes de controle na \textit{Internet} foi proposto um protocolo complementar ao MIPv6 o IPv6 Móvel Hierárquico (HMIPv6).
+
+%ref
+A idéia principal do protocolo é tratar a mobilidade global e local de formas distintas, uma movimentação local pode ser entendida como uma que acontece em um mesmo \textit{site} e a global entre \textit{sites}. Podemos definir um  \textit{site} como uma dimensão arbitrária, e pode ser, por exemplo, uma rede de uma empresa ou universidade com uma ou mais sub-redes.
+
+%ref
+Um estudo sobre os padrões de mobilidade analisou diversos profissionais, mostrou que 69\% das movimentações são locais independente deles possuírem algum dispositivo móvel. Este dado mostra que o modelo hierárquico é mais adequado para o uso na \textit{Internet}. As principais vantagens seriam a diminuição no tempo do \textit{handover} e do tráfego enviado para à \textit{Internet} com sinalização.
+
+\section{Terminologia do HMIPv6}
+\begin{description}
+ \item[Roteador de acesso (RA):] é o roteador padrão do nó móvel, recebe os dados de saída do nó móvel.
+ \item[\textit{Mobility Anchor Point} (MAP):] é um roteador localizado na rede visitada, o MAP é usado como um agente domiciliar pelo nó móvel. Um ou mais MAPs podem existir em uma rede visitada.
+ \item[Nó móvel HMIPv6:] é um nó móvel capaz de receber e processar mensagens do roteador padrão que contenham a opção MAP. Um nó móvel HMIPv6 deve ser apto para enviar \textit{Binding Updates} locais com o bit M ligado.
+ \item[Regional \textit{care-of-address} (RCoA):] é o endereço obtido pelo nó móvel na rede visitado com o mesmo prefixo de rede do MAP. Ele é auto-configurado quando recebe a opção de MAP divulgada nas mensagens do roteador padrão.
+ \item[\textit{Link care-of-address} (LCoA):] é o endereço configurado pelo nó móvel com o mesmo prefixo do roteador padrão. Uma simples referência ao care-of-address.
+ \item[\textit{Binding Update} local:] é o \textit{Binding Update} que o nó móvel envia para o MAP fazer a associação do LCoA com o RCoA.
+ \end{description}
+
+\section{Funcionamento}
+A principal mudança no HMIPv6 em relação ao MIPv6 foi à indtrodução de um novo agente, o MAP que nada mais é do que um roteador utilizado para gerenciar a mobilidade. O funcionamento do agente domiciliar e do nó corresponde permanece idêntico ao do MIPv6. Assim como no MIPv6 o funcionamento do HMIPv6 idepende da tecnologia de acesso.
+
+Assim que um nó movel entra em um \textit{site} com a presença de um MAP, ele se conecta com um RA e auto-configura dois endereços o RCoA baseado no mesmo prefixo de rede do MAP e outro o LCoA com o mesmo prefixo do RA. Então o nó móvel envia um \textit{Binding Update} para o MAP para que este faça a associação do RCoA com o LCoA. Outros \textit{Binding Updates} também são enviados para o agente domiciliar e os nós correspondentes, neste caso para que estes façam a associação do endereço domiciliar com o RCoA. Se o nó móvel estiver se comunicando com correspondes locais, ou seja, do mesmo \textit{site} ele deve enviar um \textit{Binding Update} para à associação do endereço domiciliar com o LCoA.
+
+O funcionamento do MAP é semelhante ao do agente domiciliar, ele intercepta os pacotes originados do agente domiciliar e dos nós correspondentes destinados ao RCoA e então os envia via túnel ao LCoA. Um túnel bidirecional é estabelecido entre o MAP e o nó móvel, que é usado para enviar todos os pacotes oriundos do nó móvel, exceto os com destino aos correspondentes locais.
+
+As principais formas de atuação propostas pelo protocolo são quando o nó móvel se desloca dentro de um mesmo \textit{site} (mobilidade local) e entre \textit{sites} (mobilidade global):
+\begin{description}
+ \item[Mobilidade local:] quando o nó móvel troca somente o seu LCoA, é necessário o envio de \textit{Binding Updates} para o MAP e os correspondentes locais. Como resultado os pacotes com origem do agente domiciliar e dos nós correspondentes ainda são enviandos para o mesmo RCoA, assim minimizando o tempo do \textit{handover} e a perda de pacotes, também notamos que todo tráfego gerado é dentro do mesmo \textit{site}.
+\begin{figure}[!htpb]
+	\centering
+	\includegraphics[scale=.45]{figs/intra_site}
+ 	\label{f_intra}
+	\caption{Mobilidade Local}
+\end{figure}
+
+\item[Mobilidade global:] neste caso o nó móvel reconfigura o seu RCoA e LCoA, e envia Binding Updates para o MAP, os nós comunicantes fora do \textit{site} informando o novo RCoA e os nós do mesmo site para informar o LCoA.
+\begin{figure}[!htpb]
+	\centering
+	\includegraphics[scale=.45]{figs/inter_site}
+ 	\label{f_inter}
+	\caption{Mobilidade Global}
+\end{figure}
+\end{description}
+
+Podemos perceber que em algumas vezes o nó móvel deve preferir atuar como no MIPv6 para tornar mais simples o seu funcionamento. Neste caso a rede visitada se encontra próxima ao agente domiciliar e não se faz necessário o uso do MAP, a discussão sobre este tipo de cenário não faz parte do escopo deste documento. 
+
+\section{Envio de \textit{Binding Updates}}
+%ref
+Após o evento de mobilidade e o nó móvel auto-configurou o seu RCoA ele precisa enviar um \textit{Binding Update} para o MAP. O pacote desta mensagem deve seguir os seguintes requisitos, definidos em:
+\begin{itemize}
+ \item bit A (\textit{acknowledge}) deve estar ligado;
+ \item bit M (\textit{map registration}) deve estar ligado;
+ \item o RCoA na opção de agente domiciliar;
+ \item o LCoA deve ser usado como endereço de origem do \textit{Binding Update};
+\end{itemize}
+O \textit{Binding Update} irá associar o RCoA com o LCoA, similarmente como um endereço domiciliar. O MAP fará o teste de duplicidade (DAD) do RCoA, somente no primeiro \textit{Binding Update}, e retornará um \textit{Binding Acknowledgement} para o nó móvel.
+
+A especificação do protocolo permite que um nó móvel tenha mais de um RCoA se recebeu mais de uma opção de MAP, para todos os RCoAs devem ser feito um Binding Update. O nó móvel não deve fazer um multi-nível hierárquico, pois irá diminuir a eficiência e a performance do protocolo muitos 
+
+Depois de fazer o registro com o MAP o nó móvel deve fazer a associação do RCoA com o endereço domiciliar no agente domiciliar e nos nós correspondentes. A mensagem de \textit{Binding Update} deve ser envianda utilizando a opção de \textit{care-of-address} alternativo preenchida com o RCoA e o tempo de vida deve ser menor do recebido no \textit{Binding Acknowledgement} do registro com o MAP.
+
+\section{Descoberta de um MAP}
+Esta seção descreve como um nó móvel obtem o endereço do MAP e seu prefixo de rede, e como ARs presentes no \textit{site} descobrem os MAPs. Dois métodos são definidos para o descobrimento do MAP:
+ 
+\begin{description}
+ \item[Descobrimento dinâmico:] é baseado na propagação da opção de MAP nas mensagens de \textit{Router Advertisements}. Na opção de MAP estão presentes o endereço global do MAP, seu prefixo de rede, um vetor de distância baseado nos saltos da mensagem até a chegada no nó móvel, esta opção influenciará na escolha do MAP padrão, e um MAP particular como preferência. Neste método os ARs devem ser configurados para receberem as mensagens com opções de MAP e re-enviarem incrementando o vetor de distância.
+ \item[Configuração manual:] neste método a opção de MAP é configurada manualmente nos ARs por um administrador da rede, em muitos \textit{sites} esse é o mescanismo padrão. Também deve ser possível a configuração por mecanismos dinâmicos.
+ \end{description}
