@@ -214,20 +214,12 @@ default & eth0 & fe80::b04c:e9ff:feec:6c42 & \\
 \end{table} 
 
 \subsection{Tempo de latência do \textit{Handover}}
-O tempo de latência de um \textit{handover} segundo [](por referência) pode ser dividida em quatro fases, a partir dos dados colhidos com Cenário 1 vamos tentar reproduzi-las, exemplificando com os nossos tempos:
+O tempo de latência em um \textit{handover} segundo [](por referência) pode ser dividida em quatro fases, a partir dos dados colhidos com Cenário 1 vamos tentar reproduzi-las, exemplificando com os nossos tempos:
 \begin{enumerate}
  \item \textbf{Detecção de Movimento (\textit{TD})}: Em um cenário real representaria o tempo do \textit{handover} na camada de enlace até o primeiro \textit{Router Advertisement}. Como neste ambiente de testes não conseguimos simular a camada enlace não se pode precisar com a exatidão a latência envolvida no processo. Porém, para fins de estudo consideraremos para nosso cenário o tempo entre o útlimo pacote do \textit{gen} recebido na rede domiciliar e o primeiro \textit{Router Advertisement} na rede visitada.
 
 \begin{math}
  TD = t1 - t0
-\end{math}
-
-\begin{math}
- TD = 24.23 - 21.99
-\end{math}
-
-\begin{math}
- TD = 2.24
 \end{math}
 
 \item \textbf{Configuração do \textit{Care-of-address} (\textit{TA})}: Tempo que entre o primeiro \textit{Router Advertisement} e o envio do \textit{Binding Update}.
@@ -236,26 +228,10 @@ O tempo de latência de um \textit{handover} segundo [](por referência) pode ser 
  TA = t2 -t1
 \end{math}
 
-\begin{math}
- TA = 25.55 - 24.23
-\end{math}
-
-\begin{math}
- TA = 1.32
-\end{math}
-
 \item \textbf{Registro com agente domiciliar (\textit{TR})}: Intervalo de tempo entre o envio do \textit{Binding Update} ao agente domiciliar e o recebimento do \textit{Binding Acknowledgement}.
 
 \begin{math}
  TR = t3 - t2
-\end{math}
-
-\begin{math}
- TR = 26.58 - 25.55
-\end{math}
-
-\begin{math}
- TR = 1.03
 \end{math}
 
 \item \textbf{Otimização de Roteamento (\textit{TR})}: Intervalo de tempo entre o envio das mensagens do \textit{Return Routability Procedure} e o recebimento do \textit{Binding Acknowledgement} do nó correspondente.
@@ -264,13 +240,6 @@ O tempo de latência de um \textit{handover} segundo [](por referência) pode ser 
  TO = t4 - t3
 \end{math}
 
-\begin{math}
- TO = 27.03 - 27.01
-\end{math}
-
-\begin{math}
- TO = 0.2
-\end{math}
 \end{enumerate}
 
 Obviamente podemos calcular o tempo de latência do handover com a seguinte formula:
@@ -278,7 +247,6 @@ Obviamente podemos calcular o tempo de latência do handover com a seguinte formu
 \begin{math}
  Handover = TD + TA + TR + TO
 \end{math}
-
 
 Na figura \ref{f_sequencia1} é possível observar um diagrama de sequência simplificado mostrando todo o processo de mobilidade. Entretanto, mesmo o cenário sendo simulado e os tempos medidos são estimados, segundo algumas bibliografias estudadas que realizaram experimentos fisicamente os tempos medidos na simulação estão dentro do esperado.
 
@@ -289,6 +257,10 @@ Refazer o diagrama evidenciando TD, TA, TR, TO
  	\label{f_sequencia1}
 	\caption{Diagrama de sequência do cenário 1}
 \end{figure}
+
+É perceptível perceber que as fases que mais comprometem o \textit{handover} no nosso cenário são as da detecção de movimento e a configuração do care-of-address. Algumas tentativas podem ser feitas para tentar diminuir o tempo nestas duas fases.
+
+Na fase de detecção de movimento as mensagens de \textit{Router Advertisement} é o principal. 
 
 \section{Cenário 2}
 \label{s_cenario2}
@@ -345,4 +317,4 @@ Outro teste proposto, visa verificar se há uma melhora no processo de \textit{ha
 	\caption{Gráfico: Pacotes Perdidos x Tempo Radvd}
 \end{figure}
 
-É possível verificar com este teste, que o intervalo entre as mensagens de \textit{Router Advertisement} esta diretamente ligado com a perda de pacotes durante o \textit{handover}. Porém, não é a solução para o problema do tempo de \textit{handover}, além de não ser uma boa pratica um administrador rede configurar um tempo muito pequeno para o intervalo, pois iria acabar inundando a sua rede com mensagens \textit{multicasting} e prejudicando a perfomance principalmente em redes sem fio. Concerteza esta não é melhor maneira de contornar o problema do tempo do \textit{handover}, para este problema há outras propostas como o \textit{Fast Handover} MIPv6 (FMIPv6);
+É possível verificar com este teste, que o intervalo entre as mensagens de \textit{Router Advertisement} esta diretamente ligado com a perda de pacotes durante o \textit{handover}. Porém, não é a solução para o problema do tempo de \textit{handover}, além de não ser uma boa pratica um administrador de rede configurar um tempo muito pequeno para o intervalo, pois iria acabar inundando a sua rede com mensagens \textit{multicasting} e prejudicando a perfomance principalmente em redes sem fio. Concerteza esta não é melhor maneira de contornar o problema do tempo do \textit{handover}, para este problema há outras propostas como o \textit{Fast Handover} MIPv6 (FMIPv6);
