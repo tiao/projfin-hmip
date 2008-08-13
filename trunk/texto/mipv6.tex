@@ -4,6 +4,16 @@
 \chapter{Visão geral do protocolo MIPv6}
 \label{c_mipv6}
 \section{Introdução}
+Na internet, cada pacote associado ao um fluxo de pacotes entre pontos comunicantes, é encaminhado em função do endereço de IP destino. Cabe ao protocolo de camada de rede chamado \textit{Internet Protocol} (IP), escolher qual caminho o pacote deve seguir para chegar ao seu destinatário, em redes muito complexas como a \textit{Internet} alguns protocolos de roteamento auxiliam na descoberta da localização dos destinos dinamicamente. Alguns exemplos de protocolos de roteamento são o \textit{Open Shortest Path First} (OSPF), \textit{Routing Information Protocol} (RIP) e \textit{Border Gateway Protocol} (BGP).
+
+Os endereços IP acabam definindo a localização geográfica de um ponto de acesso, os protocolos atuais da \textit{Internet} assumem que o nó não muda seu endereço IP durante uma comunicação ou seja não troca o seu ponto de acesso. 
+
+Caso um nó mude seu ponto de acesso na \textit{Internet}, normalmente ele deve reconfigurar um novo endereço IP e um roteador padrão, se uma comunicação estiver estabelecida quando o nó efetuar a mobilidade os protocolos de roteamento não serão mais capazes de entregar os pacotes corretamente. Para continuar sua comunicação sua nova rota deve ser propagada para toda estrutura de roteamento da rede, obviamente esta alternativa é inaceitável, pois seria inviável fazer isso em uma rede como a \textit{Internet}.
+
+Com a intenção de permitir que nós possam se movimentar para diferentes sub-redes e continuem sua comunicação, foi proposto o protocolo IP Móvel que garante que os pacotes sejam roteados para os nós móveis. Existem duas variações para o IP Móvel uma para o IPv4 e outra para o IPv6.
+
+O foco deste trabalho será a versão para o IPv6, pois o IPv6 possui algumas vantagens sobre o IPv4 como maior número de endereços, suporte nativo para segurança, possibilidade de auto-configuração e suporte ao IP Móvel.
+
 O protocolo móvel IPv6 (MIPv6) tem por objetivo permitir que nós IPv6 se desloquem entre sub-redes, com diferentes tecnologias de acesso como \textit{Ethernet} e \textit{Wireless LAN} e continuem suas comunicações. Sem suporte ao MIPv6 todos os pacotes destinados ao nó móvel quando ele estiver fora de sua rede origem serão perdidos.
 
 O protocolo possibilita ao nó móvel comunicar-se com outros nós, móveis ou estáticos, após mudar seu ponto de conexão e ser alcançado pelo mesmo endereço IP, tornando a mobilidade transparente para as camadas superiores a de rede.
