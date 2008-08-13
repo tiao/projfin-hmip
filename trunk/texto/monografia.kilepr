@@ -3,7 +3,7 @@ img_extIsRegExp=false
 img_extensions=.eps .jpg .jpeg .png .pdf .ps .fig .gif .dvi
 kileprversion=2
 kileversion=2.0
-lastDocument=mipv6.tex
+lastDocument=cenarios.tex
 masterDocument=
 name=monografia
 pkg_extIsRegExp=false
@@ -62,10 +62,10 @@ order=1
 
 [item:cenarios.tex]
 archive=true
-column=125
+column=93
 encoding=ISO 8859-1
 highlight=LaTeX
-line=142
+line=262
 open=true
 order=0
 
