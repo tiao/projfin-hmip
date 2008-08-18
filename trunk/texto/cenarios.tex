@@ -3,9 +3,13 @@
 % ----------------------------------------------------------------------- %
 
 \chapter{Cenários de Testes}
+
+\section{Introdução}
 Após os estudos bibliográficos sobre o protocolo MIPv6 e a preparação de um ambiente de simulação que possibilita a montagem de cenários. Iniciou-se a etapa para definir os cenários que permitiriam analisar o comportamento, testar a funcionalidade do protocolo, perdas e atrasos na entrega dos pacotes.
 
 Para analisar alguns mecanismos do protocolo e testar seus modos de operação, dois cenários base foram definidos. No primeiro cenário uma comunicação entre um dispositivo móvel e um dispositivo estático, no segundo comunicação entre dois dispositivos móveis. Com intuito de comparação de desempenho os dois cenários serão testados nos dois modos de operação do protocolo MIPv6, o primeiro com tunelamento bidirecional e o segundo com otimização de roteamento.
+
+O computador que será utilizado para a realização dos cenários de teste possui as seguintes caracteristicas: \textit{Atlhon XP 2600}, 512MB de memória e rodando \textit{Gnu/Linux Slackware} 12.0, kernel linux-2.6.21.5.
 
 No anexo \ref{c_anexo2} estão disponíveis dois \textit{scripts} que foram feitos para auxiliar na montagem das topologias de rede e na configuração dos cenários. Também está disponível os arquivos de configuração do MIPL e do RADVD para cada máquina virtual dos cenários.
 
@@ -77,7 +81,7 @@ cn# gen -a 2000:a::1 -d -t -p udp -s 400
 
 Depois em um segundo momento repetimos o mesmo cenário utilizando o modo de operação com otimização de roteamento. Para auxiliar na obtenção dos \textit{logs} para análise desta vez utilizaremos o utilitário \textit{ping6}, pois a otimização de roteamento somente se aplica para novas conexões e o \textit{gen} mantêm a mesma conexão, desta forma não consegueriamos ver os processos de registro com o nó correspondente e o \textit{Return Routability Procedure}.
 
-\subsection{Resultados}
+\section{Resultados}
 Com a realização dos experimentos podemos constatar o funcionamento do protocolo e perceber continuação da comunicação entre os pontos comunicantes após a mobilidade de forma transparente as camadas superiores a de rede, observar todas as mensagens trocadas no processo e estimar o tempo de latência com a mobilidade.
 O primeiro resultado que se pode obter com a realização do Cenário 1, foi o perfeito funcionamento do MIPv6, ocorreram algumas perdas de pacotes, mas o nó móvel conseguiu continuar sendo alcançado pelo seu endereço domiciliar mesmo não estando em sua rede domiciliar.
 
@@ -213,8 +217,8 @@ default & eth0 & fe80::b04c:e9ff:feec:6c42 & \\
 \label{t_mes_ro}
 \end{table} 
 
-\subsection{Tempo de latência do \textit{Handover}}
-O tempo de latência em um \textit{handover} segundo [](por referência) pode ser dividida em quatro fases, a partir dos dados colhidos com Cenário 1 vamos tentar reproduzi-las, exemplificando com os nossos tempos:
+\section{Tempo de latência do \textit{Handover}}
+O tempo de latência em um \textit{handover} segundo (por referência) pode ser dividida em quatro fases, a partir dos dados colhidos com Cenário 1 vamos tentar reproduzi-las, exemplificando com os nossos tempos:
 \begin{enumerate}
  \item \textbf{Detecção de Movimento (\textit{TD})}: Em um cenário real representaria o tempo do \textit{handover} na camada de enlace até o primeiro \textit{Router Advertisement}. Como neste ambiente de testes não conseguimos simular a camada enlace não se pode precisar com a exatidão a latência envolvida no processo. Porém, para fins de estudo consideraremos para nosso cenário o tempo entre o útlimo pacote do \textit{gen} recebido na rede domiciliar e o primeiro \textit{Router Advertisement} na rede visitada.
 
@@ -245,54 +249,31 @@ O tempo de latência em um \textit{handover} segundo [](por referência) pode ser 
 Obviamente podemos calcular o tempo de latência do handover com a seguinte formula:
 
 \begin{math}
- Handover = TD + TA + TR + TO
+ TH = TD + TA + TR + TO
 \end{math}
 
-Na figura \ref{f_sequencia1} é possível observar um diagrama de sequência simplificado mostrando todo o processo de mobilidade. Entretanto, mesmo o cenário sendo simulado e os tempos medidos são estimados, segundo algumas bibliografias estudadas que realizaram experimentos fisicamente os tempos medidos na simulação estão dentro do esperado.
+Na tabela \ref{t_handover}, encontram-se os tempos das fases do processo de \textit{handover} referentes ao cenário estudado.
 
-Refazer o diagrama evidenciando TD, TA, TR, TO
-\begin{figure}[!htpb]
-	\centering
-	\includegraphics[scale=.46]{figs/sequencia1}
- 	\label{f_sequencia1}
-	\caption{Diagrama de sequência do cenário 1}
-\end{figure}
+\begin{table}[!htpb]
+\centering
+\begin{small}
+  \setlength{\tabcolsep}{3pt}
+\begin{tabular}{|c|c|c|}\hline
+\raisebox{1.5ex}{Fase} & \raisebox{1.5ex}{Tempo (ms)} & \raisebox{1.5ex}{Media \%} \\ \hline
+\textit{TD} & 2240 & 48,6 \\ \hline
+\textit{TA} & 1320 & 28.63\\ \hline
+\textit{TR} & 1030 & 22.34\\ \hline
+\textit{TO} & 20 &  0.43\\ \hline
+\textit{TH} & 4610 & 100 \\ \hline
+\end{tabular} 
+\end{small}
+\caption{Latência no \textit{Handover} do cenário estudado}
+\label{t_handover}
+\end{table} 
 
-É perceptível perceber que as fases que mais comprometem o \textit{handover} no nosso cenário são as da detecção de movimento e a configuração do care-of-address. Algumas tentativas podem ser feitas para tentar diminuir o tempo nestas duas fases.
+Utilizando o cenário estudado como referência, foi realizado um teste que pretende verificar a perda na taxa de transmissão em um processo de \textit{handover}. Utilizando a ferramenta \textit{gen} que permite gerar tráfegos específicos e relatórios que extraem a taxa de trasmissão e a perda de pacotes, e utilizando o utilitário \textit{GNUPLOT} somos capazes de gerar gráficos que avaliam esse desempenho.
 
-Na fase de detecção de movimento as mensagens de \textit{Router Advertisement} é o principal. 
-
-\section{Cenário 2}
-\label{s_cenario2}
-O segundo cenário de teste não passa de uma variação do primeiro onde iremos estabelecer uma comunicação entre dois nós móveis e provocar uma situação de mobilidade nos dois nós. A idéia deste cenário é analisar o comportamento do protocolo quando em uma comunicação ambas as partes se movimentam, comparando com o primeiro em questões como perda de pacotes e tráfego de sinalização. 
-
-Este cenário de teste consiste de quatro redes e seis nós, a sua topologia de rede pode ser observada na figura \ref{f_cenario2}.
-
-\begin{enumerate}
- \item \textbf{Nó Móvel 1}: Nó que inicia o experimento na rede \textbf{2000:a:}: depois se move para a rede \textbf{2000:d::}.
-\item \textbf{Nó Móvel 2}: Nó que inicia o experimento na rede \textbf{2000:c:}: depois se move para a rede \textbf{2000:e::}.
-\item \textbf{AR1}: É o roteador que interliga a rede \textbf{2000:a::} com as outras e oferece o serviço de agente domiciliar.
-\item \textbf{AR2}: É o roteador que interliga a rede \textbf{2000:c::} com as outras e oferece o serviço de agente domiciliar.
-\item \textbf{AR3}: É o roteador que interliga a rede \textbf{2000:d::} com as outras, é para onde o nó móvel 1 se move.
-\item \textbf{AR4}: É o roteador que interliga a rede \textbf{2000:e::} com as outras, é para onde o nó móvel 2 se move.
-\end{enumerate}
-
-\begin{figure}[!htpb]
-	\centering
-	\includegraphics[scale=.46]{figs/cenario2}
- 	\label{f_cenario2}
-	\caption{Topologia do Cenário 2}
-\end{figure}
-
-\section{Teste de desempenho do MIPv6}
-\label{s_testes}
-Utilizando o Cenário 1 como referência e com o auxilio da ferramenta \textit{gen}, outros testes foram realizados na tentativa de testar o desempenho do protocolo e consequentemente o das máquinas virtuais.
-
-O computador utilizado para a realização dos testes de desempenho possui as seguintes caracteristicas: \textit{Atlhon XP 2600}, 512MB de memória e rodando \textit{Gnu/Linux Slackware} 12.0, kernel linux-2.6.21.5.
-
-O primeiro teste pretende verificar a perda na taxa de transmissão em um processo de \textit{handover}. Utilizando a ferramenta \textit{gen} que permite gerar tráfegos específicos e relatórios que extraem a taxa de trasmissão e a perda de pacotes, e utilizando o utilitário \textit{GNUPLOT} somos capazes de gerar gráficos que avaliam esse desempenho.
-
-Ostestes realizados foram feitos utilizando tunelamento bidirecional, o tempo configurado para o intervalo entre as mensagens de \textit{Router Advertisement} foi de 30 à 70 milisegundos. Os comandos disparados nos nós móvel e correspondente foram os seguintes:
+Os testes realizados foram feitos utilizando tunelamento bidirecional, o tempo configurado para o intervalo entre as mensagens de \textit{Router Advertisement} foi de 30 à 70 milisegundos. Os comandos disparados nos nós móvel e correspondente foram os seguintes:
 \begin{verbatim}
 mn# gen -l -d -p udp -s 14000 -f /host/log/
 cn# gen -a 2000:a::1 -d -p udp -s 14000
@@ -307,14 +288,49 @@ O gráfico obtido no teste, pode ser observado na figura \ref{f_banda}.
 	\caption{Taxa de transmissão em \textit{Handover}}
 \end{figure}
 
-A partir dos dados levantados com o teste podemos tirar várias conclusões, entre as quais destacam-se que o \textit{Troughput} suportado pela rede gira em torno de 9 Mbps, este dado esta muito relacionado ao desempenho da máquina hospedeiro, que cada \textit{handover} é de aproximadamente 3 segundos, há perdas consideráveis de pacotes que prejudicariam muito comunicações de tempo real como videoconferência e \textit{VoIP}, porém, navegação em paginas da \textit{Internet} e visualização de \textit{e-mail} a instabilidade é tolerável.
+A partir dos dados levantados com o teste podemos tirar várias conclusões, entre as quais destacam-se que o \textit{Troughput} suportado pela rede gira em torno de 9 Mbps, este dado esta muito relacionado ao desempenho da máquina hospedeiro, que cada \textit{handover} é de aproximadamente 3 segundos, há perdas consideráveis de pacotes que prejudicariam muito comunicações interativas como videoconferência e \textit{VoIP}, porém, navegação em paginas da \textit{Internet} e visualização de \textit{e-mail} a instabilidade é tolerável.
 
-Outro teste proposto, visa verificar se há uma melhora no processo de \textit{handover} diminuindo o intervalo entre as mensagens de \textit{Router Advertisement}, pois é por meio desta mensagem que o nó móvel detecta o movimento e desencadeia todo o processo de \textit{handover}. Para a realização do teste foram realizadas as mesmas configurações do teste anterior, somente foi alterado os valores de intervalo entre as mensagens de \textit{Router Advertisement}. O resultado deste teste de desempenho do MIPv6 esta disponível na figura \ref{f_radvd}.
+Como cenário estudo foi simulado todos os tempos medidos são estimados. Porém, segundo algumas bibliografias estudadas que realizaram experimentos fisicamente os tempos medidos na simulação estão dentro do esperado.
+
+É perceptível que as fases que mais comprometem o \textit{handover} do nosso cenário são as da detecção de movimento e a configuração do \textit{care-of-address}. Algumas tentativas podem ser feitas para tentar diminuir a latência nestas duas fases.
+
+Na tentativa de diminuir o tempo da fase de detecção de movimento, podemos diminuir o intervalo entre as mensagens de \textit{Router Advertisement} do roteador presente na rede que irá ser visitada pelo nó móvel. Pois, é por meio desta mensagem que o nó móvel detecta o movimento e desencadeia todo o processo de \textit{handover}.
+
+No intuito de verificar se há uma melhora no processo de handover. O cenário estudado foi repetido variando o intervalo entre as mensagens de \textit{Router Advertisement}. O resultado deste teste esta disponível na figura \ref{f_radvd}.
+
 \begin{figure}[!htpb]
 	\centering
 	\includegraphics[scale=.6]{figs/radvd}
  	\label{f_radvd}
-	\caption{Gráfico: Pacotes Perdidos x Tempo Radvd}
+	\caption{Diferentes intervalos entre as mensagens \textit{Router Advertisement}}
 \end{figure}
 
-É possível verificar com este teste, que o intervalo entre as mensagens de \textit{Router Advertisement} esta diretamente ligado com a perda de pacotes durante o \textit{handover}. Porém, não é a solução para o problema do tempo de \textit{handover}, além de não ser uma boa pratica um administrador de rede configurar um tempo muito pequeno para o intervalo, pois iria acabar inundando a sua rede com mensagens \textit{multicasting} e prejudicando a perfomance principalmente em redes sem fio. Concerteza esta não é melhor maneira de contornar o problema do tempo do \textit{handover}, para este problema há outras propostas como o \textit{Fast Handover} MIPv6 (FMIPv6);
+Com os dados levantados, é possível perceber que o intervalo entre as mensagens de \textit{Router Advertisement} esta diretamente ligado com a perda de pacotes durante o \textit{handover}. Porém, esta não é uma boa prática para tentar amenizar a latência do handover, pois um numero muito grande de mensagens \textit{multicasting} inundaria a rede prejudicando a perfomance principalmente em redes sem fio.
+
+No processo de formação de um novo \textit{care-of-address} o DAD é necessário para se certificar que o endereço formado é exclusivo. Para o teste ser bem sucedido nenhum nó vizinho deve enviar um \textit{Neighbor Advertisement}, em resposta ao teste, ou \textit{Neighbor Solicitation}, como o mesmo endereço em questão, em um período de \textit{1000ms} segundo a RFC 2462 \cite{rfc2462}. Este tempo de espera compromete a fase de configuração do \textit{care-of-address}.
+
+Existe uma variável chamada \textit{dad\_transmits} no kernel do Linux que é usada para configurar o DAD em um nó. Com a intenção de diminuir a latência na fase de configuração do \textit{care-of-address}, nós configuramos a variável com o valor 0, isso significa que o procedimento de DAD é cancelado, e repetimos o cenário estudado.
+
+
+
+% \section{Cenário 2}
+% \label{s_cenario2}
+% O segundo cenário de teste não passa de uma variação do primeiro onde iremos estabelecer uma comunicação entre dois nós móveis e provocar uma situação de mobilidade nos dois nós. A idéia deste cenário é analisar o comportamento do protocolo quando em uma comunicação ambas as partes se movimentam, comparando com o primeiro em questões como perda de pacotes e tráfego de sinalização. 
+% 
+% Este cenário de teste consiste de quatro redes e seis nós, a sua topologia de rede pode ser observada na figura \ref{f_cenario2}.
+% 
+% \begin{enumerate}
+%  \item \textbf{Nó Móvel 1}: Nó que inicia o experimento na rede \textbf{2000:a:}: depois se move para a rede \textbf{2000:d::}.
+% \item \textbf{Nó Móvel 2}: Nó que inicia o experimento na rede \textbf{2000:c:}: depois se move para a rede \textbf{2000:e::}.
+% \item \textbf{AR1}: É o roteador que interliga a rede \textbf{2000:a::} com as outras e oferece o serviço de agente domiciliar.
+% \item \textbf{AR2}: É o roteador que interliga a rede \textbf{2000:c::} com as outras e oferece o serviço de agente domiciliar.
+% \item \textbf{AR3}: É o roteador que interliga a rede \textbf{2000:d::} com as outras, é para onde o nó móvel 1 se move.
+% \item \textbf{AR4}: É o roteador que interliga a rede \textbf{2000:e::} com as outras, é para onde o nó móvel 2 se move.
+% \end{enumerate}
+% 
+% \begin{figure}[!htpb]
+% 	\centering
+% 	\includegraphics[scale=.46]{figs/cenario2}
+%  	\label{f_cenario2}
+% 	\caption{Topologia do Cenário 2}
+% \end{figure}

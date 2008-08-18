@@ -80,3 +80,8 @@ Esta seção descreve como um nó móvel obtem o endereço do MAP e seu prefixo de re
  \item[Descobrimento dinâmico:] é baseado na propagação da opção de MAP nas mensagens de \textit{Router Advertisements}. Na opção de MAP estão presentes o endereço global do MAP, seu prefixo de rede, um vetor de distância baseado nos saltos da mensagem até a chegada no nó móvel, esta opção influenciará na escolha do MAP padrão, e um MAP particular como preferência. Neste método os ARs devem ser configurados para receberem as mensagens com opções de MAP e re-enviarem incrementando o vetor de distância.
  \item[Configuração manual:] neste método a opção de MAP é configurada manualmente nos ARs por um administrador da rede, em muitos \textit{sites} esse é o mescanismo padrão. Também deve ser possível a configuração por mecanismos dinâmicos.
  \end{description}
+
+\section{Alterações propostas para o MIPL}
+Uma implementação do HMIPv6 foi proposta pela universidade de Monash, baseando-se no \textit{MIPL-0.94} e na versão 2.4 do kernel linux, toda desenvolvida em \textit{kernel space}. Porém, momento este trabalho não atende mais as necessidades já que estamos trabalhando com o \textit{MIPL-2.0.2} e mudanças significativas foram efetuadas no desenvolvimento do MIPL. E a série 2.6 do kernel já esta bem estável e está sendo muito utilizada. Concluimos que atualmente não há nenhuma recente implementação do HMIPv6.
+
+Após uma análise dos dois protocolos e um estudo prévio do codigo fonte do MIPL, o presente trabalho se propõe a sugerir algumas alterações no MIPL para este então passar trabalhar no modelo hierárquico...
