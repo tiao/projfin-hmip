@@ -3,4 +3,97 @@
 % ----------------------------------------------------------------------- %
 \chapter{Estudo do código do MIPL}
 
-Vai dar trabalho...
+O estudo do código do MIPL foi realizado baseado na versão anunciada pelo projeto USAGI como
+umip-0.4.
+
+Uma informação importante é que código-fonte do programa que desempenha o papel do nó movel, do
+agente domiciliar e do nó correspondente é o mesmo. Sendo que a função que o mesmo vai desempenhar
+é definida nos arquivos de configuração. Essa versão do MIP é executada em \textit{user-space}, diferente das anteriores que eram totalmente em \textit{kermel-space}.
+
+Geralmente tudo o que fizemos, enquanto trabalhamos em um sistema Linux, está sendo executado em
+\textit{user-space},por exemplo, um editor de texto, um browser, servidor X. Em contraste com
+isso, o kernel executa as suas tarefas no \textit{kernel-space},um exemplo seria as chamanda de
+interrupções. O principal motivo para esta separação entre dados dos processos do usuario e do
+kernel, é evitar que um perturbe o outro, o que resultaria numa diminuição do desempenho e
+instabilidades do sistema.
+
+Este programa é executado na forma de um \textit{daemon}, ou seja, um processo executado no segundo plano e que não está associado a um terminal controlador.
+(falta colocar ref. livro stevens).
+
+Podemos dividir o inicio do programa em duas partes, as inicializações comuns, procedimentos que são
+ independente da configuração, e as inicializações especificas, onde o programa vai determinar qual
+ papel vai exercer.
+
+Nas inicializações comuns é declarada variáveis globais, feita a configuração para que os sinais
+ SIGHUP, SIGINT, SIGTERM sejam tratados pela aplicacão. É lido o arquivo de configuração do programa,
+ que pode ser passado como argumento para o programa. Se não for passado nenhum parametro é buscado
+ no diretório padrão. É possivel habilitar na compilação um terminal virtual para obter informações
+ durante a execução do \textit{daemon}. Se esse terminal virtual for habilitado, é preparado a sua
+ inicialização neste ponto.
+
+Em seguida é iniciada uma chave com um valor randômico, e criado um buffer de \textit{nonces}, que
+ será usada para fazer o procedimento de \textit{return routability}. É iniciada a lista de politicas
+ de controle de acesso definida no arquivo de configuração. É criado um \textit{thread},
+ \textit{tq\_runner}, para executar tarefas que serão agendadas durante a execução do \textit{daemon},
+ que devem ser executadas em um determinado tempo, por exemplo a expiração de um roteador ou um
+ \textit{Care-of-address}. Depois é criado um \textit{thread} (mh\_listen) para escutar a chegada de
+ pacotes IPv6 com cabeçalho de mobilidade, \textit{mobility header}. Estes pacotes são escutados
+ através \textit{sockets raw} ou soquetes brutos. Quando o kernel não entende o campo de protocolo
+ do datagrama IP, como por exemplo, os que possuim cabeçalho de mobilidade, eles são passados
+ diretamente para um socket bruto. O único processamento feito pelo kernel é a verificação mínima de
+ alguns campos de cabeçalho IP.
+
+É criado um thread para escutar a chegada de algumas mensagens ICMPv6(icmp6 listen), que tambem é
+ feita por um socket bruto. Neste caso, a maioria dos pacotes ICMP é passada para o soquete bruto
+ depois que o kernel terminou o processamento da mensagem ICMP. O ICMPv6 reune as mensagens do
+ ICMPv4, as funcionalidades de ARP e IGMP. Um soquete bruto ICMPv6 pode receber muito mais tipos 
+ pacotes que um ICMPv4. Para reduzir o número de pacotes passados do kernel para a aplicação, é
+ fornecido um filtro especifico pela aplicação.
+
+O filtro será configurado de acordo com o papel do \textit{daemon}, nó móvel ou agente domiciliar.
+ Se for nó movel recebe mensagens: ND\_ROUTER\_ADVERT, ND\_NEIGHBOR\_ADVERT,
+ MIP\_HA\_DISCOVERY\_REPLY, ICMP6\_PARAM\_PROB. Se for agente domiciliar recebe mensagens:
+ MIP\_PREFIX\_SOLICIT, MIP\_HA\_DISCOVERY\_REQUEST, ND\_ROUTER\_ADVERT. Ambos recebem a mensagem
+ ICMP6\_DST\_UNREACH.
+
+(mudar nome de todas mensagens p/ por exemplo: ND\_ROUTER\_ADVERT = anuncio de roteadores )
+
+Cria o \textit{thread} xfrm listen que está relacionada a IPSec.( enriquecer descrição xfrm )
+
+Depois faz o registro de \textit{handlers} com os \textit{threads} para tratar mensagens de interesse
+ do nó correspondente. Os \textit{handlers} ou manipuladores são funções irão tratam determinadas
+ mensagens. Ele faz o registro de  manipuladores para as mensagens ICMP6\_DST\_UNREACH,
+ IP6\_MH\_TYPE\_HOTI, IP6\_MH\_TYPE\_COTI e IP6\_MH\_TYPE\_BU.
+
+Até esse ponto, o tipo de entidade que está configurado não influencia na inicialização, com exceção
+ do xfrm e os filtros ICMP. A partir deste ponto, assumimos que o \textit{daemon} está configurado
+ como um nó móvel, pois foi o foco da maior parte do estudo.
+
+Como é um nó movel, vai preparar uma tabela \textit{hash} para o controle de tunel. Depois chama a
+ função \texttt{mn\_init()}, que faz as inicializações para nó móvel. Será configurado um soquete
+ bruto para receber mensagens do netlink, que serão escutadas pelo \textit{thread} md\_nl\_listen.
+
+A troca de informação do entre \textit{kernel} e \textit{user-space} é pode realizada através do
+ netlink. O netlink consiste em uma extensão da interface de \textit{sockets} padrão, que
+ proporcionar uma comunicação bidirecional entre \textit{kernel} e \textit{user-space}.
+
+Inicia uma lista para controlar os \textit{bind update}. Registra um manipulador para tratar as
+ messagens ICMP de resposta de descoberta de agente domiciliar. Registra um manipulador para tratar
+ as messagens modificada de anuncio de prefixo, usado para configura o agente domiciliar. Registra
+ manipuladores para tratar as messagens IP6\_MH\_TYPE\_COT e IP6\_MH\_TYPE\_HOT, que são utilizadas
+ no procedimento de \textit{return routability}. E registra manipuladores para as mensagens ICMP
+ ICMP6\_PARAM\_PROB e as mensagemns relacionadas a mobilidade IP6 \_MH\_TYPE\_BERROR,
+ IP6\_MH\_TYPE\_BACK e IP6\_MH\_TYPE\_BRR.
+
+Por ultimo é criado o \textit{thread} que é responsavel pelo terminal virtual, que é executado na
+ porta 777, criado o \textit{thread sigh} para tratar os sinais e chamado a função
+ \texttt{pthread\_join} para sincronizar o termino dos \textit{thread}.
+
+Na figura \label{f_mipl_kernel_blocks} podemos observar as interfaces de comunicação usadas pelos \textit{threads} do daemon do MIPL para fazer a comunicação com o kernel.
+
+\begin{figure}[!htpb]
+	\centering
+	\includegraphics[scale=.27]{figs/mipl_kernel_block}
+	\label{f_mipl_kernel_blocks}
+	\caption{Interfaces utilizadas pelo MIPL para fazer a comunicação com o kernel}
+\end{figure}
