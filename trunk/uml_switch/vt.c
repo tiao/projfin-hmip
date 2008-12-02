@@ -62,6 +62,7 @@
 #define VT_CMD_HELP_STR		("help")
 #define VT_CMD_HELP_LINE_MAX	(60)
 
+
 struct vt_server_entry {
 	struct list_head list;
 	int vse_sock;
@@ -230,16 +231,16 @@ static int mv_vt_cmd_mv(const struct vt_handle *vh, const char *str)
   	int port, domain;
 
   	if (!*str){
-    	fprintf (vh->vh_stream, "falta parametros!\n move <porta <dominio>\n");
+    	fprintf (vh->vh_stream, "falta parametros!\n move <porta> <dominio>\n");
     	return 0;
   	}
 
 	p = strtok(str," ");
-	printf("port=%s -> ",p);
+	fprintf(vh->vh_stream, "port=%s -> ",p);
 	port=atoi(p);
 
   	p = strtok (NULL, " ");
-  	printf("domain=%s\n",p);
+  	fprintf(vh->vh_stream, "domain=%s\n",p);
   	domain=atoi(p);
 
   	managemobile(port, domain);
@@ -247,10 +248,31 @@ static int mv_vt_cmd_mv(const struct vt_handle *vh, const char *str)
   	return 0;
 }
 
+static int ls_vt_cmd_ls(const struct vt_handle *vh, const char *str){
+	struct port *p;
+	struct port *head;
+	head=get_head();
+	fprintf(vh->vh_stream, "+++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
+	for (p = head; p != NULL; p = p->next) {
+		fprintf(vh->vh_stream, "Porta-> %d\t",p->control);
+		fprintf(vh->vh_stream, " MAC-> %02x:%02x:%02x:%02x:%02x:%02x\n",
+		   p->src[0], p->src[1], p->src[2],
+		   p->src[3], p->src[4], p->src[5]
+		);
+	}
+	fprintf(vh->vh_stream,"+++++++++++++++++++++++++++++++++++++++++++++++++++++++\n\n");
+	return 0;
+}
+
 static struct vt_cmd_entry vt_cmd_move = {
 	.cmd = "move",
 //	.cmd_alias = "mv",
 	.parser = mv_vt_cmd_mv,
+};
+
+static struct vt_cmd_entry vt_cmd_list = {
+	.cmd = "list",
+	.parser = ls_vt_cmd_ls,
 };
 
 static struct vt_cmd_entry vt_cmd_quit = {
@@ -323,6 +345,10 @@ static int vt_cmd_sys_init(void)
 		return ret;
 
 	ret = vt_cmd_add_root(&vt_cmd_move);
+	if (ret < 0)
+		return ret;
+
+	ret = vt_cmd_add_root(&vt_cmd_list);
 	if (ret < 0)
 		return ret;
 

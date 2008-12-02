@@ -164,6 +164,7 @@ static void new_port_v1_v3(int fd, enum request_type type,
 		if (err)
 			return;
 		n = write(fd, &data_sun, sizeof(data_sun));
+		
 		if (n != sizeof(data_sun)) {
 			perror("Sending data socket name");
 			close_descriptor(fd);
@@ -226,9 +227,8 @@ void accept_connection(int fd) {
 		close(new);
 		return;
 	}
-	add_fd(
-			new);
-		}
+	add_fd(new);
+}
 
 int still_used(struct sockaddr_un *sun) {
 	int test_fd, ret = 1;
@@ -396,37 +396,6 @@ static void Usage(void) {
 	exit(1);
 }
 
-/*
- * int cmd_set (char :w
- * *arg)
-{
-  char *p;
-  int port, domain;
-
-  if (!*arg){
-    printf ("%s: %s.\n", commands[0].name, commands[0].doc);
-    return 0;
-  }
-
-  p = strtok(arg," ");
-  printf("port=%s -> ",p);
-  port=atoi(p);
-
-  p = strtok (NULL, " ");
-  printf("domain=%s\n",p);
-  domain=atoi(p);
-
-  managemobile(port, domain);
-
-  return 0;
-}
-
-int cmd_quit (char *arg)
-{
-  cleanup();
-  exit(0);
-}*/
-
 int main(int argc, char **argv) {
 	int connect_fd, data_fd, n, i, new, one = 1, daemonize = 0;
 	char *tap_dev = NULL;
@@ -550,7 +519,6 @@ int main(int argc, char **argv) {
       
 	while (1) {
 		char buf[128];
-		//char *line, *s;
 
 		n = poll(fds, nfds, -1);
 		if (n < 0) {
@@ -569,28 +537,14 @@ int main(int argc, char **argv) {
 				}
 				
 				n = read(0, buf, sizeof(buf));
-				//line = readline ("> " );
 				
-				/*if (!line)
-					break;
-				
-				s = stripwhite (line);
-				
-				if (*s)	{
-					//add_history (s);
-					execute_line (s);
-				}
-				
-				free (line);
-				*/
 				if (n < 0) {
 					perror("Reading from stdin");
 					break;
 				} else if (n == 0) {
 					printf("EOF on stdin, cleaning up and exiting\n");
 					goto out;
-				} //else
-			    //ManageMobile(buf);
+				} 
 
 			} else if (fds[i].fd == connect_fd) {
 				if (fds[i].revents & POLLHUP) {
