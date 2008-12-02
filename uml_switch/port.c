@@ -4,33 +4,17 @@
 #include <errno.h>
 #include <sys/socket.h>
 #include <sys/un.h>
-#include "switch.h"
+//#include "switch.h"
 #include "hash.h"
 #include "port.h"
-
-struct packet {
-	struct {
-		unsigned char dest[ETH_ALEN];
-		unsigned char src[ETH_ALEN];
-		unsigned char proto[2];
-	} header;
-	unsigned char data[1500];
-};
-
-struct port {
-	struct port *next;
-	struct port *prev;
-	int control;
-	int domain; //Filipe
-	void *data;
-	int data_len;
-	unsigned char src[ETH_ALEN];
-	void (*sender)(int fd, void *packet, int len, void *data);
-};
 
 static struct port *head = NULL;
 
 #define IS_BROADCAST(addr) ((addr[0] & 1) == 1)
+
+extern struct port* get_head(void){
+	return head;
+}
 
 static void free_port(struct port *port) {
 	if (port->prev)
@@ -230,36 +214,37 @@ int setup_sock_port(int fd, struct sockaddr_un *name, int data_fd) {
 		perror("setup_sock_port");
 		return (-1);
 	}
-	*data = ((struct sock_data) {fd : data_fd,
-				sock : *name}
-			);
-			return (setup_port(fd, send_sock, data, sizeof(*data)));
+	*data = ((struct sock_data) {
+        fd : data_fd,
+		sock : *name}
+	);
+	return (setup_port(fd, send_sock, data, sizeof(*data)));
+}
+
+static void service_port(struct port *port) {
+	int n;
+	char c;
+
+	n = read(port->control, &c, sizeof(c));
+	if (n < 0)
+		perror("Reading request");
+	else if (n == 0)
+		printf("Disconnect\n");
+	else
+		printf("Bad request\n");
+}
+
+int handle_port(int fd) {
+	struct port *p;
+
+	for (p = head; p != NULL; p = p->next) {
+		if (p->control == fd) {
+			service_port(p);
+			return (0);
 		}
-
-		static void service_port(struct port *port) {
-			int n;
-			char c;
-
-			n = read(port->control, &c, sizeof(c));
-			if (n < 0)
-				perror("Reading request");
-			else if (n == 0)
-				printf("Disconnect\n");
-			else
-				printf("Bad request\n");
-		}
-
-		int handle_port(int fd) {
-			struct port *p;
-
-			for (p = head; p != NULL; p = p->next) {
-				if (p->control == fd) {
-					service_port(p);
-					return (0);
-				}
-			}
-			return (1);
-		}
+	}
+	return (1);
+}
 
 int managemobile(int port, int domain) {
 	struct port *p;
@@ -273,3 +258,4 @@ int managemobile(int port, int domain) {
 	printf("Can't find port %d\n",port);
 	return 1;
 }
+
