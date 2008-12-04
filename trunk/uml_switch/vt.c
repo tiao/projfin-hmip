@@ -252,15 +252,15 @@ static int ls_vt_cmd_ls(const struct vt_handle *vh, const char *str){
 	struct port *p;
 	struct port *head;
 	head=get_head();
-	fprintf(vh->vh_stream, "+++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
+	fprintf(vh->vh_stream, "Porta\tMAC\n");
 	for (p = head; p != NULL; p = p->next) {
-		fprintf(vh->vh_stream, "Porta-> %d\t",p->control);
-		fprintf(vh->vh_stream, " MAC-> %02x:%02x:%02x:%02x:%02x:%02x\n",
+		fprintf(vh->vh_stream, "%d\t",p->control);
+		fprintf(vh->vh_stream, "%02x:%02x:%02x:%02x:%02x:%02x\n",
 		   p->src[0], p->src[1], p->src[2],
 		   p->src[3], p->src[4], p->src[5]
 		);
 	}
-	fprintf(vh->vh_stream,"+++++++++++++++++++++++++++++++++++++++++++++++++++++++\n\n");
+	fprintf(vh->vh_stream,"\n\n");
 	return 0;
 }
 
