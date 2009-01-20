@@ -1,0 +1,75 @@
+% ----------------------------------------------------------------------- %
+% Arquivo: ipv6.tex
+% ----------------------------------------------------------------------- %
+\chapter{IPv6}
+\label{c_anexo_ipv6}
+Considerando o grande crescimento da \textit{Internet}, o protocolo que é utilizado hoje o IPv4, é considerado incapaz de suprir a necessidade da demanda por novos endereços na Internet.
+
+A previsão atual para a exaustão de todos os endereços IPv4 livres é Março 2011 \cite{ipv4}, o que significa que o uso do IPv6 é inevitável num futuro próximo.
+
+Com o intuito de resolver o problema de números de endereço e as principais falhas encontradas no IPv4, foi proposto o protocolo IPv6. As principais melhorias são:
+
+\begin{itemize}
+	\item  Ampliação do Espaço de Endereçamento de 32 bits para 128 bits
+	\item  Melhoria na estrutura (formato) do pacote IP
+	\item  Melhoria no processo de autoconfiguração
+	\item  Inserção de mecanismos para tratamento de mobilidade, segurança e facilidades para o gerenciamento de QoS
+\end{itemize}
+
+\section{A estrutura de cabeçalhos}
+
+Um datagrama IPv6 é constituído por um cabeçalho base de tamanho fixo de 40 bytes, ilustrado na figura \ref{f_ipv6}, seguido de zero ou mais cabeçalhos de extensão, seguidos depois pelo bloco de dados.
+% \begin{figure}[!htpb]
+% 	\centering
+% 	\includegraphics[scale=.86]{figs/ipv6}
+%  	\label{f_ipv6}
+% 	\caption{Estrutura do Cabeçalho do IPv6}
+% \end{figure}
+
+O fato desse possuir um tamanho fixo é uma vantagem, pois acelera o processamento dos pacotes nos roteadores, uma vez que não há necessidade de calcular o tamanho de alguns campos e do cabeçalho como um todo.
+
+A redução do números de campos utilizados, excluindo os campos com pouca utilidade prática, também contribui para a diminuição do tempo gasto em processamento pelos roteadores. Entre eles, dois que merecem destaque, \textit{checksum} e o de fragmentação.
+
+A função do campo de \textit{checksum} era detetar erros que afetassem ao cabeçalho IP, não detectando no entanto erros no restante do pacote. Hoje os mecanismos de deteção de erros Ethernet e PPP são bastante eficientes, o que permitiu a exclusão do campo \textit{checksum}. Com isso os roteadores não precisam recalcular o checksum a cada salto, melhorando a sua performace.
+
+Quanto ao campo fragmentação, este foi excluído, pois decidiu-se que pacotes não serão mais fragmentados por roteadores. Caso algum roteador da rota detecte que o pacote é muito grande para o MTU então ele avisa o nó fonte com ICMPv6 \textit{Packet Too Big}, que inclui o tamanho da MTU do enlace problema.
+Desta forma há um ganho de performance no roteamento, pois é eliminada a necessidade de um roteador fragmentar vários pacotes.
+ 
+\section{O endereçamento Ipv6}
+O endereçamento no IPv6 passa a ser de 128 bits, incluindo o prefixo de rede e sufixo do host. Não existem classes de endereços, como acontecia no IPv4.
+
+Os endereços IPv6 são representados normalmente como oito grupos de 4 dígitos hexadecimais. Por exemplo:
+\begin{verbatim}
+   3ffe:88a6:3a58:3d8a:021e:8cff:fe91:f6dd
+\end{verbatim}
+Se um grupo de dígitos for zeros, eles pode ser omitido. Por exemplo: 
+\begin{verbatim}
+   3ffe:88a6:3a58:0000:0000:0000:0000:f6dd 
+\end{verbatim}
+é o mesmo endereço IPv6 que: 
+\begin{verbatim}
+   3ffe:88a6:3a58::f6dd
+\end{verbatim}
+No IPv6 existem três tipos de endereços:
+\begin{itemize}
+	\item unicast - cada endereço identifica uma interface (dispositivo).
+	\item multicast - cada endereço identifica múltiplas interfaces. É enviada uma cópia para cada interface. O Ipv6 eliminou o broadcast e enriqueceu o processo de multicast;
+	\item anycast - cada endereço pode ser atribuido a múltiplas interfaces. Um datagrama é enviado para um dos dispositivos, por exemplo, o mais próximo.
+\end{itemize}
+
+\section{ICMPv6}
+
+O ICMPv6(Internet Control Message Protocol Version 6)\cite{rfc4443} permite enviar mensagens de erro e informação.
+
+Em comparação ao ICMPv4, podedos citar dentro das principais mudanças para o ICMPv6 a incorporação da função de converter o endereço IP em endereço físico, função que no IPv4 era feita por um protocolo a parte, o ARP\cite{rfc826}.
+
+As mensagens de descoberta de informações de vizinhança (Neighbor Discovery), podem ser usadas para desempenhar a função equivalente ao ARP/RARP, para detecção de IP duplicado (DAD - Duplicate IP Address Detection), fazer anuncio ou solitação de roteadores e outros.
+
+O protocolo IGMP(Internet Group Multicast Protocol) que trata o multicast também foi incorporado no ICMPv6. 
+
+No protocolo IP Móvel, para fazer os registro de localização, tambem é utilizado as mensagens ICMP.
+
+\section{Autoconfigução}
+
+A autoconfiguração é um dos pontos fortes do IPv6. Ela viza liberar o usuário da tarefa de configuração, tornando-a automática e transparente.
+Ela pode ser feita por \textit{stateful autoconfiguration}, onde o endereço e outros parâmetros de configuração são providos diretamente de um servidor, por exemplo, os mecanismos DHCPv6 e PPPv6. Ou pode ser feita por por \textit{stateless autoconfiguration} \cite{rfc2462}, no qual o endereço é gerado combinando os prefixos divulgados pelos roteadores e o MAC do nó.
