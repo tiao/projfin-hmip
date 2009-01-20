@@ -1,0 +1,272 @@
+% ----------------------------------------------------------------------- %
+% Arquivo: plataformadetestes.tex
+% ----------------------------------------------------------------------- 
+
+\chapter{Plataforma de Testes para Mobilidade em Redes IP}
+\label{c_plataforma}
+
+\section{Introdução}
+\label{s_plataforma_intro}
+Este capítulo tem por objetivo descrever uma plataforma de testes para
+mobilidade em redes IP. A plataforma foi concebida
+com o objetivo de prover ao usuário:
+\begin{itemize}
+ \item um sistema com os protocolos de mobilidade da
+camada de rede MIPv6 e HMIPv6. Outros protocolos poderãm ser instalados no
+futuro;
+ \item ferramentas para estudo dos protocolos de mobilidade;
+ \item facilidade na construção de cenários de rede, sem se ater a
+procedimentos de configuração e instalação de equipamentos de rede sem fio;
+\end{itemize}
+
+\section{Descrição Geral da Plataforma de Testes de Mobilidade}
+
+Na concepção da plataforma de testes, optou-se por utilizar um ambiente baseado
+em máquinas virtuais devido a rapidez na realização de experimentos: em somente
+uma máquina de hospedagem é possível o desenvolvimento, análise e testes de
+protocolos de rede. Além disto, existem vantagens econômicas e de redução de
+complexidade, pois não há necessidade de diversos equipamentos para a realização
+dos experimentos.
+
+Em geral, uma plataforma de testes de mobilidade envolve o uso de redes sem fio.
+No entanto, como o objetivo principal da plataforma é possibilitar o estudo de
+protocolos de camada 3, decidiu-se por construir um ambiente de teste através de
+máquinas virtuais linux em modo usuário - UML \cite{uml09}
+adaptando os \textit{switches} virtuais para produzir a mobilidade. Desta forma,
+evita-se a complexidade adicional de instalação de hardware para a rede sem
+fio.
+
+Os seguintes componentes podem ser identificados nesta plataforma:
+\begin{itemize}
+ \item máquinas e \textit{switches} virtuais UML para construção de domínios e dos
+nós móveis. Os \textit{switches} virtuais foram modificados para a simulação de
+mobilidade;
+\item Interface gráfica para permitir a rápida construção de cenários e para
+possibilitar o comando de mobilidade.
+\item Ferramentas para estudo dos protocolos: gerador de tráfego, medidor de
+banda e de perda de pacotes;
+\item Protocolos de Mobilidade da Camada 3: instalação, nas UMLs, de uma versão
+do IPv6 móvel, do gerador de mensagens de advertência de roteador
+do IPv6 (RADVD) e de uma versão do HMIPv6. Como será visto adiante, não existe
+uma versão atualizada do protocolo HMIPv6. Parte do trabalho foi dedicada a uma
+extensão do MIPv6 para o HMIPv6;
+\item Outros protocolos e ferramentas de apoio: alguns protocolos e
+ferramentas adicionais foram instalados, tais como o protocolos RIP e o
+protocolo OSPF, através do pacote Zebra \cite{Zebra09}
+\end{itemize}
+
+Na sequência, apresentamos alguns detalhes sobre os componentes da plataforma
+sendo que os aspectos relacionados aos protocolos de mobilidades serão
+discutidos separadamente nos próximos capítulos.
+
+
+\section{A UML como Bloco Básico da Plataforma de Testes}
+
+\subsection{UML - \textit{Linux} em Modo Usuário}
+\label{s_plataforma_uml}
+
+A máquina virtual \textit{Linux} em Modo Usuário (\textit{User Mode Linux} -
+UML) foi escolhida como base para a construção das redes virtuais na plataforma
+de testes. Ela oferece várias possibilidades de construção de redes, além de ser
+incorporada ao \textit{kernel} do Linux e de apresentar um alto desempenho em
+execução. Isto permite iniciar multiplas instâncias UML em uma mesma máquina
+hospedeira e a construção de complexos cenários de rede.
+
+O Linux executa a máquina UML como um processo comum no sistema. O processo é
+executado em um ambiente isolado protegendo a camada física da máquina
+hospedeira, o que não impõe restrições de uso para a máquina virtual, tornando
+um ambiente excelente para testes \cite{artigo_uml}. A figura
+\ref{f_plataforma_uml} mostra o
+funcionamento do Linux em Modo Usuário em uma máquina hospedeira.
+
+\begin{figure}[!htpb]
+    \centering
+    \includegraphics[scale=1]{figs/uml}
+    \caption{Funcionamento do Linux em Modo Usuário}
+    \label{f_plataforma_uml}
+\end{figure}
+
+É comum chamar a UML de máquina virtual, porém, a tecnologia de virtualização
+UML constitue-se, na verdade, em um sistema operacional virtual. O termo
+máquina virtual seria mais aplicável em tecnologias de virtualização tal como a
+\textit{VMWare}, onde realmente é emulada uma plataforma
+física, processador e periféricos, sendo que o sistema operacional é executado
+nesta plataforma emulada.
+
+A UML permite construir sistemas que em um ambiente real seriam muito difíceis
+de reproduzir, por exemplo, é possível criar uma máquina com \textit{n}
+interfaces de rede e discos. Devido a sua flexibilidade, a UML pode ser
+utilizada para inúmeras aplicações tais como:
+\begin{itemize}
+ \item Consolidação de servidores de rede: é possivel reproduzir todo sistema em
+UML e testá-lo antes de colocá-lo em produção;
+ \item Em ambientes de ensino: com UML os alunos podem desenvolver as atividades
+ensinadas sem a preocupação de danificar o sistema;
+ \item No desenvolvimento de aplicações em nível usuário, protocolos de rede, do
+\textit{kernel linux};
+\end{itemize}
+
+Para utilizar a UML é preciso um \textit{kernel} Linux compilado para a
+arquitetura \textit{um} e um sistema de arquivos, que nada mais é do que um
+simples arquivo contendo a imagem de um sistema, onde temos toda a estrutura de
+diretórios e os demais componentes para uma execução normal de um Linux. A UML
+realiza as operações de escrita e leitura no arquivo de sistema de arquivos,
+analogamente ao que sistema hospedeiro realiza no disco rígido.
+
+Para esta plataforma de testes, o \textit{kernel} linux-2.6.27 foi compilado com
+vários recursos de rede. Um sistema de arquivos foi construído a partir da
+distribuição \textit{GNU/Linux Debian Lenny}. A idéia foi construir um pequeno
+sistema dedicado para laboratórios de redes. Ele inclui as implementações dos
+protocolos de rede e um conjunto de utilitários para solucionar problemas de
+rede.
+
+Os principais componentes e recursos de rede disponíveis no \textit{kernel}
+compilado e no sistema de arquivos são:
+\begin{itemize}
+ \item Implementações do MIPv6 e HMIPv6;
+ \item Implementações dos protocolos de roteamento RIPv2, RIPng, OSPFv2, OSPFv3
+e BGP4;\begin{large}       \end{large}
+ \item Utilitários de rede: \textit{tcpdump}, \textit{ping}, \textit{ping6},
+\textit{traceroute}; (citar mais)
+ \item Ferramentas IPSec;
+ \item \textit{Kernel} suporte para \textit{Netfilter};
+ \item \textit{Kernel} suporte para Qualidade de serviço (QoS);
+ \item \textit{Kernel} suporte para IP Seguro (IPSec) pra IPv4 e IPv6;
+ \item \textit{Kernel} suporte a mobilidade e otimização de roteamento em redes
+IPv6;
+\end{itemize}
+
+Outros componentes e recursos podem facilmente ser adicionados a plataforma de
+testes.
+
+\subsection{Redes Virtuais com UML}
+UML oferece dois tipos de redes para as maquinas virtuais: uma que permite
+conectar a UML com o hospedeiro e uma outra denominada redes virtuais isoladas
+onde somente fazem parte instâncias UML. No primeiro tipo de rede as tecnologias
+de tranporte utilizados pela UML são: \textit{TUN/TAP}, \textit{Ethertap},
+\textit{SLIP} e \textit{Slirp}. No segundo tipo: \textit{switch} virtual e
+\textit{Multicast}.
+
+Nos cenários de rede, para testes dos protocolos de rede, foram utilizadas as
+redes virtuais isoladas. O programa \textit{uml\_switch}, integrante do pacote
+UML, permite a interligação
+das máquinas virtuais, ele é um utilitário que implementa um \textit{switch
+Ethernet} ou um \textit{hub} em \textit{software}. As máquinas UML se conectam
+ao \textit{switch} e se comunicam por meio de um arquivo de domínio \textit{UNIX
+sockets} no hospedeiro.
+
+Na figura \ref{f_plataforma_vnuml} observamos as duas formas de redes virtuais
+UML. Note que a flexibilidade da máquina virtual permite à instância UML
+partipar das duas redes.
+
+\begin{figure}[!htpb]
+    \centering
+    \includegraphics[scale=.6]{figs/vnuml}
+    \caption{Redes Virtuais UML}
+    \label{f_plataforma_vnuml}
+\end{figure}
+
+% Em geral, uma plataforma de testes de mobilidade envolve o uso de redes sem fio, contudo os protocolos estudados são em níveis de camada 3 sendo o \textit{uml\_switch} suficiente. Porém o \textit{uml\_switch} e nenhuma outra ferramenta permite simular a mobilidade em máquinas virtuais UML, por esse motivo foi preciso fazer alterações no programa do \textit{uml\_switch} que é um software livre sobre a licença GPL versão 2, escrito na linguagem de programação C.
+% 
+% A principal alteração no código fonte do \textit{uml\_switch} foi a possibilidade de segmentação de redes permitindo a criação uma espécie de \textit{VLan's} e mobilidade dos nós conectados ao \textit{switch}. Após a mudança cada nó conectado ao \textit{switch} pertence a uma \textit{VLan} e é possível mover o nó para outra \textit{VLan}.
+% 
+% Outra implementação que foi feita no \textit{uml\_switch} foi a adição de uma \textit{thread} que responde um servidor \textit{telnet}, por onde o usuário pode efetuar a mobilidade dos nós conectados no \textit{switch} e listar os nós conectados. Esse recurso torna fácil a implementação de uma interface gráfica do \textit{switch}, pois outro programa em outra linguagem de programação pode utilizar deste recurso para gerar a interface.
+% 
+% A figura \ref{f_plataforma_switch_petri}, é uma rede de petri, que modela de forma simplista o funcionamento do \textit{uml\_switch} após as alterações efetuadas para a plataforma de testes.
+% 
+% \begin{figure}[!htpb]
+% 	\centering
+% 	\includegraphics[scale=.45]{figs/switch_petri}
+% 	\caption{Rede de Petri \textit{uml switch}}
+%  	\label{f_plataforma_switch_petri}
+% \end{figure}
+
+%\section{MobUML - }
+
+\section{GUML - Interface Gráfica para as Máquinas Virtuais UML}
+As máquinas virtuais UML tem-se mostrado uma ótima ferramenta para a plataforma de teste. Porém, a sua utilização não se torna muito prática, porque para cada cenário é necessário a criação de \textit{scripts} para iniciar as máquinas e configurar sua rede. Isto, torna a construção de cenários demorada e não tão evidente e o usuário necessita de bons conhecimentos do sistema operacional \textit{linux}, indo um pouco contra a idéia proposta pela plataforma.
+
+Pelo motivo apontado teve-se a idéia de construir uma interface gráfica amigável para o usuário que possibilita-se a construção rápida de cenários, controle da mobilidade dos nós e que centraliza-se todos os terminais das máquinas virtuais em uma única janela, pois em cenários muito complexos um grande número de janelas são abertas diminuindo a produtividade durante sua utilização.
+
+Após algumas pesquisas na \textit{internet} foi encontrado o projeto de código aberto, Interface Gráfica para controle de terminais UML (GUML), feito com a linguagem de programação \textit{Python} que já contempla muitos dos recursos pretendidos. Decidiu-se fazer alterações no código fonte deste projeto e implementar alguns novos recursos.
+
+Para utilizar o GUML o usuário deve configurar um arquivo para cada máquina UML. No arquivo de configuração é possível configurar: 
+\begin{itemize}
+ \item O sistema de aquivo que a máquina virtual irá utilizar;
+ \item Quantidade de memória para a máquina virtual;
+ \item Interfaces de rede;
+ \item Discos;
+\end{itemize}
+
+Apesar de vários recursos o GUML não provê suporte a configuração de cenários de rede integrado na ferramenta. Este recurso é muito importante para tornar mais fácil a criação dos cenários de rede. Para melhorar o suporte as redes virtuais no GUML algumas implementações foram adicionadas ao código fonte:
+
+\begin{itemize}
+ \item Adição de parâmetros no arquivo de configuração, onde é passa ser possível especificar:
+\begin{itemize}
+ \item A função da máquina UML, qual pode ser de roteador ou de um nó;
+ \item Endereço IP das interfaces das máquinas UML;
+ \item A \textit{VLan} que a interface da máquina UML será atrelada;
+ \item Serviços adicionais que poderão ser iniciados \textit{boot} da máquina UML. Por exemplo, o \textit{daemon} do \textit{mipl} ou do \textit{radvd};
+\end{itemize}
+ \item Geração automática de \textit{scripts} de configuração de rede;
+ \item Roteamento dinâmico utilizando o \textit{Zebra}.
+\end{itemize}
+
+% Um exemplo de arquivo de configuração do GUML, após as implementações, pode ser observado na figura \ref{guml_example}.
+% \lstinputlisting[language=C, label=guml_example, caption={Arquivo de configuração do prgrama GUML}]{example.conf}
+
+Na figura \ref{f_plataforma_guml} podemos observar o visual da interface rodando um cenário de rede. Clicando no botão \textit{Boot All} o usuário inicia todas as máquinas UML configuradas nos arquivos de configuração, no botão \textit{Boot!} o usuário inicia a máquina UML selecionada. E nas abas o usuário pode acessar o terminal da máquinas virtuais.
+
+\begin{figure}[!htpb]
+	\centering
+	\includegraphics[scale=.55]{figs/guml}
+	\caption{Interface Gráfica para as Máquinas Virtuais UML}
+	\label{f_plataforma_guml}
+\end{figure}
+
+Uma outra implementação que foi adicionada ao GUML foi a interface gráfica do \textit{uml\_switch}, que pode ser observada na figura \ref{f_plataforma_gswitch}. Com este novo recurso o usuário pode visualizar o estado do \textit{uml\_switch} durante a execução do cenário na plataforma.
+
+Clicando no botão \textit{Uml Switch} do GUML uma nova janela será aberta. Na janela do \textit{uml\_switch} o usuário pode observar todas as máquinas virtuais conectados a ele, e a qual \textit{VLan} cada interface de rede esta associada. Caso o usuário queira efetuar alguma mobilidade basta clicar no número da \textit{VLan} a qual queira se associar.
+
+%% figuras do guml modificado e do uml switch
+\begin{figure}[!htpb]
+	\centering
+	\includegraphics[scale=.6]{figs/uml_switch}
+	\caption{Interface Gráfica para o \textit{uml switch}}
+	\label{f_plataforma_gswitch}
+\end{figure}
+
+O programa GUML quando executado inicia fazendo a leitura dos arquivos de configuração das máquinas UML no seu diretório padrão. A partir dos arquivos de configuração ele cria: as linhas de comando que executaram as máquinas UML e \textit{scripts} de configuração de rede. Então inicia a interface gráfica GTK para o usuário.
+
+Em paralelo uma \textit{thread} é criada e se conecta ao servidor \textit{telnet} do \textit{uml\_switch}. Por meio desta conexão, o GUML monitora as conexões no \textit{uml\_switch}, que permitem apresentar em uma interface gráfica o estado do \textit{switch} e também provocar a mobilidade das maquinas UML.
+
+
+% \begin{figure}[!htpb]
+% 	\centering
+% 	\includegraphics[scale=.3]{figs/class_guml}
+% 	\caption{Diagrama de Classes GUML}
+% 	\label{f_plataforma_cguml}
+% \end{figure}
+
+%% diagrama de classes 
+
+
+% Usage Scenarios
+% 
+% Below a list of usage scenarios (to be completed). N3VLR can be used to:
+% 
+% Act as a key router within 'simulated' (inter)network.
+% 
+% Act as a route-reflector into MPLS/VPN laboratories.
+% 
+% Act as a route-server for interdomain routing laboratories.
+% 
+% Act as a Rendez-vous Point (RP) for IPv6 multicast routing tests.
+% 
+% Simulate Loss, Delay and Jitter for measuring voice quality degradation.
+% 
+% Test Quality of Service configurations and queuing schedulers.
+% 
+% Test IP Security configurations.
+% 
+% Quickly troubleshoting part of your unicast/multicast network. 
