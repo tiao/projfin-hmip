@@ -1,0 +1,9 @@
+Documentation (and functionality) is a bit thin on the ground at the moment,
+but basically:
+
+1) mkdir ~/.guml
+2) Make a ~/.guml/<umid>.conf file modelled on the provided example.conf
+   (see /usr/share/doc/guml/examples/example.conf on Debian systems)
+3) Repeat step 2 for each UML image you want to manage.
+4) Run guml.
+5) Love.
