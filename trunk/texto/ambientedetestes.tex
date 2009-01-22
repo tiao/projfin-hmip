@@ -38,7 +38,8 @@ fio.
 
 Os seguintes componentes podem ser identificados nesta plataforma:
 \begin{itemize}
- \item máquinas e \textit{switches} virtuais UML para construção de domínios e dos
+ \item máquinas e \textit{switches} virtuais UML para construção de domínios e
+dos
 nós móveis. Os \textit{switches} virtuais foram modificados para a simulação de
 mobilidade;
 \item Interface gráfica para permitir a rápida construção de cenários e para
@@ -166,13 +167,30 @@ partipar das duas redes.
     \label{f_plataforma_vnuml}
 \end{figure}
 
-% Em geral, uma plataforma de testes de mobilidade envolve o uso de redes sem fio, contudo os protocolos estudados são em níveis de camada 3 sendo o \textit{uml\_switch} suficiente. Porém o \textit{uml\_switch} e nenhuma outra ferramenta permite simular a mobilidade em máquinas virtuais UML, por esse motivo foi preciso fazer alterações no programa do \textit{uml\_switch} que é um software livre sobre a licença GPL versão 2, escrito na linguagem de programação C.
+% Em geral, uma plataforma de testes de mobilidade envolve o uso de redes sem
+fio, contudo os protocolos estudados são em níveis de camada 3 sendo o
+\textit{uml\_switch} suficiente. Porém o \textit{uml\_switch} e nenhuma outra
+ferramenta permite simular a mobilidade em máquinas virtuais UML, por esse
+motivo foi preciso fazer alterações no programa do \textit{uml\_switch} que é um
+software livre sobre a licença GPL versão 2, escrito na linguagem de programação
+C.
 % 
-% A principal alteração no código fonte do \textit{uml\_switch} foi a possibilidade de segmentação de redes permitindo a criação uma espécie de \textit{VLan's} e mobilidade dos nós conectados ao \textit{switch}. Após a mudança cada nó conectado ao \textit{switch} pertence a uma \textit{VLan} e é possível mover o nó para outra \textit{VLan}.
+% A principal alteração no código fonte do \textit{uml\_switch} foi a
+possibilidade de segmentação de redes permitindo a criação uma espécie de
+\textit{VLan's} e mobilidade dos nós conectados ao \textit{switch}. Após a
+mudança cada nó conectado ao \textit{switch} pertence a uma \textit{VLan} e é
+possível mover o nó para outra \textit{VLan}.
 % 
-% Outra implementação que foi feita no \textit{uml\_switch} foi a adição de uma \textit{thread} que responde um servidor \textit{telnet}, por onde o usuário pode efetuar a mobilidade dos nós conectados no \textit{switch} e listar os nós conectados. Esse recurso torna fácil a implementação de uma interface gráfica do \textit{switch}, pois outro programa em outra linguagem de programação pode utilizar deste recurso para gerar a interface.
+% Outra implementação que foi feita no \textit{uml\_switch} foi a adição de uma
+\textit{thread} que responde um servidor \textit{telnet}, por onde o usuário
+pode efetuar a mobilidade dos nós conectados no \textit{switch} e listar os nós
+conectados. Esse recurso torna fácil a implementação de uma interface gráfica do
+\textit{switch}, pois outro programa em outra linguagem de programação pode
+utilizar deste recurso para gerar a interface.
 % 
-% A figura \ref{f_plataforma_switch_petri}, é uma rede de petri, que modela de forma simplista o funcionamento do \textit{uml\_switch} após as alterações efetuadas para a plataforma de testes.
+% A figura \ref{f_plataforma_switch_petri}, é uma rede de petri, que modela de
+forma simplista o funcionamento do \textit{uml\_switch} após as alterações
+efetuadas para a plataforma de testes.
 % 
 % \begin{figure}[!htpb]
 % 	\centering
@@ -184,13 +202,30 @@ partipar das duas redes.
 %\section{MobUML - }
 
 \section{GUML - Interface Gráfica para as Máquinas Virtuais UML}
-As máquinas virtuais UML tem-se mostrado uma ótima ferramenta para a plataforma de teste. Porém, a sua utilização não se torna muito prática, porque para cada cenário é necessário a criação de \textit{scripts} para iniciar as máquinas e configurar sua rede. Isto, torna a construção de cenários demorada e não tão evidente e o usuário necessita de bons conhecimentos do sistema operacional \textit{linux}, indo um pouco contra a idéia proposta pela plataforma.
+A máquina virtual UML tem se mostrado uma ótima ferramenta para a plataforma
+de teste. Porém, a sua utilização na construção de redes virtuais n?o é muito
+prática, porque para cada cenário é necessário a criação de \textit{scripts}
+para iniciar as máquinas e configurar as redes. Isto, torna a construção de
+cenários demorada e não tão evidente, além do fato de que o usuário necessita de
+bons conhecimentos do sistema operacional \textit{linux}, indo um pouco contra a
+idéia proposta pela plataforma.
 
-Pelo motivo apontado teve-se a idéia de construir uma interface gráfica amigável para o usuário que possibilita-se a construção rápida de cenários, controle da mobilidade dos nós e que centraliza-se todos os terminais das máquinas virtuais em uma única janela, pois em cenários muito complexos um grande número de janelas são abertas diminuindo a produtividade durante sua utilização.
+Pelo motivo apontado teve-se a idéia de construir uma interface gráfica,
+amigável para o usuário, de forma a possibilitar: a construção rápida de
+cenários com
+redes, o controle da mobilidade dos nós e a centralizaç?o de todos os terminais
+das máquinas virtuais em uma única janela. Esta última caraterística evitaria
+que, em cenários muito complexos, um grande número de janelas
+fossem abertas, diminuindo a produtividade durante sua utilização.
 
-Após algumas pesquisas na \textit{internet} foi encontrado o projeto de código aberto, Interface Gráfica para controle de terminais UML (GUML), feito com a linguagem de programação \textit{Python} que já contempla muitos dos recursos pretendidos. Decidiu-se fazer alterações no código fonte deste projeto e implementar alguns novos recursos.
+Após algumas pesquisas na \textit{internet} foi encontrado o projeto de código
+aberto ``Interface Gráfica para controle de terminais UML'' (GUML), feito com a
+linguagem de programação \textit{Python} que já contempla muitos dos recursos
+pretendidos. Decidiu-se fazer alterações no código fonte deste projeto de forma
+a implementar os novos recursos pretendidos.
 
-Para utilizar o GUML o usuário deve configurar um arquivo para cada máquina UML. No arquivo de configuração é possível configurar: 
+Para utilizar o GUML o usuário deve configurar um arquivo para cada máquina UML.
+No arquivo de configuração é possível configurar: 
 \begin{itemize}
  \item O sistema de aquivo que a máquina virtual irá utilizar;
  \item Quantidade de memória para a máquina virtual;
@@ -198,24 +233,35 @@ Para utilizar o GUML o usuário deve configurar um arquivo para cada máquina UML.
  \item Discos;
 \end{itemize}
 
-Apesar de vários recursos o GUML não provê suporte a configuração de cenários de rede integrado na ferramenta. Este recurso é muito importante para tornar mais fácil a criação dos cenários de rede. Para melhorar o suporte as redes virtuais no GUML algumas implementações foram adicionadas ao código fonte:
+Como citado, apesar de vários recursos disponíveis, o GUML não prove suporte a
+configuração de cenários de rede integrado na ferramenta. Para melhorar
+o suporte as redes virtuais no GUML algumas implementações foram realizadas,
+quais sejam:
 
 \begin{itemize}
- \item Adição de parâmetros no arquivo de configuração, onde é passa ser possível especificar:
+ \item Adição de parâmetros no arquivo de configuração passando a ser
+possível especificar:
 \begin{itemize}
- \item A função da máquina UML, qual pode ser de roteador ou de um nó;
+ \item A função da máquina UML: um roteador ou um nó hospedeiro;
  \item Endereço IP das interfaces das máquinas UML;
  \item A \textit{VLan} que a interface da máquina UML será atrelada;
- \item Serviços adicionais que poderão ser iniciados \textit{boot} da máquina UML. Por exemplo, o \textit{daemon} do \textit{mipl} ou do \textit{radvd};
+ \item Serviços adicionais que poderão ser iniciados \textit{boot} da máquina
+UML. Por exemplo, o \textit{daemon} do \textit{mipl} ou do \textit{radvd};
 \end{itemize}
  \item Geração automática de \textit{scripts} de configuração de rede;
  \item Roteamento dinâmico utilizando o \textit{Zebra}.
 \end{itemize}
 
-% Um exemplo de arquivo de configuração do GUML, após as implementações, pode ser observado na figura \ref{guml_example}.
-% \lstinputlisting[language=C, label=guml_example, caption={Arquivo de configuração do prgrama GUML}]{example.conf}
+Um exemplo de arquivo de configuração do GUML, após as implementações, pode
+ser observado na figura \ref{guml_example}.
+%\lstinputlisting[language=C, label=guml_example, caption={Arquivo de
+%configuração do prgrama GUML}]{example.conf}
 
-Na figura \ref{f_plataforma_guml} podemos observar o visual da interface rodando um cenário de rede. Clicando no botão \textit{Boot All} o usuário inicia todas as máquinas UML configuradas nos arquivos de configuração, no botão \textit{Boot!} o usuário inicia a máquina UML selecionada. E nas abas o usuário pode acessar o terminal da máquinas virtuais.
+Na figura \ref{f_plataforma_guml} podemos observar o visual da interface rodando
+um cenário de rede. Clicando no botão \textit{Boot All} o usuário inicia todas
+as máquinas UML configuradas nos arquivos de configuração. Através do botão
+\textit{Boot!} o usuário inicia a máquina UML selecionada. Utilisando as abas, o
+usuário pode acessar o terminal da máquinas virtuais.
 
 \begin{figure}[!htpb]
 	\centering
@@ -224,9 +270,16 @@ Na figura \ref{f_plataforma_guml} podemos observar o visual da interface rodando
 	\label{f_plataforma_guml}
 \end{figure}
 
-Uma outra implementação que foi adicionada ao GUML foi a interface gráfica do \textit{uml\_switch}, que pode ser observada na figura \ref{f_plataforma_gswitch}. Com este novo recurso o usuário pode visualizar o estado do \textit{uml\_switch} durante a execução do cenário na plataforma.
+Uma outra implementação que foi adicionada ao GUML foi a interface gráfica do
+\textit{uml\_switch}, que pode ser observada na figura
+\ref{f_plataforma_gswitch}. Com este novo recurso o usuário pode visualizar o
+estado do \textit{uml\_switch} durante a execução do cenário na plataforma.
 
-Clicando no botão \textit{Uml Switch} do GUML uma nova janela será aberta. Na janela do \textit{uml\_switch} o usuário pode observar todas as máquinas virtuais conectados a ele, e a qual \textit{VLan} cada interface de rede esta associada. Caso o usuário queira efetuar alguma mobilidade basta clicar no número da \textit{VLan} a qual queira se associar.
+Clicando no botão \textit{Uml Switch} do GUML uma nova janela será aberta. Na
+janela do \textit{uml\_switch} o usuário pode observar todas as máquinas
+virtuais conectados a ele, e a qual \textit{VLan} cada interface de rede esta
+associada. Caso o usuário queira efetuar alguma mobilidade basta clicar no
+número da \textit{VLan} a qual queira se associar.
 
 %% figuras do guml modificado e do uml switch
 \begin{figure}[!htpb]
@@ -236,9 +289,17 @@ Clicando no botão \textit{Uml Switch} do GUML uma nova janela será aberta. Na ja
 	\label{f_plataforma_gswitch}
 \end{figure}
 
-O programa GUML quando executado inicia fazendo a leitura dos arquivos de configuração das máquinas UML no seu diretório padrão. A partir dos arquivos de configuração ele cria: as linhas de comando que executaram as máquinas UML e \textit{scripts} de configuração de rede. Então inicia a interface gráfica GTK para o usuário.
+O programa GUML, quando executado, inicia fazendo a leitura dos arquivos de
+configuração das máquinas UML no seu diretório padrão. A partir dos arquivos de
+configuração ele cria: as linhas de comando que executaram as máquinas UML e
+\textit{scripts} de configuração de rede. Então inicia a interface gráfica GTK
+para o usuário.
 
-Em paralelo uma \textit{thread} é criada e se conecta ao servidor \textit{telnet} do \textit{uml\_switch}. Por meio desta conexão, o GUML monitora as conexões no \textit{uml\_switch}, que permitem apresentar em uma interface gráfica o estado do \textit{switch} e também provocar a mobilidade das maquinas UML.
+Em paralelo uma \textit{thread} é criada e se conecta ao servidor
+\textit{telnet} do \textit{uml\_switch}. Por meio desta conexão, o GUML monitora
+as conexões no \textit{uml\_switch}, que permitem apresentar em uma interface
+gráfica o estado do \textit{switch} e também provocar a mobilidade das máquinas
+UML.
 
 
 % \begin{figure}[!htpb]
