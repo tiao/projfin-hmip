@@ -44,11 +44,11 @@ order=4
 
 [item:ambientedetestes.tex]
 archive=true
-column=54
+column=0
 encoding=ISO 8859-1
 highlight=LaTeX
-line=54
-open=true
+line=164
+open=false
 order=1
 
 [item:capa.tex]
@@ -129,7 +129,7 @@ column=145
 encoding=ISO 8859-1
 highlight=LaTeX
 line=20
-open=true
+open=false
 order=2
 
 [item:makeglo.sty]
@@ -147,17 +147,17 @@ column=205
 encoding=ISO 8859-1
 highlight=LaTeX
 line=103
-open=true
+open=false
 order=3
 
 [item:mipv6ehmipv6.tex]
 archive=true
-column=18
+column=192
 encoding=ISO 8859-1
 highlight=LaTeX
-line=253
-open=true
-order=4
+line=207
+open=false
+order=1
 
 [item:monografia.kilepr]
 archive=true
@@ -174,7 +174,7 @@ column=51
 encoding=ISO 8859-1
 highlight=LaTeX
 line=0
-open=true
+open=false
 order=0
 
 [item:resumo.tex]
