@@ -193,42 +193,57 @@ O modelo do protocolo MIPv6 apresenta alguns problemas que comprometem a sua esc
  \item tempo do registro com o seu agente domiciliar;
 \end{itemize}
 
-Em um ambiente utilizando o MIPv6 com um excessivo numero de nós móveis a tendência é a perda na qualidade de serviço e o aumento do \textit{delay} na entrega dos pacotes.
+Em um ambiente utilizando o MIPv6 com um excessivo numero de nós móveis a tendência é que tenha-se perda na qualidade de serviço e o aumento do \textit{delay} na entrega dos pacotes.
 
 Com o intuito de minimizar os efeitos dos longos retardos no envio dos \textit{Binding Updates}, para o registro com o agente domiciliar ou o nó correspondente, e reduzir o tráfego de pacotes de controle na \textit{Internet} foi proposto um protocolo complementar ao MIPv6 o IPv6 Móvel Hierárquico (HMIPv6) \cite{rfc4140}.
 
 %ref
-A idéia principal do protocolo é tratar a mobilidade global e local de formas distintas, uma movimentação local pode ser entendida como uma que acontece em um mesmo \textit{site} e a global entre \textit{sites}. Podemos definir um  \textit{site} como uma dimensão arbitrária, e pode ser, por exemplo, uma rede de uma empresa ou universidade com uma ou mais sub-redes.
+A idéia principal do protocolo é tratar a mobilidade global e local de formas distintas. Uma movimentação local pode ser entendida como a que acontece dentro de um mesmo \textit{site} e a global entre \textit{sites} diferentes. Podemos definir um  \textit{site} como uma dimensão arbitrária, por exemplo, uma rede de uma empresa ou universidade com uma ou mais sub-redes.
 
 Um estudo \cite{kirby} sobre os padrões de mobilidade analisou diversos profissionais, mostrou que 69\% das movimentações são locais independente deles possuírem algum dispositivo móvel. Este dado mostra que o modelo hierárquico é mais adequado para o uso na \textit{Internet}. As principais vantagens seriam a diminuição no tempo do \textit{handover} e do tráfego enviado para à \textit{Internet} com sinalização.
 
 \subsection{Funcionamento}
-A principal mudança no HMIPv6 em relação ao MIPv6 foi à indtrodução de um novo agente, o MAP que nada mais é do que um roteador utilizado para gerenciar a mobilidade. O funcionamento do agente domiciliar e do nó corresponde permanece idêntico ao do MIPv6. Assim como no MIPv6 o funcionamento do HMIPv6 idepende da tecnologia de acesso.
+A principal mudança no HMIPv6 em relação ao MIPv6 foi à introdução de um novo agente, o MAP, que nada mais é do que um roteador utilizado para gerenciar a mobilidade em um determinado um  \textit{site}. O funcionamento do agente domiciliar e do nó corresponde permanece idêntico ao do MIPv6. Assim como no MIPv6 o funcionamento do HMIPv6 não depende da tecnologia de acesso.
 
-Assim que um nó movel entra em um \textit{site} com a presença de um MAP, ele se conecta com um RA e auto-configura dois endereços o RCoA baseado no mesmo prefixo de rede do MAP e outro o LCoA com o mesmo prefixo do RA. Então o nó móvel envia um \textit{Binding Update} para o MAP para que este faça a associação do RCoA com o LCoA. Outros \textit{Binding Updates} também são enviados para o agente domiciliar e os nós correspondentes, neste caso para que estes façam a associação do endereço domiciliar com o RCoA. Se o nó móvel estiver se comunicando com correspondes locais, ou seja, do mesmo \textit{site} ele deve enviar um \textit{Binding Update} para à associação do endereço domiciliar com o LCoA.
+Quando um nó movel entra em um \textit{site} com a presença de um MAP, ele irá receber um RA com informações sobre os roteadores de acesso. Isso permite ele auto-configure os dois endereços. O RCoA, que será baseado no mesmo prefixo de rede do MAP. E o LCoA, que utilizará o mesmo prefixo anunciado pelo roteador padrão. 
 
-O funcionamento do MAP é semelhante ao do agente domiciliar, ele intercepta os pacotes originados do agente domiciliar e dos nós correspondentes destinados ao RCoA e então os envia via túnel ao LCoA. Um túnel bidirecional é estabelecido entre o MAP e o nó móvel, que é usado para enviar todos os pacotes oriundos do nó móvel, exceto os com destino aos correspondentes locais.
+Depois de gerar os endereços, ele irá atualizar suas associações. O nó móvel enviará um \textit{Binding Update} para o MAP para que este faça a associação do RCoA com o LCoA. Outros \textit{Binding Updates} também são enviados, como para o agente domiciliar e os nós correspondentes, neste caso para que estes façam a associação do endereço domiciliar com o RCoA. Se o nó móvel estiver se comunicando com correspondes locais, ou seja, do mesmo \textit{site}, ele deve enviar um \textit{Binding Update} para à associação do endereço domiciliar com o LCoA.
 
-As principais formas de atuação propostas pelo protocolo são quando o nó móvel se desloca dentro de um mesmo \textit{site} (mobilidade local) e entre \textit{sites} (mobilidade global):
+O funcionamento do MAP é semelhante ao do agente domiciliar, ele intercepta pacotes destinados ao RCoA originado pelo agente domiciliar ou nós correspondentes, então os envia via túnel bidirecional, estabelecido entre o MAP, ao LCoA. Este túnel é usado para enviar todos os pacotes oriundos do nó móvel, exceto os com destino aos correspondentes locais.
+
+As principais formas de atuação propostas pelo protocolo são quando o nó móvel se desloca dentro de um mesmo \textit{site} (mobilidade local) e entre \textit{sites} diferentes (mobilidade global):
 \begin{description}
  \item[Mobilidade local:] quando o nó móvel troca somente o seu LCoA, é necessário o envio de \textit{Binding Updates} para o MAP e os correspondentes locais. Como resultado os pacotes com origem do agente domiciliar e dos nós correspondentes ainda são enviandos para o mesmo RCoA, assim minimizando o tempo do \textit{handover} e a perda de pacotes, também notamos que todo tráfego gerado é dentro do mesmo \textit{site}.
-\begin{figure}[!htpb]
-	\centering
-	\includegraphics[scale=.45]{figs/intra_site}
-	\caption{Mobilidade Local}
-	\label{f_intra}
-\end{figure}
+% \begin{figure}[!htpb]
+% 	\centering
+% 	\includegraphics[scale=.45]{figs/intra_site}
+% 	\caption{Mobilidade Local}
+% 	\label{f_intra}
+% \end{figure}
 
 \item[Mobilidade global:] neste caso o nó móvel reconfigura o seu RCoA e LCoA, e envia Binding Updates para o MAP, os nós comunicantes fora do \textit{site} informando o novo RCoA e os nós do mesmo site para informar o LCoA.
-\begin{figure}[!htpb]
-	\centering
-	\includegraphics[scale=.45]{figs/inter_site}
-	\caption{Mobilidade Global}
-	\label{f_inter}
-\end{figure}
+% \begin{figure}[!htpb]
+% 	\centering
+% 	\includegraphics[scale=.45]{figs/inter_site}
+% 	\caption{Mobilidade Global}
+% 	\label{f_inter}
+% \end{figure}
 \end{description}
 
-Podemos perceber que em algumas vezes o nó móvel deve preferir atuar como no MIPv6 para tornar mais simples o seu funcionamento. Neste caso a rede visitada se encontra próxima ao agente domiciliar e não se faz necessário o uso do MAP, a discussão sobre este tipo de cenário não faz parte do escopo deste documento. 
+A figura \ref{f_hmipv6} ilustra um cenário com dois dominio HMIPv6, onde o nó móvel se atrela ao \textit{site 1} através do roteador de acesso 1, e inicia uma comunicação com o Nó correspondente. Após isso realiza uma mobilidade local, passando a ter o roteador de acesso 2 como roteador padrão. Por último realiza uma mobilidade global, mudando o roteador padrão e o MAP.
+
+\begin{figure}[!htpb]
+	\centering
+	\includegraphics[scale=.45]{figs/hmipv6}
+	\caption{Dois domínios IP Móvel Hierárquico}
+	\label{f_hmipv6}
+\end{figure}
+
+A figura Y apresenta a sequência de mensagens trocadas durante a movimento do nó móvel no cenário da figura \ref{f_hmipv6}.
+
+%FIGURA DIG. SEQ.
+
+Podemos perceber que em algumas vezes o nó móvel deve preferir atuar como no MIPv6 para tornar mais simples o seu funcionamento. Neste caso a rede visitada se encontra próxima ao agente domiciliar e não se faz necessário o uso do MAP, a discussão sobre este tipo de cenário não faz parte do escopo deste documento.
 
 \subsection{Envio de \textit{Binding Updates}}
 %ref
