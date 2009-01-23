@@ -209,7 +209,7 @@ Quando um nó movel entra em um \textit{site} com a presença de um MAP, ele irá r
 
 Depois de gerar os endereços, ele irá atualizar suas associações. O nó móvel enviará um \textit{Binding Update} para o MAP para que este faça a associação do RCoA com o LCoA. Outros \textit{Binding Updates} também são enviados, como para o agente domiciliar e os nós correspondentes, neste caso para que estes façam a associação do endereço domiciliar com o RCoA. Se o nó móvel estiver se comunicando com correspondes locais, ou seja, do mesmo \textit{site}, ele deve enviar um \textit{Binding Update} para à associação do endereço domiciliar com o LCoA.
 
-O funcionamento do MAP é semelhante ao do agente domiciliar, ele intercepta pacotes destinados ao RCoA originado pelo agente domiciliar ou nós correspondentes, então os envia via túnel bidirecional, estabelecido entre o MAP, ao LCoA. Este túnel é usado para enviar todos os pacotes oriundos do nó móvel, exceto os com destino aos correspondentes locais.
+O funcionamento do MAP é semelhante ao do agente domiciliar, ele intercepta pacotes destinados ao RCoA originado pelo agente domiciliar ou nós correspondentes, então os envia via túnel bidirecional, estabelecido entre o MAP e o LCoA. Este túnel é usado para enviar todos os pacotes oriundos do nó móvel, exceto os com destino aos correspondentes locais.
 
 As principais formas de atuação propostas pelo protocolo são quando o nó móvel se desloca dentro de um mesmo \textit{site} (mobilidade local) e entre \textit{sites} diferentes (mobilidade global):
 \begin{description}
@@ -230,7 +230,7 @@ As principais formas de atuação propostas pelo protocolo são quando o nó móvel s
 % \end{figure}
 \end{description}
 
-A figura \ref{f_hmipv6} ilustra um cenário com dois dominio HMIPv6, onde o nó móvel se atrela ao \textit{site 1} através do roteador de acesso 1, e inicia uma comunicação com o Nó correspondente. Após isso realiza uma mobilidade local, passando a ter o roteador de acesso 2 como roteador padrão. Por último realiza uma mobilidade global, mudando o roteador padrão e o MAP.
+A figura \ref{f_hmipv6} ilustra um cenário com dois domínios HMIPv6, onde o nó móvel está atrelado ao \textit{site 1} através do RA 1, se comunicando com o Nó correspondente, utilizando tunelamento bi-direcional. Após isso realiza uma mobilidade global, passando a ter o RA 2 como roteador padrão, e paasa a utilizar o MAP 2. Por último realiza uma mobilidade local, mudando o roteador padrão para RA 2.
 
 \begin{figure}[!htpb]
 	\centering
@@ -239,9 +239,19 @@ A figura \ref{f_hmipv6} ilustra um cenário com dois dominio HMIPv6, onde o nó mó
 	\label{f_hmipv6}
 \end{figure}
 
-A figura Y apresenta a sequência de mensagens trocadas durante a movimento do nó móvel no cenário da figura \ref{f_hmipv6}.
+A figura \ref{f_messages_hmipv6} apresenta a sequência de mensagens trocadas durante a movimento do nó móvel no cenário da figura \ref{f_hmipv6}.
 
-%FIGURA DIG. SEQ.
+\begin{figure}[!htpb]
+	\centering
+	\includegraphics[scale=.4]{figs/fluxo_hmipv6}
+	\caption{Diagrama de troca de mensagens do protocolo IP Móvel Hierárquico}
+	\label{f_messages_hmipv6}
+\end{figure}
+
+Após o fluxo de dados estabelecido, ocorrem as seguintes trocas de mensagens descritas a seguir:
+\begin{enumerate}
+ \item Inicialmente o nó móvel recebe...
+\end{enumerate}
 
 Podemos perceber que em algumas vezes o nó móvel deve preferir atuar como no MIPv6 para tornar mais simples o seu funcionamento. Neste caso a rede visitada se encontra próxima ao agente domiciliar e não se faz necessário o uso do MAP, a discussão sobre este tipo de cenário não faz parte do escopo deste documento.
 
