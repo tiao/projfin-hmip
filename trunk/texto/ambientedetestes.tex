@@ -170,28 +170,28 @@ participar das duas redes.
 Em geral, uma plataforma de testes de mobilidade envolve o uso de redes sem fio, contudo os protocolos estudados são em níveis de camada 3 sendo o \textit{uml\_switch} suficiente. Porém o \textit{uml\_switch} e nenhuma outra ferramenta permite simular a mobilidade em máquinas virtuais UML. Por esse motivo foi preciso fazer alterações no programa do \textit{uml\_switch}, que é um software livre sobre a licença GPL versão 2, escrito na linguagem de programação C.
 
 A principal alteração no código fonte do \textit{uml\_switch} foi a
-possibilidade de segmentação de redes permitindo a criação uma espécie de
-\textit{VLan's} e mobilidade dos nós conectados ao \textit{switch}. Após a
-mudança cada nó conectado ao \textit{switch} pertence a uma \textit{VLan} e é
+possibilidade de segmentação de redes, permitindo a criação de uma espécie de
+\textit{VLan's} e realizar a mobilidade dos nós conectados ao \textit{switch}.
+Após a mudança cada nó conectado ao \textit{switch} pertence a uma \textit{VLan} e é
 possível mover o nó para outra \textit{VLan}.
 
 Outra implementação que foi feita no \textit{uml\_switch} foi a adição de uma
-\textit{thread} que responde um servidor \textit{telnet}, por onde o usuário
-pode efetuar a mobilidade dos nós conectados no \textit{switch} e listar os nós
-conectados. Esse recurso torna fácil a implementação de uma interface gráfica do
-\textit{switch}, pois outro programa em outra linguagem de programação pode
-utilizar deste recurso para gerar a interface.
+\textit{thread} que responde um servidor \textit{telnet}, que basicamente tem
+duas funções. A primeira seria permitir o usuário efetuar a mobilidade dos nós
+conectados no \textit{switch}. A outra seria listar os nós conectados. Esse recurso
+torna fácil a implementação de uma interface gráfica do \textit{switch}, pois outro
+programa em outra linguagem de programação pode utilizar deste recurso para gerar a interface.
 
-A figura \ref{f_plataforma_switch_petri}, é uma rede de petri, que modela de
-forma simplista o funcionamento do \textit{uml\_switch} após as alterações
-efetuadas para a plataforma de testes.
-
-\begin{figure}[!htpb]
-	\centering
-	\includegraphics[scale=.45]{figs/switch_petri}
-	\caption{Rede de Petri \textit{uml switch}}
- 	\label{f_plataforma_switch_petri}
-\end{figure}
+% A figura \ref{f_plataforma_switch_petri}, é uma rede de petri, que modela de
+% forma simplista o funcionamento do \textit{uml\_switch} após as alterações
+% efetuadas para a plataforma de testes.
+% 
+% \begin{figure}[!htpb]
+% 	\centering
+% 	\includegraphics[scale=.45]{figs/switch_petri}
+% 	\caption{Rede de Petri \textit{uml switch}}
+%  	\label{f_plataforma_switch_petri}
+% \end{figure}
 
 
 %\section{MobUML - }
@@ -228,7 +228,7 @@ No arquivo de configuração é possível configurar:
  \item Discos;
 \end{itemize}
 
-Como citado, apesar de vários recursos disponíveis, o GUML não prove suporte a
+Como citado, apesar de possuir vários recursos, o GUML não prove suporte a
 configuração de cenários de rede integrado na ferramenta. Para melhorar
 o suporte as redes virtuais no GUML algumas implementações foram realizadas,
 quais sejam:
@@ -265,7 +265,7 @@ usuário pode acessar o terminal da máquinas virtuais.
 	\label{f_plataforma_guml}
 \end{figure}
 
-Uma outra implementação que foi adicionada ao GUML foi a interface gráfica do
+Outra implementação que foi adicionada ao GUML foi a interface gráfica do
 \textit{uml\_switch}, que pode ser observada na figura
 \ref{f_plataforma_gswitch}. Com este novo recurso o usuário pode visualizar o
 estado do \textit{uml\_switch} durante a execução do cenário na plataforma.
@@ -284,7 +284,7 @@ número da \textit{VLan} a qual queira se associar.
 	\label{f_plataforma_gswitch}
 \end{figure}
 
-O programa GUML, quando executado, inicia fazendo a leitura dos arquivos de
+O programa GUML, quando executado, faz a leitura dos arquivos de
 configuração das máquinas UML no seu diretório padrão. A partir dos arquivos de
 configuração ele cria: as linhas de comando que executaram as máquinas UML e
 \textit{scripts} de configuração de rede. Então inicia a interface gráfica GTK
