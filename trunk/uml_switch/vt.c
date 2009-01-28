@@ -252,7 +252,6 @@ static int ls_vt_cmd_ls(const struct vt_handle *vh, const char *str){
 	struct port *p;
 	struct port *head;
 	head=get_head();
-	fprintf(vh->vh_stream, "Porta\tMAC\n");
 	for (p = head; p != NULL; p = p->next) {
 		fprintf(vh->vh_stream, "%d\t",p->control);
 		fprintf(vh->vh_stream, "%02x:%02x:%02x:%02x:%02x:%02x\n",
@@ -260,7 +259,6 @@ static int ls_vt_cmd_ls(const struct vt_handle *vh, const char *str){
 		   p->src[3], p->src[4], p->src[5]
 		);
 	}
-	fprintf(vh->vh_stream,"\n\n");
 	return 0;
 }
 
