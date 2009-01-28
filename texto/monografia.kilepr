@@ -47,16 +47,16 @@ archive=true
 column=0
 encoding=ISO 8859-1
 highlight=LaTeX
-line=195
+line=194
 open=false
 order=1
 
 [item:capa.tex]
 archive=true
-column=65
+column=0
 encoding=ISO 8859-1
 highlight=LaTeX
-line=22
+line=31
 open=false
 order=2
 
@@ -65,7 +65,7 @@ archive=true
 column=0
 encoding=ISO 8859-1
 highlight=LaTeX
-line=0
+line=9
 open=false
 order=1
 
@@ -98,10 +98,10 @@ order=3
 
 [item:folhadeaprovacao.tex]
 archive=true
-column=139
+column=0
 encoding=ISO 8859-1
 highlight=LaTeX
-line=7
+line=18
 open=false
 order=3
 
@@ -116,48 +116,48 @@ order=2
 
 [item:introducao.tex]
 archive=true
-column=19
+column=79
 encoding=ISO 8859-1
 highlight=LaTeX
-line=19
+line=7
 open=false
 order=2
 
 [item:ipv6.tex]
 archive=true
-column=145
+column=15
 encoding=ISO 8859-1
 highlight=LaTeX
-line=20
+line=0
 open=false
 order=2
 
 [item:makeglo.sty]
 archive=true
-column=25
+column=59
 encoding=ISO 8859-1
 highlight=LaTeX
-line=42
+line=38
 open=false
 order=-1
 
 [item:mipl.tex]
 archive=true
-column=205
+column=24
 encoding=ISO 8859-1
 highlight=LaTeX
-line=103
+line=53
 open=false
 order=3
 
 [item:mipv6ehmipv6.tex]
 archive=true
-column=18
+column=238
 encoding=ISO 8859-1
 highlight=LaTeX
-line=244
+line=245
 open=false
-order=0
+order=1
 
 [item:monografia.kilepr]
 archive=true
@@ -170,7 +170,7 @@ order=-1
 
 [item:monografia.tex]
 archive=true
-column=51
+column=0
 encoding=ISO 8859-1
 highlight=LaTeX
 line=0
@@ -188,9 +188,9 @@ order=-1
 
 [item:rfc.bib]
 archive=true
-column=13
+column=1
 encoding=ISO 8859-1
 highlight=BibTeX
-line=31872
+line=64363
 open=false
 order=2

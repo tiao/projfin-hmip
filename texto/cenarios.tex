@@ -11,7 +11,8 @@ Para analisar alguns mecanismos do protocolo e testar seus modos de operação, do
 
 O computador que será utilizado para a realização dos cenários de teste possui as seguintes caracteristicas: \textit{Atlhon XP 2600}, 512MB de memória e rodando \textit{Gnu/Linux Slackware} 12.0, kernel linux-2.6.21.5.
 
-No anexo \ref{c_anexo2} estão disponíveis dois \textit{scripts} que foram feitos para auxiliar na montagem das topologias de rede e na configuração dos cenários. Também estão disponíveis os arquivos de configuração do MIPL e do RADVD para cada máquina virtual dos cenários construídos.
+No anexo %\ref{c_anexo2}
+estão disponíveis dois \textit{scripts} que foram feitos para auxiliar na montagem das topologias de rede e na configuração dos cenários. Também estão disponíveis os arquivos de configuração do MIPL e do RADVD para cada máquina virtual dos cenários construídos.
 
 Para auxiliar na geração de \textit{logs}, que tendem a enriquecer análise dos cenários, foram utilizadas as ferramentas \textit{tcpdump}, \textit{ping6} e \textit{gen}.
 
@@ -128,7 +129,7 @@ No nó correspondente iniciamos o \textit{gen}: endereçando os pacotes para ender
 cn# gen -a 2000:a::1 -d -t -p udp -s 400
 \end{verbatim}
 
-Depois em um segundo momento repetimos o mesmo cenário utilizando o modo de operação com otimização de roteamento. Para auxiliar na obtenção dos \textit{logs}, o nó correspondente estará se comunicando com o nó móvel por meio de um \textit{ping6}.
+Depois em um segundo momento, repetimos o mesmo cenário utilizando mas com o modo de operação com otimização de roteamento. Para auxiliar na obtenção dos \textit{logs}, o nó correspondente estará se comunicando com o nó móvel por meio de um \textit{ping6}.
 
 \section{Resultados}
 Com a realização dos experimentos podemos constatar o funcionamento do protocolo e perceber continuação da comunicação entre os pontos comunicantes após a mobilidade de forma transparente as camadas superiores a de rede, observar todas as mensagens trocadas no processo e estimar o tempo de latência com a mobilidade.

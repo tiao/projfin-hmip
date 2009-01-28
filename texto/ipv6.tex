@@ -3,7 +3,7 @@
 % ----------------------------------------------------------------------- %
 \chapter{IPv6}
 \label{c_anexo_ipv6}
-Considerando o grande crescimento da \textit{Internet}, o protocolo que é utilizado hoje o IPv4, é considerado incapaz de suprir a necessidade da demanda por novos endereços na Internet.
+Considerando o grande crescimento da \textit{Internet}, o protocolo que é utilizado hoje, o IPv4, é considerado incapaz de suprir a necessidade da demanda por novos endereços na Internet.
 
 A previsão atual para a exaustão de todos os endereços IPv4 livres é Março 2011 \cite{ipv4}, o que significa que o uso do IPv6 é inevitável num futuro próximo.
 
@@ -18,21 +18,22 @@ Com o intuito de resolver o problema de números de endereço e as principais falh
 
 \section{A estrutura de cabeçalhos}
 
-Um datagrama IPv6 é constituído por um cabeçalho base de tamanho fixo de 40 bytes, ilustrado na figura \ref{f_ipv6}, seguido de zero ou mais cabeçalhos de extensão, seguidos depois pelo bloco de dados.
-% \begin{figure}[!htpb]
-% 	\centering
-% 	\includegraphics[scale=.86]{figs/ipv6}
-%  	\label{f_ipv6}
-% 	\caption{Estrutura do Cabeçalho do IPv6}
-% \end{figure}
+Um datagrama IPv6 é constituído por um cabeçalho base de tamanho fixo de 40 bytes, seguido de zero ou mais cabeçalhos de extensão. Na figura \ref{f_ipv6}, é ilustrado um cabeçalho IPv6 com um cabeçalho de extenção de mobilidade.
+\begin{figure}[!htpb]
+	\centering
+	\includegraphics[scale=1]{figs/ipv6}
+	\label{f_ipv6}
+	\caption{Estrutura do Cabeçalho do IPv6}
+\end{figure}
 
-O fato desse possuir um tamanho fixo é uma vantagem, pois acelera o processamento dos pacotes nos roteadores, uma vez que não há necessidade de calcular o tamanho de alguns campos e do cabeçalho como um todo.
+O fato do cabeçalho IPv6 possuir um tamanho fixo é uma vantagem, pois acelera o processamento dos pacotes nos roteadores, uma vez que não há necessidade de calcular o tamanho de alguns campos e do cabeçalho como um todo.
 
 A redução do números de campos utilizados, excluindo os campos com pouca utilidade prática, também contribui para a diminuição do tempo gasto em processamento pelos roteadores. Entre eles, dois que merecem destaque, \textit{checksum} e o de fragmentação.
 
-A função do campo de \textit{checksum} era detetar erros que afetassem ao cabeçalho IP, não detectando no entanto erros no restante do pacote. Hoje os mecanismos de deteção de erros Ethernet e PPP são bastante eficientes, o que permitiu a exclusão do campo \textit{checksum}. Com isso os roteadores não precisam recalcular o checksum a cada salto, melhorando a sua performace.
+A função do campo de \textit{checksum} era detectar erros que afetassem ao cabeçalho IP, não detectando no entanto erros no restante do pacote. Hoje os mecanismos de deteção de erros Ethernet e PPP são bastante eficientes, o que permitiu a exclusão do campo \textit{checksum}. Com isso os roteadores não precisam recalcular o checksum a cada salto, melhorando a sua performace.
 
 Quanto ao campo fragmentação, este foi excluído, pois decidiu-se que pacotes não serão mais fragmentados por roteadores. Caso algum roteador da rota detecte que o pacote é muito grande para o MTU então ele avisa o nó fonte com ICMPv6 \textit{Packet Too Big}, que inclui o tamanho da MTU do enlace problema.
+
 Desta forma há um ganho de performance no roteamento, pois é eliminada a necessidade de um roteador fragmentar vários pacotes.
  
 \section{O endereçamento Ipv6}
@@ -65,7 +66,7 @@ Em comparação ao ICMPv4, podedos citar dentro das principais mudanças para o ICM
 
 As mensagens de descoberta de informações de vizinhança (Neighbor Discovery), podem ser usadas para desempenhar a função equivalente ao ARP/RARP, para detecção de IP duplicado (DAD - Duplicate IP Address Detection), fazer anuncio ou solitação de roteadores e outros.
 
-O protocolo IGMP(Internet Group Multicast Protocol) que trata o multicast também foi incorporado no ICMPv6. 
+O protocolo IGMP(Internet Group Multicast Protocol) que trata o multicast também foi incorporado no ICMPv6.
 
 No protocolo IP Móvel, para fazer os registro de localização, tambem é utilizado as mensagens ICMP.
 

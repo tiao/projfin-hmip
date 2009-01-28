@@ -68,7 +68,7 @@ Na figura \ref{f_messages} é possível observar um diagrama de sequência do funci
 
 \begin{figure}[!htpb]
 	\centering
-	\includegraphics[scale=.4]{figs/fluxo_mipv6}
+	\includegraphics[scale=.37]{figs/fluxo_mipv6}
 	\caption{Diagrama de sequencia do MIPv6}
 	\label{f_messages}
 \end{figure}
@@ -116,7 +116,7 @@ Mensagem essencial ao MIPv6, pois informa ao agente domiciliar e ao nós correspo
  \item[\textit{Acknowledge} (A):] este bit quando ligado requisita um \textit{Binding Acknowledgement} como resposta.
  \item[\textit{Home Registration} (H):] este bit quando ligado requisita que o receptor atue como um agente domiciliar.
  \item[\textit{Link-Local Address Compatibility} (L):] este bit é ligado quando o endereço domiciliar reportado pelo nó móvel é o mesmo do que esta configurado na interface.
- \item[\textit{Key Management Mobility Capability} (K):] este bit deve estar desligado quando há uma configuração manual do IPsec (ver seção seguinte).
+ \item[\textit{Key Management Mobility Capability} (K):] este bit deve estar desligado quando há uma confi- guração manual do IPsec (ver seção seguinte).
  \item[\textit{Lifetime}:] um inteiro sem sinal de 16 bits, indica o tempo de vida da associação. Se tiver o valor zero o endereço deve ser retirado do \textit{cache} do agente domiciliar.
  \item[\textit{Mobility Options}:] campo de tamanho variável que pode conter um \textit{care-of-address} alternativo e opções utilizadas no \textit{Return Routability Procedure}.
 \end{description}
@@ -144,8 +144,12 @@ A mensagem \textit{Binding Acknowledgement} é utilizada para inforamar o recebim
 \end{figure}
 
 \begin{description}
- \item[\textit{Status}:]inteiro de 8 bits, indicando a resposta do \textit{Binding Update}. Valores menores do que 128 indicam que o \textit{Binding Update} foi aceito pelo nó que o recebeu, enquanto valores maiores que 128 indicam que o \textit{Binding Update} foi rejeitado.
- \item[\textit{Key Management Mobility Capability} (K):] este bit deve estar desligado quando há uma configuração manual do IPsec.
+ \item[\textit{Status}:]inteiro de 8 bits, indicando a resposta do \textit{Binding Update}
+Valores menores do que 128 indicam que o \textit{Binding Update} foi aceito pelo nó que o 
+recebeu, enquanto valores maiores que 128 indicam que o \textit{Binding Update} foi
+rejeitado.
+ \item[\textit{Key Management Mobility Capability} (K):] este bit deve estar desligado 
+quando há uma confi- guração manual do IPsec.
  \item[\textit{Sequence \#}:] é o número de sequência do \textit{Binding Acknowledgement} copiado do \textit{Binding Update} ao qual está associado.
  \item[\textit{Lifetime}:] tempo em que o \textit{care-of-address} vai permanecer no \textit{cache}.
  \item[\textit{Mobility Options}:] campo de tamanho variável que comtêm opções utilizadas no \textit{Return Routability Procedure}.
@@ -230,30 +234,46 @@ As principais formas de atuação propostas pelo protocolo são quando o nó móvel s
 % \end{figure}
 \end{description}
 
-A figura \ref{f_hmipv6} ilustra um cenário com dois domínios HMIPv6, onde o nó móvel está atrelado ao \textit{site 1} através do RA 1, se comunicando com o Nó correspondente, utilizando tunelamento bi-direcional. Após isso realiza uma mobilidade global, passando a ter o RA 2 como roteador padrão, e paasa a utilizar o MAP 2. Por último realiza uma mobilidade local, mudando o roteador padrão para RA 2.
+A figura \ref{f_hmipv6} ilustra um exemplos de domínios HMIPv6, onde o nó móvel está inicialmente atrelado a rede domiciliar. Em seguida realiza mobilidade para o \textit{site 1}, tendo como roteador padrão o RA 1, e a utilizar o MAP 1. Após isso realiza uma mobilidade local, mudando o roteador padrão para RA 2. Por último realiza uma mobilidade global, passando a ter o RA 3 como roteador padrão, e passa a utilizar o MAP 2.
 
 \begin{figure}[!htpb]
 	\centering
 	\includegraphics[scale=.45]{figs/hmipv6}
-	\caption{Dois domínios IP Móvel Hierárquico}
+	\caption{Exemplo de domínios do IP Móvel Hierárquico}
 	\label{f_hmipv6}
 \end{figure}
 
-A figura \ref{f_messages_hmipv6} apresenta a sequência de mensagens trocadas durante a movimento do nó móvel no cenário da figura \ref{f_hmipv6}.
+A figura \ref{f_messages_hmipv6} apresenta a sequência de mensagens trocadas durante o movimento do nó móvel no cenário da figura \ref{f_hmipv6}, sendo suprimido os processos de detecção de endereço duplicado e \textit{Return Routability}.
 
 \begin{figure}[!htpb]
 	\centering
-	\includegraphics[scale=.4]{figs/fluxo_hmipv6}
-	\caption{Diagrama de troca de mensagens do protocolo IP Móvel Hierárquico}
+	\includegraphics[scale=.36]{figs/fluxo_hmipv6}
+	\caption{Diagrama de troca de mensagens do HMIPv6}
 	\label{f_messages_hmipv6}
 \end{figure}
 
-Após o fluxo de dados estabelecido, ocorrem as seguintes trocas de mensagens descritas a seguir:
+As trocas de mensagens que ocorrem na figura \ref{f_messages_hmipv6} são descritas a seguir:
+
 \begin{enumerate}
- \item Inicialmente o nó móvel recebe...
+ \item Inicialmente o nó móvel está na rede domiciliar se comunicando com o um
+correspondente.
+ \item O MAP 1 envia mensagens de RADV(\textit{Router Advertisement}), quais os roteadores
+ so dominio irão anexar informaçãos e encaminhar para suas sub-redes. Nesse momento o nó
+ móvel recebe um RADV do RA 1, realizando a mobilidade para a respectiva rede.
+ \item O nó móvel realizará o registro com o MAP 1, enviando-lhe um \textit{Binding Update} associando o endereço domiciliar com o LCoA1. Após efetuar o registro, o MAP 1 enviará um \textit{Binding Acknowledgement}.
+ \item O próximo nó com quem o nó móvel realizará o registro será o agente domiciliar. A diferença será que o registro irá associar o endereço domiciliar com o RCoA1.
+ \item O fluxo de dados percorre o seguinte caminho: sai do nó correspondente com destino ao endereço domiciliar, como o nó movel não entá na rede domiciliar, o agente domiciliar interceptará os pacotes, e encaminhará para o endereço registrado via tunel, no caso o RCoA1. Quando chegar no MAP 1, será unelado novamente até o LCoA1. O fluxo de dados passa pelo RA1, mas ele só encaminha o pacote para nó móvel, onde termina os tuneis e é entrege os pacotes com destino ao endereço domiciliar.
+ \item O nó móvel se movimenta e sai do alcance do RA 1 e entra torna-se alcansavel para o RA 2. Como foi feita uma mobilidade local,será neccessário somente configurar um novo LCoA.
+ \item Será necessário atualizar o registro com o MAP associando o novo LCoA, LCoA 2 ao endereço domiciliar.
+ \item O trajeto do fluxo de dados será alterádo do MAP 1 para frente, sendo transparente para o nó correspondente e o agente domiciliar. O tunel entre o MAP 1 e o nó móvel terá como destino o LCoA2, e passará pelo RA 2, o roteador padrão do nó movel.
+ \item O nó móvel recebe um RADV com informações de um outro MAP através do RA 3, o que indica que ocorreu um movimento para outro dominio, realizou uma mobilidade global.
+ \item O primeiro registro será com o novo MAP, o MAP 2. A associação feita será do endereço domiciliar com o LCoA3.
+ \item Depois será atualizado o registro no agente domiciliar, assoiando o endereço domiciliar como RCoA2.
+ \item Efetua o reistro com o nó correspondente, associando o endereço domiciliar e o RCoA2. Após o registro, o agente domiciliar será utilizado somente por outro correspondente para encontrar o nó móvel e estabelecer uma comunicação.
+ \item O fluxo de dados será endereçado ao RCoA2, e utilizará um cabeçalho de mobilidade, indicando que o pacote é endereçado ao endereço domiciliar do nó móvel.
 \end{enumerate}
 
-Podemos perceber que em algumas vezes o nó móvel deve preferir atuar como no MIPv6 para tornar mais simples o seu funcionamento. Neste caso a rede visitada se encontra próxima ao agente domiciliar e não se faz necessário o uso do MAP, a discussão sobre este tipo de cenário não faz parte do escopo deste documento.
+Podemos perceber que em algumas vezes o nó móvel deve preferir atuar como no MIPv6 para tornar mais simples o seu funcionamento. Neste caso a rede visitada se encontra próxima ao agente domiciliar e não se faz necessário o uso do MAP, a discussão sobre este tipo de cenário não faz parte do escopo deste trabalho.
 
 \subsection{Envio de \textit{Binding Updates}}
 %ref
