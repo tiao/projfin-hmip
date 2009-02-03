@@ -1,0 +1,9 @@
+Documentation (and functionality) is a bit thin on the ground at the moment,
+but basically:
+
+1) mkdir <directory_scenario>.
+2) Make a <umid>.conf file modelled on the provided example.conf
+   (see /usr/share/doc/guml4mip/examples/example.conf).
+3) Repeat step 2 for each UML image you want to manage.
+4) Run guml4mip.
+5) In /usr/share/doc/guml4mip/examples have examples of network scenarios 
