@@ -41,7 +41,7 @@ commands = {1: ["dd if=/dev/zero of=fs.img bs=1024 seek=400k count=1",
 packages = {"network": "net-tools iputils-ping iproute iptables quagga dhcp3-client tcpdump",
 		"devel": "build-essential indent automake flex bison", 
 		"general": "debian-keyring debian-archive-keyring vim-tiny wget man-db libtool", 
-		"our": "/pkg/mipv6-daemon-umip_0.4-1_i386.deb /pkg/radvd-hmip-0.7.2_3-1_i386.deb"}
+		"our": "/pkg/mipv6-daemon-umip_0.4-1_i386.deb /pkg/radvd-hmip_0.7.2-1_i386.deb"}
 
 def exec_commands(list):
 	for command in list:

@@ -2,11 +2,7 @@ interface eth0 {
 	AdvSendAdvert on;
 	MinRtrAdvInterval 1;
 	MaxRtrAdvInterval 3;
-	AdvHomeAgentFlag off;
-
-	AdvHmip6MapInfo    on; 
-	ReAdvHmip6MapInfo  on;
-	RecvHmip6MapInfo   on;
+	AdvHomeAgentFlag on;
 
 	prefix 2000:a::/64
 	{
