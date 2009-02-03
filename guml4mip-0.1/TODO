@@ -1,0 +1,13 @@
+* In-house config system (GUI form to edit GUML config files)
+
+* Make UML execution more configurable (change /usr/bin/linux, for instance)
+
+* Make terminals more configurable (font, scrollback, etc)
+
+* Create a option in config file to one mobility pattern
+
+* Make dialogs gtk to error messages of conf files
+
+* Make improvements of documentation
+
+* Create packages debian
