@@ -2,40 +2,108 @@
 % Arquivo: mipv6.tex
 % ----------------------------------------------------------------------- %
 \chapter{Protocolos de Mobilidade da camada Rede}
-\section{Visão geral do protocolo MIPv6}
+
+\section{O Problema da Mobilidade na Camada de Rede}
 \label{s_mipv6}
 
 % \subsection{Introdução}
 % \label{sub__mipv6_intro}
-Na internet, cada pacote associado ao um fluxo de pacotes entre pontos comunicantes, é encaminhado em função do endereço de IP destino. Cabe ao protocolo de camada de rede, chamado \textit{Internet Protocol} (IP) \cite{rfc791}, determinar rotas e encaminhar pacotes para alcançarem o seu destinatário. Em redes muito complexas, como a \textit{Internet}, alguns protocolos de roteamento auxiliam na descoberta da localização dos destinos dinamicamente. Alguns exemplos de protocolos de roteamento são o \textit{Open Shortest Path First} (OSPF), o \textit{Routing Information Protocol} (RIP) e o \textit{Border Gateway Protocol} (BGP).
+Em redes IP, cada pacote integrante de um fluxo de pacotes entre dois pontos
+comunicantes, é encaminhado em função do seu endereço de IP destino. Cabe ao
+protocolo de camada de rede, chamado \textit{Internet Protocol} (IP)
+\cite{rfc791}, determinar rotas e encaminhar pacotes para que eles alcancem o
+seu destino. Em muitos casos, quando as redes são complexas, os protocolos
+de roteamento proporcionam a descoberta da localização dos destinos
+dinamicamente. Alguns exemplos de protocolos de roteamento são o \textit{Open
+Shortest Path First} (OSPF), o \textit{Routing Information Protocol} (RIP) e o
+\textit{Border Gateway Protocol} (BGP).
 
-Os endereços IP acabam definindo a localização geográfica de um hospedeiro. Os protocolos atuais da \textit{Internet} assumem que o nó não muda seu endereço IP durante uma comunicação, ou seja, não altera o seu ponto de conexão à rede.
+Os endereços IP acabam definindo a localização geográfica de um hospedeiro. Os
+protocolos atuais da \textit{Internet} assumem que o nó não muda seu endereço IP
+durante uma comunicação, ou seja, não altera o seu ponto de conexão à rede.
 
-Caso um nó mude seu ponto de conexão na \textit{Internet}, normalmente ele deve reconfigurar um novo endereço IP e possivelmente um novo roteador padrão. Se uma comunicação estiver estabelecida quando o nó efetuar a mobilidade, os protocolos de roteamento não corrijirão a rota para o novo destinatário. Para continuar a comunicação sua nova rota deveria ser propagada para toda estrutura de roteamento da rede. Obviamente esta alternativa é inaceitável, pois seria inviável fazer isso em uma rede como a \textit{Internet}, por questões de escalabilidade.
+Caso um nó mude seu ponto de conexão, ele deverá, normalmente, configurar um
+novo endereço IP e, possivelmente, um novo roteador padrão. Se uma comunicação
+estiver estabelecida quando o nó efetuar a mobilidade, os protocolos de
+roteamento não corrijirão a rota para o novo destino. Para continuar a
+comunicação, sua nova rota deveria ser propagada para toda estrutura de
+roteamento da rede. Obviamente esta alternativa é inaceitável, pois seria
+inviável fazer isso em uma rede IP, por questões de escalabilidade.
 
-Com a intenção de permitir que os nós possam se movimentar para diferentes sub-redes e continuar suas comunicações, a IETF propôs o protocolo IP Móvel que garante que os pacotes sejam roteados para os nós móveis. Existem duas variações para o IP Móvel uma para o IPv4 \cite{rfc3344} e outra para o IPv6 \cite{rfc3775}.
+Com a intenção de permitir que os nós possam se movimentar para
+diferentes sub-redes e continuar suas comunicações, a IETF propôs o protocolo IP
+Móvel que garante que os pacotes sejam roteados para os nós móveis. Existem duas
+variações para o IP Móvel: uma para o IPv4 \cite{rfc3344} e outra para o IPv6
+\cite{rfc3775}. O foco deste trabalho será na versão para o IPv6, pois este
+possui algumas vantagens sobre o IPv4 como maior número de endereços, suporte
+nativo para segurança, possibilidade de auto-configuração e suporte ao IP Móvel.
 
-O foco deste trabalho será na versão para o IPv6, pois este possui algumas vantagens sobre o IPv4 como maior número de endereços, suporte nativo para segurança, possibilidade de auto-configuração e suporte ao IP Móvel.
+Em adição, a IETF propôs o HMIPv6 \cite{rfc4140} que permite aumentar o
+desempenho do protocolo MIPv6 através do tratamento localizado da mobilidade um
+mesmo domínio. Na sequência, serão apresentados brevemente os referidos
+protocolos.
 
-O protocolo IPv6 móvel (MIPv6) tem por objetivo, portanto, permitir que nós IPv6 se desloquem, de forma transparente, entre sub-redes, com diferentes tecnologias de acesso como \textit{Ethernet} e \textit{Wireless LAN}, e continuem suas comunicações. Novas comunicações também serão possibilitadas. Sem suporte ao MIPv6 todos os pacotes destinados ao nó móvel quando ele estiver fora de sua rede origem seriam perdidos.
-
-\subsection{Funcionamento}
+\section{Visão Geral do Funcionamento do MIPv6}
 \label{sub_mipv6_func}
-No contexto do MIPv6 um nó móvel está sempre acessível por um mesmo endereço IP, independente de seu ponto de conexão com a \textit{Internet}. Este endereço é chamado de endereço domiciliar e é o endereço IPv6 fixo global do nó móvel na sua rede de origem. Todos os nós correspondentes utilizam este endereço para se comunicar com o nó móvel.
 
-Quando um nó móvel estiver fora de sua rede de origem ele terá no mínimo dois endereços atribuídos a sua interface de rede:
+O protocolo IPv6 móvel (MIPv6) tem por objetivo, portanto, permitir que nós IPv6
+se desloquem, de forma transparente, entre sub-redes, com diferentes
+tecnologias de acesso, tais como \textit{Ethernet} e \textit{Wireless LAN}, e
+mantenham as comunicações em andamento. Novas comunicações também serão
+possibilitadas. Sem suporte ao MIPv6 todos os pacotes destinados ao nó móvel,
+quando ele estiver fora de sua rede origem, seriam perdidos.
+
+No contexto do MIPv6 um nó móvel está sempre acessível por um mesmo endereço IP,
+independente de seu ponto de conexão com a \textit{Internet}. Este endereço é
+chamado de endereço domiciliar e é o endereço IPv6 fixo global do nó móvel na
+sua rede de origem. Todos os nós correspondentes utilizam este endereço para se
+comunicar com o nó móvel.
+
+Quando um nó móvel estiver fora de sua rede de origem ele terá no mínimo
+dois endereços atribuídos a sua interface de rede:
 \begin{enumerate}
-\item O endereço domiciliar que será permanente. E que supostamente será utilizado pelos nós correspondentes em suas sessões de comunicação;
-\item Um endereço chamado de \textit{care-of-address}, que se refere a rede visitada. A cada nova rede será configurado um \textit{care-of-address}.
+\item Um endereço domiciliar que será permanente, e que, supostamente será
+utilizado pelos nós correspondentes em suas sessões de comunicação;
+\item Um endereço chamado de \textit{care-of-address}, que se refere a
+rede visitada. A cada nova rede será configurado um \textit{care-of-address}.
 \end{enumerate}
 
-O \textit{Care-of-address} pode ser obtido pelas formas convencionais do IPv6, ou seja, por \textit{stateless autoconfiguration} \cite{rfc2462}, no qual o endereço é gerado por meio de informações divulgadas pelos roteadores das sub-redes, ou por \textit{stateful autoconfiguration}, onde o endereço e outros parâmetros de configuração são providos diretamente de um servidor, por exemplo, os mecanismos DHCPv6 e PPPv6.
+O \textit{care-of-address} pode ser obtido pelas formas convencionais do IPv6,
+ou seja, por \textit{stateless autoconfiguration} \cite{rfc2462}, no qual o
+endereço é gerado por meio de informações divulgadas pelos roteadores das
+sub-redes, ou por \textit{stateful autoconfiguration}, onde o endereço e outros
+parâmetros de configuração são providos diretamente de um servidor, por exemplo,
+os mecanismos DHCPv6 e PPPv6.
 
-Na rede visitada, após detectar o movimento e configurar seu \textit{care-of-address}, o nó móvel envia uma mensagem ICMP de \textit{Binding Update} para seu agente domiciliar, para que este faça a associação de seu endereço domiciliar com o seu \textit{care-of-address}. Esta informação é registrada em um \textit{cache} local do agente domiciliar. Este, em resposta, envia um \textit{Binding Acknowledgement} para o nó móvel. Passando a atuar como um \textit{proxy}, interceptando todos os pacotes com destino ao nó móvel e enviando-os via túnel para este nó. O nó móvel pode também informar ao nó correspondente sua localização. Neste caso, assim que o nó correspondente atualizar seu \textit{cache}, ele encaminhará os pacotes diretamente ao nó móvel.
+Na rede visitada, após detectar o movimento e configurar
+seu \textit{care-of-address}, o nó móvel envia uma mensagem ICMP de
+\textit{Binding Update} para seu Agente Domiciliar, para que este faça a
+associação de seu endereço domiciliar com o seu \textit{care-of-address}. Esta
+informação é registrada em um \textit{cache} local do Agente Domiciliar. Este,
+em resposta, envia um \textit{Binding Acknowledgement} para o nó móvel.
+O Agente Domiciliar passa, então, a atuar como um \textit{proxy}, interceptando
+todos os pacotes com destino ao nó móvel e enviando-os, via túnel, para este nó.
+Opcionalmente, o nó móvel pode também informar ao nó correspondente sua
+localização. Neste caso, assim que o nó correspondente atualizar seu
+\textit{cache}, ele encaminhará os pacotes diretamente ao nó móvel.
 
-Duas formas de comunicação podem ser realizadas entre o nó móvel e o correspondente, ver figura \ref{f_mipv6}. No primeiro modo com tunelamento bidirecional, todos os pacotes são encaminhados via agente domiciliar. Neste caso os pacotes com origem no nó correspondente são roteados para o agente domiciliar e este envia ao nó móvel via túnel. No sentido contrário, pacotes enviados pelo nó móvel, com destino ao nó correspondente são enviandos via túnel ao agente domiciliar (túnel reverso) e estes são roteados normalmente da rede domiciliar para o nó correspondente. O agente domiciliar utiliza \textit{proxy Neighbor Discovery} para interceptar os pacotes com destino ao nó móvel. Neste modo o nó correspondente não precisa ter suporte ao MIPv6.
+Duas formas de comunicação podem ser realizadas entre o nó móvel e o
+correspondente (ver figura \ref{f_mipv6}). No primeiro modo, com tunelamento
+bidirecional, todos os pacotes são encaminhados via Agente Domiciliar e o o nó
+correspondente não precisa ter suporte ao MIPv6. Os
+pacotes com origem no nó correspondente são roteados para o Agente Domiciliar e
+este envia ao nó móvel via túnel. No sentido contrário, pacotes enviados pelo nó
+móvel, com destino ao nó correspondente, são enviandos, via túnel, ao Agente
+Domiciliar (túnel reverso) e estes são roteados normalmente da rede domiciliar
+para o nó correspondente. O Agente Domiciliar utiliza \textit{proxy Neighbor
+Discovery} para interceptar os pacotes com destino ao nó móvel.
 
-O segundo modo, mais eficiente, é chamado de \textit{``otimização de roteamento''}. O nó móvel também faz uma associação do seu \textit{care-of-address} com o nó correspondente e este pode começar a endereçar os pacotes diretamente ao \textit{care-of-address}, melhorando a escabilidade do protocolo e minimizando o tráfego de rede.
+O segundo modo, mais eficiente, é chamado de \textit{``otimização
+de roteamento''}. O nó móvel, adicionalmente ao registro com o Agente
+Domiciliar, também faz uma associação do seu \textit{care-of-address} com o nó
+correspondente e este pode começar a endereçar os pacotes diretamente ao
+\textit{care-of-address}, melhorando a escabilidade do protocolo e minimizando o
+tráfego de rede.
 
 \begin{figure}[!htpb]
 	\centering
@@ -44,11 +112,30 @@ O segundo modo, mais eficiente, é chamado de \textit{``otimização de roteamento'
 	\label{f_mipv6}
 \end{figure}
 
-Como citado anteriormente, enquanto estiver em uma rede visitada o nó móvel terá, mais de um endereço configurado em sua interface: o endereço domiciliar e um ou mais \textit{care-of-address}. Ele pode usar qualquer um como endereço fonte para se comunicar. Com o intuito de manter a trasparência para as camadas superiores à de rede o nó móvel irá utilizar geralmente seu endereço domiciliar.
+Como citado anteriormente, enquanto estiver em uma rede visitada, o nó móvel
+terá mais de um endereço configurado em sua interface: o endereço domiciliar e
+um ou mais \textit{care-of-address}. Ele poderá usar qualquer um destes como
+endereço fonte para se comunicar. Com o intuito de manter a trasparência para
+as camadas superiores à de rede, o nó móvel irá utilizar geralmente seu endereço
+domiciliar. É interessante observar que os pacotes enviados pelo nó móvel
+deverão ser modificados, inserindo-se o \textit{care-of-address} no campo
+endereço de origem e, movendo o endereço domiciliar para o cabeçalho 
+de mobilidade\textit{home address}. No receptor do pacote, estas alterações
+devem ser revertidas para manter a transparência para as camadas superiores. 
+%Olhar de novo
 
-Ao enviar estes pacotes, eles deverão ser modificados inserindo o \textit{care-of-address} no campo endereço de origem e movendo o endereço domiciliar para o campo \textit{home address}. No receptor do pacote estas alterações devem ser revertidas para manter a transparência para as camadas superiores. % Olhar de novo
+\subsection{O Procedimento de Handover no MIPv6}
+\label{sub_mipv6_handover}
 
-Conforme a RFC 3775 \cite{rfc3775}, o \textit{Handover} de camada 3 pode ser definido como o processo em que o nó móvel muda seu ponto de acesso, percebe a mudança de sub-rede e configura um novo \textit{care-of-address}. Note que o gerenciamento do \textit{handover} pode se dar em diferentes camadas da arquitetura de rede. O \textit{handover} de camada enlace refere-se, por exemplo, a descoberta e conexão há um novo ponto de acesso sem necessariamente causar um \textit{handover} de camada 3. Já o \textit{handover} na camada rede, no caso da arquitetura IPv6, envolve:
+Conforme a RFC 3775 \cite{rfc3775}, o \textit{Handover} de camada 3 pode
+ser definido como o processo em que o nó móvel muda seu ponto de acesso, percebe
+a mudança de sub-rede, configura um novo \textit{care-of-address} e o registra
+com o seu Agente Domiciliar/correspondentes. Note que o
+gerenciamento do \textit{handover} pode se dar em diferentes camadas da
+arquitetura de rede. O \textit{handover} de camada enlace refere-se, por
+exemplo, a descoberta e conexão há um novo ponto de acesso sem necessariamente
+causar um \textit{handover} de camada 3. Já o \textit{handover} na camada rede,
+no caso da arquitetura IPv6, envolve:
 \begin{enumerate}
  \item Descoberta de um novo roteador;
  \item Auto configuração do \textit{care-of-address};
@@ -56,15 +143,35 @@ Conforme a RFC 3775 \cite{rfc3775}, o \textit{Handover} de camada 3 pode ser def
  \item Registro com o agente domiciliar e o nó correspondente.
 \end{enumerate}
 
-O início de um \textit{handover} de camada 3 se dá a partir do protocolo \textit{Neighbor Discovery} presente no IPv6. Este protocolo utiliza-se dos mecanismos \textit{Router Discovery} e \textit{Neighbor Unreachability Detection} para realizar a detecção de uma nova rede.
+O início de um \textit{handover} de camada 3 se dá a partir do protocolo
+\textit{Neighbor Discovery} presente no IPv6. Este protocolo utiliza-se, dentre
+outros, dos mecanismos \textit{Router Discovery}  para realizar a detecção de
+uma nova rede.
 
-O \textit{Neighbor Unreachability Detection} \cite{rfc2461} é base do protocolo \textit{Neighbor Discovery}. Com ele é possível detectar se um nó é inalcançável, bem como falhas de conectividade. Caso detecte uma falha de conectividade o tráfego não é enviado para os vizinhos inacessíveis, resolvendo questões de \textit{cache} ARP desatualizado. %Olhar de novo
+O \textit{Router Discovery} \cite{rfc2461} é o mecanismo que permite que 
+nós IPv6 descubram roteadores existentes no seu enlace, através das mensagens
+\textit{Router Advertisement} e \textit{Router Solicitation}. Um roteador IPv6
+periodicamente envia mensagens de \textit{Router Advertisement} para todo o
+enlace. Desta forma, os nós podem configurar seu endereço de rede
+(\textit{stateless autoconfiguration}) e o roteador padrão. O nó também pode
+enviar uma mensagem de \textit{Router Solicitation} recebendo como resposta um
+\textit{Router Advertisement}. %Olhar de novo
 
-O \textit{Router Discovery} \cite{rfc2461} é o mecanismo que permite que nós IPv6 descubram roteadores existentes no seu enlace, através das mensagens \textit{Router Advertisement} e \textit{Router Solicitation}. Um roteador IPv6 periodicamente envia mensagens de \textit{Router Advertisement} para todo o enlace, desta forma os nós podem configurar seu endereço de rede (\textit{stateless autoconfiguration}) e roteadores padrão. O nó também pode enviar uma mensagem de \textit{Router Solicitation} recebendo como resposta um \textit{Router Advertisement}. %Olhar de novo
+Desta forma, o nó móvel pode perceber o movimento quando receber um
+\textit{Router Advertisement} de um novo roteador ou quando perceber que seu
+roteador não esta mais alcançável. Neste caso, ele deve requisitar um novo
+roteador através da mensagem \textit{Router Solicitation}. Por meio das
+mensagens trocadas na descoberta do novo roteador, o nó móvel é capaz de gerar
+seu \textit{care-of-address}. Então, um teste de duplicidade (DAD) deve ser
+efetuado para verificar se não há um endereço igual ao \textit{care-of-address}
+no \textit{link}. Com o sucesso do DAD, o registro com o Agente Domiciliar e o
+nó correspondente deve ser efetuado, finalizando o processo de
+\textit{handover}.
 
-Desta forma o nó móvel pode perceber o movimento quando receber um \textit{Router Advertisement} de um novo roteador ou quando perceber que seu roteador não esta mais alcançável, neste caso deve requisitar um novo roteador através da mensagem \textit{Router Solicitation}. Por meio das mensagens trocadas na descoberta do novo roteador o nó móvel é capaz de gerar seu \textit{care-of-address}. Então, um teste de duplicidade deve ser efetuado para verificar se não há um endereço igual ao \textit{care-of-address} no \textit{link}. Com sucesso do DAD o registro com o agente domiciliar e o nó correspondente deve ser efetuado finalizando o processo de \textit{handover}.
-
-Na figura \ref{f_messages} é possível observar um diagrama de sequência do funcionamento do MIPv6 abordado nesta seção. Neste cenário um correspondente se comunica com o nó móvel através de um fluxo de dados. Inicialmente o nó está na sua rede domiciliar e depois mudará para outra rede.
+Na figura \ref{f_messages} é possível observar um diagrama de sequência do 
+funcionamento do MIPv6 abordado nesta seção. Neste cenário um nó correspondente
+se comunica com o nó móvel através de um fluxo de dados. Inicialmente, o nó está
+na sua rede domiciliar e depois mudará para outra rede.
 
 \begin{figure}[!htpb]
 	\centering
@@ -73,109 +180,117 @@ Na figura \ref{f_messages} é possível observar um diagrama de sequência do funci
 	\label{f_messages}
 \end{figure}
 
-Após o fluxo de dados estabelecido, ocorrem as seguintes trocas de mensagens descritas a seguir:
+Após o fluxo de dados estabelecido, ocorrem as seguintes trocas de mensagens:
 \begin{enumerate}
- \item Inicialmente o nó móvel recebe uma mensagem de \textit{Router Advertisement} do roteador de acesso da rede domiciliar. O nó compara os prefixos de seu endereço domiciliar e o prefixo recebido e observa que está na sua rede domiciliar.
- \item Até então o nó móvel estava trocando mensagens com o nó correspondente em sua rede domiciliar. Quando seu ponto de acesso muda, através da mensagem de \textit{Router Advertisement} do roteador de acesso da rede visitada é detectado o movimento.
- \item Com as infomações recebidas na mensagem do roteador, o nó móvel é capaz de gerar seu \textit{care-of-address}. Então efetua o teste de duplicidade de endereço com as mensagens de \textit{Neighbor Solicitation}.
- \item Com o sucesso do DAD, o nó móvel faz o registro com o seu agente domiciliar, enviando o \textit{Binding Update}  e recebendo como resposta um \textit{Binding Acknowledgement}.
- \item A partir deste ponto o fluxo de dados, entre o nó móvel e o nó correspondente, é trocado utilizando tunelamento bidirecional via agente domiciliar.
- \item Para otimizar o roteamento, o nó móvel faz o registro do seu \textit{care-of-address} com o nó correspondente. Assim, a comunicação entre eles se da de forma normal, sem a necessidade de encaminhar os pacotes ao agente domiciliar.
- \item O fluxo de dados é conduzido diretamente ao nó móvel tendo como endereço destino o \textit{care-of-address}.
+ \item Inicialmente, o nó móvel recebe uma mensagem de \textit{Router
+Advertisement} do roteador de acesso da rede domiciliar. O nó compara os
+prefixos de seu endereço domiciliar e o prefixo do endereço IP divulgado
+pelo roteador de acesso e observa que está na sua rede domiciliar;
+ \item Até então o nó móvel estava trocando mensagens com o nó correspondente
+em sua rede domiciliar. Quando seu ponto de acesso muda, o movimento é
+detectado através da mensagem de \textit{Router Advertisement} do roteador de
+acesso da rede visitada;
+ \item Com as informações recebidas na mensagem do roteador, o nó móvel é capaz
+de gerar o seu \textit{care-of-address}. Ele efetua, então, o teste de
+duplicidade de endereço com as mensagens de \textit{Neighbor Solicitation};
+ \item Com o sucesso do DAD, o nó móvel faz o registro com o seu agente
+domiciliar, enviando o \textit{Binding Update}  e recebendo como resposta um
+\textit{Binding Acknowledgement};
+ \item A partir deste ponto, o fluxo de dados entre o nó móvel e o nó
+correspondente é realizado através do tunelamento bidirecional, via Agente
+Domiciliar;
+ \item Para otimizar o roteamento, o nó móvel faz o registro do
+seu \textit{care-of-address} com o nó correspondente. Assim, a comunicação entre
+eles se dá de forma normal, sem a necessidade de encaminhar os pacotes ao agente
+domiciliar;
+ \item O fluxo de dados é conduzido diretamente ao nó móvel tendo como endereço
+destino o \textit{care-of-address}. O endereço domiciliar é conduzido no
+cabeçalho de mobilidade do IPv6 (\textit{Mobility Header}).
 \end{enumerate}
 
 \subsection{Mensagens do MIPv6}
 \label{sub_mipv6_mes}
-O MIPv6 define um novo cabeçalho de extensão ao protocolo IPv6, o \textit{Mobility Header}. Este cabeçalho de mobilidade é utilizado pelos nós móveis e correspondentes, e o agente domiciliar para construir as mensagens utilizadas no MIPv6. O cabeçalho de mobilidade é identificado pelo valor 135 no \textit{Next Header} do IPv6.
+O MIPv6 define um novo cabeçalho de extensão ao protocolo IPv6,
+o \textit{Mobility Header}. Este cabeçalho de mobilidade é utilizado pelos nós
+móveis e correspondentes, bem como pelo agente domiciliar, para construir as
+mensagens utilizadas no MIPv6.
 
 As mensagens enviadas utilizando o cabeçalho de mobilidade são as seguintes:
 \begin{enumerate}
- \item \textbf{\textit{Binding Refresh Request} (BRR)}: mensagem enviada pelos nós correspondentes ao nó móvel para requisitar a atualização do registro de mobilidade;
- \item \textbf{\textit{Home Test Init} (HoTI)}: mensagen enviada pelo nó móvel para o nó correspondente via agente domiciliar, utilizada para iniciar o procedimento de \textit{Return Routability}. Requisita o \textit{home keygen token}. utilizado pelo nó móvel para gerar a chave \textit{Kbm}.
- \item \textbf{\textit{Care-of Test Init} (CoTI)}: mensagem envianda pelo nó móvel para o nó correspondente, mensagem pertencente ao processo de \textit{Return Routability}. Requisita o \textit{care-of keygen token} utilizado pelo nó móvel para gerar a chave \textit{Kbm}.
- \item \textbf{\textit{Home Test} (HOT)}: mensagem em resposta ao HoTI enviada pelo nó correspondente ao nó móvel;
- \item \textbf{\textit{Care-of Test} (COT)}: mensagem em resposta ao CoTI enviada pelo nó correspondente ao nó móvel;
- \item \textbf{Binding Update}: mensagem utilizada para notificar o agente domiciliar e os nós corresondentes o novo \textit{care-of-address};
- \item \textbf{Binding Acknowledgement}: mensagem utilizada para confirmar o \textit{Binding Update}.
- \item \textbf{Binding Error}: mensagem enviada pelos nós correspondentes ao nó móvel para informar erro na mobilidade relatada.
+ \item \textbf{\textit{Binding Refresh Request} (BRR)}: mensagem enviada
+pelos nós correspondentes ao nó móvel, para requisitar a atualização do registro
+de mobilidade;
+ \item \textbf{\textit{Home Test Init} (HoTI)}: mensagem enviada pelo nó móvel
+para o nó correspondente, via agente domiciliar, utilizada para iniciar o
+procedimento de \textit{Return Routability}. Requisita o \textit{home keygen
+token}. utilizado pelo nó móvel para gerar a chave \textit{Kbm};
+ \item \textbf{\textit{Care-of Test Init} (CoTI)}: mensagem envianda pelo nó
+móvel para o nó correspondente, pertencente ao processo de
+\textit{Return Routability}. Requisita o \textit{care-of keygen token} utilizado
+pelo nó móvel para gerar a chave \textit{Kbm};
+ \item \textbf{\textit{Home Test} (HOT)}: mensagem em resposta ao HoTI enviada
+pelo nó correspondente ao nó móvel;
+ \item \textbf{\textit{Care-of Test} (COT)}: mensagem em resposta ao CoTI
+enviada pelo nó correspondente ao nó móvel;
+ \item \textbf{Binding Update}: mensagem utilizada para notificar o agente
+domiciliar e os nós correspondentes, do novo \textit{care-of-address};
+ \item \textbf{Binding Acknowledgement}: mensagem utilizada para confirmar o
+\textit{Binding Update};
+ \item \textbf{Binding Error}: mensagem enviada pelos nós correspondentes ao nó
+móvel, para informar erro na mobilidade relatada.
 \end{enumerate}
-
-\subsubsection{\textit{Binding Update}}
-\label{sub_sub_mipv6_bu}
-Mensagem essencial ao MIPv6, pois informa ao agente domiciliar e ao nós correspondentes uma mobilidade efetuada pelo nó móvel, permitindo relacionar o endereço domiciliar com o \textit{care-of-address}. O seu formato pode ser observado na figura \ref{f_bu_header}.
-
-\begin{figure}[!htpb]
-	\centering
-	\includegraphics[scale=0.7]{figs/bu_header}
-	\caption{Formato da Mensagem de \textit{Binding Update}}
-	\label{f_bu_header}
-\end{figure}
-
-\begin{description}
- \item[\textit{Sequence \#}:] um inteiro sem sinal de 16 bits, usado para informar a sequência do \textit{Binding Update}; é reenviando no \textit{Binding Acknowledgement} de resposta.
- \item[\textit{Acknowledge} (A):] este bit quando ligado requisita um \textit{Binding Acknowledgement} como resposta.
- \item[\textit{Home Registration} (H):] este bit quando ligado requisita que o receptor atue como um agente domiciliar.
- \item[\textit{Link-Local Address Compatibility} (L):] este bit é ligado quando o endereço domiciliar reportado pelo nó móvel é o mesmo do que esta configurado na interface.
- \item[\textit{Key Management Mobility Capability} (K):] este bit deve estar desligado quando há uma confi- guração manual do IPsec (ver seção seguinte).
- \item[\textit{Lifetime}:] um inteiro sem sinal de 16 bits, indica o tempo de vida da associação. Se tiver o valor zero o endereço deve ser retirado do \textit{cache} do agente domiciliar.
- \item[\textit{Mobility Options}:] campo de tamanho variável que pode conter um \textit{care-of-address} alternativo e opções utilizadas no \textit{Return Routability Procedure}.
-\end{description}
-
-Uma mensagem de \textit{Binding Update}, envianda ao agente domiciliar deve seguir os seguintes requisitos:
-\begin{itemize}
- \item o bit H (\textit{home registration}) deve estar ligado;
- \item o bit A (\textit{acknowledge}) deve estar ligado;
- \item o pacote deve ter a opção de agente domiciliar preenchida;
- \item o endereço de origem do pacote deve ser o \textit{care-of-address} a ser registrado, a menos
-que a sub-opção de \textit{care-of-address} alternativo esteja sendo utilizada;
- \item o tempo de vida do \textit{binding} deve ser menor ou igual ao do \textit{care-of-address}. 
-\end{itemize}
-
-Quando o nó móvel retornar a sua rede de origem deve enviar um \textit{Binding Update} para o seu agente domiciliar com o valor de \textit{lifetime} igual a zero, para que este pare de interceptar e tunelar os pacotes destinados a ele.
-
-\subsubsection{\textit{Binding Acknowledgement}}
-\label{sub_sub_mipv6_ba}
-A mensagem \textit{Binding Acknowledgement} é utilizada para inforamar o recebimento de um \textit{Binding Update}. O seu formato pode ser observado na figura \ref{f_ba_header}.
-\begin{figure}[!htpb]
-	\centering
-	\includegraphics[scale=0.7]{figs/ba_header}
-	\caption{Formato da mensagem de \textit{Binding Acknowledgement}}
-	\label{f_ba_header}
-\end{figure}
-
-\begin{description}
- \item[\textit{Status}:]inteiro de 8 bits, indicando a resposta do \textit{Binding Update}
-Valores menores do que 128 indicam que o \textit{Binding Update} foi aceito pelo nó que o 
-recebeu, enquanto valores maiores que 128 indicam que o \textit{Binding Update} foi
-rejeitado.
- \item[\textit{Key Management Mobility Capability} (K):] este bit deve estar desligado 
-quando há uma confi- guração manual do IPsec.
- \item[\textit{Sequence \#}:] é o número de sequência do \textit{Binding Acknowledgement} copiado do \textit{Binding Update} ao qual está associado.
- \item[\textit{Lifetime}:] tempo em que o \textit{care-of-address} vai permanecer no \textit{cache}.
- \item[\textit{Mobility Options}:] campo de tamanho variável que comtêm opções utilizadas no \textit{Return Routability Procedure}.
-\end{description}
 
 \subsection{Considerações sobre Segurança}
 \label{sub_mipv6_secure}
-O uso de \textit{Binding Updates} não autenticados é tido como um sério problema de segurança, pois, um nó mal intencionado pode forjar um registro com o nó correspondente e passar a receber os pacotes destinados ao nó móvel. Com a intenção de solucionar este problema de segurança \cite{rfc3776}, o protocolo MIPv6 implementa alguns mecanismos.
+O uso de \textit{Binding Updates} não autenticados é tido como um sério problema
+de segurança, pois, um nó mal intencionado pode forjar um registro com o nó
+correspondente e passar a receber os pacotes destinados ao nó móvel. Com a
+intenção de solucionar este problema de segurança \cite{rfc3776}, o protocolo
+MIPv6 implementa alguns mecanismos.
 
-Para dar mais proteção no processo de \textit{Binding Update} com o agente domiciliar pode se utilizar o protocolo IPsec nativo no IPv6. A troca de mensagens é feita utilizando um dos cabeçalhos de segurança:
+Para dar mais proteção no processo de \textit{Binding Update} com o Agente
+Domiciliar pode se utilizar o protocolo IPsec nativo no IPv6. A troca de
+mensagens é feita utilizando um dos cabeçalhos de segurança:
 \begin{itemize}
- \item \textit{Authentication Header} (AH) \cite{rfc2402}: representa um cabeçalho de extensão do protocolo IPv6 e foi criado para indentificar/autenticar os pontos comunicantes.
- \item \textit{Encapsulating Security Payload Header} (ESP) \cite{rfc2406}: representa um cabeçalho de extensão do protocolo IPv6 que fornece integridade e confidencialidade aos datagramas IP por meio da cifra dos dados contidos no datagrama.
+ \item \textit{Authentication Header} (AH) \cite{rfc2402}: representa
+um cabeçalho de extensão do protocolo IPv6 e foi criado para
+indentificar/autenticar os pontos comunicantes.
+ \item \textit{Encapsulating Security Payload Header} (ESP) \cite{rfc2406}:
+representa um cabeçalho de extensão do protocolo IPv6 que fornece integridade e
+confidencialidade aos datagramas IP por meio da cifra dos dados contidos no
+datagrama.
 \end{itemize}
 
-Para o uso de um dos cabeçalhos de segurança é necessário um relacionamento prévio de segurança entre o nó móvel e o agente domiciliar, ou seja, uma chave secreta deve ser configurada nos dois nós.
+Para o uso de um dos cabeçalhos de segurança é necessário um relacionamento
+prévio de segurança entre o nó móvel e o agente domiciliar, ou seja, uma chave
+secreta deve ser configurada nos dois nós.
 
-No processo do registro do nó móvel com o nó correspondente torna-se impossível utilizar o IPsec para prover segurança no processo, pois o nó correspondente pode ser estar localizado em qualquer lugar na \textit{Internet} e uma chave secreta não pode ser pré-configurada. Para tornar o processo seguro faz-se necessário o uso de algum mecanismo global de autenticação automática. A solução proposta para esse problema é conhecida como \textit{Return Routability Procedure}. 
+No processo do registro do nó móvel com o nó correspondente torna-se impossível
+utilizar o IPsec para prover segurança no processo, pois o nó correspondente
+pode ser estar localizado em qualquer lugar na \textit{Internet} e uma chave
+secreta não pode ser pré-configurada. Para tornar o processo seguro faz-se
+necessário o uso de algum mecanismo global de autenticação automática. A solução
+proposta para esse problema é conhecida como \textit{Return Routability
+Procedure}. 
 
 \subsubsection{\textit{Return Routability Procedure}}
 \label{sub_sub_mipv6_rrp}
-Na tentativa de tornar mais seguro o registro do nó móvel com o nó correspondente o MIPv6 introduz uma solução bastante inteligente: o \textit{Return Routability Procedure} \cite{rfc3775}. A idéia do processo é que o nó correspondente obtenha garantias de que o nó móvel seja alcançável pelo seu endereço domiciliar e pelo seu \textit{care-of-address}. Somente assim o nó correspondente estará apto para receber \textit{Binding Updates}.
+Na tentativa de tornar mais seguro o registro do nó móvel com o nó
+correspondente o MIPv6 introduz o \textit{Return Routability Procedure}
+\cite{rfc3775}. A idéia do processo é que o nó correspondente obtenha garantias
+de que o nó móvel seja alcançável pelo seu endereço domiciliar e pelo seu
+\textit{care-of-address}. Somente assim o nó correspondente estará apto para
+receber \textit{Binding Updates}.
 
-O teste \cite{rfc4225} consiste em enviar, a partir do nó móvel, duas mensagens ao nó correspondente: uma via agente domiciliar (\textit{Home Test Init}) e outra diretamente ao nó correspondente (\textit{Care-of Test Init}). Em resposta o nó correspondente envia duas mensagens (\textit{Home Test} e \textit{Care-of Test}). A partir dos dados destas mensagens o nó móvel é capaz de gerar uma chave de segurança denominada \textit{binding management key} (Kbm).
+O teste \cite{rfc4225} consiste em enviar, a partir do nó móvel, duas mensagens
+ao nó correspondente: uma via agente domiciliar (\textit{Home Test Init}) e
+outra diretamente ao nó correspondente (\textit{Care-of Test Init}). Em resposta
+o nó correspondente envia duas mensagens (\textit{Home Test} e \textit{Care-of
+Test}). A partir dos dados destas mensagens o nó móvel é capaz de gerar uma
+chave de segurança denominada \textit{binding management key} (Kbm).
 
-Na figura \ref{f_rrp} pode-se observar o fluxo das mensagens utilizados no \textit{Return Routability Procedure}.
+Na figura \ref{f_rrp} pode-se observar o fluxo das mensagens utilizados
+no \textit{Return Routability Procedure}.
 \begin{figure}[!htpb]
 	\centering
 	\includegraphics[scale=.5]{figs/rrp}
@@ -183,41 +298,101 @@ Na figura \ref{f_rrp} pode-se observar o fluxo das mensagens utilizados no \text
 	\label{f_rrp}
 \end{figure}
 
-Para autorizar o \textit{Binding Update} o nó móvel gerou a chave \textit{Kbm} que permite uma verificação por parte do nó correspondente. Ao receber o \textit{Binding Update} o nó correspondente é capaz de recalcular a Kbm e permitir a associação do \textit{care-of-address} com o endereço domiciliar.
+Para autorizar o \textit{Binding Update} o nó móvel gerou a chave \textit{Kbm} 
+que permite uma verificação por parte do nó correspondente. Ao receber o
+\textit{Binding Update} o nó correspondente é capaz de recalcular a Kbm e
+permitir a associação do \textit{care-of-address} com o endereço domiciliar.
 
-É importante salientar que o \textit{Return Routability Procedure} não é totalmente seguro, pois um atacante pode capturar as mensagens enviadas pelo nó correspondente e forjar mensagens de \textit{Binding Updates}. Obviamente o mesmo atacante conseguirá fazer o mesmo ataque em uma rede IPv6 sem mobilidade. Podemos concluir que o \textit{Return Routability Procedure} não introduz riscos adicionais ao protocolo IPv6 básico.
+É importante salientar que o \textit{Return Routability Procedure} não é 
+totalmente seguro, pois um atacante pode capturar as mensagens enviadas pelo nó
+correspondente e forjar mensagens de \textit{Binding Updates}. Obviamente o
+mesmo atacante conseguirá fazer o mesmo ataque em uma rede IPv6 sem mobilidade.
+Podemos concluir que o \textit{Return Routability Procedure} não introduz riscos
+adicionais ao protocolo IPv6 básico.
 
 
 \section{Visão geral do protocolo HMIPv6}
 \label{s_hmipv6}
-O modelo do protocolo MIPv6 apresenta alguns problemas que comprometem a sua escalabilidade na \textit{Internet}, alguns desses puderam ser observados nos cenários estudados. Dentre estes problemas podemos destacar:
+O modelo do protocolo MIPv6 apresenta alguns problemas que comprometem a sua
+escalabilidade na \textit{Internet}, alguns desses puderam ser observados nos
+cenários estudados neste trabalho. Dentre estes problemas podemos destacar:
 \begin{itemize}
  \item tempo na detecção do movimento;
- \item tempo na configuração do novo endereço na rede visitada, o \textit{care-of-address};
- \item tempo do registro com o seu agente domiciliar;
+ \item tempo na configuração do novo endereço na rede visitada, o
+ \textit{care-of-address};
+ \item tempo do registro com o seu Agente Domiciliar;
 \end{itemize}
 
-Em um ambiente utilizando o MIPv6 com um excessivo numero de nós móveis a tendência é que tenha-se perda na qualidade de serviço e o aumento do \textit{delay} na entrega dos pacotes.
+Em um ambiente utilizando o MIPv6 com um excessivo numero de nós móveis a
+tendência é que se tenha perda na qualidade de serviço e o aumento do
+\textit{delay} na entrega dos pacotes.
 
-Com o intuito de minimizar os efeitos dos longos retardos no envio dos \textit{Binding Updates}, para o registro com o agente domiciliar ou o nó correspondente, e reduzir o tráfego de pacotes de controle na \textit{Internet} foi proposto um protocolo complementar ao MIPv6 o IPv6 Móvel Hierárquico (HMIPv6) \cite{rfc4140}.
+Com o intuito de minimizar os efeitos dos longos retardos no envio dos
+\textit{Binding Updates}, para o registro com o Agente Domiciliar ou com os nós
+correspondentes e, reduzir o tráfego de pacotes de controle na
+\textit{Internet}, foi proposto um protocolo complementar ao MIPv6, o IPv6 Móvel
+Hierárquico (HMIPv6) \cite{rfc4140}.
 
 %ref
-A idéia principal do protocolo é tratar a mobilidade global e local de formas distintas. Uma movimentação local pode ser entendida como a que acontece dentro de um mesmo \textit{site} e a global entre \textit{sites} diferentes. Podemos definir um  \textit{site} como uma dimensão arbitrária, por exemplo, uma rede de uma empresa ou universidade com uma ou mais sub-redes.
+A idéia principal do protocolo é tratar a mobilidade global e local de formas
+distintas. Uma movimentação local pode ser entendida como a que acontece dentro
+de um mesmo \textit{domínio} e a global entre \textit{domínios} diferentes.
+Podemos definir um  \textit{domínio} como uma dimensão arbitrária, por exemplo,
+uma rede de uma empresa ou universidade com uma ou mais sub-redes.
 
-Um estudo \cite{kirby} sobre os padrões de mobilidade analisou diversos profissionais, mostrou que 69\% das movimentações são locais independente deles possuírem algum dispositivo móvel. Este dado mostra que o modelo hierárquico é mais adequado para o uso na \textit{Internet}. As principais vantagens seriam a diminuição no tempo do \textit{handover} e do tráfego enviado para à \textit{Internet} com sinalização.
+Um estudo \cite{kirby} sobre os padrões de mobilidade analisou diversos
+profissionais, mostrou que 69\% das movimentações são locais independente deles
+possuírem algum dispositivo móvel. Este dado mostra que o modelo hierárquico é
+mais adequado para o uso na \textit{Internet}. As principais vantagens seriam a
+diminuição no tempo do \textit{handover} e do tráfego de sinalização enviado
+para à \textit{Internet}.
 
-\subsection{Funcionamento}
-A principal mudança no HMIPv6 em relação ao MIPv6 foi à introdução de um novo agente, o MAP, que nada mais é do que um roteador utilizado para gerenciar a mobilidade em um determinado um  \textit{site}. O funcionamento do agente domiciliar e do nó corresponde permanece idêntico ao do MIPv6. Assim como no MIPv6 o funcionamento do HMIPv6 não depende da tecnologia de acesso.
+\subsection{Funcionamento do HMIPv6}
+\label{sub_func_hmipv6}
+A principal mudança no HMIPv6 em relação ao MIPv6 foi à introdução de um novo
+agente, o MAP, que nada mais é do que um roteador utilizado para gerenciar a
+mobilidade em um determinado \textit{domínio}. O funcionamento do Agente
+Domiciliar e dos nós correspondentes permanece idêntico ao do MIPv6. Assim como
+no MIPv6, o funcionamento do HMIPv6 não depende da tecnologia de acesso.
 
-Quando um nó movel entra em um \textit{site} com a presença de um MAP, ele irá receber um RA com informações sobre os roteadores de acesso. Isso permite ele auto-configure os dois endereços. O RCoA, que será baseado no mesmo prefixo de rede do MAP. E o LCoA, que utilizará o mesmo prefixo anunciado pelo roteador padrão. 
+Quando um nó movel entra em um \textit{domínio} com a presença de um MAP, ele
+irá receber uma mensagem RA com informações sobre os roteadores de acesso. Isso
+permite que ele auto-configure dois endereços: o RCoA (CoA regional), que será
+baseado em um prefixo de uma rede do MAP, e o LCoA (CoA local), que utilizará o
+mesmo prefixo anunciado pelo roteador padrão. 
 
-Depois de gerar os endereços, ele irá atualizar suas associações. O nó móvel enviará um \textit{Binding Update} para o MAP para que este faça a associação do RCoA com o LCoA. Outros \textit{Binding Updates} também são enviados, como para o agente domiciliar e os nós correspondentes, neste caso para que estes façam a associação do endereço domiciliar com o RCoA. Se o nó móvel estiver se comunicando com correspondes locais, ou seja, do mesmo \textit{site}, ele deve enviar um \textit{Binding Update} para à associação do endereço domiciliar com o LCoA.
+Após gerar os endereços RCoA e LCoA, o nó móvel irá atualizar suas associações.
+Ele enviará um \textit{Binding Update} para o MAP, para que este faça a
+associação do RCoA com o LCoA. Outros \textit{Binding Updates} também serão
+enviados para o Agente Domiciliar e, opcionalmente, para os nós correspondentes.
+Neste caso, para que estes façam a associação do endereço domiciliar com o RCoA.
+Se o nó móvel estiver se comunicando com correspondes locais, ou seja, do mesmo
+\textit{domínio}, ele deve enviar um \textit{Binding Update} para à associação
+do endereço domiciliar com o LCoA.
 
-O funcionamento do MAP é semelhante ao do agente domiciliar, ele intercepta pacotes destinados ao RCoA originado pelo agente domiciliar ou nós correspondentes, então os envia via túnel bidirecional, estabelecido entre o MAP e o LCoA. Este túnel é usado para enviar todos os pacotes oriundos do nó móvel, exceto os com destino aos correspondentes locais.
+O funcionamento do MAP é semelhante ao do Agente Domiciliar: ele intercepta
+pacotes destinados ao RCoA, originados pelo tunelamento entre Agente
+Domiciliar e nó móvel, ou pelos pacotes provindos diretamente dos nós
+correspondentes. Neste último caso, o destino dos pacotes provindos dos nós
+correspondentes é o RCoA, sendo que o endereço domiciliar é colocado no
+cabeçalho de mobilidade do IPv6. Seja qual for o caso, o MAP envia os pacotes
+destinados ao RCoA pelo túnel bidirecional, estabelecido entre o MAP
+e o LCoA. Este túnel é também usado para enviar todos os pacotes oriundos do nó
+móvel, exceto os com destino aos correspondentes locais.
 
-As principais formas de atuação propostas pelo protocolo são quando o nó móvel se desloca dentro de um mesmo \textit{site} (mobilidade local) e entre \textit{sites} diferentes (mobilidade global):
+Dois comportamentos podem ser distinguidos no protocolo HMIPv6: quando o nó
+móvel se desloca dentro de um mesmo \textit{domínio} (mobilidade local) e entre
+\textit{domínios} diferentes (mobilidade global):
 \begin{description}
- \item[Mobilidade local:] quando o nó móvel troca somente o seu LCoA, é necessário o envio de \textit{Binding Updates} para o MAP e os correspondentes locais. Como resultado os pacotes com origem do agente domiciliar e dos nós correspondentes ainda são enviandos para o mesmo RCoA, assim minimizando o tempo do \textit{handover} e a perda de pacotes, também notamos que todo tráfego gerado é dentro do mesmo \textit{site}.
+ \item[Mobilidade local:] quando o nó móvel muda somente o seu endereço LCoA,
+ou seja, muda de roteador de acesso mas continua sob a cobertura do mesmo MAP.
+Neste caso, é necessário o envio de \textit{Binding Updates} para o MAP e os
+correspondentes
+locais, atualizando a associação RCoA-LCoA. Como resultado, os pacotes com
+origem no agente domiciliar e nos nós
+correspondentes continuarão a serem enviandos para o mesmo RCoA, minimizando o
+tempo do \textit{handover} e a perda de pacotes. Também notamos que todo tráfego
+gerado é dentro do mesmo \textit{domínio}.
 % \begin{figure}[!htpb]
 % 	\centering
 % 	\includegraphics[scale=.45]{figs/intra_site}
@@ -225,7 +400,9 @@ As principais formas de atuação propostas pelo protocolo são quando o nó móvel s
 % 	\label{f_intra}
 % \end{figure}
 
-\item[Mobilidade global:] neste caso o nó móvel reconfigura o seu RCoA e LCoA, e envia Binding Updates para o MAP, os nós comunicantes fora do \textit{site} informando o novo RCoA e os nós do mesmo site para informar o LCoA.
+\item[Mobilidade global:] neste caso o nó móvel reconfigura o seu RCoA e LCoA, e
+envia Binding Updates para o MAP, os nós comunicantes fora do \textit{site}
+informando o novo RCoA e os nós do mesmo site para informar o LCoA.
 % \begin{figure}[!htpb]
 % 	\centering
 % 	\includegraphics[scale=.45]{figs/inter_site}
@@ -234,7 +411,12 @@ As principais formas de atuação propostas pelo protocolo são quando o nó móvel s
 % \end{figure}
 \end{description}
 
-A figura \ref{f_hmipv6} ilustra um exemplos de domínios HMIPv6, onde o nó móvel está inicialmente atrelado a rede domiciliar. Em seguida realiza mobilidade para o \textit{site 1}, tendo como roteador padrão o RA 1, e a utilizar o MAP 1. Após isso realiza uma mobilidade local, mudando o roteador padrão para RA 2. Por último realiza uma mobilidade global, passando a ter o RA 3 como roteador padrão, e passa a utilizar o MAP 2.
+A figura \ref{f_hmipv6} ilustra um exemplo de domínios HMIPv6 onde o nó móvel
+está inicialmente atrelado a rede domiciliar. Em seguida, realiza mobilidade
+para o \textit{domínio 1}, tendo como roteador padrão o RA1, e utilizando o
+MAP1. Após isso, o nó móvel realiza uma mobilidade local, mudando o roteador
+padrão para RA2. Por último, realiza uma mobilidade global, passando a ter o RA3
+como roteador padrão, e passando a utilizar o MAP2.
 
 \begin{figure}[!htpb]
 	\centering
@@ -243,7 +425,10 @@ A figura \ref{f_hmipv6} ilustra um exemplos de domínios HMIPv6, onde o nó móvel 
 	\label{f_hmipv6}
 \end{figure}
 
-A figura \ref{f_messages_hmipv6} apresenta a sequência de mensagens trocadas durante o movimento do nó móvel no cenário da figura \ref{f_hmipv6}, sendo suprimido os processos de detecção de endereço duplicado e \textit{Return Routability}.
+A figura \ref{f_messages_hmipv6} apresenta a sequência de mensagens trocadas
+durante o movimento do nó móvel no cenário da figura \ref{f_hmipv6}, sendo
+suprimido os processos de detecção de endereço duplicado e \textit{Return
+Routability}.
 
 \begin{figure}[!htpb]
 	\centering
@@ -252,50 +437,95 @@ A figura \ref{f_messages_hmipv6} apresenta a sequência de mensagens trocadas dur
 	\label{f_messages_hmipv6}
 \end{figure}
 
-As trocas de mensagens que ocorrem na figura \ref{f_messages_hmipv6} são descritas a seguir:
+As trocas de mensagens que ocorrem na figura \ref{f_messages_hmipv6}
+são descritas a seguir:
 
 \begin{enumerate}
  \item Inicialmente o nó móvel está na rede domiciliar se comunicando com o um
 correspondente.
- \item O MAP 1 envia mensagens de RADV(\textit{Router Advertisement}), quais os roteadores
- so dominio irão anexar informaçãos e encaminhar para suas sub-redes. Nesse momento o nó
- móvel recebe um RADV do RA 1, realizando a mobilidade para a respectiva rede.
- \item O nó móvel realizará o registro com o MAP 1, enviando-lhe um \textit{Binding Update} associando o endereço domiciliar com o LCoA1. Após efetuar o registro, o MAP 1 enviará um \textit{Binding Acknowledgement}.
- \item O próximo nó com quem o nó móvel realizará o registro será o agente domiciliar. A diferença será que o registro irá associar o endereço domiciliar com o RCoA1.
- \item O fluxo de dados percorre o seguinte caminho: sai do nó correspondente com destino ao endereço domiciliar, como o nó movel não entá na rede domiciliar, o agente domiciliar interceptará os pacotes, e encaminhará para o endereço registrado via tunel, no caso o RCoA1. Quando chegar no MAP 1, será unelado novamente até o LCoA1. O fluxo de dados passa pelo RA1, mas ele só encaminha o pacote para nó móvel, onde termina os tuneis e é entrege os pacotes com destino ao endereço domiciliar.
- \item O nó móvel se movimenta e sai do alcance do RA 1 e entra torna-se alcansavel para o RA 2. Como foi feita uma mobilidade local,será neccessário somente configurar um novo LCoA.
- \item Será necessário atualizar o registro com o MAP associando o novo LCoA, LCoA 2 ao endereço domiciliar.
- \item O trajeto do fluxo de dados será alterádo do MAP 1 para frente, sendo transparente para o nó correspondente e o agente domiciliar. O tunel entre o MAP 1 e o nó móvel terá como destino o LCoA2, e passará pelo RA 2, o roteador padrão do nó movel.
- \item O nó móvel recebe um RADV com informações de um outro MAP através do RA 3, o que indica que ocorreu um movimento para outro dominio, realizou uma mobilidade global.
- \item O primeiro registro será com o novo MAP, o MAP 2. A associação feita será do endereço domiciliar com o LCoA3.
- \item Depois será atualizado o registro no agente domiciliar, assoiando o endereço domiciliar como RCoA2.
- \item Efetua o reistro com o nó correspondente, associando o endereço domiciliar e o RCoA2. Após o registro, o agente domiciliar será utilizado somente por outro correspondente para encontrar o nó móvel e estabelecer uma comunicação.
- \item O fluxo de dados será endereçado ao RCoA2, e utilizará um cabeçalho de mobilidade, indicando que o pacote é endereçado ao endereço domiciliar do nó móvel.
+ \item O MAP1 envia mensagens de RADV(\textit{Router Advertisement}). Os
+roteadores de acesso R1 e R2, sob a cobertura de MAP1, irão anexar as
+informaçãos recebidas das mensagens RADV do MAP 1 e, encaminhar para suas
+sub-redes, via RADV. O nó móvel recebe uma mensagem de RADV do RA1, realizando
+a mobilidade para a respectiva rede;
+ \item O nó móvel realizará o registro com o MAP1, enviando-lhe um
+\textit{Binding Update}, associando desta forma o endereço domiciliar com o
+LCoA1. Após efetuar o registro, o MAP1 enviará um \textit{Binding
+Acknowledgement};
+ \item O próximo nó com quem o nó móvel realizará o registro será o agente 
+domiciliar. A diferença será que o registro irá associar o endereço domiciliar
+com o RCoA1;
+ \item O fluxo de dados percorre o seguinte caminho: sai do nó correspondente
+com destino ao endereço domiciliar. Como o nó movel não está na rede domiciliar,
+o Agente Domiciliar interceptará os pacotes, e encaminhará para o endereço
+registrado, via túnel, no caso o RCoA1. Quando chegar no MAP1, será tunelado
+novamente até o LCoA1. O fluxo de dados passa pelo RA1, mas ele só encaminha o
+pacote para o nó móvel, onde termina os túneis;
+ \item O nó móvel se movimenta e sai do alcance do RA1 e entra na cobertura
+de RA2. Como foi feita uma mobilidade local, será neccessário somente configurar
+um novo LCoA (LCoA2);
+ \item Será necessário atualizar o registro com o MAP1, associando o
+LCoA2 ao endereço domiciliar. Não é necessário novo registro com o MAP1;
+ \item O trajeto do fluxo de dados será alterádo do MAP1 para frente, sendo
+transparente para o nó correspondente e para o Agente Domiciliar. O túnel entre
+o MAP1 e o nó móvel terá como destino o LCoA2, e passará pelo RA2, o roteador
+padrão do nó móvel.
+ \item O nó móvel recebe uma mensagem RADV com informações de um outro MAP
+através do RA3, o que indica que ocorreu uma mobilidade global está em
+andamento. Um novo LCoA será formado (LCoA3) e um novo RCoA(RCoA2);
+ \item O primeiro registro será com o novo MAP, o MAP2. A associação feita será
+do endereço domiciliar com o LCoA3;
+ \item O registro no Agente Domiciliar será atualizado, associando o
+endereço domiciliar com o RCoA2;
+ \item O registro com o nó correspondente é realizado, associando o endereço
+domiciliar com  RCoA2. Após o registro, o agente domiciliar será utilizado
+somente por outro correspondente para encontrar o nó móvel e estabelecer uma
+comunicação;
+ \item O fluxo de dados será endereçado ao RCoA2, e utilizará um cabeçalho 
+de mobilidade, indicando que o pacote é endereçado ao endereço domiciliar do nó
+móvel.
 \end{enumerate}
 
-Podemos perceber que em algumas vezes o nó móvel deve preferir atuar como no MIPv6 para tornar mais simples o seu funcionamento. Neste caso a rede visitada se encontra próxima ao agente domiciliar e não se faz necessário o uso do MAP, a discussão sobre este tipo de cenário não faz parte do escopo deste trabalho.
+Podemos perceber que, em algumas vezes o nó móvel deve preferir atuar como no
+MIPv6 para tornar mais simples o seu funcionamento. Neste caso a rede visitada
+se encontra próxima ao agente domiciliar e não se faz necessário o uso do MAP.
 
 \subsection{Envio de \textit{Binding Updates}}
 %ref
-Após o evento de mobilidade e o nó móvel auto-configurou o seu RCoA ele precisa enviar um \textit{Binding Update} para o MAP. O pacote desta mensagem deve seguir os seguintes requisitos, definidos em:
-\begin{itemize}
- \item bit A (\textit{acknowledge}) deve estar ligado;
- \item bit M (\textit{map registration}) deve estar ligado;
- \item o RCoA na opção de agente domiciliar;
- \item o LCoA deve ser usado como endereço de origem do \textit{Binding Update};
-\end{itemize}
-O \textit{Binding Update} irá associar o RCoA com o LCoA, similarmente como um endereço domiciliar. O MAP fará o teste de duplicidade (DAD) do RCoA, somente no primeiro \textit{Binding Update}, e retornará um \textit{Binding Acknowledgement} para o nó móvel.
+Após o evento de mobilidade global, o nó móvel auto-configura um novo RCoA e um
+novo LCoA e ele precisa enviar um \textit{Binding Update} para o MAP. O
+\textit{Binding Update} irá associar o RCoA com o LCoA, de forma similar
+a associação do CoA com o endereço domiciliar no MIPv6. O MAP fará o teste de
+duplicidade (DAD) do RCoA, somente no primeiro \textit{Binding Update}, e
+retornará um \textit{Binding Acknowledgement} para o nó móvel.
 
-A especificação do protocolo permite que um nó móvel tenha mais de um RCoA se recebeu mais de uma opção de MAP, para todos os RCoAs devem ser feito um Binding Update. O nó móvel não deve fazer um multi-nível hierárquico, pois irá diminuir a eficiência e a performance do protocolo muitos 
+A especificação do protocolo permite que um nó móvel tenha mais de um RCoA.
+Isto se aplica para o caso deste ter recebido mais de uma opção de MAP. Nesta
+situação, deverá ser feito um Binding Update para cada RCoA . 
 
-Depois de fazer o registro com o MAP o nó móvel deve fazer a associação do RCoA com o endereço domiciliar no agente domiciliar e nos nós correspondentes. A mensagem de \textit{Binding Update} deve ser envianda utilizando a opção de \textit{care-of-address} alternativo preenchida com o RCoA e o tempo de vida deve ser menor do recebido no \textit{Binding Acknowledgement} do registro com o MAP.
+Depois de fazer o registro com o MAP o nó móvel deve fazer a associação do RCoA
+com o endereço domiciliar no agente domiciliar e nos nós correspondentes. A
+mensagem de \textit{Binding Update} deve ser envianda utilizando a opção de
+\textit{care-of-address} alternativo preenchida com o RCoA e o tempo de vida
+deve ser menor que o do recebido no \textit{Binding Acknowledgement} do registro
+com o MAP.
 
 \subsection{Descoberta de um MAP}
-Esta seção descreve como um nó móvel obtem o endereço do MAP e seu prefixo de rede, e como ARs presentes no \textit{site} descobrem os MAPs. Dois métodos são definidos para o descobrimento do MAP:
+O nó móvel e os roteadores de acesso deve obter de alguma forma o endereço do
+e o prefixo de rede do MAP. Dois métodos são definidos para o descobrimento do
+MAP:
  
 \begin{description}
- \item[Descobrimento dinâmico:] é baseado na propagação da opção de MAP nas mensagens de \textit{Router Advertisements}. Na opção de MAP estão presentes o endereço global do MAP, seu prefixo de rede, um vetor de distância baseado nos saltos da mensagem até a chegada no nó móvel, esta opção influenciará na escolha do MAP padrão, e um MAP particular como preferência. Neste método os ARs devem ser configurados para receberem as mensagens com opções de MAP e re-enviarem incrementando o vetor de distância.
- \item[Configuração manual:] neste método a opção de MAP é configurada manualmente nos ARs por um administrador da rede, em muitos \textit{sites} esse é o mescanismo padrão. Também deve ser possível a configuração por mecanismos dinâmicos.
+\item[Descobrimento dinâmico:] é baseado na propagação da opção de MAP nas
+mensagens de \textit{Router Advertisements}. Na opção de MAP estão presentes o
+endereço global do MAP, seu prefixo de rede e um vetor de distância baseado nos
+saltos da mensagem até a chegada no nó móvel. Esta última opção influenciará na
+escolha do MAP padrão, e um MAP particular como preferência. Neste método, os
+roteadores de acesso devem ser configurados para receberem as mensagens com
+opções de MAP e as re-enviarem, incrementando o vetor de distância;
+\item[Configuração manual:] neste método, a opção de MAP é configurada
+manualmente nos ARs, por um administrador da rede. Em muitos \textit{domínios}
+esse é o mescanismo padrão.
  \end{description}
 
 % \section{Alterações propostas para o MIPL}
