@@ -5,21 +5,19 @@
 \chapter{Plataforma de Testes para Mobilidade em Redes IP}
 \label{c_plataforma}
 
-\section{Introdução}
+\section{Descrição Geral da Plataforma}
 \label{s_plataforma_intro}
-Este capítulo tem por objetivo descrever uma plataforma de testes para
-mobilidade em redes IP. A plataforma foi concebida
-com o objetivo de prover ao usuário:
-\begin{itemize}
- \item um sistema com os protocolos de mobilidade da
-camada de rede MIPv6 e HMIPv6. Outros protocolos poderãm ser instalados no
-futuro;
- \item ferramentas para estudo dos protocolos de mobilidade;
- \item facilidade na construção de cenários de rede, sem se ater a
-procedimentos de configuração e instalação de equipamentos de rede sem fio;
-\end{itemize}
 
-\section{Descrição Geral da Plataforma de Testes de Mobilidade}
+A plataforma desenvolvida neste trabalho tem como objetivo prover o usuário com:
+\begin{itemize}
+ \item um sistema que permita facilidades no estudo dos protocolos de
+mobilidade da camada de rede, em particular o MIPv6 e HMIPv6. Outros protocolos
+poderão ser instalados no futuro;
+ \item facilidades para a rápida construção de cenários de rede, sem se ater a
+procedimentos de configuração e instalação de equipamentos de rede sem fio;
+\item facilidades para a rápida instalação da platfaorma nas máquinas
+hospedeiras;
+\end{itemize}
 
 Na concepção da plataforma de testes, optou-se por utilizar um ambiente baseado
 em máquinas virtuais devido a rapidez na realização de experimentos: em somente
@@ -39,9 +37,8 @@ fio.
 Os seguintes componentes podem ser identificados nesta plataforma:
 \begin{itemize}
  \item máquinas e \textit{switches} virtuais UML para construção de domínios e
-dos
-nós móveis. Os \textit{switches} virtuais foram modificados para a simulação de
-mobilidade;
+dos nós móveis. Os \textit{switches} virtuais foram modificados para a simulação
+de mobilidade;
 \item Interface gráfica para permitir a rápida construção de cenários e para
 possibilitar o comando de mobilidade.
 \item Ferramentas para estudo dos protocolos: gerador de tráfego, medidor de
@@ -69,9 +66,9 @@ discutidos separadamente nos próximos capítulos.
 A máquina virtual \textit{Linux} em Modo Usuário (\textit{User Mode Linux} -
 UML) foi escolhida como base para a construção das redes virtuais na plataforma
 de testes. Ela oferece várias possibilidades de construção de redes, além de ser
-incorporada ao \textit{kernel} do Linux e de apresentar um alto desempenho em
-execução. Isto permite iniciar multiplas instâncias UML em uma mesma máquina
-hospedeira e a construção de complexos cenários de rede.
+incorporada ao \textit{kernel} do Linux e de apresentar um alto desempenho na
+execução de programas. Isto permite iniciar multiplas instâncias UML em uma
+mesma máquina hospedeira e a construção de complexos cenários de rede.
 
 O Linux executa a máquina UML como um processo comum no sistema. O processo é
 executado em um ambiente isolado protegendo a camada física da máquina
@@ -128,7 +125,8 @@ compilado e no sistema de arquivos são:
  \item Implementações dos protocolos de roteamento RIPv2, RIPng, OSPFv2, OSPFv3
 e BGP4;\begin{large}       \end{large}
  \item Utilitários de rede: \textit{tcpdump}, \textit{ping}, \textit{ping6},
-\textit{traceroute}, \textit{ip}( mostra e manipula rotas, dispositivos, policita de roteamento e tunels), \textit{iptables}, \textit{tc};% (citar mais)
+\textit{traceroute}, \textit{ip}( mostra e manipula rotas, dispositivos,
+policita de roteamento e tunels), \textit{iptables}, \textit{tc};% (citar mais)
  \item Ferramentas IPSec;
  \item \textit{Kernel} suporte para \textit{Netfilter};
  \item \textit{Kernel} suporte para Qualidade de serviço (QoS);
@@ -140,18 +138,19 @@ IPv6;
 Outros componentes e recursos podem facilmente ser adicionados a plataforma de
 testes.
 
-\subsection{Redes Virtuais com UML}
+\subsection{Redes Virtuais Móveis com a maquina UML}
+
 UML oferece dois tipos de redes para as maquinas virtuais: uma que permite
 conectar a UML com o hospedeiro e uma outra denominada redes virtuais isoladas
 onde somente fazem parte instâncias UML. No primeiro tipo de rede as tecnologias
-de tranporte utilizados pela UML são: \textit{TUN/TAP}, \textit{Ethertap},
+de transporte utilizados pela UML são: \textit{TUN/TAP}, \textit{Ethertap},
 \textit{SLIP} e \textit{Slirp}. No segundo tipo: \textit{switch} virtual e
 \textit{Multicast}.
 
 Nos cenários de rede, para testes dos protocolos de rede, foram utilizadas as
 redes virtuais isoladas. O programa \textit{uml\_switch}, integrante do pacote
 UML, permite a interligação
-das máquinas virtuais, ele é um utilitário que implementa um \textit{switch
+das máquinas virtuais. Ele é um utilitário que implementa um \textit{switch
 Ethernet} ou um \textit{hub} em \textit{software}. As máquinas UML se conectam
 ao \textit{switch} e se comunicam por meio de um arquivo de domínio \textit{UNIX
 sockets} no hospedeiro.
@@ -167,20 +166,26 @@ participar das duas redes.
     \label{f_plataforma_vnuml}
 \end{figure}
 
-Em geral, uma plataforma de testes de mobilidade envolve o uso de redes sem fio, contudo os protocolos estudados são em níveis de camada 3 sendo o \textit{uml\_switch} suficiente. Porém o \textit{uml\_switch} e nenhuma outra ferramenta permite simular a mobilidade em máquinas virtuais UML. Por esse motivo foi preciso fazer alterações no programa do \textit{uml\_switch}, que é um software livre sobre a licença GPL versão 2, escrito na linguagem de programação C.
+Em geral, uma plataforma de testes de mobilidade envolve o uso de redes sem fio,
+contudo os protocolos estudados são em níveis de camada 3 sendo a mudança de
+portas em um \textit{switch} suficiente para verificar boa parte do
+comportamento dos protocolos.  Tornou-se necessário então fazer alterações no
+programa do \textit{uml\_switch}, que é um software livre sobre a licença GPL
+versão 2, escrito na linguagem de programação C. 
 
-A principal alteração no código fonte do \textit{uml\_switch} foi a
+A principal alteração no código fonte do \textit{uml\_switch} foi a inclusão da
 possibilidade de segmentação de redes, permitindo a criação de uma espécie de
-\textit{VLan's} e realizar a mobilidade dos nós conectados ao \textit{switch}.
-Após a mudança cada nó conectado ao \textit{switch} pertence a uma \textit{VLan} e é
-possível mover o nó para outra \textit{VLan}.
+\textit{VLan}. Desta forma é possível realizar a mobilidade dos nós conectados
+ao \textit{switch}. Após a mudança, cada nó conectado ao \textit{switch}
+pertence a uma \textit{VLan} e é possível mover o nó para outra \textit{VLan}.
 
-Outra implementação que foi feita no \textit{uml\_switch} foi a adição de uma
-\textit{thread} que responde um servidor \textit{telnet}, que basicamente tem
-duas funções. A primeira seria permitir o usuário efetuar a mobilidade dos nós
-conectados no \textit{switch}. A outra seria listar os nós conectados. Esse recurso
-torna fácil a implementação de uma interface gráfica do \textit{switch}, pois outro
-programa em outra linguagem de programação pode utilizar deste recurso para gerar a interface.
+Outra implementação que foi realizada no \textit{uml\_switch} foi a adição de
+uma \textit{thread} que responde um servidor \textit{telnet}, que basicamente
+tem duas funções. A primeira é permitir o usuário efetuar a mobilidade dos
+nós conectados no \textit{switch}. A outra função, é listar os nós conectados.
+Esse recurso torna fácil a implementação de uma interface gráfica do
+\textit{switch}, pois um outro programa, em outra linguagem de programação, pode
+utilizar-se deste recurso para gerar a interface.
 
 % A figura \ref{f_plataforma_switch_petri}, é uma rede de petri, que modela de
 % forma simplista o funcionamento do \textit{uml\_switch} após as alterações
@@ -198,9 +203,9 @@ programa em outra linguagem de programação pode utilizar deste recurso para gera
 
 \section{GUML - Interface Gráfica para as Máquinas Virtuais UML}
 A máquina virtual UML tem se mostrado uma ótima ferramenta para a plataforma
-de teste. Porém, a sua utilização na construção de redes virtuais n?o é muito
+de teste. Porém, a sua utilização na construção de redes virtuais não é muito
 prática, porque para cada cenário é necessário a criação de \textit{scripts}
-para iniciar as máquinas e configurar as redes. Isto, torna a construção de
+para iniciar as máquinas e configurar as redes. Isto torna a construção de
 cenários demorada e não tão evidente, além do fato de que o usuário necessita de
 bons conhecimentos do sistema operacional \textit{linux}, indo um pouco contra a
 idéia proposta pela plataforma.
@@ -208,7 +213,7 @@ idéia proposta pela plataforma.
 Pelo motivo apontado teve-se a idéia de construir uma interface gráfica,
 amigável para o usuário, de forma a possibilitar: a construção rápida de
 cenários com
-redes, o controle da mobilidade dos nós e a centralizaç?o de todos os terminais
+redes, o controle da mobilidade dos nós e a centralização de todos os terminais
 das máquinas virtuais em uma única janela. Esta última caraterística evitaria
 que, em cenários muito complexos, um grande número de janelas
 fossem abertas, diminuindo a produtividade durante sua utilização.
