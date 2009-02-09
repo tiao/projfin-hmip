@@ -1,47 +1,33 @@
 interface eth0
 {
       AdvSendAdvert on;
-#      MinRtrAdvInterval 0.03;
-#      MaxRtrAdvInterval 0.07;
       MinRtrAdvInterval 1.0;
       MaxRtrAdvInterval 3.0;
-#      MinRtrAdvInterval 3;
-#      MaxRtrAdvInterval 6;
-      AdvSourceLLAddress on;
-      AdvIfDown on;
-      FastRSResponse on;
-      MaxFastRS 10;
-      HackAdvLinkID 65535;  # 0000 ffff
-
-#     AdvDefaultLifetime 600;
-      AdvHomeAgentFlag off;
-
-#     Send MIPv6 HomeAgent info option
-      AdvHomeAgentInfo off;
-
-#     MIPv6 Advertisement interval
-      AdvIntervalOpt on;
-
 #     Hierarchical MobileIPv6
       AdvHmip6MapInfo    on;  # Advertise Local MAP options?
       ReAdvHmip6MapInfo  off;  # Send Readvertised MAP options?
-      RecvHmip6MapInfo    off;  # Receive MAP options from Neighbours 
-
+      RecvHmip6MapInfo   off;  # Receive MAP options from Neighbours 
 
       map 2000:b::1
-
       {
          MapDistance       1;   
          MapPreference     7;  
          MapValidLifetime   80;
       };
 
-      prefix 2000:c::/64
-      {
-         AdvValidLifetime 200;
-         AdvPreferredLifetime 200;
-         AdvOnLink on;
-         AdvAutonomous on;
-         AdvRouterAddr on;
-      };
-}; 
+};
+
+interface eth1 {
+  AdvSendAdvert on; 
+  MinRtrAdvInterval 1;
+  MaxRtrAdvInterval 3;
+  AdvHomeAgentFlag on; 
+
+	prefix 2000:b::/64
+	{
+		AdvOnLink on;
+		AdvAutonomous on;
+		AdvRouterAddr on; 
+	};
+
+};

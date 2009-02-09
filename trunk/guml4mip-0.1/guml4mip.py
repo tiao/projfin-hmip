@@ -23,7 +23,7 @@
 
 import sys, os.path
 sys.path.append('/usr/share/guml4mip')
-import gtk, time, os
+import gtk, time, os, re
 import uml, uml_switch
 
 class TerminalWindow:
@@ -86,7 +86,8 @@ class TerminalWindow:
 			umlname = self.configured_umls[u].config.name
 			self.umllist.append([umlname, u])
 
-		self.col.set_title('Scenario: %s' % self.directory)
+		scenario = re.split('/', self.directory)
+		self.col.set_title('Scenario: %s' % scenario[len(scenario) - 1])
 
 	def bootuml(self, widget, data = None):
 		# Yep, Python's definitely simple...

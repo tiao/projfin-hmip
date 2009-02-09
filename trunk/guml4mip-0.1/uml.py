@@ -385,7 +385,7 @@ class config:
 		try:
 			data['socket'] = conf['socket']
 		except KeyError:
-			data['socket'] = '/var/run/uml-utilities/uml_switch.ctl'
+			data['socket'] = '/tmp/net.ctl'
 
 		try:
 			data['vlan'] = conf['vlan']
