@@ -23,6 +23,7 @@ class UmlSwitchWindow(threading.Thread):
 
 		# create Window for uml_switch
 		self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
+		self.window.set_title("guml4mip - uml switch")
 		self.window.connect("delete_event", self.delete)
 		self.window.set_border_width(10)
 
