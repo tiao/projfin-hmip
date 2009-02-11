@@ -3,7 +3,7 @@ img_extIsRegExp=false
 img_extensions=.eps .jpg .jpeg .png .pdf .ps .fig .gif .dvi
 kileprversion=2
 kileversion=2.0
-lastDocument=ambientedetestes.tex
+lastDocument=monografia.tex
 masterDocument=
 name=monografia
 pkg_extIsRegExp=false
@@ -44,11 +44,11 @@ order=4
 
 [item:ambientedetestes.tex]
 archive=true
-column=19
+column=17
 encoding=ISO 8859-1
 highlight=LaTeX
-line=269
-open=true
+line=337
+open=false
 order=2
 
 [item:anexo.tex]
@@ -116,10 +116,10 @@ order=3
 
 [item:glossario.tex]
 archive=true
-column=162
+column=1
 encoding=ISO 8859-1
 highlight=LaTeX
-line=18
+line=2
 open=false
 order=2
 
@@ -152,20 +152,20 @@ order=-1
 
 [item:mipl.tex]
 archive=true
-column=24
+column=93
 encoding=ISO 8859-1
 highlight=LaTeX
-line=53
+line=19
 open=false
 order=3
 
 [item:mipv6ehmipv6.tex]
 archive=true
-column=14
+column=0
 encoding=ISO 8859-1
 highlight=LaTeX
-line=122
-open=true
+line=529
+open=false
 order=1
 
 [item:monografia.kilepr]
@@ -179,10 +179,10 @@ order=-1
 
 [item:monografia.tex]
 archive=true
-column=14
+column=9
 encoding=ISO 8859-1
 highlight=LaTeX
-line=58
+line=53
 open=true
 order=0
 

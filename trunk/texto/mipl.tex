@@ -1,8 +1,14 @@
 % ----------------------------------------------------------------------- %
 % Arquivo: mipl.tex
 % ----------------------------------------------------------------------- %
-\chapter{Estudo do código do MIPL}
+\chapter{Implementação do HMIPv6 baseando-se no projeto MIPL}
 
+\section{Implementações existentes dos protocolos de Mobilidade}
+O MIPL (Mobile IPv6 for Linux) é uma implementação de Suporte a Mobilidade no IPv6 (RFC 3775), desenvolvida na Universidade Tecnólogica de Helsinki. É um programa em user space que trabalha junto com MIPv6 habilitado no kernel.
+
+Uma implementação do HMIPv6 foi proposta pela universidade de Monash, baseando-se no \textit{MIPL-0.94} e na versão 2.4 do kernel linux, toda desenvolvida em \textit{kernel space}. Porém, momento este trabalho não atende mais as necessidades já que estamos trabalhando com o \textit{MIPL-2.0.2} e mudanças significativas foram efetuadas no desenvolvimento do MIPL. E a série 2.6 do kernel já esta bem estável e está sendo muito utilizada. Concluimos que atualmente não há nenhuma recente implementação do HMIPv6.
+
+\section{Estudo do código do projeto MIPL}
 O estudo do código do MIPL foi realizado baseado na versão anunciada pelo projeto USAGI como
 umip-0.4.
 
@@ -99,6 +105,6 @@ Na figura \label{f_mipl_kernel_blocks} podemos observar as interfaces de comunic
 \end{figure}
 
 \section{Alterações propostas para o MIPL}
-Uma implementação do HMIPv6 foi proposta pela universidade de Monash, baseando-se no \textit{MIPL-0.94} e na versão 2.4 do kernel linux, toda desenvolvida em \textit{kernel space}. Porém, momento este trabalho não atende mais as necessidades já que estamos trabalhando com o \textit{MIPL-2.0.2} e mudanças significativas foram efetuadas no desenvolvimento do MIPL. E a série 2.6 do kernel já esta bem estável e está sendo muito utilizada. Concluimos que atualmente não há nenhuma recente implementação do HMIPv6.
+
 
 Após uma análise dos dois protocolos e um estudo prévio do codigo fonte do MIPL, o presente trabalho se propõe a sugerir algumas alterações no MIPL para este então passar trabalhar no modelo hierárquico...
