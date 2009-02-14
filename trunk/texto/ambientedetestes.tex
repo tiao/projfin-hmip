@@ -15,8 +15,8 @@ mobilidade da camada de rede, em particular o MIPv6 e HMIPv6. Outros protocolos
 poderão ser instalados no futuro;
  \item facilidades para a rápida construção de cenários de rede, sem se ater a
 procedimentos de configuração e instalação de equipamentos de rede sem fio;
-\item facilidades para a rápida instalação da platfaorma nas máquinas
-hospedeiras;
+\item facilidades para a rápida instalação da platforma nas máquinas
+hospedeiras.
 \end{itemize}
 
 Na concepção da plataforma de testes, optou-se por utilizar um ambiente baseado
@@ -40,7 +40,7 @@ Os seguintes componentes podem ser identificados nesta plataforma:
 dos nós móveis. Os \textit{switches} virtuais foram modificados para a simulação
 de mobilidade;
 \item Interface gráfica para permitir a rápida construção de cenários e para
-possibilitar o comando de mobilidade.
+possibilitar o comando de mobilidade;
 \item Ferramentas para estudo dos protocolos: gerador de tráfego, medidor de
 banda e de perda de pacotes;
 \item Protocolos de Mobilidade da Camada 3: instalação, nas UMLs, de uma versão
@@ -50,7 +50,7 @@ uma versão atualizada do protocolo HMIPv6. Parte do trabalho foi dedicada a uma
 extensão do MIPv6 para o HMIPv6;
 \item Outros protocolos e ferramentas de apoio: alguns protocolos e
 ferramentas adicionais foram instalados, tais como o protocolos RIP e o
-protocolo OSPF, através do pacote Zebra \cite{Zebra09}
+protocolo OSPF, através do pacote Zebra \cite{Zebra09}.
 \end{itemize}
 
 Na sequência, apresentamos alguns detalhes sobre os componentes da plataforma
@@ -189,7 +189,10 @@ utilizar-se deste recurso para gerar a interface.
 
 %\section{MobUML - }
 
-\section{GUML4MIP - Interface Gráfica de controle de terminais UML para o IP Móvel}
+\section{GUML4MIP - Interface Gráfica de controle de terminais UML para o IP
+Móvel}
+
+\subsection{A GUML4MIP do ponto de vista do usuário}
 A máquina virtual UML tem se mostrado uma ótima ferramenta para a plataforma
 de teste. Porém, a sua utilização na construção de redes virtuais não é muito
 prática, porque para cada cenário é necessário a criação de \textit{scripts}
@@ -207,23 +210,24 @@ que, em cenários muito complexos, um grande número de janelas
 fossem abertas, diminuindo a produtividade durante sua utilização.
 
 Após algumas pesquisas na \textit{internet} foi encontrado o projeto de código
-aberto ``Interface Gráfica para controle de terminais UML'' (GUML), feito com a
+aberto ``Interface Gráfica para controle de terminais UML''
+(GUML)\cite{citarGUML}, implementada com a
 linguagem de programação \textit{Python} e que já contempla muitos dos recursos
 pretendidos. Decidiu-se fazer alterações no código fonte deste projeto de forma
-a implementar os novos recursos pretendidos.
+a implementar os novos recursos almejados.
 
-Como citado, apesar de possuir vários recursos, o GUML não provê suporte a
-configuração de cenários de rede integrado na ferramenta. E seu intuito não é
-ser uma interface para construção de cenários de redes móveis e sim para controle de
-terminais UML. Por esse motivo optou-se fazer um \textit{fork} do projeto e
-criar um outro um chamado ``Interface Gráfica de controle de terminais UML para o IP Móvel'' 
-(GUML4MIP), baseado-se no seu código fonte.
+Como citado, apesar de possuir vários recursos, o GUML não fornece suporte a
+configuração de cenários de rede integrado na ferramenta. O seu intuito não é
+ser uma interface para construção de cenários de redes móveis e sim para
+controle de terminais UML. Por esse motivo optou-se fazer uma derivação do
+projeto e criar um outro um chamado ``Interface Gráfica de controle de terminais
+UML para o IP Móvel'' (GUML4MIP), baseado-se no seu código fonte.
 
 Os principais recursos incorporados ao GUML4MIP, que possibilitam e melhoram 
 o suporte as redes virtuais, são:
 
 \begin{itemize}
- \item Adição de parâmetros no arquivo de configuração passando a ser
+ \item Adição de parâmetros no arquivo de configuração, passando a ser
 possível especificar:
 \begin{itemize}
  \item A função da máquina UML: um roteador ou um nó hospedeiro;
@@ -234,19 +238,22 @@ UML. Por exemplo, o \textit{daemon} do \textit{mipl} ou do \textit{radvd};
 \end{itemize}
  \item Geração automática de \textit{scripts} de configuração de rede;
  \item Roteamento dinâmico utilizando o \textit{Zebra};
- \item Possibilidade de carregar novos cenários de rede em tempo de execução da interface;
- \item Interface gráfica do \textit{uml\_switch} (ver figura \ref{f_plataforma_gswitch}),
-com este recurso o usuário pode visualizar o estado do \textit{uml\_switch} durante a 
+ \item Possibilidade de carregar novos cenários de rede em tempo de execução da
+interface;
+ \item Interface gráfica do \textit{uml\_switch} (ver figura
+\ref{f_plataforma_gswitch}). Com este recurso o usuário pode visualizar o estado
+do \textit{uml\_switch} durante a 
 execução do cenários;
- \item Controle da mobilidade das máquinas UML por meio da interface do \textit{uml\_switch}.
+ \item Controle da mobilidade das máquinas UML por meio da interface do
+\textit{uml\_switch}.
 \end{itemize}
 
-Acompanha o pacote do GUML4MIP um aplicativo, chamado \textit{create\_fs}, que constrói
-automaticamente o sistema de arquivos especificado neste capítulo para a plataforma
-de testes.
+Foi também adicionado ao pacote do GUML4MIP um aplicativo, chamado
+\textit{create\_fs}, que constrói automaticamente o sistema de arquivos
+especificado neste capítulo para a plataforma de testes.
 
-Para utilizar o GUML4MIP o usuário deve configurar um arquivo para cada máquina UML.
-No arquivo de configuração é possível configurar: 
+Para utilizar o GUML4MIP o usuário deve configurar um arquivo para cada máquina
+UML. No arquivo de configuração é possível declarar: 
 \begin{itemize}
  \item O sistema de aquivo que a máquina virtual irá utilizar;
  \item Quantidade de memória para a máquina virtual;
@@ -254,8 +261,8 @@ No arquivo de configuração é possível configurar:
  \item Discos;
 \end{itemize}
 
-Um exemplo de arquivo de configuração do GUML4MIP, pode
-ser observado no anexo \ref{c_anexo_guml4mip}.
+Um exemplo de arquivo de configuração do GUML4MIP pode ser observado no anexo
+\ref{c_anexo_guml4mip}.
 
 Na figura \ref{f_plataforma_guml} podemos observar o visual da interface,
 rodando um cenário de rede, e os recursos disponíveis ao usuário. Abaixo 
@@ -268,19 +275,21 @@ uma explicação detalhada das funções que o usuário pode realizar na interface:
 \end{figure}
 
 \begin{description}
-  \item[\textit{Boot !}] Clicando neste botão o usuário inicia a máquina UML selecionada
-no quadro que lista as máquinas do cenário;
-  \item[\textit{Boot All}] Este botão permite que o usuário inicie todas as máquinas
-UML configuradas para o cenário, a direita por meio das asbas o usuário pode acessar o
-terminal das máquinas virtuais;
-  \item[\textit{Uml Switch}] Clicando neste botão uma nova janela será aberta. Na
-janela do \textit{uml\_switch}, figura \ref{f_plataforma_gswitch}, o usuário 
-pode observar todas as máquinas virtuais conectados a ele, e a qual \textit{VLan} 
-cada interface de rede esta associada. Caso o usuário queira efetuar alguma 
-mobilidade basta clicar no número da \textit{VLan} a qual queira se associar.
-  \item[\textit{Load Scenario}] Por meio deste botão o usuário busca o diretório
-onde estão os arquivos de configuração de um novo cenário de rede. O ultimo cenário
-executado é salvo e na proxima execução do programa já é carregado automaticamente.
+  \item[\textit{Boot !}] Clicando neste botão, o usuário inicia a máquina UML
+selecionada no quadro que lista as máquinas do cenário;
+  \item[\textit{Boot All}] Este botão permite que o usuário inicie todas as
+máquinas UML configuradas para o cenário, a direita por meio das abas, o usuário
+pode acessar o terminal das máquinas virtuais;
+  \item[\textit{Uml Switch}] Clicando neste botão, uma nova janela será aberta.
+Na janela do \textit{uml\_switch}, figura \ref{f_plataforma_gswitch}, o usuário 
+pode observar todas as máquinas virtuais conectados a ele, e a qual
+\textit{VLan} cada interface de rede esta associada. Caso o usuário queira
+efetuar alguma mobilidade basta clicar no número da \textit{VLan} a qual queira
+se associar;
+  \item[\textit{Load Scenario}] Por meio deste botão, o usuário busca o
+diretório onde estão os arquivos de configuração de um novo cenário de rede. O
+ultimo cenário executado é salvo e na proxima execução do programa já é
+carregado automaticamente.
   \item[\textit{Quit}] Encerra o programa.
 \end{description}
 
@@ -295,10 +304,10 @@ executado é salvo e na proxima execução do programa já é carregado automaticamen
 \subsection{Funcionamento do GUML4MIP}
 
 O programa GUML4MIP possui um funcionamento bem simples, por esse motivo se
-torna uma aplicação versátil e facilmente alterável. Na figura \ref{f_plataforma_gfunc}
-representamos um diagrama \textit{Structured Analysis and Design Technique} (SADT) 
-dos principais blocos do GUML4MIP. A relação e o funcionamento dos 
-blocos são descritos a seguir:
+torna uma aplicação versátil e facilmente alterável. Na figura
+\ref{f_plataforma_gfunc}
+é mostrado um diagrama  dos principais blocos do GUML4MIP. A relação e o
+funcionamento dos blocos são descritos a seguir.:
 
 \begin{figure}[!htpb]
 	\centering
@@ -308,44 +317,43 @@ blocos são descritos a seguir:
 \end{figure}
 
 \begin{description}
- \item[setup.py:] Programa que desempenha a função de instalador e desinstalador 
-do GUML4MIP. Também é dele a função de criar o sistema de arquivos que será
-utilizado pelo \textit{kernel} UML, instalar no hospedeiro o pacote do \textit{uml\_switch}
-modificado com suporte a mobilidade e os pacotes dos protocolos de rede no sistema de arquivos.
-
- \item[guml4mip.py] O bloco principal de todo o diagrama, comanda todas as funções
-do programa é também a interface com o usuário. Seu funcionamento é dividido nas 
-etapas a seguir:
-
+ \item[setup.py:] Programa que desempenha a função de instalador e
+desinstalador do GUML4MIP. Também é dele a função de criar o sistema de arquivos
+que será utilizado pelo \textit{kernel} UML, instalar no hospedeiro o pacote do
+\textit{uml\_switch:} modificado com suporte a mobilidade e os pacotes dos
+protocolos de rede no sistema de arquivos.
+\item[guml4mip.py:] Constitui-se no bloco principal de todo o diagrama.
+Ele comanda todas as funções do programa e também a interface com o usuário. Seu
+funcionamento é dividido nas etapas a seguir:
 \begin{enumerate}
- \item Ao iniciar, realiza a leitura dos arquivos de configuração das máquinas UML 
-no diretório do cenário a ser executado. Na primeira execução do programa o cenário
-carregado é um exemplo que vem junto com o pacote do GUML4MIP, nas outras execuções o
-último cenário executado é o padrão.
- \item A partir dos arquivos de configuração cria as linhas de comando que executaram
-as máquinas UML e o arquivo \textbf{guml4mip.conf}. Um \textit{script} que configura 
-as interfaces de rede das máquinas UML e os \textit{daemons} para iniciarem.
- \item Inicia o processo do \textit{uml\_switch}, qual as máquinas UML irão se conectar.
-Em paralelo uma \textit{thread} é criada e se conecta ao servidor
-\textit{telnet} do \textit{uml\_switch}. Por meio desta conexão, o GUML4MIP monitora
-as conexões no \textit{uml\_switch}, que permitem apresentar em uma interface
-gráfica o estado do \textit{switch} e também provocar a mobilidade das máquinas
-UML.
- \item Então disponibiliza os recursos do programa ao usuário em uma janela 
-construída em \textit{PyGTK}.
- \item Ao utilizar função que permite carregar um novo cenário, botão 
-\textit{Load Scenario}, o programa encerra os processos das máquinas do 
-cenário anterior, finaliza a conexão com servidor telnet do \textit{uml\_switch}. 
-O mesmo que quando acionar o botão \textit{Quit}, porém, neste caso reinicia 
-todas as etapas.
+ \item Ao iniciar, é realizada a leitura dos arquivos de configuração das
+máquinas UML no diretório do cenário a ser executado. Na primeira execução do
+programa, o cenário carregado é um exemplo que acompanha o pacote do GUML4MIP.
+Nas outras execuções, o último cenário executado é o padrão;
+ \item A partir dos arquivos de configuração são criadas as linhas de comando
+que executarão as máquinas UML e o arquivo \textbf{guml4mip.conf}. Este último
+é o \textit{script} que configura as interfaces de rede das máquinas UML e que
+inicia os \textit{daemons} especificados pelo usuário;
+ \item O processo do \textit{uml\_switch} é iniciado, processo este no qual as
+máquinas UML irão se conectar. Em paralelo uma \textit{thread} é criada e se
+conecta ao servidor;
+\textit{telnet} do \textit{uml\_switch}. Por meio desta conexão, o GUML4MIP
+monitora as conexões no \textit{uml\_switch}, apreentando em uma
+interface gráfica o estado do \textit{switch}. Apartir desta interface p
+ode-se provocar a mobilidade das máquinas UML;
+ \item Os recursos do programa são disponibilizadoas ao usuário em uma janela 
+construída em \textit{PyGTK};
+ \item Ao utilizar função que permite carregar um novo cenário, através do
+botão \textit{Load Scenario}, o programa encerra os processos das máquinas do 
+cenário anterior e finaliza a conexão com servidor telnet do
+\textit{uml\_switch}. O mesmo acontece quando é acionado o botão \textit{Quit},
+porém, neste caso reiniciam-se todas as etapas.
 \end{enumerate}
-\item[linux.uml:] São os processos das máquinas UML iniciados pelo programa, 
-configuradas conforme seuarquivo de configuração e conectadas em sua 
-\textit{VLan}. Seus terminais tornam-se disponíveis na interface.
-
-\item[uml\_switch:] Processo do \textit{uml\_switch} sempre iniciado no começo de
-um novo cenário de rede. Responsável por segmentar a rede em \textit{Vlan's}, entregar
-os pacotes as portas corretas e responder as requisições da sua interface gráfica
-via \textit{telnet}.
-
+\item[linux.uml:] São os processos (\textit{kernel}) das máquinas UML iniciados
+pelo programa, configuradas conforme seu arquivo de configuração e conectadas em
+sua \textit{VLan}. Seus terminais tornam-se disponíveis na interface;
+\item[uml\_switch:] Processo do \textit{uml\_switch} sempre iniciado no começo
+de um novo cenário de rede. Responsável por segmentar a rede em \textit{Vlan's},
+entregar os pacotes as portas corretas e responder as requisições da
+sua interface gráfica, via \textit{telnet}.
 \end{description}
