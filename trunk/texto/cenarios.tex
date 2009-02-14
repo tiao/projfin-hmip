@@ -5,51 +5,80 @@
 \chapter{Cenários de Testes}
 
 \section{Introdução}
-Após os estudos bibliográficos sobre o protocolo MIPv6 e a preparação de um ambiente virtual para a rápida montagem de cenários, iniciou-se a etapa de definição e implementação de cenários com fins de analisar a funcionalidade do protocolo e obter alguns dados sobre a eficiência do protocolo.
+Após os estudos bibliográficos sobre o protocolo MIPv6 e a preparação da Plataforma
+ de Testes para Mobilidade, iniciou-se a etapa de definição e implementação de cenários
+ com fins de analisar as funcionalidade dos protocolos.
 
-Para analisar alguns mecanismos do protocolo e testar seus modos de operação, dois cenários base foram definidos. No primeiro cenário é implmentado uma comunicação entre um dispositivo móvel e um dispositivo estático e no segundo, a comunicação entre dois dispositivos móveis. Com intuito de comparação de desempenho os dois cenários foram testados nos dois modos de operação do protocolo MIPv6, o primeiro com tunelamento bidirecional e o segundo com otimização de roteamento.
+Para analisar alguns mecanismos do protocolo e testar seus modos de operação, dois 
+ cenários base foram definidos. Nesses dois cenários foi realizada três simulações.
+ A primeira simulação ocorre no cenário 1, descrito na figura \ref{f_cenario1}, onde
+ é testado o modo de operação por tunelamento bi-direcional do MIPv6. A segunda simulação
+ tambem ocorre no cenário 1, sendo testado o modo de operação por otimização de roteamento
+ A terceira simulação é no cenário 2, descrito na figura\ref{f_cenario2}, tendo como
+ objetivo o funcionamento do HMIPv6.
 
-O computador que será utilizado para a realização dos cenários de teste possui as seguintes caracteristicas: \textit{Atlhon XP 2600}, 512MB de memória e rodando \textit{Gnu/Linux Slackware} 12.0, kernel linux-2.6.21.5.
+%O computador que será utilizado para a realização dos cenários de teste possui as seguintes 
+% caracteristicas: \textit{Atlhon XP 2600}, 512MB de memória e rodando \textit{Gnu/Linux 
+% Slackware} 12.0, kernel linux-2.6.21.5.
 
-No anexo %\ref{c_anexo2}
-estão disponíveis dois \textit{scripts} que foram feitos para auxiliar na montagem das topologias de rede e na configuração dos cenários. Também estão disponíveis os arquivos de configuração do MIPL e do RADVD para cada máquina virtual dos cenários construídos.
+Os arquivos para a configuração dos cenários usados no Guml4Mip estão disponíveis no
+ diretório da documentação do projeto.
 
-Para auxiliar na geração de \textit{logs}, que tendem a enriquecer análise dos cenários, foram utilizadas as ferramentas \textit{tcpdump}, \textit{ping6} e \textit{gen}.
+%Para auxiliar na geração de \textit{logs}, que tendem a enriquecer análise dos cenários, foram utilizadas as ferramentas
+%\textit{tcpdump}, \textit{ping6} e \textit{gen}.
 
 \section{Fundamentos para a Análise dos Cenários}
-Na análise dos cenários estudados vamos localizar os seguintes aspectos:
+  Na análise dos cenários estudados vamos localizar os seguintes aspectos:
 \begin{itemize}
- \item a sequência e a natureza das mensagens trocadas entre os vários nós. Neste aspecto, utilizaremos as saídas geradas pelos programas \textit{tcpdump} e \textit{gen};
- \item as tabelas de roteamento, analisadas em situações chave, por exemplo, antes e depois da mobilidade;
- \item aspectos de desempenho e perdas de pacotes. Sabemos das limitações desta análise em um ambiente virtual, mas esperamos obter dados relativos. Também confrontaremos os dados obtidos com os resultados esperados segundo uma abordagem analítica.
+  \item a sequência e a natureza das mensagens trocadas entre os vários nós. Neste
+ aspecto, utilizaremos as saídas geradas pelos programas \textit{tcpdump};
+  \item as tabelas de roteamento e regras de roteamento analisadas em situações chave,
+ por exemplo, antes e depois da mobilidade;
+  \item aspectos de desempenho e perdas de pacotes. Sabemos das limitações desta análise 
+ em um ambiente virtual, mas esperamos obter dados relativos. Também confrontaremos os dados
+ obtidos com os resultados esperados segundo uma abordagem analítica.
+  \item A criação e a manipulação dos tuneis entre o agente domiciliar e o nó móvel antes
+ e depois do movimento.
 \end{itemize}
 
 \subsection{Tempo de latência do \textit{Handover}}
-O processo de \textit{handover} acontece quando o nó móvel muda seu ponto de conexão de uma sub-rede para outra. O tempo de latência envolvido neste processo \cite{xavier} pode ser dividida em quatro fases:
+O processo de \textit{handover} acontece quando o nó móvel muda seu ponto de conexão 
+ de uma sub-rede para outra. O tempo de latência envolvido neste processo \cite{xavier}
+ pode ser dividida em quatro fases:
 
 \begin{enumerate}
- \item \textbf{Detecção de Movimento (\textit{TD})}: Em um cenário real representaria o tempo do \textit{handover} na camada de enlace até o primeiro \textit{Router Advertisement}. Como neste ambiente de testes não conseguimos simular a camada enlace não se pode precisar com a exatidão a latência envolvida no processo. Porém, para fins de estudo consideraremos para nosso cenário o tempo entre o útlimo pacote do \textit{gen} recebido na rede domiciliar e o primeiro \textit{Router Advertisement} na rede visitada.
+ \item \textbf{Detecção de Movimento (\textit{TD})}: Em um cenário real representaria
+ o tempo do \textit{handover} na camada de enlace até o primeiro \textit{Router Advertisement}.
+ Como neste ambiente de testes não conseguimos simular a camada enlace não se pode precisar
+ com a exatidão a latência envolvida no processo. Porém, para fins de estudo consideraremos
+ para nosso cenário o tempo entre o útlimo pacote do \textit{gen} recebido na rede
+ domiciliar e o primeiro \textit{Router Advertisement} na rede visitada.
 
 \begin{equation}
  TD = t1 - t0
 \label{eq.td}
 \end{equation}
 
-\item \textbf{Configuração do \textit{Care-of-address} (\textit{TA})}: Tempo que entre o primeiro \textit{Router Advertisement} e o envio do \textit{Binding Update}.
+\item \textbf{Configuração do \textit{Care-of-address} (\textit{TA})}: Tempo que entre 
+ o primeiro \textit{Router Advertisement} e o envio do \textit{Binding Update}.
 
 \begin{equation}
  TA = t2 -t1
  \label{eq.ta}
 \end{equation}
 
-\item \textbf{Registro com agente domiciliar (\textit{TR})}: Intervalo de tempo entre o envio do \textit{Binding Update} ao agente domiciliar e o recebimento do \textit{Binding Acknowledgement}.
+\item \textbf{Registro com agente domiciliar (\textit{TR})}: Intervalo de tempo entre
+ o envio do \textit{Binding Update} ao agente domiciliar e o recebimento do
+ \textit{Binding Acknowledgement}.
 
 \begin{equation}
  TR = t3 - t2
  \label{eq.tr}
 \end{equation}
 
-\item \textbf{Otimização de Roteamento (\textit{TO})}: Intervalo de tempo entre o envio das mensagens do \textit{Return Routability Procedure} e o recebimento do \textit{Binding Acknowledgement} do nó correspondente.
+\item \textbf{Otimização de Roteamento (\textit{TO})}: Intervalo de tempo entre o envio
+ das mensagens do \textit{Return Routability Procedure} e o recebimento do
+ \textit{Binding Acknowledgement} do nó correspondente.
 
 \begin{equation}
  TO = t4 - t3
@@ -67,12 +96,19 @@ Obviamente podemos calcular o tempo de latência do handover com a seguinte fórmu
 
 \section{Cenário 1}
 \label{s_cenario1}
-O primeiro cenário de teste consiste em gerar um tráfego com o \textit{gen} ou \textit{ping}, com o fluxo de dados do nó correspondente para o nó móvel, e então provocar uma situação de mobilidade no nó móvel, retornando a sua rede domiciliar. Em um primeiro momento, utiliza-se o modo com tunelamento bidirecional e, num segundo, com otimização de rotas.
+O primeiro cenário de teste é formado por três redes interligadas entre si e cinco nós. A sua topologia pode ser observada na figura \ref{f_cenario1}, onde o numero nos balões cinza representam a vlan no \textit{uml-switch}. Os endereços atribuídos as interfaces dos nós, durante a realização do cenário, bem como seus endereços de hardware estão disponíveis na tabela \ref{t_addr1}.
 
-O cenário é formado por três redes interligadas entre si e cinco nós. A sua topologia pode ser observada na figura \ref{f_cenario1}. Os endereços atribuídos as interfaces dos nós, durante a realização do cenário, bem como seus endereços de hardware estão disponíveis na tabela \ref{t_addr1}.
+\begin{figure}[!htpb]
+	\centering
+	\includegraphics[scale=.4]{figs/cenario1}
+	\caption{Topologia do Cenário 1}
+	\label{f_cenario1}
+\end{figure}
 
-Na rede com o prefixo 2000:a::/64 está presente um roteador (AR1) que oferece o serviço de agente domiciliar ao nó móvel. Na
-rede com prefixo 2000:c::/64 está o nó correspondente com quem o nó móvel está se comunicando. A rede com prefixo 2000:d::/64 é a rede que o nó móvel deve visitar. É interessante observar que os \textit{switches} que conectam os roteadores AR1 e AR3 são, na prática, um mesmo \textit{uml\_switch}. Inicialmente ele conecta o MN somente a AR1. Após um comando ele desconecta o MN de AR1 e conecta a AR3.
+
+Na rede com prefixo 2000:a::/64 está o nó correspondente com quem o nó móvel está se comunicando. Na rede com o prefixo
+ 2000:c::/64 está presente um roteador (HA) que oferece o serviço de agente domiciliar ao nó móvel. A rede com prefixo
+ 2000:d::/64 é a rede que o nó móvel deve visitar.
 
 \begin{table}[!htpb]
 \centering
@@ -109,37 +145,32 @@ AR3 & & & fe80::b04c:e9ff:feec:6c42 & Local \\
 \label{t_addr1}
 \end{table} 
 
-\begin{figure}[!htpb]
-	\centering
-	\includegraphics[scale=.35]{figs/cenario1}
- 	\label{f_cenario1}
-	\caption{Topologia do Cenário 1}
-\end{figure}
 
-No início do cenário o nó correspondente começa a enviar mensagens UDP por meio do \textit{gen}. O nó móvel realiza o monitoramento de todo o funcionamento do MIPv6 durante o processo de \textit{handover} utilizando o \textit{tcpdump}. No nó móvel iniciamos o programa \textit{gen}: em \textit{background}, no modo escuta (-l), com a funçao debug habilitada (-d), para usar o protocolo UDP (-p udp) e para esperar pacotes com o tamanho de 400 bytes (-s 400). Também disparamos o utilitário \textit{tcpdump}: em o modo \textit{verbose} (-vvv) e para mostrar o conteúdo do pacote em hexadecimal (-X).
+\subsection{Simulação 1}
+
+A simulação 1 terá a seguinte sequência. No início o nó correspondente começa a enviar mensagens ICMP por meio do \textit{ping6} para o nó móvel.
 
 \begin{verbatim}
-mn# gen -l -d -p udp -s 400 &
+cn# ping6 2001:a::2
+\end{verbatim}
+
+O nó móvel realiza o monitoramento de todo o funcionamento do MIPv6 durante o processo de \textit{handover} utilizando o \textit{tcpdump} em o modo \textit{verbose} (-vvv) e para mostrar o conteúdo do pacote em hexadecimal (-X).
+
+\begin{verbatim}
 mn# tcpdump -vvvX
 \end{verbatim}
 
-No nó correspondente iniciamos o \textit{gen}: endereçando os pacotes para endereço domiciliar do nó móvel (-a 2000:a::1), com a função debug habilitada, para enviar um pacotes com intervalos de um segundo (-t), para usar o protocolo UDP (-p udp) e para enviar pacotes com o tamanho de 400 bytes (-s 400);
+\subsubsection{Troca de Mesagens}
+Os dados obtidos na saída do comando \textit{tcpdump} foram compilados em forma de uma tabela para facilitar a visualização dos mesmos e podem ser observados na tabela \ref{t_resul_1}.
+Analisando os dados recolhidos conseguimos observar exato momento que ocorreu a mobilidade para a outra rede. No instante entre o ICMP reply X e o RA recebido é o perio que o nó móvel realiza o movimento.
 
-\begin{verbatim}
-cn# gen -a 2000:a::1 -d -t -p udp -s 400
-\end{verbatim}
-
-Depois em um segundo momento, repetimos o mesmo cenário utilizando mas com o modo de operação com otimização de roteamento. Para auxiliar na obtenção dos \textit{logs}, o nó correspondente estará se comunicando com o nó móvel por meio de um \textit{ping6}.
-
-\section{Resultados}
-Com a realização dos experimentos podemos constatar o funcionamento do protocolo e perceber continuação da comunicação entre os pontos comunicantes após a mobilidade de forma transparente as camadas superiores a de rede, observar todas as mensagens trocadas no processo e estimar o tempo de latência com a mobilidade.
-O primeiro resultado que se pode obter com a realização do Cenário 1, foi o perfeito funcionamento do MIPv6, ocorreram algumas perdas de pacotes, mas o nó móvel conseguiu continuar sendo alcançado pelo seu endereço domiciliar mesmo não estando em sua rede domiciliar.
-
-Os dados obtidos com a saída do comando \textit{tcpdump} foram compilados em forma de uma tabela para facilitar a visualização dos mesmos e podem ser observados na tabela \ref{t_resul_1}.
-
-Analisando os dados recolhidos conseguimos observar exato momento que ocorreu a mobilidade para a outra rede, até então o nó móvel recebia  
-
+\subsubsection{Tabelas de Roteamento}
 Podemos constatar mudanças nas tabelas de roteamento do nó móvel e do agente domiciliar depois da mobilidade nas respecitivas figuras \ref{t_rot_mn1} e \ref{t_rot_ha1}, após receber o \textit{Binding Update} e o agente domiciliar criar o túnel com o nó móvel, é adicionada a seguinte rota a sua tabela de roteamento, que todos os pacotes com destino ao endereço domiciliar devem ser encaminhados para o túnel. E no nó móvel os pacotes com destino ao nó correspondente e ao agente domiciliar são encaminhados pelo túnel, caracterizando o tunelamento bidirecional.
+
+\subsubsection{Regras de Roteamento}
+
+\subsubsection{Tuneis}
+
 
 \begin{table}[!htpb]
 \centering
@@ -326,26 +357,17 @@ No processo de formação de um novo \textit{care-of-address} o DAD é necessário p
 
 Existe uma variável chamada \textit{dad\_transmits} no kernel do Linux que é usada para configurar o DAD em um nó. Com a intenção de diminuir a latência na fase de configuração do \textit{care-of-address}, nós configuramos a variável com o valor 0, isso significa que o procedimento de DAD é cancelado, e repetimos o cenário estudado.
 
+\section{Resultados}
+Com a realização dos experimentos podemos constatar o funcionamento do protocolo e perceber continuação da comunicação entre os pontos comunicantes após a mobilidade de forma transparente as camadas superiores a de rede, observar todas as mensagens trocadas no processo e estimar o tempo de latência com a mobilidade.
+O primeiro resultado que se pode obter com a realização do Cenário 1, foi o perfeito funcionamento do MIPv6, ocorreram algumas perdas de pacotes, mas o nó móvel conseguiu continuar sendo alcançado pelo seu endereço domiciliar mesmo não estando em sua rede domiciliar.
+
+\section{Cenário 2}
+\label{s_cenario2}
 
 
-% \section{Cenário 2}
-% \label{s_cenario2}
-% O segundo cenário de teste não passa de uma variação do primeiro onde iremos estabelecer uma comunicação entre dois nós móveis e provocar uma situação de mobilidade nos dois nós. A idéia deste cenário é analisar o comportamento do protocolo quando em uma comunicação ambas as partes se movimentam, comparando com o primeiro em questões como perda de pacotes e tráfego de sinalização. 
-% 
-% Este cenário de teste consiste de quatro redes e seis nós, a sua topologia de rede pode ser observada na figura \ref{f_cenario2}.
-% 
-% \begin{enumerate}
-%  \item \textbf{Nó Móvel 1}: Nó que inicia o experimento na rede \textbf{2000:a:}: depois se move para a rede \textbf{2000:d::}.
-% \item \textbf{Nó Móvel 2}: Nó que inicia o experimento na rede \textbf{2000:c:}: depois se move para a rede \textbf{2000:e::}.
-% \item \textbf{AR1}: É o roteador que interliga a rede \textbf{2000:a::} com as outras e oferece o serviço de agente domiciliar.
-% \item \textbf{AR2}: É o roteador que interliga a rede \textbf{2000:c::} com as outras e oferece o serviço de agente domiciliar.
-% \item \textbf{AR3}: É o roteador que interliga a rede \textbf{2000:d::} com as outras, é para onde o nó móvel 1 se move.
-% \item \textbf{AR4}: É o roteador que interliga a rede \textbf{2000:e::} com as outras, é para onde o nó móvel 2 se move.
-% \end{enumerate}
-% 
-% \begin{figure}[!htpb]
-% 	\centering
-% 	\includegraphics[scale=.46]{figs/cenario2}
-% 	\caption{Topologia do Cenário 2}
-%  	\label{f_cenario2}
-% \end{figure}
+\begin{figure}[!htpb]
+	\centering
+	\includegraphics[scale=.37]{figs/cenario2}
+	\caption{Topologia do Cenário 2}
+ 	\label{f_cenario2}
+\end{figure}
