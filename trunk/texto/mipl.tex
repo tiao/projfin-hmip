@@ -3,85 +3,149 @@
 % ----------------------------------------------------------------------- %
 \chapter{Implementação do HMIPv6 baseando-se no projeto MIPL}
 
-\section{Implementações existentes dos protocolos de Mobilidade}
-O MIPL (Mobile IPv6 for Linux) é uma implementação de Suporte a Mobilidade no IPv6 (RFC 3775), desenvolvida na Universidade Tecnólogica de Helsinki. É um programa em user space que trabalha junto com MIPv6 habilitado no kernel.
+\section{Implementações existentes para Linux dos protocolos de Mobilidade}
 
-Uma implementação do HMIPv6 foi proposta pela universidade de Monash, baseando-se no \textit{MIPL-0.94} e na versão 2.4 do kernel linux, toda desenvolvida em \textit{kernel space}. Porém, momento este trabalho não atende mais as necessidades já que estamos trabalhando com o \textit{MIPL-2.0.2} e mudanças significativas foram efetuadas no desenvolvimento do MIPL. E a série 2.6 do kernel já esta bem estável e está sendo muito utilizada. Concluimos que atualmente não há nenhuma recente implementação do HMIPv6.
+O projeto \textit{Mobile IPv6 for Linux} (MIPL) é uma implementação de suporte a mobilidade no IPv6 (RFC 3775), desenvolvida na Universidade Tecnólogica de Helsinki . O codigo foi desenvolvido acompanhando os \textit{drafts} da RFC e as versões do \textit{kernel linux}. No início do desenvolvimento a versão do kernel utilizada foi a 2.3.59 e o \textit{draft} 8, porém devido as substânciais mudanças na especificação do MIPv6 decidiram dividir o código fonte uma parte em espaço de kernel e outra em espaço de usuário. A última versão foi o MIPL 1.1 que trabalhava com a versão 2.4.26 do \textit{kernel linux}.
+
+Mais adiante iniciou-se o desenvolvimento do MIPL2 pela Universidade de Helsink juntamente com o projeto USAGI. Nesta nova versão houveram mudanças significativas, praticamente foi todo reescrito, muitas funcionalidades foram adicionadas em espaço de usuário. Um \textit{daemon} passou a controlar: sinalização, detecção de movimento. A tarefa do \textit{kernel} passou a ser apenas uma camada de suporte ao MIPv6.
+
+Esta versão passou a suportar as últimas especificações, suporte a IPSec utilizando o framework XFRM e tornou-se mais estável. A partir das últimas versões do kernel o suporte ao MIPv6 já faz parte linha principal de desenvolvimento, não sendo mais necessário aplicar \textit{patchs}.
+
+Uma implementação do HMIPv6 foi proposta pela Universidade de Monash, baseando-se no MIPL 0.94 e na versão 2.4 do \textit{kernel linux}. Também alterações no RADVD 0.7.2 para este divulgar mensagens de MAP. Neste momento o projeto está parado e não atende mais as necessidades, pois, ocorreram mudanças significativas no desenvolvimento do MIPL. Atualmente a grande maioria dos sistemas já utilizam a série 2.6 do \textit{kernel}, então podemos concluir que não há nenhuma implementação recente do HMIPv6.
+
+O trabalho propõe-se, então desenvolver uma experimental implementação atualizada do HMIPv6 baseando-se na última versão estável do projeto MIPL utilizando a versão 0.7.2 do RADVD alterado pelo projeto da Universidade de Monash.
 
 \section{Estudo do código do projeto MIPL}
-O estudo do código do MIPL foi realizado baseado na versão anunciada pelo projeto USAGI como
-umip-0.4.
-
-Uma informação importante é que código-fonte do programa que desempenha o papel do nó movel, do
-agente domiciliar e do nó correspondente é o mesmo. Sendo que a função que o mesmo vai desempenhar
-é definida nos arquivos de configuração. Essa versão do MIP é executada em \textit{user-space}, diferente das anteriores que eram totalmente em \textit{kermel-space}.
+A proposta feita é gerar uma implementação atualizada do HMIPv6, para realizar esta tarefa iniciamos realizando um estudo aprofundado do código fonte do MIPL. O estudo do código do MIPL2 foi realizado na última versão estável anunciada pelo projeto USAGI como umip-0.4. O MIPL é um projeto de codigo aberto sobre a licença GPL versão 2, escrito na linguagem de programação C.
 
 Geralmente tudo o que fizemos, enquanto trabalhamos em um sistema Linux, está sendo executado em
-\textit{user-space},por exemplo, um editor de texto, um browser, servidor X. Em contraste com
-isso, o kernel executa as suas tarefas no \textit{kernel-space},um exemplo seria as chamanda de
-interrupções. O principal motivo para esta separação entre dados dos processos do usuario e do
-kernel, é evitar que um perturbe o outro, o que resultaria numa diminuição do desempenho e
-instabilidades do sistema.
+em espaço de usuário, por exemplo: um editor de texto, um navegador, servidor X. Em contraste com
+isso, o \textit{kernel} executa as suas tarefas em espaço de \textit{kernel}, um exemplo seria as chamadas de
+interrupções. O principal motivo para esta separação entre dados dos processos do usuário e do
+\textit{kernel}, é evitar que um perturbe o outro, o que resultaria numa diminuição do desempenho, problemas
+de segurança e instabilidades do sistema.
 
-Este programa é executado na forma de um \textit{daemon}, ou seja, um processo executado no segundo plano e que não está associado a um terminal controlador.
-(falta colocar ref. livro stevens).
+Os motivos levantados acima foram os que levaram os desenvolvedores passarem a maioria das funções do protocolo MIPv6 para espaço de usuário, o que torna desenvolvimento mais fácil, seguro e independente de versão de \textit{kernel}. O foco principal deste estudo é a parte do protocolo desenvolvida para espaço de usuário.
 
-Podemos dividir o inicio do programa em duas partes, as inicializações comuns, procedimentos que são
- independente da configuração, e as inicializações especificas, onde o programa vai determinar qual
- papel vai exercer.
+O programa é executado na forma de um \textit{daemon} chamado de \textit{mip6d}, ou seja, um processo executado no segundo plano e que não está associado a um terminal controlador \ref{stevens}. Este mesmo \textit{daemon} desempenha o papel de nó móvel, agente domiciliar e nó correspondente, a sua função é definida no arquivo de configuração, porém todos os nós são em pontencial um nó correspondente.
 
-Nas inicializações comuns é declarada variáveis globais, feita a configuração para que os sinais
- SIGHUP, SIGINT, SIGTERM sejam tratados pela aplicacão. É lido o arquivo de configuração do programa,
- que pode ser passado como argumento para o programa. Se não for passado nenhum parametro é buscado
- no diretório padrão. É possivel habilitar na compilação um terminal virtual para obter informações
- durante a execução do \textit{daemon}. Se esse terminal virtual for habilitado, é preparado a sua
- inicialização neste ponto.
+O foco principal do estudo será referente ao código responsável pelo funcionamento do nó móvel, pois a maioria das propostas do HMIPv6 são a referentes ao nó móvel. Além do que todo o projeto é de alta complexidade e envolve o uso de várias bibliotecas e o estudo do que não é tao relevante para a implementação demandaria muito tempo.
 
-Em seguida é iniciada uma chave com um valor randômico, e criado um buffer de \textit{nonces}, que
- será usada para fazer o procedimento de \textit{return routability}. É iniciada a lista de politicas
- de controle de acesso definida no arquivo de configuração. É criado um \textit{thread},
- \textit{tq\_runner}, para executar tarefas que serão agendadas durante a execução do \textit{daemon},
- que devem ser executadas em um determinado tempo, por exemplo a expiração de um roteador ou um
- \textit{Care-of-address}. Depois é criado um \textit{thread} (mh\_listen) para escutar a chegada de
- pacotes IPv6 com cabeçalho de mobilidade, \textit{mobility header}. Estes pacotes são escutados
- através \textit{sockets raw} ou soquetes brutos. Quando o kernel não entende o campo de protocolo
- do datagrama IP, como por exemplo, os que possuim cabeçalho de mobilidade, eles são passados
- diretamente para um socket bruto. O único processamento feito pelo kernel é a verificação mínima de
- alguns campos de cabeçalho IP.
+\subsection{Inicialização do \textit{Daemon} do MIPL}
+Esta seção introduz a sequência de inicialização do \textit{daemon} do MIPL. A figura \ref{f_mipl_mip6d} apresenta uma visão geral da iniciliazação do \textit{daemon} atuando como nó móvel. Os seguintes itens mostram a sequência de iniciliazação do \textit{daemon} MIPL:
 
-É criado um thread para escutar a chegada de algumas mensagens ICMPv6(icmp6 listen), que tambem é
- feita por um socket bruto. Neste caso, a maioria dos pacotes ICMP é passada para o soquete bruto
- depois que o kernel terminou o processamento da mensagem ICMP. O ICMPv6 reune as mensagens do
- ICMPv4, as funcionalidades de ARP e IGMP. Um soquete bruto ICMPv6 pode receber muito mais tipos 
- pacotes que um ICMPv4. Para reduzir o número de pacotes passados do kernel para a aplicação, é
- fornecido um filtro especifico pela aplicação.
+\begin{enumerate}
+ \item Chama a função \textit{debug\_init} a qual:
+\begin{itemize}
+ \item define que a saída padrão das mensagens de debug será o \textit{stderr}.
+\end{itemize}
+ \item Define os sinais que serão tratados pela aplicação: \textbf{SIGHUP}, \textbf{SIGINT}, \textbf{SIGTERM}, \textbf{SIGPIPE}.
+ \item Chama a função \textit{conf\_parse} a qual:
+\begin{itemize}
+ \item trata os parâmetros passados pelo usuário ao \textit{daemon};
+ \item faz a leitura do arquivo de configuração, caso não for passado como parâmetro é buscado no diretório padrão.
+\end{itemize}
+ A partir desta função \textit{daemon} define várias variáveis, por exemplo: seu papel, nível de \textit{debug}, endereço domiciliar, endereço do agente domiciliar, etc.
+ \item Chama a função \textit{openlog} que abre uma conexão com sistema de \textit{logs} do \textit{linux}
+ \begin{itemize}
+  \item com a função \textit{syslog} é possível reportar informações durante a execução do \textit{daemon}.
+ \end{itemize}
+ \item É possivel habilitar em tempo de compilação um terminal virtual, para obter informações sobre o MIPv6 durante a execução do \textit{daemon}. A função \textit{vt\_init} inicializa a lista de comandos do terminal.
+ \item Chama a função \textit{daemon\_start} o que torna o processo um \textit{daemon}.
+ \item Se foi configurado, um nível de \textit{debug} maior que zero, chama a função \textit{debug\_start} que abre um arquivo para ser enviado os \textit{logs} semelhante ao \textit{syslog}.
+ \item Inicia o gerador de números aleatórios criando as sementes com o tempo atual, chamando \textit{srand(time(NULL))}.
+ \item Chama a função \textit{rr\_cn\_init} a qual:
+ \begin{itemize}
+  \item inicializa o \textit{key\_cn} com valor randômico;
+  \item cria buffer de nonces.
+ \end{itemize}
+ \item Chama a função \textit{policy\_init} a qual:
+ \begin{itemize}
+  \item adiciona as políticas das lista de controle de acesso a \textit{bind}, configuradas no arquivo de configuração.
+ \end{itemize}
+ \item Chama a função \textit{taskqueue\_init} a qual:
+\begin{itemize}
+ \item inicializa a fila de tarefas;
+ \item cria a \textit{thread} manipuladora das tarefas.
+\end{itemize}
+ \item Chama a função \textit{bcache\_init} que inicializa o \textit{binding cache}.
+ \item Chama a função \textit{mh\_init} a qual:
+\begin{itemize}
+ \item cria um soquete bruto para as mensagens com cabeçalho de mobilidade.
+\end{itemize}
+ \item Chama a função \textit{icmp6\_init} a qual:
+\begin{itemize}
+ \item cria um soquete bruto para alguns tipos de mensagens ICMPv6.
+\end{itemize}
+ \item Chama a função \textit{xfrm\_init} a qual:
+ \item Chama a função \textit{cn\_init} a qual:
+ \item Se o nó for um móvel ou agente domiciliar chama a função \textit{tunnelctl\_init} a qual:
+ \item Se o nó for um móvel chama a função \textit{mn\_init} a qual:
+ \item Se o nó for um agente domiciliar chama a função \textit{ha\_init} a qual:
+ \item Chama a função \textit{vt\_start} que inicia a \textit{thread} do terminal virtual.
+ \item Por fim inicia a \textit{thread} para tratar os sinais.
+\end{enumerate}
 
-O filtro será configurado de acordo com o papel do \textit{daemon}, nó móvel ou agente domiciliar.
- Se for nó movel recebe mensagens: ND\_ROUTER\_ADVERT, ND\_NEIGHBOR\_ADVERT,
- MIP\_HA\_DISCOVERY\_REPLY, ICMP6\_PARAM\_PROB. Se for agente domiciliar recebe mensagens:
- MIP\_PREFIX\_SOLICIT, MIP\_HA\_DISCOVERY\_REQUEST, ND\_ROUTER\_ADVERT. Ambos recebem a mensagem
- ICMP6\_DST\_UNREACH.
+\subsection{\textit{Threads} importantes do MIPL}
+Para realizar as várias funções que permitem o funcionamento do protocolo MIPv6, o programa utiliza a técnica de \textit{Multithreading}, abaixo segue a descrição das \textit{threads} que são executadas em nó móvel.
 
-(mudar nome de todas mensagens p/ por exemplo: ND\_ROUTER\_ADVERT = anuncio de roteadores )
+\subsubsection{\textit{runner}}
+É uma thread criada para executar tarefas que serão agendadas durante a execução do \textit{daemon}, por exemplo: a expiração de um roteador ou um \textit{Care-of-address}.
 
-Cria o \textit{thread} xfrm listen que está relacionada a IPSec.( enriquecer descrição xfrm )
+\subsubsection{\textit{mh\_listen}}
+\textit{Thread} criada para escutar a chegada de pacotes IPv6 com cabeçalho de mobilidade, \textit{mobility header}. Estes pacotes são escutados através de soquetes brutos. Quando o kernel não entende o campo de protocolo do datagrama IP, como por exemplo, os que possuim cabeçalho de mobilidade, eles são passados diretamente para um soquete bruto. O único processamento feito pelo \textit{kernel} é a verificação mínima de alguns campos de cabeçalho IP.
+
+\subsubsection{\textit{icmp6\_listen}}
+É criado um thread para escutar a chegada de algumas mensagens ICMPv6, feita também soquetes bruto. Neste caso, a maioria dos pacotes ICMP é passada para o soquete bruto depois que o kernel terminou o processamento da mensagem ICMP. O ICMPv6 reune as mensagens do ICMPv4, as funcionalidades de ARP e IGMP.
+
+Um soquete bruto ICMPv6 pode receber muito mais tipos pacotes que um ICMPv4. Para reduzir o número de pacotes passados do kernel para a aplicação, é fornecido um filtro especifico pela aplicação. Na tabela \ref{t_mipl_icmp} é possível observar as mensagens ICMPv6 que serão tratadas pelo MIPL.
+
+\begin{table}[!htpb]
+\centering
+\begin{small}
+  \setlength{\tabcolsep}{3pt}
+\begin{tabular}{|c|c|c|c|}\hline
+\raisebox{1.5ex}{Função mip6d} & \raisebox{1.5ex}{Mensagem Filtrada} & \raisebox{1.5ex}{Função}\\ \hline
+Nó Móvel & ND\_ROUTER\_ADVERT & Anuncio de roteadores  \\ 
+	 & ND\_NEIGHBOR\_ADVERT & Anuncio teste \\ 
+	 & MIP\_HA\_DISCOVERY\_REPLY & Resposta descobrimento de roteadores \\
+	 & ICMP6\_PARAM\_PROB & askdfj;al \\
+	 & ICMP6\_DST\_UNREACH & akdfja;klsdj \\ \hline
+Agente Domiciliar & MIP\_PREFIX\_SOLICIT & Solicitação de prefixo \\
+		  & MIP\_HA\_DISCOVERY\_REQUEST & sa;lksdfja;  \\
+		  & ND\_ROUTER\_ADVERT & asjf;kj;a \\
+		  & ICMP6\_DST\_UNREACH & akdfa;dfja; \\ \hline
+\end{tabular} 
+\end{small}
+\caption{Filtros para os pacotes ICMPv6 feitos pelo MIPL}
+\label{t_mipl_icmp}
+\end{table} 
+
+\subsubsection{\textit{md\_nl\_listen}}
+Mensagens netlink
+
+\subsubsection{\textit{xfrm\_listen}}
+Cria o \textit{thread} xfrm\_listen que está relacionada a IPSec.( enriquecer descrição xfrm )
+
+\subsubsection{\textit{vt\_server\_recv}}
+ Esta \textit{thread} é responsável por responder as conexões para o terminal virtual, que é executado na porta 7777.
+
+\subsubsection{\textit{sigh}}
+feita a configuração para que os sinais
+ SIGHUP, SIGINT, SIGTERM, SIGPIPE sejam tratados pela aplicacão
 
 Depois faz o registro de \textit{handlers} com os \textit{threads} para tratar mensagens de interesse
  do nó correspondente. Os \textit{handlers} ou manipuladores são funções irão tratam determinadas
  mensagens. Ele faz o registro de  manipuladores para as mensagens ICMP6\_DST\_UNREACH,
  IP6\_MH\_TYPE\_HOTI, IP6\_MH\_TYPE\_COTI e IP6\_MH\_TYPE\_BU.
 
-Até esse ponto, o tipo de entidade que está configurado não influencia na inicialização, com exceção
- do xfrm e os filtros ICMP. A partir deste ponto, assumimos que o \textit{daemon} está configurado
- como um nó móvel, pois foi o foco da maior parte do estudo.
-
 Como é um nó movel, vai preparar uma tabela \textit{hash} para o controle de tunel. Depois chama a
  função \texttt{mn\_init()}, que faz as inicializações para nó móvel. Será configurado um soquete
  bruto para receber mensagens do netlink, que serão escutadas pelo \textit{thread} md\_nl\_listen.
 
-A troca de informação do entre \textit{kernel} e \textit{user-space} é pode realizada através do
- netlink. O netlink consiste em uma extensão da interface de \textit{sockets} padrão, que
- proporcionar uma comunicação bidirecional entre \textit{kernel} e \textit{user-space}.
+% A troca de informação do entre \textit{kernel} e \textit{user-space} é pode realizada através do
+%  netlink. O netlink consiste em uma extensão da interface de \textit{sockets} padrão, que
+%  proporcionar uma comunicação bidirecional entre \textit{kernel} e \textit{user-space}.
 
 Inicia uma lista para controlar os \textit{bind update}. Registra um manipulador para tratar as
  messagens ICMP de resposta de descoberta de agente domiciliar. Registra um manipulador para tratar
@@ -91,11 +155,7 @@ Inicia uma lista para controlar os \textit{bind update}. Registra um manipulador
  ICMP6\_PARAM\_PROB e as mensagemns relacionadas a mobilidade IP6 \_MH\_TYPE\_BERROR,
  IP6\_MH\_TYPE\_BACK e IP6\_MH\_TYPE\_BRR.
 
-Por ultimo é criado o \textit{thread} que é responsavel pelo terminal virtual, que é executado na
- porta 777, criado o \textit{thread sigh} para tratar os sinais e chamado a função
- \texttt{pthread\_join} para sincronizar o termino dos \textit{thread}.
-
-Na figura \label{f_mipl_kernel_blocks} podemos observar as interfaces de comunicação usadas pelos \textit{threads} do daemon do MIPL para fazer a comunicação com o kernel.
+Na figura \label{f_mipl_kernel_blocks} podemos observar as interfaces de comunicação usadas pelas \textit{threads} do \textit{daemon} do MIPL para fazer a comunicação com o kernel.
 
 \begin{figure}[!htpb]
 	\centering
@@ -104,7 +164,9 @@ Na figura \label{f_mipl_kernel_blocks} podemos observar as interfaces de comunic
 	\label{f_mipl_kernel_blocks}
 \end{figure}
 
+\subsection{Detecção de Movimento}
+
+\subsection{Processo de Registro}
+
 \section{Alterações propostas para o MIPL}
-
-
 Após uma análise dos dois protocolos e um estudo prévio do codigo fonte do MIPL, o presente trabalho se propõe a sugerir algumas alterações no MIPL para este então passar trabalhar no modelo hierárquico...
