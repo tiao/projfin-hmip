@@ -3,7 +3,7 @@ img_extIsRegExp=false
 img_extensions=.eps .jpg .jpeg .png .pdf .ps .fig .gif .dvi
 kileprversion=2
 kileversion=2.0
-lastDocument=monografia.tex
+lastDocument=cenarios.tex
 masterDocument=
 name=monografia
 pkg_extIsRegExp=false
@@ -28,7 +28,7 @@ order=-1
 archive=true
 column=0
 encoding=
-highlight=
+highlight=LaTeX
 line=0
 open=false
 order=-1
@@ -44,19 +44,19 @@ order=4
 
 [item:ambientedetestes.tex]
 archive=true
-column=17
+column=9
 encoding=ISO 8859-1
 highlight=LaTeX
-line=337
+line=4
 open=false
 order=2
 
 [item:anexo.tex]
 archive=true
-column=36
+column=0
 encoding=ISO 8859-1
 highlight=LaTeX
-line=4
+line=0
 open=false
 order=-1
 
@@ -71,11 +71,11 @@ order=2
 
 [item:cenarios.tex]
 archive=true
-column=0
+column=122
 encoding=ISO 8859-1
 highlight=LaTeX
-line=9
-open=false
+line=18
+open=true
 order=1
 
 [item:conclusoes.tex]
@@ -179,10 +179,10 @@ order=-1
 
 [item:monografia.tex]
 archive=true
-column=9
+column=0
 encoding=ISO 8859-1
 highlight=LaTeX
-line=53
+line=0
 open=true
 order=0
 
