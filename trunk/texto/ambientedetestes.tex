@@ -138,8 +138,8 @@ IPv6;
 Outros componentes e recursos podem facilmente ser adicionados a plataforma de
 testes.
 
-\subsection{Redes Virtuais Móveis com a máquina UML}
-
+\subsection{Redes Virtuais Móveis com a Máquina UML}
+\label{redes_virtuais_com_uml}
 UML oferece dois tipos de redes para as máquinas virtuais: uma que permite
 conectar a UML com o hospedeiro e uma outra denominada redes virtuais isoladas
 onde somente fazem parte instâncias UML. No primeiro tipo de rede as tecnologias
@@ -173,6 +173,8 @@ comportamento dos protocolos.  Tornou-se necessário então fazer alterações no
 programa do \textit{uml\_switch}, que é um software livre sobre a licença GPL
 versão 2, escrito na linguagem de programação C. 
 
+\subsubsection{O uml\_switch para Mobilidade}
+\label{uml_switch_movel}
 A principal alteração no código fonte do \textit{uml\_switch} foi a inclusão da
 possibilidade de segmentação de redes, permitindo a criação de uma espécie de
 \textit{VLan}. Desta forma é possível realizar a mobilidade dos nós conectados
@@ -186,6 +188,15 @@ nós conectados no \textit{switch}. A outra função, é listar os nós conectados.
 Esse recurso torna fácil a implementação de uma interface gráfica do
 \textit{switch}, pois um outro programa, em outra linguagem de programação, pode
 utilizar-se deste recurso para gerar a interface.
+
+Os comandos que o servidor telnet do uml\_switch pode aceitar são:
+\begin{itemize}
+ \item \textit{list}: Lista as portas do switch e as VLANs a elas associadas;
+ \item \textit{move} porta vlan: move uma porta do \textit{swicth} para
+uma VLAN;
+ \item \textit{quit}: encerra a conexão.
+\end{itemize}
+
 
 %\section{MobUML - }
 
