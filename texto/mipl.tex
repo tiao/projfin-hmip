@@ -10,8 +10,8 @@ implementação de suporte a mobilidade no IPv6 (RFC 3775), desenvolvida na
 Universidade Tecnólogica de Helsinki . O codigo foi desenvolvido acompanhando os
 \textit{drafts} da RFC e as versões do \textit{kernel linux}. No início do
 desenvolvimento, a versão do kernel utilizada foi a 2.3.59 e o \textit{draft} 8,
-porém, devido as substânciais mudanças na especificação do MIPv6, os ge
-stores do projeto decidiram dividir o código fonte uma parte em espaço de kernel
+porém, devido as substânciais mudanças na especificação do MIPv6, os gestores 
+do projeto decidiram dividir o código fonte uma parte em espaço de kernel
 e outra em espaço de usuário. A última versão foi o MIPL 1.1 que trabalhava com
 a versão 2.4.26 do \textit{kernel linux}.
 
@@ -85,8 +85,8 @@ Porém o MIPL precisa de uma interface para a troca de informações entre o
 \textit{kernel} e o espaço de usuário é realizada através do
 \textit{netlink}. O \textit{netlink} consiste em uma extensão da interface de
 soquetes padrão, que proporciona uma comunicação bidirecional entre
-\textit{kernel} e o espaço de usuário. O soquete netlink usa endereços da
-familia AF\_NETLINK, comparado ao AF\_INET usado pelos soquetes TCP/IP
+\textit{kernel} e o espaço de usuário. O soquete \textit{netlink} usa endereços
+da família AF\_NETLINK, comparado ao AF\_INET usado pelos soquetes TCP/IP
 \ref{netlink}.
 
 O soquete \textit{netlink} é a forma utilizada pelo MIPL para:
@@ -195,7 +195,8 @@ previamente instalado em uma lista global, para tratar a mensagem.
 \subsubsection{\textit{xfrm\_listen}}
 O \textit{daemon} cria a \textit{thread xfrm\_listen} que escuta mensagens
 \textit{netlink} do \textit{framework} XFRM. Um manipulador é instalado para
-tratar essas mensagens. As mensagens são: XFRM\_MSG\_ACQUIRE e XFRM\_MSG\_REPORT.
+tratar essas mensagens. As mensagens são: XFRM\_MSG\_ACQUIRE e
+XFRM\_MSG\_REPORT.
 
 \subsubsection{\textit{md\_nl\_listen}}
 O \textit{mip6d} cria uma \textit{thread} para tratar mensagens \textit{netlink}
@@ -243,10 +244,160 @@ ao finalizar o programa é preciso deletar eventuais endereços IP's, túneis,
 tabelas de roteamento.
 
 \subsection{Detecção de Movimento}
+O algoritimo de detecção de movimento do MIPL é todo baseado na escuta das
+mensagens de anúncio de roteadores. O nó móvel sempre esta escutando as
+mensagens de RA e as formas de perceber o movimento são:
+\begin{itemize}
+ \item caso seu roteador padrão torne-se inalcançável, o nó móvel de tempos
+em tempos verifica o roteador com um \textit{Neighbor Solicitation};
+ \item ou passe a receber mensagens de outro roteador e pare de escutar
+mensagens do anterior.
+\end{itemize}
 
-\subsection{Processo de Registro}
+Embora o MIPL seja uma extensão da pilha IPv6 padrão do \textit{Linux} apresenta
+algumas características sobre administração de roteadores:
+\begin{enumerate}
+ \item O MIPL possui a sua própria lista de roteadores. Esta lista não é a
+tabela normal de roteamento é atualizada de forma independente. Contém o 
+atual roteador de acesso, bem como roteadores que não são atualmente
+utilizados mas com tempo de vida não expirados.
+ \item Outra característica do MIPL é que ele força atualizações na tabela
+de roteamento após receber anúncio de novo roteador, e apaga todas as
+informações de roteamento que não são do prefixo atual.
+\end{enumerate}
+Devido a estas duas características o MIPL sempe escolhe um novo roteador, este
+método de seleção agressiva de roteadores traz uma melhora na detecção de 
+movimento, ou seja, no tempo de \textit{handover}.
 
-\section{Alterações propostas para o MIPL}
-Após uma análise dos dois protocolos e um estudo prévio do codigo fonte do MIPL,
-o presente trabalho se propõe a sugerir algumas alterações no MIPL para este
-então passar trabalhar no modelo hierárquico...
+\section{Alterações no MIPL}
+A primeira implementação necessária foi dar suporte ao MIPL a leitura das
+mensagens RA com divulgação de MAP's, pois são elas que permitem a criação do
+endereço RCoA. No manipulador de mensagens RA foi adicionado o suporte para
+a leitura da opção de MAP na mensagem RA. Foi criado uma estrutura de dados
+para o MAP e funções para manipulação desta estrutura. Na estrutura de dados do
+roteador foi adicionado uma lista de MAP's. A estrutura é mostrada a seguir.
+
+\begin{lstlisting}
+struct map_list_entry
+{
+    struct list_head list;
+    struct timespec timestamp;
+    struct tq_elem tqe;
+    struct nd_opt_map map;
+    struct in6_addr rcoa;
+    int used;
+#define mle_mlen map.nd_opt_map_length
+#define mle_dist_pref map.nd_opt_map_dist_pref
+#define mle_flags map.nd_opt_map_flags_reserved
+#define mle_valid_time map.nd_opt_map_valid_time
+#define mle_globaladdr map.nd_opt_map_globaladdr
+};
+\end{lstlisting}
+A estrutura contêm:
+\begin{itemize}
+ \item os campos da opção de MAP da mensagem RA;
+ \item tempo de vida do roteador que entregou a mesagem;
+ \item endereço RCoA criado a partir do endereço do MAP;
+ \item estrutura de dados que permite criar tarefas para serem agendadas;
+\end{itemize}
+
+No processamento da mensagem RA foram adicionados novos eventos de
+movimento:
+
+\textbf{ME\_MAP\_NEW}
+
+\textbf{ME\_MAP\_UPDATE}
+
+\textbf{ME\_MAP\_EXPIRED}
+
+Os eventos adicionados tem a função de colher os dados que serão utilizados no
+momento do registro, manter os dados para o funcionamento do protocolo.
+
+Foi criada uma estrutura de dados para o RCoA que foi adicionada na estrutura do
+agente domiciliar. As informações contidas na estrutura serão utilizadas no
+momento da formação das mensagens de BU e controle do registro.
+\begin{lstlisting}
+struct rcoa_addr_info {
+    struct mn_addr rcoa; /* Home address for MAP */
+    uint8_t mlen;
+    uint8_t map_reg_status;
+    struct in6_addr map_prefix;
+    struct in6_addr map_addr;
+    int pend_ba;
+    int site;
+    int if_tunnel;
+};
+\end{lstlisting}
+
+Foi adicionado ao mecanismo de registro suporte ao envio do BU para o MAP,
+alteração da mensagem de BU para o agente domiciliar, criação do túnel com o MAP
+e modificação do túnel com o agente domiciliar.
+
+Algo interessante de salientar é que toda a parte de tomada de decisão sobre o
+movimento se manteve e as alterações atuam somente na forma do registro com
+os agentes.
+
+\subsection{Detalhes do funcionamento}
+A seguir uma descrição das implementações efetuadas no MIPL em um movimento para
+um novo domínio:
+\begin{enumerate}
+ \item Ao receber uma mensagem RA de um novo roteador de acesso:
+\begin{itemize}
+ \item as opções de MAP são lidas;
+ \item uma uma lista de MAP's é criada na estrutura do roteador.
+\end{itemize}
+ \item Um novo MAP dispara um evento de movimento do tipo \textbf{ME\_MAP\_NEW}
+que:
+\begin{itemize}
+ \item faz escolha de um MAP na lista de roteadores, baseado na distância em
+saltos do MAP;
+ \item cria um túnel para o MAP;
+ \item adiciona o RCoA na interface do túnel;
+ \item define o RCoA na estrutura do agente domiciliar, utilizado no envio do
+BU.
+\end{itemize}
+ \item movimento é detectado, código normal do MIPL, então o registro deve ser
+feito com os agentes:
+\begin{itemize}
+ \item enviado BU para o MAP com os campos:
+\begin{itemize}
+ \item Origem = RCoA
+ \item Destino = endereço MAP
+ \item Care-of-Adress = LCoA
+\end{itemize}
+ \item enviado BU para agente domiciliar com os campos:
+ \begin{itemize}
+  \item Origem = endereço domiciliar
+  \item Destino = endereço agente domiciliar
+  \item Care-of-Adress = RCoA
+ \end{itemize}
+\end{itemize}
+ \item Após o envio dos BU's os túneis devem ser modificados:
+ \begin{itemize}
+  \item Túnel entre nó móvel e MAP o ponto final é a interface de rede
+(ip6tnl2@eth0).
+  \item Túnel entre nó móvel e agente domiciliar o ponto final é o túnel entre
+nó móvel e MAP (ip6tnl1@ip6tnl2).
+ \end{itemize}
+ \item Periodicamente com a chegada dos RA's, o evento de movimento
+\textbf{ME\_MAP\_UDATE} é disparado onde:
+\begin{itemize}
+ \item o tempo de vida do RCoA é atualizado.
+\end{itemize}
+\end{enumerate}
+
+\subsection{Problemas conhecidos}
+Como a implementação proposta pelo trabalho foi somente de caráter experimental,
+mais como uma forma de um estudo prático dos protocolos, o tempo, alta
+complexidade do código do MIPL e está em processo de desenvolvimento. Alguns
+problemas possuem na implementação:
+\begin{itemize}
+ \item sem suporte a otimização de rotas;
+ \item sem suporte a segurança (IPSec);
+ \item sem suporte ao HMIPv6 em arquivo de configuração, somente em tempo de
+compilação;
+ \item sem tarefas para deletar MAP's expirados;
+ \item problema ao receber BA vindo MAP, o que ocasiona problemas em mobilidade
+em um mesmo domínio;
+ \item problemas no retorno para rede domiciliar.
+\end{itemize}
