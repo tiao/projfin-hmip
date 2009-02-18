@@ -45,62 +45,62 @@ abordagem analítica;
 móvel antes e depois do movimento.
 \end{itemize}
 
-\subsection{Considerações sobre o Tempo de latência do \textit{Handover}}
-O processo de \textit{handover} acontece quando o nó móvel muda seu ponto de
-conexão de uma sub-rede para outra. O tempo de latência envolvido neste processo
-\cite{xavier} pode ser dividida em quatro fases:
-
-\begin{enumerate}
- \item \textbf{Detecção de Movimento (\textit{TD})}: Em um cenário real
-representaria o tempo do \textit{handover} na camada de enlace até o primeiro
-\textit{Router Advertisement}. Como neste ambiente de testes não conseguimos
-simular a camada enlace não se pode precisar com a exatidão a latência envolvida
-no processo. Porém, para fins de estudo consideraremos para nosso cenário o
-tempo entre o último pacote do \textit{gen} recebido na rede domiciliar e o
-primeiro \textit{Router Advertisement} na rede visitada.
-
-\begin{equation}
- TD = t1 - t0
-\label{eq.td}
-\end{equation}
-
-\item \textbf{Configuração do \textit{Care-of-address} (\textit{TA})}: Tempo que
-entre 
- o primeiro \textit{Router Advertisement} e o envio do \textit{Binding Update}.
-
-\begin{equation}
- TA = t2 -t1
- \label{eq.ta}
-\end{equation}
-
-\item \textbf{Registro com agente domiciliar (\textit{TR})}: Intervalo de tempo
-entre
- o envio do \textit{Binding Update} ao agente domiciliar e o recebimento do
- \textit{Binding Acknowledgement}.
-
-\begin{equation}
- TR = t3 - t2
- \label{eq.tr}
-\end{equation}
-
-\item \textbf{Otimização de Roteamento (\textit{TO})}: Intervalo de tempo entre
-o envio das mensagens do \textit{Return Routability Procedure} e o recebimento
-do \textit{Binding Acknowledgement} do nó correspondente.
-
-\begin{equation}
- TO = t4 - t3
- \label{eq.to}
-\end{equation}
-
-\end{enumerate}
-
-Obviamente podemos calcular o tempo de latência do handover com a seguinte
-fórmula:
-
-\begin{equation}
- TH = TD + TA + TR + TO
- \label{eq.th}
-\end{equation}
+% \subsection{Considerações sobre o Tempo de latência do \textit{Handover}}
+% O processo de \textit{handover} acontece quando o nó móvel muda seu ponto de
+% conexão de uma sub-rede para outra. O tempo de latência envolvido neste processo
+% \cite{xavier} pode ser dividida em quatro fases:
+% 
+% \begin{enumerate}
+%  \item \textbf{Detecção de Movimento (\textit{TD})}: Em um cenário real
+% representaria o tempo do \textit{handover} na camada de enlace até o primeiro
+% \textit{Router Advertisement}. Como neste ambiente de testes não conseguimos
+% simular a camada enlace não se pode precisar com a exatidão a latência envolvida
+% no processo. Porém, para fins de estudo consideraremos para nosso cenário o
+% tempo entre o último pacote do \textit{gen} recebido na rede domiciliar e o
+% primeiro \textit{Router Advertisement} na rede visitada.
+% 
+% \begin{equation}
+%  TD = t1 - t0
+% \label{eq.td}
+% \end{equation}
+% 
+% \item \textbf{Configuração do \textit{Care-of-address} (\textit{TA})}: Tempo que
+% entre 
+%  o primeiro \textit{Router Advertisement} e o envio do \textit{Binding Update}.
+% 
+% \begin{equation}
+%  TA = t2 -t1
+%  \label{eq.ta}
+% \end{equation}
+% 
+% \item \textbf{Registro com agente domiciliar (\textit{TR})}: Intervalo de tempo
+% entre
+%  o envio do \textit{Binding Update} ao agente domiciliar e o recebimento do
+%  \textit{Binding Acknowledgement}.
+% 
+% \begin{equation}
+%  TR = t3 - t2
+%  \label{eq.tr}
+% \end{equation}
+% 
+% \item \textbf{Otimização de Roteamento (\textit{TO})}: Intervalo de tempo entre
+% o envio das mensagens do \textit{Return Routability Procedure} e o recebimento
+% do \textit{Binding Acknowledgement} do nó correspondente.
+% 
+% \begin{equation}
+%  TO = t4 - t3
+%  \label{eq.to}
+% \end{equation}
+% 
+% \end{enumerate}
+% 
+% Obviamente podemos calcular o tempo de latência do handover com a seguinte
+% fórmula:
+% 
+% \begin{equation}
+%  TH = TD + TA + TR + TO
+%  \label{eq.th}
+% \end{equation}
 
 \section{Cenário 1 - Uso do Protocolo MIPv6}
 \label{s_cenario1}
@@ -130,9 +130,9 @@ domiciliar ao nó móvel. A rede com prefixo
 \centering
 \begin{small}
   \setlength{\tabcolsep}{3pt}
-\begin{tabular}{|c|c|c|c|c|}\hline
-\raisebox{1.5ex}{Nó} & \raisebox{1.5ex}{Interface} & \raisebox{1.5ex}{MAC} &
-\raisebox{1.5ex}{Endereço} & \raisebox{1.5ex}{Tipo}\\ \hline
+\begin{tabular}{|c|c|c|c|c||}\hline \hline
+\textbf{Nó} & \textbf{Interface} & \textbf{MAC} &
+\textbf{Endereço} & \textbf{Tipo}\\ \hline \hline
 
 % MN
 & & & 2001:c::2 & Domiciliar (Global) \\ 
@@ -196,8 +196,8 @@ recebido do AR1.
 \centering
 \begin{footnotesize}
   \setlength{\tabcolsep}{3pt}
-\begin{tabular}{|c|c|c|c|}\hline
-\raisebox{1.5ex}{Tempo (s)} & \raisebox{1.5ex}{Origem} & \raisebox{1.5ex}{Destino} & \raisebox{1.5ex}{Conteúdo}\\ \hline
+\begin{tabular}{|c|c|c|c||}\hline \hline
+\textbf{Tempo (s)} & \textbf{Origem} & \textbf{Destino} & \textbf{Conteúdo}\\ \hline \hline
 19:50.348113 & fe80::fcfd:f5ff:fe49:32bc   & ff02::1                     & RA, Flags [home agent] \\
 19:51.314075 & fe80::fcfd:f5ff:fe49:32bc   & ff02::1:ff00:2              & NS, who has 2001:c::2 \\
 19:51.314229 & 2001:c::2                   & fe80::fcfd:f5ff:fe49:32bc   & neighbor advertisement \\
@@ -261,15 +261,17 @@ domiciliar depois da mobilidade nas respecitivas tabelas \ref{t_rot_mn1} e
 \ref{t_rot_ha1}. Após o agente domiciliar receber o \textit{Binding Update},
 é adicionada a seguinte rota a sua tabela de roteamento, que todos os 
 pacotes com destino ao endereço domiciliar devem ser encaminhados para o túnel.
-E no nó móvel aparentemente a única mudança é o roteador padrão.
+Após o nó móvel receber o \textit{Router Advertisement}, é alterada a rota
+padrão, deletada a rota para rede 2001:c::/64 e adicionada uma rota para a rede 
+2001:d::/64, onde a interface eth0 está atrelada.
 
 \begin{table}[!htpb]
 \centering
 \begin{small}
   \setlength{\tabcolsep}{3pt}
-\begin{tabular}{|c|c|c|c|}\hline
-\raisebox{1.5ex}{Destino} & \raisebox{1.5ex}{Via} & \raisebox{1.5ex}{Proximo
- salto} & \raisebox{1.5ex}{Considerações} \\ \hline
+\begin{tabular}{|c|c|c|c||}\hline \hline
+\textbf{Destino} & \textbf{Via} & \textbf{Proximo
+ salto} & \textbf{Considerações} \\ \hline \hline
 2001:a::/64 &	eth0	&	fe80::fcfd:dff:fe0c:a222 & \\
 2001:b::/64 &   eth0	&	::  & \\
 \textbf{2001:c::2} & \textbf{eth1} & \textbf{2001:c::2}  & Antes da mobilidade do nó móvel\\
@@ -290,9 +292,9 @@ E no nó móvel aparentemente a única mudança é o roteador padrão.
 \centering
 \begin{small}
   \setlength{\tabcolsep}{3pt}
-\begin{tabular}{|c|c|c|c|}\hline
-\raisebox{1.5ex}{Destino} & \raisebox{1.5ex}{Via} & \raisebox{1.5ex}{Proximo
-salto} & \raisebox{1.5ex}{Considerações}\\ \hline
+\begin{tabular}{|c|c|c|c||}\hline \hline
+\textbf{Destino} & \textbf{Via} & \textbf{Proximo
+salto} & \textbf{Considerações}\\ \hline \hline
 2001:c::2	          & ip6tnl1		  & :: &  \\
 2001:c::/64               & eth0		  & :: & Na rede domiciliar \\
 default	                  & eth0		  & fe80::fcfd:f5ff:fe49:32bc &
@@ -317,9 +319,9 @@ As rotas da tabela 252 são mostradas na tabela \ref{t_route_252_mn}.
 \centering
 \begin{small}
   \setlength{\tabcolsep}{3pt}
-\begin{tabular}{|c|c|c|}\hline
-\raisebox{1.5ex}{Prioridade} & \raisebox{1.5ex}{Regra} & \raisebox{1.5ex}{Ação}
-\\ \hline
+\begin{tabular}{|c|c|c||}\hline \hline
+\textbf{Prioridade} & \textbf{Regra} & \textbf{Ação}
+\\ \hline \hline
 0:	& from all        &  lookup local \\
 1001:	& from 2001:c::2  &  lookup 252 \\
 1002:	& from fe80::/64 &   lookup main \\
@@ -336,31 +338,57 @@ As rotas da tabela 252 são mostradas na tabela \ref{t_route_252_mn}.
 \centering
 \begin{small}
   \setlength{\tabcolsep}{3pt}
-\begin{tabular}{|c|c|c|c|}\hline
-\raisebox{1.5ex}{Destino} & \raisebox{1.5ex}{Via} & \raisebox{1.5ex}{Proximo
-salto} & \raisebox{1.5ex}{Considerações}\\ \hline
+\begin{tabular}{|c|c|c||}\hline \hline
+\textbf{Prioridade} & \textbf{Regra} & \textbf{Ação}
+\\ \hline \hline
+0:	& from all        &  lookup local \\
+1005:	& from 2001:c::2  &  lookup 252 \\
+32766:	& from all        &  lookup main \\ \hline
+\end{tabular} 
+\end{small}
+\caption{Regras de Roteamento do Home Agente}
+\label{t_rule_ha}
+\end{table} 
+
+
+\begin{table}[!htpb]
+\centering
+\begin{small}
+  \setlength{\tabcolsep}{3pt}
+\begin{tabular}{|c|c|c|c||}\hline \hline
+\textbf{Destino} & \textbf{Via} & \textbf{Proximo
+salto} & \textbf{Considerações}\\ \hline \hline
+          *                 &   *     &     *     &  Na rede domiciliar\\ \hline
 2001:a::fcfd:65ff:fe34:8a44 & ip6tnl1 & 2001:a::fcfd:65ff:fe34:8a44 & \\
-2001:c::1                   & ip6tnl1 & 2001:c::1 & \\
+2001:c::1                   & ip6tnl1 & 2001:c::1 &  Na rede visitada\\
 default                     & ip6tnl1 & ::        & \\ \hline
 \end{tabular} 
 \end{small}
 \caption{Tabela de Roteamento 252 do nó móvel}
 \label{t_route_252_mn}
-\end{table} 
+\end{table}
+
+A tabela de Roteamento 252 do agente domiciliar, após o nó móvel realizar a 
+mobilidade, é adicionada a seguinte regra.
+
+\begin{verbatim}
+2001:c::2 from 2001:c::1 dev eth1  proto 16  metric 128  mtu 1500 advmss 
+  1440 hoplimit 4294967295
+\end{verbatim}
 
 \subsubsection{Detalhes da Formação de Túneis}
 O tunel no nó móvel é criado antes de acontecer qualquer mobilidade. No agente
 domiciliar o  túnel com o nó móvel é criado no recebimento do BU. As tabelas 
 \ref{t_tun_ha1} e \ref{t_tun_mn1} apresentam o endereçamento do tunel, no HA e 
 MN, antes e depois da mobilidade.
-móvel.
+
 \begin{table}[!htpb]
 \centering
 \begin{small}
   \setlength{\tabcolsep}{3pt}
-\begin{tabular}{|c|c|c|c|c|}\hline
-\raisebox{1.5ex}{Nome} & \raisebox{1.5ex}{Remoto} & \raisebox{1.5ex}{Local} & 
-\raisebox{1.5ex}{Interface} & \raisebox{1.5ex}{Considerações} \\ \hline
+\begin{tabular}{|c|c|c|c|c||}\hline \hline
+\textbf{Nome} & \textbf{Remoto} & \textbf{Local} & 
+\textbf{Interface} & \textbf{Considerações} \\ \hline \hline
 ip6tnl1 & 2001:c::1 & 2001:c::2 & eth0 & Antes da mobilidade do nó móvel \\
  \hline
 ip6tnl1 & 2001:c::1 & 2001:d::fcfd:32ff:feff:42c9 & eth0 & Após a mobilidade do 
@@ -375,9 +403,9 @@ nó móvel \\ \hline
 \centering
 \begin{small}
   \setlength{\tabcolsep}{3pt}
-\begin{tabular}{|c|c|c|c|c|}\hline
-\raisebox{1.5ex}{Nome} & \raisebox{1.5ex}{Remoto} & \raisebox{1.5ex}{Local} & 
-\raisebox{1.5ex}{Interface} & \raisebox{1.5ex}{Considerações} \\ \hline
+\begin{tabular}{|c|c|c|c|c||}\hline \hline
+\textbf{Nome} & \textbf{Remoto} & \textbf{Local} & 
+\textbf{Interface} & \textbf{Considerações} \\ \hline \hline
 ip6tnl1 & :: & :: & eth0 & Antes da mobilidade do nó móvel \\ \hline
 ip6tnl1 & 2001:d::fcfd:32ff:feff:42c9 & 2001:c::1 & eth0 & Após a mobilidade do 
 nó móvel \\ \hline
@@ -387,109 +415,109 @@ nó móvel \\ \hline
 \label{t_tun_ha1}
 \end{table}
 
-\subsubsection{Análise dos Tempos de Handover}
-
-Na tabela \ref{t_handover}, encontram-se os tempos das fases do processo de
-\textit{handover} referentes ao cenário estudado.
-
-Utilizando o cenário estudado como referência, foi realizado um teste que
-pretende verificar a perda na taxa de transmissão em um processo de
-\textit{handover}. Utilizando a ferramenta \textit{gen} que permite gerar
-tráfegos específicos e relatórios que extraem a taxa de trasmissão e a perda de
-pacotes, e utilizando o utilitário \textit{GNUPLOT} somos capazes de gerar
-gráficos que avaliam esse desempenho.
-
-\begin{table}[!htpb]
-\centering
-\begin{small}
-  \setlength{\tabcolsep}{3pt}
-\begin{tabular}{|c|c|c|}\hline
-\raisebox{1.5ex}{Fase} & \raisebox{1.5ex}{Tempo (ms)} & \raisebox{1.5ex}{Media
-\%} \\ \hline
-\textit{TD} & 2240 & 48,6 \\ \hline
-\textit{TA} & 1320 & 28.63\\ \hline
-\textit{TR} & 1030 & 22.34\\ \hline
-\textit{TO} & 20 &  0.43\\ \hline
-\textit{TH} & 4610 & 100 \\ \hline
-\end{tabular} 
-\end{small}
-\caption{Latência no \textit{Handover} do cenário estudado}
-\label{t_handover}
-\end{table} 
-
-Os testes realizados foram feitos utilizando tunelamento bidirecional, o tempo
-configurado para o intervalo entre as mensagens de \textit{Router Advertisement}
-foi de 30 à 70 milisegundos. Os comandos disparados nos nós móvel e
-correspondente foram os seguintes:
-\begin{verbatim}
-mn# gen -l -d -p udp -s 14000 -f /host/log/
-cn# gen -a 2000:a::1 -d -p udp -s 14000
-\end{verbatim}
-
-O gráfico obtido no teste, pode ser observado na figura \ref{f_banda}.
-
-\begin{figure}[!htpb]
-	\centering
-	\includegraphics[scale=.6]{figs/banda}
-	\caption{Taxa de transmissão em \textit{Handover}}
-	\label{f_banda}
-\end{figure}
-
-A partir dos dados levantados com o teste podemos tirar várias conclusões, entre
-as quais destacam-se que o \textit{Troughput} suportado pela rede gira em torno
-de 9 Mbps, este dado esta muito relacionado ao desempenho da máquina hospedeiro,
-que cada \textit{handover} é de aproximadamente 3 segundos, há perdas
-consideráveis de pacotes que prejudicariam muito comunicações interativas como
-videoconferência e \textit{VoIP}, porém, navegação em paginas da
-\textit{Internet} e visualização de \textit{e-mail} a instabilidade é tolerável.
-
-Como cenário estudo foi simulado todos os tempos medidos são estimados. Porém,
-segundo algumas bibliografias estudadas que realizaram experimentos fisicamente
-os tempos medidos na simulação estão dentro do esperado.
-
-É perceptível que as fases que mais comprometem o \textit{handover} do nosso
-cenário são as da detecção de movimento e a configuração do
-\textit{care-of-address}. Algumas tentativas podem ser feitas para tentar
-diminuir a latência nestas duas fases.
-
-Na tentativa de diminuir o tempo da fase de detecção de movimento, podemos
-diminuir o intervalo entre as mensagens de \textit{Router Advertisement} do
-roteador presente na rede que irá ser visitada pelo nó móvel. Pois, é por meio
-desta mensagem que o nó móvel detecta o movimento e desencadeia todo o processo
-de \textit{handover}.
-
-No intuito de verificar se há uma melhora no processo de handover. O cenário
-estudado foi repetido variando o intervalo entre as mensagens de \textit{Router
-Advertisement}. O resultado deste teste esta disponível na figura \ref{f_radvd}.
-
-\begin{figure}[!htpb]
-	\centering
-	\includegraphics[scale=.6]{figs/radvd}
-	\caption{Diferentes intervalos entre as mensagens \textit{Router
-Advertisement}}
-	\label{f_radvd}
-\end{figure}
-
-Com os dados levantados, é possível perceber que o intervalo entre as mensagens
-de \textit{Router Advertisement} esta diretamente ligado com a perda de pacotes
-durante o \textit{handover}. Porém, esta não é uma boa prática para tentar
-amenizar a latência do handover, pois um numero muito grande de mensagens
-\textit{multicasting} inundaria a rede prejudicando a perfomance principalmente
-em redes sem fio.
-
-No processo de formação de um novo \textit{care-of-address} o DAD é necessário
-para se certificar que o endereço formado é exclusivo. Para o teste ser bem
-sucedido nenhum nó vizinho deve enviar um \textit{Neighbor Advertisement}, em
-resposta ao teste, ou \textit{Neighbor Solicitation}, como o mesmo endereço em
-questão, em um período de \textit{1000ms} segundo a RFC 2462 \cite{rfc2462}.
-Este tempo de espera compromete a fase de configuração do
-\textit{care-of-address}.
-
-Existe uma variável chamada \textit{dad\_transmits} no kernel do Linux que é
-usada para configurar o DAD em um nó. Com a intenção de diminuir a latência na
-fase de configuração do \textit{care-of-address}, nós configuramos a variável
-com o valor 0, isso significa que o procedimento de DAD é cancelado, e repetimos
-o cenário estudado.
+% \subsubsection{Análise dos Tempos de Handover}
+% 
+% Na tabela \ref{t_handover}, encontram-se os tempos das fases do processo de
+% \textit{handover} referentes ao cenário estudado.
+% 
+% Utilizando o cenário estudado como referência, foi realizado um teste que
+% pretende verificar a perda na taxa de transmissão em um processo de
+% \textit{handover}. Utilizando a ferramenta \textit{gen} que permite gerar
+% tráfegos específicos e relatórios que extraem a taxa de trasmissão e a perda de
+% pacotes, e utilizando o utilitário \textit{GNUPLOT} somos capazes de gerar
+% gráficos que avaliam esse desempenho.
+% 
+% \begin{table}[!htpb]
+% \centering
+% \begin{small}
+%   \setlength{\tabcolsep}{3pt}
+% \begin{tabular}{|c|c|c|}\hline
+% \textbf{Fase} & \textbf{Tempo (ms)} & \textbf{Media
+% \%} \\ \hline
+% \textit{TD} & 2240 & 48,6 \\ \hline
+% \textit{TA} & 1320 & 28.63\\ \hline
+% \textit{TR} & 1030 & 22.34\\ \hline
+% \textit{TO} & 20 &  0.43\\ \hline
+% \textit{TH} & 4610 & 100 \\ \hline
+% \end{tabular} 
+% \end{small}
+% \caption{Latência no \textit{Handover} do cenário estudado}
+% \label{t_handover}
+% \end{table} 
+% 
+% Os testes realizados foram feitos utilizando tunelamento bidirecional, o tempo
+% configurado para o intervalo entre as mensagens de \textit{Router Advertisement}
+% foi de 30 à 70 milisegundos. Os comandos disparados nos nós móvel e
+% correspondente foram os seguintes:
+% \begin{verbatim}
+% mn# gen -l -d -p udp -s 14000 -f /host/log/
+% cn# gen -a 2000:a::1 -d -p udp -s 14000
+% \end{verbatim}
+% 
+% O gráfico obtido no teste, pode ser observado na figura \ref{f_banda}.
+% 
+% \begin{figure}[!htpb]
+% 	\centering
+% 	\includegraphics[scale=.6]{figs/banda}
+% 	\caption{Taxa de transmissão em \textit{Handover}}
+% 	\label{f_banda}
+% \end{figure}
+% 
+% A partir dos dados levantados com o teste podemos tirar várias conclusões, entre
+% as quais destacam-se que o \textit{Troughput} suportado pela rede gira em torno
+% de 9 Mbps, este dado esta muito relacionado ao desempenho da máquina hospedeiro,
+% que cada \textit{handover} é de aproximadamente 3 segundos, há perdas
+% consideráveis de pacotes que prejudicariam muito comunicações interativas como
+% videoconferência e \textit{VoIP}, porém, navegação em paginas da
+% \textit{Internet} e visualização de \textit{e-mail} a instabilidade é tolerável.
+% 
+% Como cenário estudo foi simulado todos os tempos medidos são estimados. Porém,
+% segundo algumas bibliografias estudadas que realizaram experimentos fisicamente
+% os tempos medidos na simulação estão dentro do esperado.
+% 
+% É perceptível que as fases que mais comprometem o \textit{handover} do nosso
+% cenário são as da detecção de movimento e a configuração do
+% \textit{care-of-address}. Algumas tentativas podem ser feitas para tentar
+% diminuir a latência nestas duas fases.
+% 
+% Na tentativa de diminuir o tempo da fase de detecção de movimento, podemos
+% diminuir o intervalo entre as mensagens de \textit{Router Advertisement} do
+% roteador presente na rede que irá ser visitada pelo nó móvel. Pois, é por meio
+% desta mensagem que o nó móvel detecta o movimento e desencadeia todo o processo
+% de \textit{handover}.
+% 
+% No intuito de verificar se há uma melhora no processo de handover. O cenário
+% estudado foi repetido variando o intervalo entre as mensagens de \textit{Router
+% Advertisement}. O resultado deste teste esta disponível na figura \ref{f_radvd}.
+% 
+% \begin{figure}[!htpb]
+% 	\centering
+% 	\includegraphics[scale=.6]{figs/radvd}
+% 	\caption{Diferentes intervalos entre as mensagens \textit{Router
+% Advertisement}}
+% 	\label{f_radvd}
+% \end{figure}
+% 
+% Com os dados levantados, é possível perceber que o intervalo entre as mensagens
+% de \textit{Router Advertisement} esta diretamente ligado com a perda de pacotes
+% durante o \textit{handover}. Porém, esta não é uma boa prática para tentar
+% amenizar a latência do handover, pois um numero muito grande de mensagens
+% \textit{multicasting} inundaria a rede prejudicando a perfomance principalmente
+% em redes sem fio.
+% 
+% No processo de formação de um novo \textit{care-of-address} o DAD é necessário
+% para se certificar que o endereço formado é exclusivo. Para o teste ser bem
+% sucedido nenhum nó vizinho deve enviar um \textit{Neighbor Advertisement}, em
+% resposta ao teste, ou \textit{Neighbor Solicitation}, como o mesmo endereço em
+% questão, em um período de \textit{1000ms} segundo a RFC 2462 \cite{rfc2462}.
+% Este tempo de espera compromete a fase de configuração do
+% \textit{care-of-address}.
+% 
+% Existe uma variável chamada \textit{dad\_transmits} no kernel do Linux que é
+% usada para configurar o DAD em um nó. Com a intenção de diminuir a latência na
+% fase de configuração do \textit{care-of-address}, nós configuramos a variável
+% com o valor 0, isso significa que o procedimento de DAD é cancelado, e repetimos
+% o cenário estudado.
 
 %===========================================================================
 \subsection{Variação 2: MIPv6 com Otimização de Rota}
@@ -500,9 +528,9 @@ o cenário estudado.
 \centering
 \begin{footnotesize}
   \setlength{\tabcolsep}{3pt}
-\begin{tabular}{|c|c|c|c|}\hline
-\raisebox{1.5ex}{Tempo (s)} & \raisebox{1.5ex}{Origem} &
-\raisebox{1.5ex}{Destino} & \raisebox{1.5ex}{Conteúdo}\\ \hline
+\begin{tabular}{|c|c|c|c||}\hline \hline
+\textbf{Tempo (s)} & \textbf{Origem} &
+\textbf{Destino} & \textbf{Conteúdo}\\ \hline \hline
 50:21.991721 & 2000:a::1 & 2000:c::1 & ICMP6, echo reply \\ \hline
 \textbf{50:24.231519} & \textbf{fe80::b04c:e9ff:feec:6c42} & \textbf{ff02::1} &
 \textbf{Router Advertisement}\\

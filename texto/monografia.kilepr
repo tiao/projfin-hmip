@@ -71,10 +71,10 @@ order=2
 
 [item:cenarios.tex]
 archive=true
-column=68
+column=23
 encoding=ISO 8859-1
 highlight=LaTeX
-line=313
+line=1
 open=true
 order=1
 
@@ -182,7 +182,7 @@ archive=true
 column=0
 encoding=ISO 8859-1
 highlight=LaTeX
-line=0
+line=16
 open=true
 order=0
 
