@@ -57,7 +57,7 @@ class UmlSwitchWindow(threading.Thread):
 
 			gtk.threads_enter()
 			self.sock.send('list\n')
-			line = self.sock.recv(300)
+			line = self.sock.recv(600)
 			gtk.threads_leave()
 
 			line =  line.splitlines()

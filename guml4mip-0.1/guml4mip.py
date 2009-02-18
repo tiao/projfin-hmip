@@ -186,7 +186,7 @@ class TerminalWindow:
 			return
 
 	def getlastdirectory(self):
-		default = "/usr/share/doc/guml4mip/examples/scenario1"
+		default = "/usr/share/doc/guml4mip/examples/mipv6"
 		if os.path.isfile("%s/.guml4mip" % os.getenv("HOME")) == False:
 			file = open("%s/.guml4mip" % os.getenv("HOME"), 'w')
 			file.write(default)

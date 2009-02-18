@@ -36,6 +36,7 @@ commands = {1: ["dd if=/dev/zero of=fs.img bs=1024 seek=400k count=1",
 	"sed -i '/tty[2-6]/ s/^/#/g' /etc/inittab",
 	"mkdir /host",
 	"echo -e \"mount none /host -t hostfs -o /usr/share/guml4mip/vm\n/host/guml4mip.conf\" > /etc/rc.local",
+	"apt-get purge exim4 cron",
 	"rm -rf /var/cache/apt/archives/*"]}
 
 packages = {"network": "net-tools iputils-ping iproute iptables quagga dhcp3-client tcpdump",

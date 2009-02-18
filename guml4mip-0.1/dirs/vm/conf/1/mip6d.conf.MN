@@ -1,0 +1,26 @@
+#node will run as Mobile Node
+NodeConfig MN;
+
+Interface "eth0";
+
+#suport route optimization
+DoRouteOptimizationCN disabled;
+
+DoRouteOptimizationMN disabled;
+
+OptimisticHandoff disabled;
+
+UseMnHaIPsec disabled;
+
+SendMobPfxSols disabled;
+
+UseCnBuAck disabled;
+
+MnDiscardHaParamProb disabled;
+
+#MnRouterProbes 1;
+
+MnHomeLink "eth0" {
+	HomeAddress 2001:c::2/64;
+	HomeAgentAddress 2001:c::1;
+}

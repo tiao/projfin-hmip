@@ -1,0 +1,5 @@
+#node will run as Mobile Node
+NodeConfig CN;
+
+#suport route optimization
+DoRouteOptimizationCN enabled;

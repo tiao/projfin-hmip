@@ -1,10 +1,10 @@
-interface eth0 {
+interface eth1 {
 	AdvSendAdvert on;
 	MinRtrAdvInterval 1;
 	MaxRtrAdvInterval 3;
 	AdvHomeAgentFlag on;
 
-	prefix 2000:a::/64
+	prefix 2001:c::/64
 	{
 		AdvOnLink on;
 		AdvAutonomous on;
