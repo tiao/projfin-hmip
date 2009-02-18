@@ -17,10 +17,10 @@ QuickBuild=
 
 [item:abstract.tex]
 archive=true
-column=306
+column=0
 encoding=ISO 8859-1
 highlight=LaTeX
-line=9
+line=0
 open=false
 order=-1
 
@@ -35,7 +35,7 @@ order=-1
 
 [item:agradecimentos.tex]
 archive=true
-column=8
+column=0
 encoding=ISO 8859-1
 highlight=LaTeX
 line=0
@@ -44,10 +44,10 @@ order=4
 
 [item:ambientedetestes.tex]
 archive=true
-column=9
+column=0
 encoding=ISO 8859-1
 highlight=LaTeX
-line=4
+line=0
 open=false
 order=2
 
@@ -71,10 +71,10 @@ order=2
 
 [item:cenarios.tex]
 archive=true
-column=122
+column=68
 encoding=ISO 8859-1
 highlight=LaTeX
-line=18
+line=313
 open=true
 order=1
 
@@ -152,10 +152,10 @@ order=-1
 
 [item:mipl.tex]
 archive=true
-column=93
+column=18
 encoding=ISO 8859-1
 highlight=LaTeX
-line=19
+line=307
 open=false
 order=3
 
