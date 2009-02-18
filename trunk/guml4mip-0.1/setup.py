@@ -35,12 +35,12 @@ if __name__ == "__main__":
 		os.system("cp create_fs.py /usr/bin/create_fs")
 		os.system("cp -r uml.py uml_switch.py guml_debug.py dirs/vm dirs/pkg /usr/share/guml4mip")
 		os.system("cp -r dirs/examples /usr/share/doc/guml4mip")
-		os.system("dpkg -i pkg/uml-switch*")
+		os.system("dpkg -i dirs/pkg/uml-switch*")
 		os.system("apt-get install debootstrap")
 		if os.system("create_fs") != 0:
-			print "Error in isntall"
+			print "Error in install"
 			sys.exit(1)
-		os.system("killall exim4 cron")
+#		os.system("killall exim4 cron")
 		os.system("umount /mnt")
 		os.system("mv fs.img /usr/share/guml4mip/vm/lenny.img")
 		print "Install Complete !!!"

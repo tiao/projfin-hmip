@@ -2,7 +2,7 @@
 
 NodeConfig HA;
 
-Interface "eth0";
+Interface "eth1";
 
 UseMnHaIPsec disabled;
 KeyMngMobCapability disabled;

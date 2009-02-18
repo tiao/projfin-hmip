@@ -21,6 +21,6 @@ MnDiscardHaParamProb disabled;
 #MnRouterProbes 1;
 
 MnHomeLink "eth0" {
-	HomeAddress 2000:a::2/64;
-	HomeAgentAddress 2000:a::1;
+	HomeAddress 2001:e::2/64;
+	HomeAgentAddress 2001:e::1;
 }
