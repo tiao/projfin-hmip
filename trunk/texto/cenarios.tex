@@ -27,7 +27,7 @@ Os arquivos para a configuração dos cenários usados no Guml4Mip estão
 disponíveis no diretório da documentação do projeto.
 
 %Para auxiliar na geração de \textit{logs}, que tendem a enriquecer análise dos
-cenários, foram utilizadas as ferramentas
+%cenários, foram utilizadas as ferramentas
 %\textit{tcpdump}, \textit{ping6} e \textit{gen}.
 
 \section{Fundamentos para a Análise dos Cenários}
@@ -133,42 +133,45 @@ domiciliar ao nó móvel. A rede com prefixo
 \begin{tabular}{|c|c|c|c|c|}\hline
 \raisebox{1.5ex}{Nó} & \raisebox{1.5ex}{Interface} & \raisebox{1.5ex}{MAC} &
 \raisebox{1.5ex}{Endereço} & \raisebox{1.5ex}{Tipo}\\ \hline
+
 % MN
-& & & 2000:a::1 & Domiciliar (Global) \\ 
-MN & eth0 & 92:09:4F:D5:EF:EA & 2000:a::9009:4fff:fed5:efea & Auto-configurado
-\\
-& & & 2000:d::9009:4fff:fed5:efea & Care-of-address \\
-& & & fe80::9009:4fff:fed5:efea & Local \\ \hline
+& & & 2001:c::2 & Domiciliar (Global) \\ 
+MN & eth0 & fe:fd:32:ff:42:c9 & 2001:c::fcfd:32ff:feff:42c9 & Auto-configurado\\
+& & & 2001:d::fcfd:32ff:feff:42c9 & Care-of-address \\
+& & & fe80::fcfd:32ff:feff:42c9 & Local \\ \hline
+
 % CN
-CN & eth0 & D6:7F:B0:C3:C9:0C & 2000:c::1 & Global \\ 
-& & & fe80::d47f:b0ff:fec3:c90 & Local \\ \hline
-% AR1
-& eth0 & AE:4D:A8:10:EB:1D & 2000:a::2 & Global \\ 
-AR1 & & & fe80::ac4d:a8ff:fe10:eb1d & Local \\
-& eth1 & 1E:2D:C8:43:E6:C7 & 2000:b::1 & Global \\ 
-& & & fe80::1c2d:c8ff:fe43:e6c7 & Local \\ \hline
+CN & eth0 & fe:fd:65:34:8a:44 & 2001:a::2 & Global \\
+& & & fe80::fcfd:65ff:fe34:8a44 & Local \\ \hline
+
+% HA
+& eth0 & fe:fd:b0:a2:9a:4c & 2001:b::2 & Global \\ 
+HA & & & fe80::fcfd:b0ff:fea2:9a4c & Local \\
+& eth1 & fe:fd:f5:49:32:bc & 2001:c::1 & Global \\ 
+& & & fe80::fcfd:f5ff:fe49:32bc & Local \\ \hline
+
+%AR1
+& eth0 & fe:fd:0d:0c:a2:22 & 2001:b::1 & Global \\ 
+AR1 & & & fe80::fcfd:dff:fe0c:a222 & Local \\ 
+& eth1 & fe:fd:ee:57:0a:cd & 2001:a::1 & Global \\
+& & & fe80::fcfd:eeff:fe57:acd & Local \\ \hline
+
 %AR2
-& eth0 & 36:A7:3F:06:58:8D & 2000:c::2 & Global \\ 
-AR2 & & & fe80::34a7:3fff:fe06:588d & Local \\ 
-& eth1 & 4A:19:FD:12:48:34 & 2000:b::2 & Global \\
-& & & fe80::4819:fdff:fe12:4834 & Local \\ \hline
-%AR3
-& eth0 & B2:4C:E9:EC:6C:42 & 2000:d::2 & Global \\ 
-AR3 & & & fe80::b04c:e9ff:feec:6c42 & Local \\ 
-& eth1 & 2A:E2:57:C7:4F:E4 & 2000:b::3 & Global \\
-& & & fe80::28e2:57ff:fec7:4fe4 & Local \\ \hline
+& eth0 & fe:fd:9f:3d:cf:8a & 2000:b::3 & Global \\ 
+AR2 & & & fe80::fcfd:9fff:fe3d:cf8a & Local \\ 
+& eth1 & fe:fd:71:bf:e3:e1 & 2000:d::1 & Global \\
+& & & fe80::fcfd:71ff:febf:e3e1 & Local \\ \hline
 \end{tabular} 
 \end{small}
 \caption{Endereços do Cenário 1}
 \label{t_addr1}
 \end{table} 
 
-
 \subsection{Variação 1: com Tunelamento Bidirecional e Sem Otimização de Rota}
 
 A simulação 1 terá a seguinte sequência. No início o nó correspondente começa a
 enviar mensagens ICMP por meio do \textit{ping6} para o nó móvel.
-
+%lstlisting
 \begin{verbatim}
 cn# ping6 2001:a::2
 \end{verbatim}
@@ -185,21 +188,103 @@ mn# tcpdump -vvvX
 Os dados obtidos na saída do comando \textit{tcpdump} foram compilados em forma
 de uma tabela para facilitar a visualização dos mesmos e podem ser observados na
 tabela \ref{t_resul_1}.
-Analisando os dados recolhidos conseguimos observar exato momento que ocorreu a
-mobilidade para a outra rede. No instante entre o ICMP reply X e o RA recebido é
-o perio que o nó móvel realiza o movimento.
+Analisando os dados recolhidos conseguimos observar o momento que o nó móvel
+fez o movimento para a outra rede, no instante entre o echo reply seq 6 e o RA 
+recebido do AR1.
+
+\begin{table}[!htpb]
+\centering
+\begin{footnotesize}
+  \setlength{\tabcolsep}{3pt}
+\begin{tabular}{|c|c|c|c|}\hline
+\raisebox{1.5ex}{Tempo (s)} & \raisebox{1.5ex}{Origem} & \raisebox{1.5ex}{Destino} & \raisebox{1.5ex}{Conteúdo}\\ \hline
+19:50.348113 & fe80::fcfd:f5ff:fe49:32bc   & ff02::1                     & RA, Flags [home agent] \\
+19:51.314075 & fe80::fcfd:f5ff:fe49:32bc   & ff02::1:ff00:2              & NS, who has 2001:c::2 \\
+19:51.314229 & 2001:c::2                   & fe80::fcfd:f5ff:fe49:32bc   & neighbor advertisement \\
+19:51.352652 & 2001:a::fcfd:65ff:fe34:8a44 & 2001:c::2                   & echo request, seq 6 \\
+19:51.352733 & 2001:c::2                   & 2001:a::fcfd:65ff:fe34:8a44 & echo reply, seq 6 \\ \hline
+\textbf{19:52.465459} & \textbf{fe80::fcfd:71ff:febf:e3e1} & \textbf{ff02::1} & \textbf{router advertisement} \\
+19:52.481719 & ::                          & ff02::16                    & HBH, multicast listener\\
+19:52.658194 & ::                          & ff02::1:ffff:42c9           & NS, who has (CoA - MN) \\
+19:53.333508 & ::                          & ff02::1:ffff:42c9           & NS, who has (Local - MN) \\
+\textbf{19:54.340614} & \textbf{2001:d::fcfd:32ff:feff:42c9} & \textbf{2001:c::1} & \textbf{BU seq\#=57619 AH} \\
+19:54.457440 & fe80::fcfd:71ff:febf:e3e1   & ff02::1                     & router advertisement \\
+19:55.370804 & fe80::fcfd:71ff:febf:e3e1   & ff02::1:ffff:42c9           & NS, who has (CoA - MN) \\
+19:55.370970 & 2001:d::fcfd:32ff:feff:42c9 & fe80::fcfd:71ff:febf:e3e1   & neighbor advertisement \\
+\textbf{19:55.372259} & \textbf{2001:c::1} & \textbf{2001:d::fcfd:32ff:feff:42c9} & \textbf{BA seq\#=57619} \\
+19:55.405032 & 2001:c::1                   & 2001:d::fcfd:32ff:feff:42c9 & [src=2001:a::fcfd:65ff:fe34:8a44 \\
+             &                             &                             & dst=2001:c::2] echo request \\
+19:55.405184 & 2001:d::fcfd:32ff:feff:42c9 & 2001:c::1                   & [dst=2001:a::fcfd:65ff:fe34:8a44 \\
+             &                             &                             & src=2001:c::2] echo reply \\
+19:56.342799 & fe80::fcfd:32ff:feff:42c9   & fe80::fcfd:f5ff:fe49:32bc   & NS, who has (Local - HA) \\
+19:56.417133 & 2001:c::1                   & 2001:d::fcfd:32ff:feff:42c9 & [src=2001:a::fcfd:65ff:fe34:8a44 \\
+             &                             &                             & dst=2001:c::2] echo request \\
+19:56.417254 & 2001:d::fcfd:32ff:feff:42c9 & 2001:c::1                   & [dst=2001:a::fcfd:65ff:fe34:8a44 \\
+             &                             &                             & src=2001:c::2] echo reply] \\
+19:56.601222 & fe80::fcfd:71ff:febf:e3e1   & ff02::1                     & router advertisement \\
+.            & .                           & .                           & .\\
+.            & .                           & .                           & .\\
+.            & .                           & .                           & .\\
+20:08.567634 & 2001:c::1                   & 2001:d::fcfd:32ff:feff:42c9 & [src=2001:a::fcfd:65ff:fe34:8a44 \\
+             &                             &                             &  dst=2001:c::2:] echo request \\
+20:08.567764 & 2001:d::fcfd:32ff:feff:42c9 & 2001:c::1                   & [dst=2001:a::fcfd:65ff:fe34:8a44 \\
+             &                             &                             & src=2001:c::2] echo reply \\  \hline
+\textbf{20:09.279849} & \textbf{fe80::fcfd:f5ff:fe49:32bc} & \textbf{ff02::1} & \textbf{RA, Flags [home agent]} \\
+20:09.306449 & ::                          & ff02::16                    & HBH, multicast listener \\
+20:09.331656 & ::                          & ff02::16                    & HBH, multicast listener \\
+20:09.503149 & ::                          & ff02::1:ffff:42c9           & NS, who has (Auto) \\
+20:09.545341 & ::                          & ff02::1:ffff:42c9           & NS, who has (Local) \\
+20:09.676771 & ::                          & ff02::16                    & HBH, multicast listener\\
+20:10.330373 & ::                          & ff02::16                    & HBH, multicast listener\\
+20:10.543480 & ::                          & ff02::1:ff00:2              & NS, who has 2001:c::2 \\
+20:10.564683 & fe80::fcfd:32ff:feff:42c9   & ff02::16                    & HBH, multicast listener\\
+20:11.232774 & fe80::fcfd:f5ff:fe49:32bc   & ff02::1                     & neighbor advertisement \\
+\textbf{20:11.236815} & \textbf{2001:c::2} & \textbf{2001:c::1}          & \textbf{BU seq\#=57620 AH} \\
+20:11.259003 & fe80::fcfd:f5ff:fe49:32bc   & ff02::16                    & HBH, multicast listener\\
+20:11.370555 & 2001:c::1                   & ff02::1:ff00:2              & NS, who has 2001:c::2 \\
+20:11.370659 & 2001:c::2                   & 2001:c::1                   & neighbor advertisement \\
+\textbf{20:11.370922} & \textbf{2001:c::1}          & \textbf{2001:c::2 }         & \textbf{BA seq\#=57620} \\
+20:11.373667 & 2001:c::2                   & ff02::1                     & neighbor advertisement \\
+20:11.598218 & 2001:a::fcfd:65ff:fe34:8a44 & 2001:c::2                   & echo request, seq 26 \\
+20:11.598323 & 2001:c::2                   & 2001:a::fcfd:65ff:fe34:8a44 & echo reply, seq 26 \\
+20:12.241584 & fe80::fcfd:f5ff:fe49:32bc   & ff02::1                     & router advertisement \\ \hline
+\end{tabular} 
+\end{footnotesize}
+\caption{Mensagens do Cenário 1 com Tunelamento Bidirecional}
+\label{t_resul_1}
+\end{table} 
 
 \subsubsection{Análise das Tabelas de Roteamento e de Regras de Roteamento}
+
 Podemos constatar mudanças nas tabelas de roteamento do nó móvel e do agente
-domiciliar depois da mobilidade nas respecitivas figuras \ref{t_rot_mn1} e
-\ref{t_rot_ha1}, após receber o \textit{Binding Update} e o agente domiciliar
-criar o túnel com o nó móvel, é adicionada a seguinte rota a sua tabela de
-roteamento, que todos os pacotes com destino ao endereço domiciliar devem ser
-encaminhados para o túnel. E no nó móvel os pacotes com destino ao nó
-correspondente e ao agente domiciliar são encaminhados pelo túnel,
-caracterizando o tunelamento bidirecional.
+domiciliar depois da mobilidade nas respecitivas tabelas \ref{t_rot_mn1} e
+\ref{t_rot_ha1}. Após o agente domiciliar receber o \textit{Binding Update},
+é adicionada a seguinte rota a sua tabela de roteamento, que todos os 
+pacotes com destino ao endereço domiciliar devem ser encaminhados para o túnel.
+E no nó móvel aparentemente a única mudança é o roteador padrão.
 
-
+\begin{table}[!htpb]
+\centering
+\begin{small}
+  \setlength{\tabcolsep}{3pt}
+\begin{tabular}{|c|c|c|c|}\hline
+\raisebox{1.5ex}{Destino} & \raisebox{1.5ex}{Via} & \raisebox{1.5ex}{Proximo
+ salto} & \raisebox{1.5ex}{Considerações} \\ \hline
+2001:a::/64 &	eth0	&	fe80::fcfd:dff:fe0c:a222 & \\
+2001:b::/64 &   eth0	&	::  & \\
+\textbf{2001:c::2} & \textbf{eth1} & \textbf{2001:c::2}  & Antes da mobilidade do nó móvel\\
+2001:c::/64 &	eth1	&	::  & \\
+2001:d::/64 &	eth0	&	fe80::fcfd:9fff:fe3d:cf8a  & \\ \hline
+2001:a::/64 &	eth0	&	fe80::fcfd:dff:fe0c:a222  & \\
+2001:b::/64 &	eth0	&	::  & \\
+\textbf{2001:c::2} & \textbf{ip6tnl1} & \textbf{2001:c::2} & Após a mobilidade do nó móvel \\
+2001:c::/64 &	eth1	&	::  & \\
+2001:d::/64 &	eth0	&	fe80::fcfd:9fff:fe3d:cf8a  & \\ \hline
+\end{tabular}
+\end{small}
+\caption{Tabela principal de roteamento do agente domiciliar}
+\label{t_rot_ha1}
+\end{table}
 
 \begin{table}[!htpb]
 \centering
@@ -208,14 +293,43 @@ caracterizando o tunelamento bidirecional.
 \begin{tabular}{|c|c|c|c|}\hline
 \raisebox{1.5ex}{Destino} & \raisebox{1.5ex}{Via} & \raisebox{1.5ex}{Proximo
 salto} & \raisebox{1.5ex}{Considerações}\\ \hline
-default & eth0 & fe80::ac4d:a8ff:fe10:eb1d & Na rede domiciliar \\ \hline
-default & eth0 & fe80::b04c:e9ff:feec:6c42 & \\ 
-2000:a::2 & ip6tnl1 & 2000:a::2 & Na rede visitada \\ 
-2000:c::1 & ip6tnl1 & 2000:c::1 & \\ \hline
+2001:c::2	          & ip6tnl1		  & :: &  \\
+2001:c::/64               & eth0		  & :: & Na rede domiciliar \\
+default	                  & eth0		  & fe80::fcfd:f5ff:fe49:32bc &
+\\ \hline
+2001:c::2	          & ip6tnl1		  & :: &  \\
+2001:d::/64               & eth0		  & :: & Na rede visitada \\
+default		          & eth0	          & fe80::fcfd:71ff:febf:e3e1 &
+\\ \hline
 \end{tabular} 
 \end{small}
-\caption{Tabela de roteamento do nó móvel}
+\caption{Tabela principal de roteamento do nó móvel}
 \label{t_rot_mn1}
+\end{table} 
+
+Para que o nó móvel tenha os pacotes com destino ao nó correspondente e ao 
+agente domiciliar encaminhados pelo túnel, o que caracteriza o tunelamento
+bidirecional, é utilizado regras de roteamento, mostradas na tabela
+\ref{t_rule_mn}.
+As rotas da tabela 252 são mostradas na tabela \ref{t_route_252_mn}.
+
+\begin{table}[!htpb]
+\centering
+\begin{small}
+  \setlength{\tabcolsep}{3pt}
+\begin{tabular}{|c|c|c|}\hline
+\raisebox{1.5ex}{Prioridade} & \raisebox{1.5ex}{Regra} & \raisebox{1.5ex}{Ação}
+\\ \hline
+0:	& from all        &  lookup local \\
+1001:	& from 2001:c::2  &  lookup 252 \\
+1002:	& from fe80::/64 &   lookup main \\
+1002:	& from 2001:d::/64 & lookup main \\
+%1003:	& from 2001:c::2  &  blackhole\\
+32766:	& from all        &  lookup main \\ \hline
+\end{tabular} 
+\end{small}
+\caption{Regras de Roteamento do Nó movel}
+\label{t_rule_mn}
 \end{table} 
 
 \begin{table}[!htpb]
@@ -224,150 +338,66 @@ default & eth0 & fe80::b04c:e9ff:feec:6c42 & \\
   \setlength{\tabcolsep}{3pt}
 \begin{tabular}{|c|c|c|c|}\hline
 \raisebox{1.5ex}{Destino} & \raisebox{1.5ex}{Via} & \raisebox{1.5ex}{Proximo
-salto} & \raisebox{1.5ex}{Considerações} \\ \hline
-2000:c::/64 & eth1 & 2000:b::2 &  Antes da mobilidade do nó móvel \\ 
-2000:d::/64 & eth1 & 2000:b::3 &   \\ \hline
-2000:c::/64 & eth1 & 2000:b::2 & \\
-2000:d::/64 & eth1 & 2000:b::3 & Após a mobilidade do nó móvel \\
-2000:a::1 & ip6tnl1 & 2000:a::1 & \\ \hline
+salto} & \raisebox{1.5ex}{Considerações}\\ \hline
+2001:a::fcfd:65ff:fe34:8a44 & ip6tnl1 & 2001:a::fcfd:65ff:fe34:8a44 & \\
+2001:c::1                   & ip6tnl1 & 2001:c::1 & \\
+default                     & ip6tnl1 & ::        & \\ \hline
 \end{tabular} 
 \end{small}
-\caption{Tabela de roteamento do agente domiciliar}
-\label{t_rot_ha1}
+\caption{Tabela de Roteamento 252 do nó móvel}
+\label{t_route_252_mn}
 \end{table} 
-
-\begin{table}[!htpb]
-\centering
-
-\begin{small}
-  \setlength{\tabcolsep}{3pt}
-\begin{tabular}{|c|c|c|c|}\hline
-\raisebox{1.5ex}{Tempo (s)} & \raisebox{1.5ex}{Origem} &
-\raisebox{1.5ex}{Destino} & \raisebox{1.5ex}{Conteúdo}\\ \hline
-21:59.952226 & fe80::ac4d:a8ff:fe10:eb1d & ff02::1 & RA, Flags [Home Agent]\\
-22:00.525313 & fe80::ac4d:a8ff:fe10:eb1d & 2000:a::1 & NS, who 2000:a::1\\
-22:00.525398 & 2000:a::1 & fe80::ac4d:a8ff:fe10:eb1d & Neighbor Advertisement\\
-22:00.656486 & 2000:c::1 & 2000:a::1 & Gen seq\#=5\\ 
-22:01.664448 & 2000:c::1 & 2000:a::1 & Gen seq\#=6\\ \hline
-\textbf{22:03.467587} & \textbf{fe80::b04c:e9ff:feec:6c42} & \textbf{ff02::1} &
-\textbf{Router Advertisement}\\
-22:03.482118 & :: & ff02::16 & HBH, multicast listener\\
-22:03.799224 & :: & ff02::1:ffd5:efea & NS, who fe80::9009:4fff:fed5:efea\\
-22:04.285049 & :: & ff02::1:ffd5:efea & NS, who 2000:d::9009:4fff:fed5:efea\\ 
-\textbf{22:05.288026} & \textbf{2000:d::9009:4fff:fed5:efea} &
-\textbf{2000:a::2} & \textbf{BU seq\#=26356 AH}\\
-22:05.304531 & fe80::9009:4fff:fed5:efea & ff02::16 & HBH, multicast listener\\
-22:06.305532 & fe80::b04c:e9ff:feec:6c42 & ff02::1:ffd5:efea & NS, who
-2000:d::9009:4fff:fed5:efea\\
-22:06.305650 & 2000:d::9009:4fff:fed5:efea & fe80::b04c:e9ff:feec:6c42 &
-Neighbor Advertisement\\
-\textbf{22:06.305972} & \textbf{2000:a::2} &
-\textbf{2000:d::9009:4fff:fed5:efea} & \textbf{BA seq\#=26356 lifetime=262140}\\
-22:06.316950 & fe80::b04c:e9ff:feec:6c42 & ff02::1 & Router Advertisement\\
-22:06.512529 & fe80::9009:4fff:fed5:efea & fe80::ac4d:a8ff:fe10:eb1d & NS, who
-fe80::ac4d:a8ff:fe10:eb1d\\
-22:06.700567 & 2000:a::2 & 2000:d::9009:4fff:fed5:efea & 2000:c::1 > 2000:a::1
-(Gen seq\#=11)\\
-22:07.510304 & fe80::9009:4fff:fed5:efea & fe80::ac4d:a8ff:fe10:eb1d & NS, who
-fe80::ac4d:a8ff:fe10:eb1d\\
-22:07.705972 & 2000:a::2 & 2000:d::9009:4fff:fed5:efea & 2000:c::1 > 2000:a::1
-(Gen seq\#=12)\\
-22:08.338339 & fe80::b04c:e9ff:feec:6c42 & ff02::1 & Router Advertisement\\
-. & . & . & .\\
-. & . & . & .\\
-. & . & . & .\\
-22:18.785859 & 2000:a::2 & 2000:d::9009:4fff:fed5:efea & 2000:c::1 > 2000:a::1
-(Gen seq\#=23)\\ \hline
-\textbf{22:19.815983} & \textbf{fe80::ac4d:a8ff:fe10:eb1d} & \textbf{ff02::1} &
-\textbf{RA, Flags [Home Agent]}\\
-22:19.839337 & :: & ff02::16 & HBH, multicast listener\\
-22:19.877057 & :: & ff02::16 & HBH, multicast listener\\
-22:20.170279 & :: & ff02::1:ffd5:efea & NS, who 2000:a::9009:4fff:fed5:efea\\
-22:20.585230 & :: & ff02::1:ffd5:efea & NS, who fe80::9009:4fff:fed5:efea\\
-22:20.879643 & :: & ff02::16 & HBH, multicast listener\\
-22:21.585309 & :: & ff02::1:ff00:1 & NS, who 2000:a::1\\
-22:21.606725 & fe80::9009:4fff:fed5:efea & ff02::16 & HBH, multicast listener\\
-22:21.767709 & fe80::ac4d:a8ff:fe10:eb1d & ff02::1 & Neighbor Advertisement\\
-\textbf{22:21.772629} & \textbf{2000:a::1} & \textbf{2000:a::2} & \textbf{BU
-seq\#=26357}\\
-22:21.785931 & fe80::9009:4fff:fed5:efea & ff02::16 & HBH, multicast listener \\
-22:21.792882 & fe80::ac4d:a8ff:fe10:eb1d & ff02::16 & HBH, multicast listener \\
-22:21.812524 & fe80::ac4d:a8ff:fe10:eb1d & ff02::1:ff00:1 & NS, who 2000:a::1 \\
-22:21.812620 & 2000:a::1 & fe80::ac4d:a8ff:fe10:eb1d & Neighbor Advertisement \\
-22:21.812932 & 2000:c::1 & 2000:a::1 & Gen seq\#=27 \\
-\textbf{22:21.874997} & \textbf{2000:a::2} & \textbf{2000:a::1} & \textbf{BA
-seq\#=26357 lifetime=0} \\
-22:21.904397 & 2000:a::1 & ff02::1 & Neighbor Advertisement \\
-22:22.569757 & fe80::ac4d:a8ff:fe10:eb1d & ff02::1 & RA, Flags [Home Agent] \\
-22:22.814652 & 2000:c::1 & 2000:a::1 & Gen seq\#=28 \\ \hline
-\end{tabular} 
-\end{small}
-\caption{Mensagens do Cenário 1 com Tunelamento Bidirecional}
-\label{t_resul_1}
-\end{table} 
-
-
-\begin{table}[!htpb]
-\centering
-\begin{small}
-  \setlength{\tabcolsep}{3pt}
-\begin{tabular}{|c|c|c|c|}\hline
-\raisebox{1.5ex}{Tempo (s)} & \raisebox{1.5ex}{Origem} &
-\raisebox{1.5ex}{Destino} & \raisebox{1.5ex}{Conteúdo}\\ \hline
-50:21.991721 & 2000:a::1 & 2000:c::1 & ICMP6, echo reply \\ \hline
-\textbf{50:24.231519} & \textbf{fe80::b04c:e9ff:feec:6c42} & \textbf{ff02::1} &
-\textbf{Router Advertisement}\\
-50:24.247992 & :: & ff02::16 & HBH, multicast listener\\
-50:24.545598 & :: & ff02::1:ffd5:efea & NS, who 2000:d::9009:4fff:fed5:efea\\ 
-50:24.879467 & :: & ff02::1:ffd5:efea & NS, who fe80::9009:4fff:fed5:efea\\
-50:25.548165 & fe80::b04c:e9ff:feec:6c42 & ff02::1 & Router Advertisement\\
-\textbf{50:25.557223} & \textbf{2000:d::9009:4fff:fed5:efea} &
-\textbf{2000:a::2} & \textbf{BU seq\#=47808 AH}\\
-50:25.576407 & :: & ff02::16 & HBH, multicast listener\\
-50:26.581135 & fe80::b04c:e9ff:feec:6c42 & ff02::1:ffd5:efea & NS, who
-2000:d::9009:4fff:fed5:efea\\
-50:26.581276 & 2000:d::9009:4fff:fed5:efea & fe80::b04c:e9ff:feec:6c42 &
-Neighbor Advertisement\\
-\textbf{50:26.581588} & \textbf{2000:a::2} &
-\textbf{2000:d::9009:4fff:fed5:efea} & \textbf{BA seq\#=47808 lifetime=262140}\\
-\hline
-50:26.987535 & fe80::9009:4fff:fed5:efea & fe80::ac4d:a8ff:fe10:eb1d & NS, who
-fe80::ac4d:a8ff:fe10:eb1d\\
-50:27.009344 & 2000:a::2 & 2000:d::9009:4fff:fed5:efea & 2000:c::1 > 2000:a::1,
-(icmp6)\\
-50:27.009538 & 2000:d::9009:4fff:fed5:efea & 2000:a::2 & 2000:a::1 >
-2000:c::1,(icmp6)\\
-\textbf{50:27.013543} & \textbf{2000:d::9009:4fff:fed5:efea} &
-\textbf{2000:a::2} & \textbf{2000:a::1 > 2000:c::1,(HoTI)}\\
-\textbf{50:27.015165} & \textbf{2000:d::9009:4fff:fed5:efe} & \textbf{2000:c::1}
-& \textbf{CoTI Care-of Init}\\
-\textbf{50:27.019919} & \textbf{2000:a::2} &
-\textbf{2000:d::9009:4fff:fed5:efea} & \textbf{2000:c::1 > 2000:a::1, (HoT)}\\
-\textbf{50:27.029192} & \textbf{2000:c::1} &
-\textbf{2000:d::9009:4fff:fed5:efea} & \textbf{CoT}\\
-\textbf{50:27.031650} & \textbf{2000:d::9009:4fff:fed5:efea} &
-\textbf{2000:c::1} & \textbf{BU seq\#=1077 A}\\
-\textbf{50:27.037401} & \textbf{2000:c::1} &
-\textbf{2000:d::9009:4fff:fed5:efea} & \textbf{BA seq\#=1077 lifetime=420}\\
-50:27.365152 & fe80::b04c:e9ff:feec:6c42 & ff02::1 & Router Advertisement\\
-50:27.982719 & fe80::9009:4fff:fed5:efea & fe80::ac4d:a8ff:fe10:eb1d & Neighbor
-Solicitation\\
-50:28.014358 & 2000:c::1 & 2000:d::9009:4fff:fed5:efea & ICMP6, echo request\\
-50:28.014494 & 2000:d::9009:4fff:fed5:efea & 2000:c::1 & ICMP6, echo reply \\
-\hline
-\end{tabular} 
-\end{small}
-\caption{Mensagens do Cenário 1 com Otimização de Roteamento}
-\label{t_mes_ro}
-\end{table} 
-
 
 \subsubsection{Detalhes da Formação de Túneis}
+O tunel no nó móvel é criado antes de acontecer qualquer mobilidade. No agente
+domiciliar o  túnel com o nó móvel é criado no recebimento do BU. As tabelas 
+\ref{t_tun_ha1} e \ref{t_tun_mn1} apresentam o endereçamento do tunel, no HA e 
+MN, antes e depois da mobilidade.
+móvel.
+\begin{table}[!htpb]
+\centering
+\begin{small}
+  \setlength{\tabcolsep}{3pt}
+\begin{tabular}{|c|c|c|c|c|}\hline
+\raisebox{1.5ex}{Nome} & \raisebox{1.5ex}{Remoto} & \raisebox{1.5ex}{Local} & 
+\raisebox{1.5ex}{Interface} & \raisebox{1.5ex}{Considerações} \\ \hline
+ip6tnl1 & 2001:c::1 & 2001:c::2 & eth0 & Antes da mobilidade do nó móvel \\
+ \hline
+ip6tnl1 & 2001:c::1 & 2001:d::fcfd:32ff:feff:42c9 & eth0 & Após a mobilidade do 
+nó móvel \\ \hline
+\end{tabular}
+\end{small}
+\caption{Descrição dos \texttt{end-points} do tunel do nó móvel}
+\label{t_tun_mn1}
+\end{table}
 
-\subsection{Análise dos Tempos de Handover}
+\begin{table}[!htpb]
+\centering
+\begin{small}
+  \setlength{\tabcolsep}{3pt}
+\begin{tabular}{|c|c|c|c|c|}\hline
+\raisebox{1.5ex}{Nome} & \raisebox{1.5ex}{Remoto} & \raisebox{1.5ex}{Local} & 
+\raisebox{1.5ex}{Interface} & \raisebox{1.5ex}{Considerações} \\ \hline
+ip6tnl1 & :: & :: & eth0 & Antes da mobilidade do nó móvel \\ \hline
+ip6tnl1 & 2001:d::fcfd:32ff:feff:42c9 & 2001:c::1 & eth0 & Após a mobilidade do 
+nó móvel \\ \hline
+\end{tabular}
+\end{small}
+\caption{Descrição dos \texttt{end-points} do tunel do agente domiciliar}
+\label{t_tun_ha1}
+\end{table}
+
+\subsubsection{Análise dos Tempos de Handover}
 
 Na tabela \ref{t_handover}, encontram-se os tempos das fases do processo de
 \textit{handover} referentes ao cenário estudado.
+
+Utilizando o cenário estudado como referência, foi realizado um teste que
+pretende verificar a perda na taxa de transmissão em um processo de
+\textit{handover}. Utilizando a ferramenta \textit{gen} que permite gerar
+tráfegos específicos e relatórios que extraem a taxa de trasmissão e a perda de
+pacotes, e utilizando o utilitário \textit{GNUPLOT} somos capazes de gerar
+gráficos que avaliam esse desempenho.
 
 \begin{table}[!htpb]
 \centering
@@ -386,13 +416,6 @@ Na tabela \ref{t_handover}, encontram-se os tempos das fases do processo de
 \caption{Latência no \textit{Handover} do cenário estudado}
 \label{t_handover}
 \end{table} 
-
-Utilizando o cenário estudado como referência, foi realizado um teste que
-pretende verificar a perda na taxa de transmissão em um processo de
-\textit{handover}. Utilizando a ferramenta \textit{gen} que permite gerar
-tráfegos específicos e relatórios que extraem a taxa de trasmissão e a perda de
-pacotes, e utilizando o utilitário \textit{GNUPLOT} somos capazes de gerar
-gráficos que avaliam esse desempenho.
 
 Os testes realizados foram feitos utilizando tunelamento bidirecional, o tempo
 configurado para o intervalo entre as mensagens de \textit{Router Advertisement}
@@ -473,6 +496,60 @@ o cenário estudado.
 
 \subsubsection{Análise da Troca de Mensagens}
 
+\begin{table}[!htpb]
+\centering
+\begin{footnotesize}
+  \setlength{\tabcolsep}{3pt}
+\begin{tabular}{|c|c|c|c|}\hline
+\raisebox{1.5ex}{Tempo (s)} & \raisebox{1.5ex}{Origem} &
+\raisebox{1.5ex}{Destino} & \raisebox{1.5ex}{Conteúdo}\\ \hline
+50:21.991721 & 2000:a::1 & 2000:c::1 & ICMP6, echo reply \\ \hline
+\textbf{50:24.231519} & \textbf{fe80::b04c:e9ff:feec:6c42} & \textbf{ff02::1} &
+\textbf{Router Advertisement}\\
+50:24.247992 & :: & ff02::16 & HBH, multicast listener\\
+50:24.545598 & :: & ff02::1:ffd5:efea & NS, who 2000:d::9009:4fff:fed5:efea\\ 
+50:24.879467 & :: & ff02::1:ffd5:efea & NS, who fe80::9009:4fff:fed5:efea\\
+50:25.548165 & fe80::b04c:e9ff:feec:6c42 & ff02::1 & Router Advertisement\\
+\textbf{50:25.557223} & \textbf{2000:d::9009:4fff:fed5:efea} &
+\textbf{2000:a::2} & \textbf{BU seq\#=47808 AH}\\
+50:25.576407 & :: & ff02::16 & HBH, multicast listener\\
+50:26.581135 & fe80::b04c:e9ff:feec:6c42 & ff02::1:ffd5:efea & NS, who
+2000:d::9009:4fff:fed5:efea\\
+50:26.581276 & 2000:d::9009:4fff:fed5:efea & fe80::b04c:e9ff:feec:6c42 &
+Neighbor Advertisement\\
+\textbf{50:26.581588} & \textbf{2000:a::2} &
+\textbf{2000:d::9009:4fff:fed5:efea} & \textbf{BA seq\#=47808 lifetime=262140}\\
+\hline
+50:26.987535 & fe80::9009:4fff:fed5:efea & fe80::ac4d:a8ff:fe10:eb1d & NS, who
+fe80::ac4d:a8ff:fe10:eb1d\\
+50:27.009344 & 2000:a::2 & 2000:d::9009:4fff:fed5:efea & 2000:c::1 > 2000:a::1,
+(icmp6)\\
+50:27.009538 & 2000:d::9009:4fff:fed5:efea & 2000:a::2 & 2000:a::1 >
+2000:c::1,(icmp6)\\
+\textbf{50:27.013543} & \textbf{2000:d::9009:4fff:fed5:efea} &
+\textbf{2000:a::2} & \textbf{2000:a::1 > 2000:c::1,(HoTI)}\\
+\textbf{50:27.015165} & \textbf{2000:d::9009:4fff:fed5:efe} & \textbf{2000:c::1}
+& \textbf{CoTI Care-of Init}\\
+\textbf{50:27.019919} & \textbf{2000:a::2} &
+\textbf{2000:d::9009:4fff:fed5:efea} & \textbf{2000:c::1 > 2000:a::1, (HoT)}\\
+\textbf{50:27.029192} & \textbf{2000:c::1} &
+\textbf{2000:d::9009:4fff:fed5:efea} & \textbf{CoT}\\
+\textbf{50:27.031650} & \textbf{2000:d::9009:4fff:fed5:efea} &
+\textbf{2000:c::1} & \textbf{BU seq\#=1077 A}\\
+\textbf{50:27.037401} & \textbf{2000:c::1} &
+\textbf{2000:d::9009:4fff:fed5:efea} & \textbf{BA seq\#=1077 lifetime=420}\\
+50:27.365152 & fe80::b04c:e9ff:feec:6c42 & ff02::1 & Router Advertisement\\
+50:27.982719 & fe80::9009:4fff:fed5:efea & fe80::ac4d:a8ff:fe10:eb1d & Neighbor
+Solicitation\\
+50:28.014358 & 2000:c::1 & 2000:d::9009:4fff:fed5:efea & ICMP6, echo request\\
+50:28.014494 & 2000:d::9009:4fff:fed5:efea & 2000:c::1 & ICMP6, echo reply \\
+\hline
+\end{tabular} 
+ \end{footnotesize}
+\caption{Mensagens do Cenário 1 com Otimização de Roteamento}
+\label{t_mes_ro}
+\end{table} 
+
 \subsubsection{Estado das Tabelas de Roteamento e de Regras}
 
 \subsubsection{Detalhes da Formação de Túneis}
@@ -488,7 +565,7 @@ o cenário estudado.
 
 \begin{figure}[!htpb]
 	\centering
-	\includegraphics[scale=.37]{figs/cenario2}
+	\includegraphics[scale=.35]{figs/cenario2}
 	\caption{Topologia do Cenário 2}
  	\label{f_cenario2}
 \end{figure}
