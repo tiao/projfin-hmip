@@ -40,7 +40,7 @@ if __name__ == "__main__":
 		if os.system("create_fs") != 0:
 			print "Error in install"
 			sys.exit(1)
-#		os.system("killall exim4 cron")
+		os.system("killall exim4 cron")
 		os.system("umount /mnt")
 		os.system("mv fs.img /usr/share/guml4mip/vm/lenny.img")
 		print "Install Complete !!!"
