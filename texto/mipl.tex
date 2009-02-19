@@ -151,16 +151,16 @@ observar as mensagens ICMPv6 que serão tratadas pelo MIPL.
 
 \begin{table}[!htpb]
 \centering
-\begin{small}
-  \setlength{\tabcolsep}{3pt}
-\begin{tabular}{|c|c|c|c|}\hline
-\raisebox{1.5ex}{Função mip6d} & \raisebox{1.5ex}{Mensagem Filtrada} &
-\raisebox{1.5ex}{Função}\\ \hline
+\begin{footnotesize}
+  \setlength{\tabcolsep}{6pt}
+\begin{tabular}{|c|c|c||}\hline \hline
+\textbf{Função mip6d} & \textbf{Mensagem Filtrada} &
+\textbf{Função}\\ \hline \hline
 Nó Móvel & ND\_ROUTER\_ADVERT & Anúncio de roteadores  \\ 
 	 & ND\_NEIGHBOR\_ADVERT & Anúncio de vizinhança \\ 
 	 & MIP\_HA\_DISCOVERY\_REPLY & Resposta de descoberta de agente
 domiciliar \\
-	 & ICMP6\_PARAM\_PROB & askdfj;al \\
+	 & ICMP6\_PARAM\_PROB & Problema de Parâmetro  \\
 	 & ICMP6\_DST\_UNREACH & Destino inalcançável \\ \hline
 Agente Domiciliar & MIP\_PREFIX\_SOLICIT & Solicitação de prefixo \\
 		  & MIP\_HA\_DISCOVERY\_REQUEST & Descoberta de agente
@@ -168,7 +168,7 @@ domiciliar \\
 		  & ND\_ROUTER\_ADVERT & Anúncio de roteadores \\
 		  & ICMP6\_DST\_UNREACH & Destino inalcançável; \\ \hline
 \end{tabular} 
-\end{small}
+\end{footnotesize}
 \caption{Filtros para os pacotes ICMPv6 feitos pelo MIPL}
 \label{t_mipl_icmp}
 \end{table} 
