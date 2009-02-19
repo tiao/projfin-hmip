@@ -163,8 +163,8 @@ class UmlSwitchWindow(threading.Thread):
 		return vlans
 
 	def start_uml_switch(self):
-		os.system("killall uml_switch; rm -r /tmp/net.ctl")
-		os.system("/usr/bin/uml_switch -unix /tmp/net.ctl &")
+		os.system("killall uml_switch_mobile; rm -r /tmp/net.ctl")
+		os.system("/usr/bin/uml_switch_mobile -unix /tmp/net.ctl &")
 		time.sleep(0.1)
 
 	def connect_uml_switch(self):
