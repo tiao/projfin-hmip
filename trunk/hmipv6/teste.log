@@ -1,0 +1,27 @@
+13:57:13.829978 IP6 fe80::d47f:b0ff:fec3:c90c > ff02::1: ICMP6, router advertisement, length 96
+13:57:16.372834 IP6 fe80::d47f:b0ff:fec3:c90c > ff02::1: ICMP6, router advertisement, length 96
+13:57:19.022347 IP6 fe80::d47f:b0ff:fec3:c90c > ff02::1: ICMP6, router advertisement, length 96
+13:57:21.561386 IP6 fe80::d47f:b0ff:fec3:c90c > ff02::1: ICMP6, router advertisement, length 96
+13:57:22.579013 IP6 fe80::d47f:b0ff:fec3:c90c > ff02::1: ICMP6, router advertisement, length 96
+13:57:25.518780 IP6 fe80::d47f:b0ff:fec3:c90c > ff02::1: ICMP6, router advertisement, length 96
+13:57:28.312219 IP6 fe80::d47f:b0ff:fec3:c90c > ff02::1: ICMP6, router advertisement, length 96
+13:57:29.122382 IP6 :: > ff02::2: ICMP6, router solicitation, length 8
+13:57:30.207618 IP6 fe80::d47f:b0ff:fec3:c90c > ff02::1: ICMP6, router advertisement, length 96
+13:57:30.232852 IP6 :: > ff02::16: HBH ICMP6, multicast listener report v2, 2 group record(s), length 48
+13:57:31.254013 IP6 :: > ff02::16: HBH ICMP6, multicast listener report v2, 2 group record(s), length 48
+13:57:31.490933 IP6 fe80::d47f:b0ff:fec3:c90c > ff02::1: ICMP6, router advertisement, length 96
+13:57:33.998392 IP6 fe80::d47f:b0ff:fec3:c90c > ff02::1: ICMP6, router advertisement, length 96
+13:57:35.659351 IP6 fe80::d47f:b0ff:fec3:c90c > ff02::1: ICMP6, router advertisement, length 96
+13:57:37.912741 IP6 fe80::d47f:b0ff:fec3:c90c > ff02::1: ICMP6, router advertisement, length 96
+13:57:40.034559 IP6 fe80::d47f:b0ff:fec3:c90c > ff02::1: ICMP6, router advertisement, length 96
+13:57:41.907809 IP6 fe80::d47f:b0ff:fec3:c90c > ff02::1: ICMP6, router advertisement, length 96
+13:57:44.169444 IP6 fe80::d47f:b0ff:fec3:c90c > ff02::1: ICMP6, router advertisement, length 96
+13:57:46.765248 IP6 fe80::d47f:b0ff:fec3:c90c > ff02::1: ICMP6, router advertisement, length 96
+13:57:48.674909 IP6 fe80::d47f:b0ff:fec3:c90c > ff02::1: ICMP6, router advertisement, length 96
+13:57:50.911801 IP6 fe80::d47f:b0ff:fec3:c90c > ff02::1: ICMP6, router advertisement, length 96
+13:57:52.683324 IP6 fe80::d47f:b0ff:fec3:c90c > ff02::1: ICMP6, router advertisement, length 96
+13:57:55.297467 IP6 fe80::d47f:b0ff:fec3:c90c > ff02::1: ICMP6, router advertisement, length 96
+13:57:55.558058 IP6 :: > ff02::2: ICMP6, router solicitation, length 8
+13:57:57.841726 IP6 fe80::d47f:b0ff:fec3:c90c > ff02::1: ICMP6, router advertisement, length 96
+13:57:58.100983 IP6 :: > ff02::1:ffd5:efea: ICMP6, neighbor solicitation, who has 2000:c::9009:4fff:fed5:efea, length 24
+
