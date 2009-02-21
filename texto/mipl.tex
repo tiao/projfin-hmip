@@ -51,7 +51,7 @@ como umip-0.4. O MIPL é um projeto de codigo aberto sobre a licença GPL versão
 
 O programa é executado na forma de um \textit{daemon} chamado de \textit{mip6d},
 ou seja, um processo executado no segundo plano e que não está associado a um
-terminal controlador \ref{stevens}. Este mesmo \textit{daemon} desempenha o
+terminal controlador \cite{stevens}. Este mesmo \textit{daemon} desempenha o
 papel de nó móvel, de agente domiciliar e de nó correspondente. A sua função é
 definida em um arquivo de configuração, sendo que todos os nós são em pontencial
 um nó correspondente.
@@ -75,7 +75,7 @@ total controle da memória e do sistema de interrupções. O principal motivo para
 esta separação entre dados dos processos do usuário e do
 \textit{kernel}, é evitar que um perturbe o outro, o que resultaria numa
 diminuição do desempenho, problemas de segurança e instabilidades do sistema
-\ref{spaces}.
+\cite{spaces}.
 
 Os motivos levantados acima foram os que levaram os desenvolvedores a passarem a
 maioria da implementação do protocolo MIPv6 para espaço de usuário, o que torna
@@ -87,7 +87,7 @@ Porém o MIPL precisa de uma interface para a troca de informações entre o
 soquetes padrão, que proporciona uma comunicação bidirecional entre
 \textit{kernel} e o espaço de usuário. O soquete \textit{netlink} usa endereços
 da família AF\_NETLINK, comparado ao AF\_INET usado pelos soquetes TCP/IP
-\ref{netlink}.
+\cite{netlink}.
 
 O soquete \textit{netlink} é a forma utilizada pelo MIPL para:
 \begin{itemize}
@@ -99,7 +99,7 @@ tabelas;
 \end{itemize}
 
 Os soquetes brutos também são utilizados pelo MIPL para permitir a leitura e
-envio de pacotes puramente IP sem a interferência do \textit{kernel}\ref{raw}.
+envio de pacotes puramente IP sem a interferência do \textit{kernel}\cite{raw}.
 Em condições normais quando o kernel não entende o campo de protocolo do
 datagrama IP, como por exemplo, os que possuim cabeçalho de mobilidade, eles são
 passados diretamente para um soquete bruto. O único processamento feito pelo
