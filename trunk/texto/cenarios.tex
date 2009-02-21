@@ -23,12 +23,8 @@ figura\ref{f_cenario2}, tem como objetivo verificar minimamente o
 funcionamento do HMIPv6, em comunicações onde os nós correspondentes não
 executam otimização de roteamento.
 
-Os arquivos para a configuração dos cenários usados no Guml4Mip estão
+Os arquivos para a configuração dos cenários usados no GUML4MIP estão
 disponíveis no diretório da documentação do projeto.
-
-%Para auxiliar na geração de \textit{logs}, que tendem a enriquecer análise dos
-%cenários, foram utilizadas as ferramentas
-%\textit{tcpdump}, \textit{ping6} e \textit{gen}.
 
 \section{Fundamentos para a Análise dos Cenários}
 Na análise dos cenários estudados vamos localizar os seguintes aspectos:
@@ -41,66 +37,132 @@ situações chave, por exemplo, antes e depois da mobilidade;
 análise em um ambiente virtual, mas esperamos obter dados relativos. Também
 confrontaremos os dados obtidos com os resultados esperados segundo uma
 abordagem analítica;
-  \item A criação e a manipulação dos túneis entre o agente domiciliar e o nó
+  \item a criação e a manipulação dos túneis entre o agente domiciliar e o nó
 móvel antes e depois do movimento.
 \end{itemize}
 
-% \subsection{Considerações sobre o Tempo de latência do \textit{Handover}}
-% O processo de \textit{handover} acontece quando o nó móvel muda seu ponto de
-% conexão de uma sub-rede para outra. O tempo de latência envolvido neste processo
-% \cite{xavier} pode ser dividida em quatro fases:
-% 
-% \begin{enumerate}
-%  \item \textbf{Detecção de Movimento (\textit{TD})}: Em um cenário real
-% representaria o tempo do \textit{handover} na camada de enlace até o primeiro
-% \textit{Router Advertisement}. Como neste ambiente de testes não conseguimos
-% simular a camada enlace não se pode precisar com a exatidão a latência envolvida
-% no processo. Porém, para fins de estudo consideraremos para nosso cenário o
-% tempo entre o último pacote do \textit{gen} recebido na rede domiciliar e o
-% primeiro \textit{Router Advertisement} na rede visitada.
-% 
-% \begin{equation}
-%  TD = t1 - t0
-% \label{eq.td}
-% \end{equation}
-% 
-% \item \textbf{Configuração do \textit{Care-of-address} (\textit{TA})}: Tempo que
-% entre 
-%  o primeiro \textit{Router Advertisement} e o envio do \textit{Binding Update}.
-% 
-% \begin{equation}
-%  TA = t2 -t1
-%  \label{eq.ta}
-% \end{equation}
-% 
-% \item \textbf{Registro com agente domiciliar (\textit{TR})}: Intervalo de tempo
-% entre
-%  o envio do \textit{Binding Update} ao agente domiciliar e o recebimento do
-%  \textit{Binding Acknowledgement}.
-% 
-% \begin{equation}
-%  TR = t3 - t2
-%  \label{eq.tr}
-% \end{equation}
-% 
-% \item \textbf{Otimização de Roteamento (\textit{TO})}: Intervalo de tempo entre
-% o envio das mensagens do \textit{Return Routability Procedure} e o recebimento
-% do \textit{Binding Acknowledgement} do nó correspondente.
-% 
-% \begin{equation}
-%  TO = t4 - t3
-%  \label{eq.to}
-% \end{equation}
-% 
-% \end{enumerate}
-% 
-% Obviamente podemos calcular o tempo de latência do handover com a seguinte
-% fórmula:
-% 
-% \begin{equation}
-%  TH = TD + TA + TR + TO
-%  \label{eq.th}
-% \end{equation}
+\subsection{Considerações sobre o Tempo de latência do \textit{Handover}}
+O processo de \textit{handover} acontece quando o nó móvel muda seu ponto de
+conexão de uma sub-rede para outra. O tempo de latência envolvido neste processo
+\cite{xavier} pode ser dividida em quatro fases:
+
+\begin{enumerate}
+ \item \textbf{Detecção de Movimento (\textit{TD})}: Em um cenário real
+representaria o tempo do \textit{handover} na camada de enlace até o primeiro
+\textit{Router Advertisement}. Na plataforma de testes construída não
+conseguimos simular a camada enlace e não se pode precisar com a exatidão a
+latência envolvida no processo. Porém, para fins de estudo consideraremos para
+nossos cenários o tempo entre a entrega do último pacote, de alguma conexão,
+recebido na rede domiciliar e o primeiro \textit{Router Advertisement} na rede
+visitada.
+
+\begin{equation}
+ TD = t1 - t0
+\label{eq.td}
+\end{equation}
+
+\item \textbf{Configuração do \textit{Care-of-address} (\textit{TA})}: Tempo que
+entre 
+ o primeiro \textit{Router Advertisement} e o envio do \textit{Binding Update}.
+
+\begin{equation}
+ TA = t2 -t1
+ \label{eq.ta}
+\end{equation}
+
+\item \textbf{Registro com agente domiciliar (\textit{TR})}: Intervalo de tempo
+entre o envio do \textit{Binding Update} ao agente domiciliar e o recebimento do
+\textit{Binding Acknowledgement}.
+
+\begin{equation}
+ TR = t3 - t2
+ \label{eq.tr}
+\end{equation}
+
+\item \textbf{Otimização de Roteamento (\textit{TO})}: Intervalo de tempo entre
+o envio das mensagens do \textit{Return Routability Procedure} e o recebimento
+do \textit{Binding Acknowledgement} do nó correspondente.
+
+\begin{equation}
+ TO = t4 - t3
+ \label{eq.to}
+\end{equation}
+
+\end{enumerate}
+
+Obviamente podemos calcular o tempo de latência do handover com a seguinte
+fórmula:
+
+\begin{equation}
+ TH = TD + TA + TR + TO
+ \label{eq.th}
+\end{equation}
+
+\subsection{Metodologia para Realização dos Cenários}
+Nos cenários propostos o nó móvel inicialmente estará em sua rede domiciliar e
+depois irá movimentar-se e visitar outras redes. Durante o procedimento de
+movimento testes serão realizados para a coleta de dados que irão ajudar na
+análise do protocolo.
+
+Em um teste o nó correspondente começa a enviar mensagens ICMPv6 por meio do
+\textit{ping6} para o nó móvel.
+\begin{verbatim}
+cn# ping6 mn
+\end{verbatim}
+
+E o nó móvel é executa o \textit{tcpdump} em o modo \textit{verbose} (-vvv) para
+realizar o monitoramento da troca de mensagens do funcionamento do MIPv6 durante
+o processo de \textit{handover}.
+\begin{verbatim}
+mn# tcpdump -vvv
+\end{verbatim}
+
+Outro procedimento de teste que poderá ser realizado durante a execução dos
+cenários é uma conexão utilizando os protocolos da camada transporte, por
+exemplo, o TCP para comprovar a transparência do processo de mobiliade para as
+camadas superiores a de rede. Também neste teste pode ser gerado um fluxo de
+dados maior do que com as mensagens ICMPv6. O que permite observar melhor o
+impacto do protocolo MIPv6 sobre as conexões.
+
+Para realização do teste é iniciado, no nó móvel, um servidor TCP que responde
+a 
+requisição GET do protocolo HTTP, é também capaz de gerar tráfego. Para realizar
+esta tarrefa é utilizado a ferramenta \textit{netcat6}.
+\begin{verbatim}
+mn# echo "200 OK" > header; cat header /dev/zero | nc6 -l -p 80
+\end{verbatim}
+
+\begin{description}
+ \item[echo ``200 OK'' "> header:] cria um cabeçalho HTTP com a mensagem ``200 
+OK'', para responder as requisições ao servidor;
+ \item[nc6 -l -p 80:] inicia um soquete TCP que (-l) escuta a (-p 80) porta 80;
+ \item[cat header /dev/zero:] concatena para a entrada padrão do servidor o
+arquivo contendo a mensagem HTTP e o dispositivo caracter /dev/zero que é
+responsável por gerar o tráfego.
+ \end{description}
+
+O nó correspondente irá se conectar ao servidor utilizando da ferramenta 
+\textit{wget}. Também no nó correpodente executamos a ferramenta 
+\textit{speedometer} que é capaz de medir a taxa média de dados de uma interface
+de rede. A saída do \textit{speedometer} permite criar um gráfico para
+visualizar o efeito do MIPv6 em uma conexão.
+
+\begin{verbatim}
+cn# wget -6 --limit-rate=1M http://mn -o /dev/null -O /dev/null &
+cn# speedometer -p -i 0.1 -rx eth0
+\end{verbatim}
+
+Sobre os comandos executados no nó correspondente as seguintes considerações:
+\begin{itemize}
+ \item O gerador utilizando o /dev/zero gera uma taxa muito elevada de dados o
+que ocasiona o travamento das máquinas virtuais. Para resolver este problema é
+limitado (--limit-rate=1M) a taxa para um 1MBps;
+ \item A sáida de \textit{log} e o arquivo e os dados gerados são direcionados
+ao
+/dev/null;
+ \item o \textit{speedtometer} vai monitorar a (-rx eth0) recepção da interface
+eth0 a uma (-i 0.1) taxa de 0.1 segundos
+\end{itemize}
 
 \section{Cenário 1 - Uso do Protocolo MIPv6}
 \label{s_cenario1}
@@ -169,21 +231,6 @@ AR2 & & & fe80::fcfd:9fff:fe3d:cf8a & Local \\
 
 \subsection{Variação 1: com Tunelamento Bidirecional e Sem Otimização de Rota}
 
-A simulação 1 terá a seguinte sequência. No início o nó correspondente começa a
-enviar mensagens ICMP por meio do \textit{ping6} para o nó móvel.
-%lstlisting
-\begin{verbatim}
-cn# ping6 2001:a::2
-\end{verbatim}
-
-O nó móvel realiza o monitoramento de todo o funcionamento do MIPv6 durante o
-processo de \textit{handover} utilizando o \textit{tcpdump} em o modo
-\textit{verbose} (-vvv) e para mostrar o conteúdo do pacote em hexadecimal (-X).
-
-\begin{verbatim}
-mn# tcpdump -vvvX
-\end{verbatim}
-
 \subsubsection{Análise da Troca de Mesagens}
 Os dados obtidos na saída do comando \textit{tcpdump} foram compilados em forma
 de uma tabela para facilitar a visualização dos mesmos e podem ser observados na
@@ -197,57 +244,105 @@ recebido do AR1.
 \begin{footnotesize}
   \setlength{\tabcolsep}{3pt}
 \begin{tabular}{|c|c|c|c||}\hline \hline
-\textbf{Tempo (s)} & \textbf{Origem} & \textbf{Destino} & \textbf{Conteúdo}\\ \hline \hline
-19:50.348113 & fe80::fcfd:f5ff:fe49:32bc   & ff02::1                     & RA, Flags [home agent] \\
-19:51.314075 & fe80::fcfd:f5ff:fe49:32bc   & ff02::1:ff00:2              & NS, who has 2001:c::2 \\
-19:51.314229 & 2001:c::2                   & fe80::fcfd:f5ff:fe49:32bc   & neighbor advertisement \\
-19:51.352652 & 2001:a::fcfd:65ff:fe34:8a44 & 2001:c::2                   & echo request, seq 6 \\
-19:51.352733 & 2001:c::2                   & 2001:a::fcfd:65ff:fe34:8a44 & echo reply, seq 6 \\ \hline
-\textbf{19:52.465459} & \textbf{fe80::fcfd:71ff:febf:e3e1} & \textbf{ff02::1} & \textbf{router advertisement} \\
-19:52.481719 & ::                          & ff02::16                    & HBH, multicast listener\\
-19:52.658194 & ::                          & ff02::1:ffff:42c9           & NS, who has (CoA - MN) \\
-19:53.333508 & ::                          & ff02::1:ffff:42c9           & NS, who has (Local - MN) \\
-\textbf{19:54.340614} & \textbf{2001:d::fcfd:32ff:feff:42c9} & \textbf{2001:c::1} & \textbf{BU seq\#=57619 AH} \\
-19:54.457440 & fe80::fcfd:71ff:febf:e3e1   & ff02::1                     & router advertisement \\
-19:55.370804 & fe80::fcfd:71ff:febf:e3e1   & ff02::1:ffff:42c9           & NS, who has (CoA - MN) \\
-19:55.370970 & 2001:d::fcfd:32ff:feff:42c9 & fe80::fcfd:71ff:febf:e3e1   & neighbor advertisement \\
-\textbf{19:55.372259} & \textbf{2001:c::1} & \textbf{2001:d::fcfd:32ff:feff:42c9} & \textbf{BA seq\#=57619} \\
-19:55.405032 & 2001:c::1                   & 2001:d::fcfd:32ff:feff:42c9 & [src=2001:a::fcfd:65ff:fe34:8a44 \\
-             &                             &                             & dst=2001:c::2] echo request \\
-19:55.405184 & 2001:d::fcfd:32ff:feff:42c9 & 2001:c::1                   & [dst=2001:a::fcfd:65ff:fe34:8a44 \\
-             &                             &                             & src=2001:c::2] echo reply \\
-19:56.342799 & fe80::fcfd:32ff:feff:42c9   & fe80::fcfd:f5ff:fe49:32bc   & NS, who has (Local - HA) \\
-19:56.417133 & 2001:c::1                   & 2001:d::fcfd:32ff:feff:42c9 & [src=2001:a::fcfd:65ff:fe34:8a44 \\
-             &                             &                             & dst=2001:c::2] echo request \\
-19:56.417254 & 2001:d::fcfd:32ff:feff:42c9 & 2001:c::1                   & [dst=2001:a::fcfd:65ff:fe34:8a44 \\
-             &                             &                             & src=2001:c::2] echo reply] \\
-19:56.601222 & fe80::fcfd:71ff:febf:e3e1   & ff02::1                     & router advertisement \\
+\textbf{Tempo (s)} & \textbf{Origem} & \textbf{Destino} & \textbf{Conteúdo}\\
+\hline \hline
+19:50.348113 & fe80::fcfd:f5ff:fe49:32bc   & ff02::1                     & RA,
+Flags [home agent] \\
+19:51.314075 & fe80::fcfd:f5ff:fe49:32bc   & ff02::1:ff00:2              & NS,
+who has 2001:c::2 \\
+19:51.314229 & 2001:c::2                   & fe80::fcfd:f5ff:fe49:32bc   &
+neighbor advertisement \\
+19:51.352652 & 2001:a::fcfd:65ff:fe34:8a44 & 2001:c::2                   & echo
+request, seq 6 \\
+19:51.352733 & 2001:c::2                   & 2001:a::fcfd:65ff:fe34:8a44 & echo
+reply, seq 6 \\ \hline
+\textbf{19:52.465459} & \textbf{fe80::fcfd:71ff:febf:e3e1} & \textbf{ff02::1} &
+\textbf{router advertisement} \\
+19:52.481719 & ::                          & ff02::16                    & HBH,
+multicast listener\\
+19:52.658194 & ::                          & ff02::1:ffff:42c9           & NS,
+who has (CoA - MN) \\
+19:53.333508 & ::                          & ff02::1:ffff:42c9           & NS,
+who has (Local - MN) \\
+\textbf{19:54.340614} & \textbf{2001:d::fcfd:32ff:feff:42c9} &
+\textbf{2001:c::1} & \textbf{BU seq\#=57619 AH} \\
+19:54.457440 & fe80::fcfd:71ff:febf:e3e1   & ff02::1                     &
+router advertisement \\
+19:55.370804 & fe80::fcfd:71ff:febf:e3e1   & ff02::1:ffff:42c9           & NS,
+who has (CoA - MN) \\
+19:55.370970 & 2001:d::fcfd:32ff:feff:42c9 & fe80::fcfd:71ff:febf:e3e1   &
+neighbor advertisement \\
+\textbf{19:55.372259} & \textbf{2001:c::1} &
+\textbf{2001:d::fcfd:32ff:feff:42c9} & \textbf{BA seq\#=57619} \\
+19:55.405032 & 2001:c::1                   & 2001:d::fcfd:32ff:feff:42c9 &
+[src=2001:a::fcfd:65ff:fe34:8a44 \\
+             &                             &                             &
+dst=2001:c::2] echo request \\
+19:55.405184 & 2001:d::fcfd:32ff:feff:42c9 & 2001:c::1                   &
+[dst=2001:a::fcfd:65ff:fe34:8a44 \\
+             &                             &                             &
+src=2001:c::2] echo reply \\
+19:56.342799 & fe80::fcfd:32ff:feff:42c9   & fe80::fcfd:f5ff:fe49:32bc   & NS,
+who has (Local - HA) \\
+19:56.417133 & 2001:c::1                   & 2001:d::fcfd:32ff:feff:42c9 &
+[src=2001:a::fcfd:65ff:fe34:8a44 \\
+             &                             &                             &
+dst=2001:c::2] echo request \\
+19:56.417254 & 2001:d::fcfd:32ff:feff:42c9 & 2001:c::1                   &
+[dst=2001:a::fcfd:65ff:fe34:8a44 \\
+             &                             &                             &
+src=2001:c::2] echo reply] \\
+19:56.601222 & fe80::fcfd:71ff:febf:e3e1   & ff02::1                     &
+router advertisement \\
 .            & .                           & .                           & .\\
 .            & .                           & .                           & .\\
 .            & .                           & .                           & .\\
-20:08.567634 & 2001:c::1                   & 2001:d::fcfd:32ff:feff:42c9 & [src=2001:a::fcfd:65ff:fe34:8a44 \\
-             &                             &                             &  dst=2001:c::2:] echo request \\
-20:08.567764 & 2001:d::fcfd:32ff:feff:42c9 & 2001:c::1                   & [dst=2001:a::fcfd:65ff:fe34:8a44 \\
-             &                             &                             & src=2001:c::2] echo reply \\  \hline
-\textbf{20:09.279849} & \textbf{fe80::fcfd:f5ff:fe49:32bc} & \textbf{ff02::1} & \textbf{RA, Flags [home agent]} \\
-20:09.306449 & ::                          & ff02::16                    & HBH, multicast listener \\
-20:09.331656 & ::                          & ff02::16                    & HBH, multicast listener \\
-20:09.503149 & ::                          & ff02::1:ffff:42c9           & NS, who has (Auto) \\
-20:09.545341 & ::                          & ff02::1:ffff:42c9           & NS, who has (Local) \\
-20:09.676771 & ::                          & ff02::16                    & HBH, multicast listener\\
-20:10.330373 & ::                          & ff02::16                    & HBH, multicast listener\\
-20:10.543480 & ::                          & ff02::1:ff00:2              & NS, who has 2001:c::2 \\
-20:10.564683 & fe80::fcfd:32ff:feff:42c9   & ff02::16                    & HBH, multicast listener\\
-20:11.232774 & fe80::fcfd:f5ff:fe49:32bc   & ff02::1                     & neighbor advertisement \\
-\textbf{20:11.236815} & \textbf{2001:c::2} & \textbf{2001:c::1}          & \textbf{BU seq\#=57620 AH} \\
-20:11.259003 & fe80::fcfd:f5ff:fe49:32bc   & ff02::16                    & HBH, multicast listener\\
-20:11.370555 & 2001:c::1                   & ff02::1:ff00:2              & NS, who has 2001:c::2 \\
-20:11.370659 & 2001:c::2                   & 2001:c::1                   & neighbor advertisement \\
-\textbf{20:11.370922} & \textbf{2001:c::1}          & \textbf{2001:c::2 }         & \textbf{BA seq\#=57620} \\
-20:11.373667 & 2001:c::2                   & ff02::1                     & neighbor advertisement \\
-20:11.598218 & 2001:a::fcfd:65ff:fe34:8a44 & 2001:c::2                   & echo request, seq 26 \\
-20:11.598323 & 2001:c::2                   & 2001:a::fcfd:65ff:fe34:8a44 & echo reply, seq 26 \\
-20:12.241584 & fe80::fcfd:f5ff:fe49:32bc   & ff02::1                     & router advertisement \\ \hline
+20:08.567634 & 2001:c::1                   & 2001:d::fcfd:32ff:feff:42c9 &
+[src=2001:a::fcfd:65ff:fe34:8a44 \\
+             &                             &                             & 
+dst=2001:c::2:] echo request \\
+20:08.567764 & 2001:d::fcfd:32ff:feff:42c9 & 2001:c::1                   &
+[dst=2001:a::fcfd:65ff:fe34:8a44 \\
+             &                             &                             &
+src=2001:c::2] echo reply \\  \hline
+\textbf{20:09.279849} & \textbf{fe80::fcfd:f5ff:fe49:32bc} & \textbf{ff02::1} &
+\textbf{RA, Flags [home agent]} \\
+20:09.306449 & ::                          & ff02::16                    & HBH,
+multicast listener \\
+20:09.331656 & ::                          & ff02::16                    & HBH,
+multicast listener \\
+20:09.503149 & ::                          & ff02::1:ffff:42c9           & NS,
+who has (Auto) \\
+20:09.545341 & ::                          & ff02::1:ffff:42c9           & NS,
+who has (Local) \\
+20:09.676771 & ::                          & ff02::16                    & HBH,
+multicast listener\\
+20:10.330373 & ::                          & ff02::16                    & HBH,
+multicast listener\\
+20:10.543480 & ::                          & ff02::1:ff00:2              & NS,
+who has 2001:c::2 \\
+20:10.564683 & fe80::fcfd:32ff:feff:42c9   & ff02::16                    & HBH,
+multicast listener\\
+20:11.232774 & fe80::fcfd:f5ff:fe49:32bc   & ff02::1                     &
+neighbor advertisement \\
+\textbf{20:11.236815} & \textbf{2001:c::2} & \textbf{2001:c::1}          &
+\textbf{BU seq\#=57620 AH} \\
+20:11.259003 & fe80::fcfd:f5ff:fe49:32bc   & ff02::16                    & HBH,
+multicast listener\\
+20:11.370555 & 2001:c::1                   & ff02::1:ff00:2              & NS,
+who has 2001:c::2 \\
+20:11.370659 & 2001:c::2                   & 2001:c::1                   &
+neighbor advertisement \\
+\textbf{20:11.370922} & \textbf{2001:c::1}          & \textbf{2001:c::2 }       
+ & \textbf{BA seq\#=57620} \\
+20:11.373667 & 2001:c::2                   & ff02::1                     &
+neighbor advertisement \\
+20:11.598218 & 2001:a::fcfd:65ff:fe34:8a44 & 2001:c::2                   & echo
+request, seq 26 \\
+20:11.598323 & 2001:c::2                   & 2001:a::fcfd:65ff:fe34:8a44 & echo
+reply, seq 26 \\
+20:12.241584 & fe80::fcfd:f5ff:fe49:32bc   & ff02::1                     &
+router advertisement \\ \hline
 \end{tabular} 
 \end{footnotesize}
 \caption{Mensagens do Cenário 1 com Tunelamento Bidirecional}
@@ -274,12 +369,14 @@ padrão, deletada a rota para rede 2001:c::/64 e adicionada uma rota para a rede
  salto} & \textbf{Considerações} \\ \hline \hline
 2001:a::/64 &	eth0	&	fe80::fcfd:dff:fe0c:a222 & \\
 2001:b::/64 &   eth0	&	::  & \\
-\textbf{2001:c::2} & \textbf{eth1} & \textbf{2001:c::2}  & Antes da mobilidade do nó móvel\\
+\textbf{2001:c::2} & \textbf{eth1} & \textbf{2001:c::2}  & Antes da mobilidade
+do nó móvel\\
 2001:c::/64 &	eth1	&	::  & \\
 2001:d::/64 &	eth0	&	fe80::fcfd:9fff:fe3d:cf8a  & \\ \hline
 2001:a::/64 &	eth0	&	fe80::fcfd:dff:fe0c:a222  & \\
 2001:b::/64 &	eth0	&	::  & \\
-\textbf{2001:c::2} & \textbf{ip6tnl1} & \textbf{2001:c::2} & Após a mobilidade do nó móvel \\
+\textbf{2001:c::2} & \textbf{ip6tnl1} & \textbf{2001:c::2} & Após a mobilidade
+do nó móvel \\
 2001:c::/64 &	eth1	&	::  & \\
 2001:d::/64 &	eth0	&	fe80::fcfd:9fff:fe3d:cf8a  & \\ \hline
 \end{tabular}
@@ -415,110 +512,6 @@ nó móvel \\ \hline
 \label{t_tun_ha1}
 \end{table}
 
-% \subsubsection{Análise dos Tempos de Handover}
-% 
-% Na tabela \ref{t_handover}, encontram-se os tempos das fases do processo de
-% \textit{handover} referentes ao cenário estudado.
-% 
-% Utilizando o cenário estudado como referência, foi realizado um teste que
-% pretende verificar a perda na taxa de transmissão em um processo de
-% \textit{handover}. Utilizando a ferramenta \textit{gen} que permite gerar
-% tráfegos específicos e relatórios que extraem a taxa de trasmissão e a perda de
-% pacotes, e utilizando o utilitário \textit{GNUPLOT} somos capazes de gerar
-% gráficos que avaliam esse desempenho.
-% 
-% \begin{table}[!htpb]
-% \centering
-% \begin{small}
-%   \setlength{\tabcolsep}{3pt}
-% \begin{tabular}{|c|c|c|}\hline
-% \textbf{Fase} & \textbf{Tempo (ms)} & \textbf{Media
-% \%} \\ \hline
-% \textit{TD} & 2240 & 48,6 \\ \hline
-% \textit{TA} & 1320 & 28.63\\ \hline
-% \textit{TR} & 1030 & 22.34\\ \hline
-% \textit{TO} & 20 &  0.43\\ \hline
-% \textit{TH} & 4610 & 100 \\ \hline
-% \end{tabular} 
-% \end{small}
-% \caption{Latência no \textit{Handover} do cenário estudado}
-% \label{t_handover}
-% \end{table} 
-% 
-% Os testes realizados foram feitos utilizando tunelamento bidirecional, o tempo
-% configurado para o intervalo entre as mensagens de \textit{Router Advertisement}
-% foi de 30 à 70 milisegundos. Os comandos disparados nos nós móvel e
-% correspondente foram os seguintes:
-% \begin{verbatim}
-% mn# gen -l -d -p udp -s 14000 -f /host/log/
-% cn# gen -a 2000:a::1 -d -p udp -s 14000
-% \end{verbatim}
-% 
-% O gráfico obtido no teste, pode ser observado na figura \ref{f_banda}.
-% 
-% \begin{figure}[!htpb]
-% 	\centering
-% 	\includegraphics[scale=.6]{figs/banda}
-% 	\caption{Taxa de transmissão em \textit{Handover}}
-% 	\label{f_banda}
-% \end{figure}
-% 
-% A partir dos dados levantados com o teste podemos tirar várias conclusões, entre
-% as quais destacam-se que o \textit{Troughput} suportado pela rede gira em torno
-% de 9 Mbps, este dado esta muito relacionado ao desempenho da máquina hospedeiro,
-% que cada \textit{handover} é de aproximadamente 3 segundos, há perdas
-% consideráveis de pacotes que prejudicariam muito comunicações interativas como
-% videoconferência e \textit{VoIP}, porém, navegação em paginas da
-% \textit{Internet} e visualização de \textit{e-mail} a instabilidade é tolerável.
-% 
-% Como cenário estudo foi simulado todos os tempos medidos são estimados. Porém,
-% segundo algumas bibliografias estudadas que realizaram experimentos fisicamente
-% os tempos medidos na simulação estão dentro do esperado.
-% 
-% É perceptível que as fases que mais comprometem o \textit{handover} do nosso
-% cenário são as da detecção de movimento e a configuração do
-% \textit{care-of-address}. Algumas tentativas podem ser feitas para tentar
-% diminuir a latência nestas duas fases.
-% 
-% Na tentativa de diminuir o tempo da fase de detecção de movimento, podemos
-% diminuir o intervalo entre as mensagens de \textit{Router Advertisement} do
-% roteador presente na rede que irá ser visitada pelo nó móvel. Pois, é por meio
-% desta mensagem que o nó móvel detecta o movimento e desencadeia todo o processo
-% de \textit{handover}.
-% 
-% No intuito de verificar se há uma melhora no processo de handover. O cenário
-% estudado foi repetido variando o intervalo entre as mensagens de \textit{Router
-% Advertisement}. O resultado deste teste esta disponível na figura \ref{f_radvd}.
-% 
-% \begin{figure}[!htpb]
-% 	\centering
-% 	\includegraphics[scale=.6]{figs/radvd}
-% 	\caption{Diferentes intervalos entre as mensagens \textit{Router
-% Advertisement}}
-% 	\label{f_radvd}
-% \end{figure}
-% 
-% Com os dados levantados, é possível perceber que o intervalo entre as mensagens
-% de \textit{Router Advertisement} esta diretamente ligado com a perda de pacotes
-% durante o \textit{handover}. Porém, esta não é uma boa prática para tentar
-% amenizar a latência do handover, pois um numero muito grande de mensagens
-% \textit{multicasting} inundaria a rede prejudicando a perfomance principalmente
-% em redes sem fio.
-% 
-% No processo de formação de um novo \textit{care-of-address} o DAD é necessário
-% para se certificar que o endereço formado é exclusivo. Para o teste ser bem
-% sucedido nenhum nó vizinho deve enviar um \textit{Neighbor Advertisement}, em
-% resposta ao teste, ou \textit{Neighbor Solicitation}, como o mesmo endereço em
-% questão, em um período de \textit{1000ms} segundo a RFC 2462 \cite{rfc2462}.
-% Este tempo de espera compromete a fase de configuração do
-% \textit{care-of-address}.
-% 
-% Existe uma variável chamada \textit{dad\_transmits} no kernel do Linux que é
-% usada para configurar o DAD em um nó. Com a intenção de diminuir a latência na
-% fase de configuração do \textit{care-of-address}, nós configuramos a variável
-% com o valor 0, isso significa que o procedimento de DAD é cancelado, e repetimos
-% o cenário estudado.
-
 %===========================================================================
 \subsection{Variação 2: MIPv6 com Otimização de Rota}
 
@@ -604,17 +597,126 @@ Solicitation\\
 
 \subsection{Detalhes da Formação de Túneis}
 
-\subsection{Análise de Tempos de Handover}
+\section{Análise dos Tempos de \textit{Handover}}
+O tempo do handover é um dos maiores problemas do MIPv6, esta seção do trabalho
+pretende fazer uma análise deste processo apontar as causas e possíveis
+soluções. Como base para estudo dos tempos de \textit{handover} o cenário 1 com
+tunelamento bidirecional foi utilizado.
 
+Para verificar a perda na taxa de transmissão em um processo de
+\textit{handover}, foi realizado o segundo teste especificado na seção sobre a
+metodologia na realização dos cenários. Utilizando a ferramenta \textit{GNUPLOT}
+com a saída do teste foi gerado o gráfico que pode ser observado na figura
+\ref{f_banda}.
+
+\begin{figure}[!htpb]
+	\centering
+	\includegraphics[scale=.6]{figs/banda}
+	\caption{Taxa de transmissão em \textit{Handover}}
+	\label{f_banda}
+\end{figure}
+
+A partir  da figura é possível concluir que cada \textit{handover} é de
+aproximadamente 3 segundos, há perdas consideráveis de pacotes que prejudicariam
+muito comunicações interativas como videoconferência e \textit{VoIP}, porém,
+navegação em páginas da \textit{Internet} e visualização de \textit{e-mail} a
+instabilidade é tolerável.
+
+Como cenário estudo foi simulado todos os tempos medidos são estimados. Porém,
+segundo algumas bibliografias estudadas que realizaram experimentos fisicamente
+os tempos medidos na simulação estão dentro do esperado.
+
+Na tabela \ref{t_handover}, encontram-se os tempos das fases do processo de
+\textit{handover} referentes ao cenário estudado.
+
+\begin{table}[!htpb]
+\centering
+\begin{small}
+  \setlength{\tabcolsep}{3pt}
+\begin{tabular}{|c|c|c|}\hline
+\textbf{Fase} & \textbf{Tempo (ms)} & \textbf{Media
+\%} \\ \hline
+\textit{TD} & 721 & 23,11 \\ \hline
+\textit{TA} & 1371 & 43.92\\ \hline
+\textit{TR} & 1029 & 32.97\\ \hline
+\textit{TH} & 3121 & 100 \\ \hline
+\end{tabular} 
+\end{small}
+\caption{Latência no \textit{Handover} do cenário estudado}
+\label{t_handover}
+\end{table} 
+
+Algumas tentativas podem ser feitas para tentar diminuir a latência do
+\textit{handover} nas fases de detecção de movimento e de configuração do
+\textit{care-of-address}.
+
+\begin{figure}[!htpb]
+	\centering
+	\includegraphics[scale=.6]{figs/radvd}
+	\caption{Diferentes intervalos entre as mensagens \textit{Router
+Advertisement}}
+	\label{f_radvd}
+\end{figure}
+
+Na tentativa de diminuir o tempo da fase de detecção de movimento, podemos
+diminuir o intervalo entre as mensagens de \textit{Router Advertisement} do
+roteador presente na rede que irá ser visitada pelo nó móvel. Pois, é por meio
+desta mensagem que o nó móvel detecta o movimento e desencadeia o processo de
+registro.
+
+Para verificar se há uma melhora no processo de handover. O cenário
+estudado foi repetido variando o intervalo entre as mensagens de
+\textit{Router Advertisement}. O resultado deste teste esta disponível na figura
+\ref{f_radvd}.
+
+Com os dados levantados, é possível perceber que o intervalo entre as
+mensagens de \textit{Router Advertisement} esta diretamente ligado com a perda
+de pacotes durante o \textit{handover}. Porém, esta não é uma boa prática para
+tentar amenizar a latência do handover, pois um numero muito grande de mensagen
+\textit{multicasting} inundaria a rede prejudicando a perfomance principalmente
+em redes sem fio.
+
+No processo de formação de um novo \textit{care-of-address} o DAD é necessário
+para se certificar que o endereço formado é exclusivo. Para o teste ser bem
+sucedido nenhum nó vizinho deve enviar um \textit{Neighbor Advertisement}, em
+resposta ao teste, ou \textit{Neighbor Solicitation}, como o mesmo endereço em
+questão, em um período de \textit{1000ms} segundo a RFC 2462 \cite{rfc2462}.
+Este tempo de espera compromete a fase de configuração do
+\textit{care-of-address}.
+
+\begin{figure}[!htpb]
+	\centering
+	\includegraphics[scale=.6]{figs/banda2}
+	\caption{Taxa de transmissão em \textit{Handover} sem DAD e baixo
+intervalo de RA}
+	\label{f_banda2}
+\end{figure}
+
+Existe uma variável chamada \textit{dad\_transmits} no \textit{kernel} do Linux
+que é usada para configurar o DAD em um nó. Com a intenção de diminuir a
+latência na fase de configuração do \textit{care-of-address}, foi configurado a
+variável com o valor 0, isso significa que o procedimento de DAD é cancelado, e
+foi alterado o valor do intervalo das mensagens de \textit{Router Advertisement}
+no roteador de acesso da rede visitada para 0.03 segundos. Então foi repetido o
+teste. O resultado pode ser observado na figura \ref{f_banda2}.
+
+Apartir, deste teste é possível perceber uma queda de 3 segundos para
+aproximadamente 1 segundo no tempo do \textit{handover} com as mudanças
+realizadas. Entretanto há um protocolo dedicado a acelerar o processo de
+handover o \textit{Fast Handover} MIPv6. A idéia do FMIPv6 é providenciar
+informação relativa à camada de rede, com o objetivo de prever ou responder
+prontamente a um evento de handover \cite{rfc4068}.
 
 \section{Conclusões sobre a Análise dos Cenários}
-
 Com a realização dos experimentos podemos constatar o funcionamento do protocolo
 e perceber continuação da comunicação entre os pontos comunicantes após a
 mobilidade de forma transparente as camadas superiores a de rede, observar todas
 as mensagens trocadas no processo e estimar o tempo de latência com a
 mobilidade.
+
 O primeiro resultado que se pode obter com a realização do Cenário 1, foi o
 perfeito funcionamento do MIPv6, ocorreram algumas perdas de pacotes, mas o nó
 móvel conseguiu continuar sendo alcançado pelo seu endereço domiciliar mesmo não
 estando em sua rede domiciliar.
+
+Falar algo sobre o cenário 2 e da implementação do HMIPv6.
