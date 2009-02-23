@@ -11,7 +11,7 @@ Após os estudos bibliográficos sobre o protocolo MIPv6 e a preparação da
 Plataforma de Testes para Mobilidade, iniciou-se a etapa de definição e
 implementação de cenários com fins de analisar algumas funcionalidade dos
 protocolos instalados, demonstrando desta forma as potencialidades do ambiente
-desenvolvido. 
+desenvolvido.
 
 Para analisar alguns mecanismos do protocolo e testar seus modos de operação,
 dois cenários base foram definidos: cenário 1 com o MIPv6 e o cenário 2
@@ -62,8 +62,8 @@ visitada.
 \end{equation}
 
 \item \textbf{Configuração do \textit{Care-of-address} (\textit{TA})}: Tempo que
-entre 
- o primeiro \textit{Router Advertisement} e o envio do \textit{Binding Update}.
+entre o primeiro \textit{Router Advertisement} e o envio do
+\textit{Binding Update}.
 
 \begin{equation}
  TA = t2 -t1
@@ -158,8 +158,7 @@ Sobre os comandos executados no nó correspondente as seguintes considerações:
 que ocasiona o travamento das máquinas virtuais. Para resolver este problema é
 limitado (--limit-rate=1M) a taxa para um 1MBps;
  \item A sáida de \textit{log} e o arquivo e os dados gerados são direcionados
-ao
-/dev/null;
+ao /dev/null;
  \item o \textit{speedtometer} vai monitorar a (-rx eth0) recepção da interface
 eth0 a uma (-i 0.1) taxa de 0.1 segundos
 \end{itemize}
@@ -183,10 +182,9 @@ endereços de hardware estão disponíveis na tabela \ref{t_addr1}.
 
 
 Na rede com prefixo 2000:a::/64 está o nó correspondente com quem o nó móvel
-está se comunicando. Na rede com o prefixo
- 2000:c::/64 está presente um roteador (HA) que oferece o serviço de agente
-domiciliar ao nó móvel. A rede com prefixo
- 2000:d::/64 é a rede que o nó móvel deve visitar.
+está se comunicando. Na rede com o prefixo 2000:c::/64 está presente um roteador
+(HA) que oferece o serviço de agente domiciliar ao nó móvel. A rede com prefixo
+2000:d::/64 é a rede que o nó móvel deve visitar.
 
 \begin{table}[!htpb]
 \centering
@@ -214,13 +212,13 @@ HA & & & fe80::fcfd:b0ff:fea2:9a4c & Local \\
 
 %AR1
 & eth0 & fe:fd:0d:0c:a2:22 & 2001:b::1 & Global \\ 
-AR1 & & & fe80::fcfd:dff:fe0c:a222 & Local \\ 
+RA1 & & & fe80::fcfd:dff:fe0c:a222 & Local \\ 
 & eth1 & fe:fd:ee:57:0a:cd & 2001:a::1 & Global \\
 & & & fe80::fcfd:eeff:fe57:acd & Local \\ \hline
 
 %AR2
 & eth0 & fe:fd:9f:3d:cf:8a & 2000:b::3 & Global \\ 
-AR2 & & & fe80::fcfd:9fff:fe3d:cf8a & Local \\ 
+RA2 & & & fe80::fcfd:9fff:fe3d:cf8a & Local \\ 
 & eth1 & fe:fd:71:bf:e3:e1 & 2000:d::1 & Global \\
 & & & fe80::fcfd:71ff:febf:e3e1 & Local \\ \hline
 \end{tabular} 
@@ -238,116 +236,6 @@ tabela \ref{t_resul_1}.
 Analisando os dados recolhidos conseguimos observar o momento que o nó móvel
 fez o movimento para a outra rede, no instante entre o echo reply seq 6 e o RA 
 recebido do AR1.
-
-\begin{table}[!htpb]
-\centering
-\begin{footnotesize}
-  \setlength{\tabcolsep}{3pt}
-\begin{tabular}{|c|c|c|c||}\hline \hline
-\textbf{Tempo (s)} & \textbf{Origem} & \textbf{Destino} & \textbf{Conteúdo}\\
-\hline \hline
-19:50.348113 & fe80::fcfd:f5ff:fe49:32bc   & ff02::1                     & RA,
-Flags [home agent] \\
-19:51.314075 & fe80::fcfd:f5ff:fe49:32bc   & ff02::1:ff00:2              & NS,
-who has 2001:c::2 \\
-19:51.314229 & 2001:c::2                   & fe80::fcfd:f5ff:fe49:32bc   &
-neighbor advertisement \\
-19:51.352652 & 2001:a::fcfd:65ff:fe34:8a44 & 2001:c::2                   & echo
-request, seq 6 \\
-19:51.352733 & 2001:c::2                   & 2001:a::fcfd:65ff:fe34:8a44 & echo
-reply, seq 6 \\ \hline
-\textbf{19:52.465459} & \textbf{fe80::fcfd:71ff:febf:e3e1} & \textbf{ff02::1} &
-\textbf{router advertisement} \\
-19:52.481719 & ::                          & ff02::16                    & HBH,
-multicast listener\\
-19:52.658194 & ::                          & ff02::1:ffff:42c9           & NS,
-who has (CoA - MN) \\
-19:53.333508 & ::                          & ff02::1:ffff:42c9           & NS,
-who has (Local - MN) \\
-\textbf{19:54.340614} & \textbf{2001:d::fcfd:32ff:feff:42c9} &
-\textbf{2001:c::1} & \textbf{BU seq\#=57619 AH} \\
-19:54.457440 & fe80::fcfd:71ff:febf:e3e1   & ff02::1                     &
-router advertisement \\
-19:55.370804 & fe80::fcfd:71ff:febf:e3e1   & ff02::1:ffff:42c9           & NS,
-who has (CoA - MN) \\
-19:55.370970 & 2001:d::fcfd:32ff:feff:42c9 & fe80::fcfd:71ff:febf:e3e1   &
-neighbor advertisement \\
-\textbf{19:55.372259} & \textbf{2001:c::1} &
-\textbf{2001:d::fcfd:32ff:feff:42c9} & \textbf{BA seq\#=57619} \\
-19:55.405032 & 2001:c::1                   & 2001:d::fcfd:32ff:feff:42c9 &
-[src=2001:a::fcfd:65ff:fe34:8a44 \\
-             &                             &                             &
-dst=2001:c::2] echo request \\
-19:55.405184 & 2001:d::fcfd:32ff:feff:42c9 & 2001:c::1                   &
-[dst=2001:a::fcfd:65ff:fe34:8a44 \\
-             &                             &                             &
-src=2001:c::2] echo reply \\
-19:56.342799 & fe80::fcfd:32ff:feff:42c9   & fe80::fcfd:f5ff:fe49:32bc   & NS,
-who has (Local - HA) \\
-19:56.417133 & 2001:c::1                   & 2001:d::fcfd:32ff:feff:42c9 &
-[src=2001:a::fcfd:65ff:fe34:8a44 \\
-             &                             &                             &
-dst=2001:c::2] echo request \\
-19:56.417254 & 2001:d::fcfd:32ff:feff:42c9 & 2001:c::1                   &
-[dst=2001:a::fcfd:65ff:fe34:8a44 \\
-             &                             &                             &
-src=2001:c::2] echo reply] \\
-19:56.601222 & fe80::fcfd:71ff:febf:e3e1   & ff02::1                     &
-router advertisement \\
-.            & .                           & .                           & .\\
-.            & .                           & .                           & .\\
-.            & .                           & .                           & .\\
-20:08.567634 & 2001:c::1                   & 2001:d::fcfd:32ff:feff:42c9 &
-[src=2001:a::fcfd:65ff:fe34:8a44 \\
-             &                             &                             & 
-dst=2001:c::2:] echo request \\
-20:08.567764 & 2001:d::fcfd:32ff:feff:42c9 & 2001:c::1                   &
-[dst=2001:a::fcfd:65ff:fe34:8a44 \\
-             &                             &                             &
-src=2001:c::2] echo reply \\  \hline
-\textbf{20:09.279849} & \textbf{fe80::fcfd:f5ff:fe49:32bc} & \textbf{ff02::1} &
-\textbf{RA, Flags [home agent]} \\
-20:09.306449 & ::                          & ff02::16                    & HBH,
-multicast listener \\
-20:09.331656 & ::                          & ff02::16                    & HBH,
-multicast listener \\
-20:09.503149 & ::                          & ff02::1:ffff:42c9           & NS,
-who has (Auto) \\
-20:09.545341 & ::                          & ff02::1:ffff:42c9           & NS,
-who has (Local) \\
-20:09.676771 & ::                          & ff02::16                    & HBH,
-multicast listener\\
-20:10.330373 & ::                          & ff02::16                    & HBH,
-multicast listener\\
-20:10.543480 & ::                          & ff02::1:ff00:2              & NS,
-who has 2001:c::2 \\
-20:10.564683 & fe80::fcfd:32ff:feff:42c9   & ff02::16                    & HBH,
-multicast listener\\
-20:11.232774 & fe80::fcfd:f5ff:fe49:32bc   & ff02::1                     &
-neighbor advertisement \\
-\textbf{20:11.236815} & \textbf{2001:c::2} & \textbf{2001:c::1}          &
-\textbf{BU seq\#=57620 AH} \\
-20:11.259003 & fe80::fcfd:f5ff:fe49:32bc   & ff02::16                    & HBH,
-multicast listener\\
-20:11.370555 & 2001:c::1                   & ff02::1:ff00:2              & NS,
-who has 2001:c::2 \\
-20:11.370659 & 2001:c::2                   & 2001:c::1                   &
-neighbor advertisement \\
-\textbf{20:11.370922} & \textbf{2001:c::1}          & \textbf{2001:c::2 }       
- & \textbf{BA seq\#=57620} \\
-20:11.373667 & 2001:c::2                   & ff02::1                     &
-neighbor advertisement \\
-20:11.598218 & 2001:a::fcfd:65ff:fe34:8a44 & 2001:c::2                   & echo
-request, seq 26 \\
-20:11.598323 & 2001:c::2                   & 2001:a::fcfd:65ff:fe34:8a44 & echo
-reply, seq 26 \\
-20:12.241584 & fe80::fcfd:f5ff:fe49:32bc   & ff02::1                     &
-router advertisement \\ \hline
-\end{tabular} 
-\end{footnotesize}
-\caption{Mensagens do Cenário 1 com Tunelamento Bidirecional}
-\label{t_resul_1}
-\end{table} 
 
 \subsubsection{Análise das Tabelas de Roteamento e de Regras de Roteamento}
 
@@ -474,7 +362,7 @@ mobilidade, é adicionada a seguinte regra.
 \end{verbatim}
 
 \subsubsection{Detalhes da Formação de Túneis}
-O tunel no nó móvel é criado antes de acontecer qualquer mobilidade. No agente
+O túnel no nó móvel é criado antes de acontecer qualquer mobilidade. No agente
 domiciliar o  túnel com o nó móvel é criado no recebimento do BU. As tabelas 
 \ref{t_tun_ha1} e \ref{t_tun_mn1} apresentam o endereçamento do tunel, no HA e 
 MN, antes e depois da mobilidade.
@@ -517,65 +405,10 @@ nó móvel \\ \hline
 
 \subsubsection{Análise da Troca de Mensagens}
 
-\begin{table}[!htpb]
-\centering
-\begin{footnotesize}
-  \setlength{\tabcolsep}{3pt}
-\begin{tabular}{|c|c|c|c||}\hline \hline
-\textbf{Tempo (s)} & \textbf{Origem} &
-\textbf{Destino} & \textbf{Conteúdo}\\ \hline \hline
-50:21.991721 & 2000:a::1 & 2000:c::1 & ICMP6, echo reply \\ \hline
-\textbf{50:24.231519} & \textbf{fe80::b04c:e9ff:feec:6c42} & \textbf{ff02::1} &
-\textbf{Router Advertisement}\\
-50:24.247992 & :: & ff02::16 & HBH, multicast listener\\
-50:24.545598 & :: & ff02::1:ffd5:efea & NS, who 2000:d::9009:4fff:fed5:efea\\ 
-50:24.879467 & :: & ff02::1:ffd5:efea & NS, who fe80::9009:4fff:fed5:efea\\
-50:25.548165 & fe80::b04c:e9ff:feec:6c42 & ff02::1 & Router Advertisement\\
-\textbf{50:25.557223} & \textbf{2000:d::9009:4fff:fed5:efea} &
-\textbf{2000:a::2} & \textbf{BU seq\#=47808 AH}\\
-50:25.576407 & :: & ff02::16 & HBH, multicast listener\\
-50:26.581135 & fe80::b04c:e9ff:feec:6c42 & ff02::1:ffd5:efea & NS, who
-2000:d::9009:4fff:fed5:efea\\
-50:26.581276 & 2000:d::9009:4fff:fed5:efea & fe80::b04c:e9ff:feec:6c42 &
-Neighbor Advertisement\\
-\textbf{50:26.581588} & \textbf{2000:a::2} &
-\textbf{2000:d::9009:4fff:fed5:efea} & \textbf{BA seq\#=47808 lifetime=262140}\\
-\hline
-50:26.987535 & fe80::9009:4fff:fed5:efea & fe80::ac4d:a8ff:fe10:eb1d & NS, who
-fe80::ac4d:a8ff:fe10:eb1d\\
-50:27.009344 & 2000:a::2 & 2000:d::9009:4fff:fed5:efea & 2000:c::1 > 2000:a::1,
-(icmp6)\\
-50:27.009538 & 2000:d::9009:4fff:fed5:efea & 2000:a::2 & 2000:a::1 >
-2000:c::1,(icmp6)\\
-\textbf{50:27.013543} & \textbf{2000:d::9009:4fff:fed5:efea} &
-\textbf{2000:a::2} & \textbf{2000:a::1 > 2000:c::1,(HoTI)}\\
-\textbf{50:27.015165} & \textbf{2000:d::9009:4fff:fed5:efe} & \textbf{2000:c::1}
-& \textbf{CoTI Care-of Init}\\
-\textbf{50:27.019919} & \textbf{2000:a::2} &
-\textbf{2000:d::9009:4fff:fed5:efea} & \textbf{2000:c::1 > 2000:a::1, (HoT)}\\
-\textbf{50:27.029192} & \textbf{2000:c::1} &
-\textbf{2000:d::9009:4fff:fed5:efea} & \textbf{CoT}\\
-\textbf{50:27.031650} & \textbf{2000:d::9009:4fff:fed5:efea} &
-\textbf{2000:c::1} & \textbf{BU seq\#=1077 A}\\
-\textbf{50:27.037401} & \textbf{2000:c::1} &
-\textbf{2000:d::9009:4fff:fed5:efea} & \textbf{BA seq\#=1077 lifetime=420}\\
-50:27.365152 & fe80::b04c:e9ff:feec:6c42 & ff02::1 & Router Advertisement\\
-50:27.982719 & fe80::9009:4fff:fed5:efea & fe80::ac4d:a8ff:fe10:eb1d & Neighbor
-Solicitation\\
-50:28.014358 & 2000:c::1 & 2000:d::9009:4fff:fed5:efea & ICMP6, echo request\\
-50:28.014494 & 2000:d::9009:4fff:fed5:efea & 2000:c::1 & ICMP6, echo reply \\
-\hline
-\end{tabular} 
- \end{footnotesize}
-\caption{Mensagens do Cenário 1 com Otimização de Roteamento}
-\label{t_mes_ro}
-\end{table} 
-
 \subsubsection{Estado das Tabelas de Roteamento e de Regras}
 
 \subsubsection{Detalhes da Formação de Túneis}
 
-\subsubsection{Análise de Tempos de Handover}
 
 %=========================================================================
 
@@ -583,6 +416,9 @@ Solicitation\\
 \label{s_cenario2}
 
 \subsection{Descrição da Topologia}
+Com o fim de testar se a implementação experimental do HMIPv6 atende as
+funcionalidades do protocolo o cenário 2 foi montando com os seguintes 
+componentes (ver figura \ref{f_cenario2}):
 
 \begin{figure}[!htpb]
 	\centering
@@ -591,11 +427,280 @@ Solicitation\\
  	\label{f_cenario2}
 \end{figure}
 
+\begin{itemize}
+ \item Rede domiciliar com o prefixo 2001:e::/64 (\textit{Vlan} 1), onde estão o
+agente domiciliar (HA) e o nó móvel (MN) no início do teste;
+ \item Rede com o prefixo 2001:a::/64 (\textit{Vlan} 5), onde estão presentes um
+roteador de acesso (RA1) e o nó correspondente (CN), que irá se comunicar com o
+nó móvel durante o teste;
+ \item Um domínio formado pelo MAP1,que executa o \textit{daemon} MIPL na função
+de agente domiciliar, e um roteador de acesso (RA2). E as sub-redes com 
+prefixos: 2001:c::/64 (\textit{Vlan} 3) e 2001:f::/64 (\textit{Vlan} 6);
+ \item Um outro domínio formado pelo MAP2, que executa o \textit{daemon} MIPL na
+função de agente domiciliar, e dois roteadores de acesso (RA3 e RA4), que
+possibilitam o teste de mobilidade em um mesmo dominio. Sub-redes com os
+prefixos: 2001:d::/64 (\textit{Vlan} 4), 2001:10::/64 (\textit{Vlan} 7) e
+2001:11::/64 (\textit{Vlan} 8).
+\end{itemize}
+
+Os endereços atribuídos as interfaces dos nós, durante a realização do cenário,
+bem como seus endereços de hardware estão disponíveis na tabela \ref{t_addr2}.
+
+Durante a execução do cenário:
+\begin{enumerate}
+ \item O nó móvel iniciará na rede domiciliar se comunicando via \textit{ping6}
+com o nó correspondente.
+ \item Uma situação de mobilidade será ocasionada e o nó irá migrar para a
+\textit{Vlan} 7, domínio do MAP2, caracterizando uma mobilidade global.
+ \item Na segunda situação de mobilidade o nó irá migrar para a \textit{Vlan} 7
+caracterizando uma mobilidade local.
+ \item Podendo também ser feita uma mobilidade global para o domínio do MAP1
+(\textit{Vlan} 6).
+\end{enumerate}
+
+\begin{table}[!htpb]
+\centering
+\begin{small}
+  \setlength{\tabcolsep}{3pt}
+\begin{tabular}{|c|c|c|c|c||}\hline \hline
+\textbf{Nó} & \textbf{Interface} & \textbf{MAC} &
+\textbf{Endereço} & \textbf{Tipo}\\ \hline \hline
+
+% MN
+& & & 2001:c::2 & Domiciliar (Global) \\ 
+MN & eth0 & fe:fd:32:ff:42:c9 & 2001:c::fcfd:32ff:feff:42c9 & Auto-configurado\\
+& & & 2001:d::fcfd:32ff:feff:42c9 & Care-of-address \\
+& & & fe80::fcfd:32ff:feff:42c9 & Local \\ \hline
+
+% CN
+CN & eth0 & fe:fd:65:34:8a:44 & 2001:a::2 & Global \\
+& & & fe80::fcfd:65ff:fe34:8a44 & Local \\ \hline
+
+% HA
+& eth0 & fe:fd:b0:a2:9a:4c & 2001:b::2 & Global \\ 
+HA & & & fe80::fcfd:b0ff:fea2:9a4c & Local \\
+& eth1 & fe:fd:f5:49:32:bc & 2001:c::1 & Global \\ 
+& & & fe80::fcfd:f5ff:fe49:32bc & Local \\ \hline
+
+% MAP1
+& eth0 & fe:fd:b0:a2:9a:4c & 2001:b::2 & Global \\ 
+MAP1 & & & fe80::fcfd:b0ff:fea2:9a4c & Local \\
+& eth1 & fe:fd:f5:49:32:bc & 2001:c::1 & Global \\ 
+& & & fe80::fcfd:f5ff:fe49:32bc & Local \\ \hline
+
+% MAP2
+& eth0 & fe:fd:b0:a2:9a:4c & 2001:b::2 & Global \\ 
+MAP2 & & & fe80::fcfd:b0ff:fea2:9a4c & Local \\
+& eth1 & fe:fd:f5:49:32:bc & 2001:c::1 & Global \\ 
+& & & fe80::fcfd:f5ff:fe49:32bc & Local \\ \hline
+
+%AR1
+& eth0 & fe:fd:0d:0c:a2:22 & 2001:b::1 & Global \\ 
+RA1 & & & fe80::fcfd:dff:fe0c:a222 & Local \\ 
+& eth1 & fe:fd:ee:57:0a:cd & 2001:a::1 & Global \\
+& & & fe80::fcfd:eeff:fe57:acd & Local \\ \hline
+
+%AR2
+& eth0 & fe:fd:9f:3d:cf:8a & 2000:b::3 & Global \\ 
+RA2 & & & fe80::fcfd:9fff:fe3d:cf8a & Local \\ 
+& eth1 & fe:fd:71:bf:e3:e1 & 2000:d::1 & Global \\
+& & & fe80::fcfd:71ff:febf:e3e1 & Local \\ \hline
+
+%AR3
+& eth0 & fe:fd:0d:0c:a2:22 & 2001:b::1 & Global \\ 
+RA3 & & & fe80::fcfd:dff:fe0c:a222 & Local \\ 
+& eth1 & fe:fd:ee:57:0a:cd & 2001:a::1 & Global \\
+& & & fe80::fcfd:eeff:fe57:acd & Local \\ \hline
+
+%AR4
+& eth0 & fe:fd:9f:3d:cf:8a & 2000:b::3 & Global \\ 
+RA4 & & & fe80::fcfd:9fff:fe3d:cf8a & Local \\ 
+& eth1 & fe:fd:71:bf:e3:e1 & 2000:d::1 & Global \\
+& & & fe80::fcfd:71ff:febf:e3e1 & Local \\ \hline
+\end{tabular} 
+\end{small}
+\caption{Endereços do Cenário 2}
+\label{t_addr2}
+\end{table} 
+
 \subsection{Análise da Troca de Mensagens}
 
+\subsubsection{Mobilidade Global}
+Durante a primeira situação de mobilidade do cenário 2, uma mobilidade global,
+os dados coletados com a ferramenta \textit{tcpdump} estão disponíveis na figura
+\ref{f_dump_inter}. Por meio deles pode-se observar que:
+
+\begin{figure}[!htpb]
+	\centering
+	\includegraphics[scale=.55]{figs/dump_inter}
+	\caption{Cenário 2: \textit{Logs} Mobilidade Global}
+ 	\label{f_dump_inter}
+\end{figure}
+
+\begin{enumerate}
+ \item Até esse momento o nó móvel estava na sua rede domiciliar recebendo 
+\textit{echo request} do nó correspondente e mensagens RA do agente domiciliar.
+Então é realizada a mobilidade e ele passa receber mensagens RA do roteador de
+acesso RA3 com a opção de MAP propagada pelo MAP2.
+ \item Realiza o DAD do LCoA gerado.
+ \item Envia a mensagem de BU para o MAP2 com os seguintes campos:
+\begin{itemize}
+ \item Care-of-Address = LCoA;
+ \item Endereço domiciliar = RCoA, gerado a partir da opção de MAP da mensagem
+RA.
+\end{itemize}
+ \item Envia a mensagem de BU para o agente domiciliar com os seguintes campos:
+\begin{itemize}
+ \item CoA = RCoA;
+ \item Endereço domiciliar = seu endereço domiciliar.
+\end{itemize}
+ \item Recebe a mensagem de BA do MAP2 como confirmação de registro bem
+sucedido.
+ \item Recebe a mensagem de BA do agente domiciliar, como confirmação de 
+registro bem sucedido, via MAP2 de forma tunelada.
+ \item Envia um \textit{echo reply} ao nó correspondente, com destino ao agente
+domiciliar, com a mensagem tunelada ao nó correspondente, via MAP2. 
+\end{enumerate}
+
+\subsubsection{Mobilidade Local}
+Na segunda situação de mobilidade do cenário 2, uma mobilidade local, as
+mensagens trocadas pelo nó móvel estão disponíveis na figura \ref{f_dump_intra}.
+Por meio delas pode-se observar que:
+
+\begin{enumerate}
+ \item É realizada a mobilidade e passa receber mensagens RA do roteador de
+acesso RA4 ainda sobre cobertura do mesmo MAP.
+ \item Realiza o DAD do novo LCoA gerado.
+ \item Envia a mensagem de BU para o MAP2 com os seguintes campos:
+\begin{itemize}
+ \item Care-of-Address = LCoA;
+ \item Endereço domiciliar = RCoA, gerado a partir da opção de MAP da mensagem
+RA.
+\end{itemize}
+ Como é uma mobilidade local não é necessário enviar mensagem ao agente 
+domiciliar.
+ \item Recebe a mensagem de BA do MAP2 como confirmação de registro bem
+sucedido.
+ \item Recebe um \textit{echo reply} do nó correspondente, via MAP2 com a 
+mensagem tunelada do agente domiciliar.
+\end{enumerate}
+\begin{figure}[!htpb]
+	\centering
+	\includegraphics[scale=.55]{figs/dump_intra}
+	\caption{Cenário 2: \textit{Logs} Mobilidade Local}
+ 	\label{f_dump_intra}
+\end{figure}
+
 \subsection{Estado das Tabelas de Roteamento e de Regras}
+Sobre as tabelas e as regras de roteamento a implementação do HMIpv6 não faz
+nenhuma alteração. As tabelas de roteamento do cenário 2 se diferem muito pouco
+das do cenário 1, tanto na mobilidade global e local. As tabelas 252
+(\ref{t_c2_route_252}) e a principal (\ref{t_c2_route_main}) após a primeira
+situação de mobilidade estão disponíveis logo abaixo. E seguem algumas
+considerações sobre as regras e tabelas de roteamento do cenário 2:
+
+\begin{table}[!htpb]
+\centering
+\begin{small}
+  \setlength{\tabcolsep}{3pt}
+\begin{tabular}{|c|c|c|c||}\hline \hline
+\textbf{Destino} & \textbf{Via} & \textbf{Proximo
+salto}\\ \hline \hline
+2001:a::fcfd:65ff:fe34:8a44 & ip6tnl1 & 2001:a::fcfd:65ff:fe34:8a44 \\
+2001:e::1                   & ip6tnl1 & 2001:e::1\\
+default                     & ip6tnl1 & :: \\ \hline
+\end{tabular} 
+\end{small}
+\caption{Cenário 2: Tabela de Roteamento 252}
+\label{t_c2_route_252}
+\end{table}
+
+
+\begin{table}[!htpb]
+\centering
+\begin{small}
+  \setlength{\tabcolsep}{3pt}
+\begin{tabular}{|c|c|c|c||}\hline \hline
+\textbf{Destino} & \textbf{Via} & \textbf{Proximo
+salto} \\ \hline \hline
+2001:d::::fcfd:32ff:feff:42c9 & ip6tnl2		  & :: \\
+2001:e::2	          & ip6tnl1		  & :: \\
+2001:10::/64              & eth0		  & :: \\
+default		          & eth0	          & fe80::fcfd:53ff:fe16:31aa \\
+\hline
+\end{tabular} 
+\end{small}
+\caption{Cenário 2: Tabela principal de roteamento}
+\label{t_c2_route_main}
+\end{table} 
+
+\begin{itemize}
+ \item antes da primeira situação de mobilidade as tabelas e regras de
+roteamento do cenário 2 são iguais as cenário 1 antes da mobilidade;
+ \item após a mobilidade:
+\begin{itemize}
+ \item as regras de roteamento são as mesmas que as do cenário com MIPv6;
+ \item a tabela 252 se mantém a mesma que a do cenário com MIPv6.
+ \item a rota padrão é alterada para o roteador de acesso AR3 e depois na
+segunda situação de mobilidade para o roteador AR4;
+ \item adicionada a rota que pacotes com destino ao RCoA são via ip6tnl2;
+ \item as outras rotas se mantém as mesmas que as de um cenário com MIPv6.
+\end{itemize}
+\end{itemize}
 
 \subsection{Detalhes da Formação de Túneis}
+Os detalhes da formação dos túneis do cenário 2 diferem um pouco do cenário 1,
+estas alterações feitas pela implementação são responsáveis pelo funcionamento
+do HMIPv6. Nas tabelas \ref{t_tun_inter} e \ref{t_tun_intra} é possível ver os
+túneis presentes no nó móvel após as mobilidades global e local. As principais
+diferenças do cenário 1 são:
+
+\begin{itemize}
+ \item a criação do túnel entre o nó móvel e o MAP, com os pontos finais sendo o
+LCoA e o endereço do MAP2;
+ \item a alteração dos pontos finais do túnel entre o nó móvel e agente
+domiciliar, RCoA e endereço agente domciliar, e a interface que este túnel
+está ligado agora é o túnel entre nó móvel e MAP.
+\end{itemize}
+
+Os túneis dos MAP's e agente domiciliar se mantém iguais aos de um cenário
+rodando o MIPv6.
+
+\begin{table}[!htpb]
+\centering
+\begin{small}
+  \setlength{\tabcolsep}{3pt}
+\begin{tabular}{|c|c|c|c|c||}\hline \hline
+\textbf{Nome} & \textbf{Remoto} & \textbf{Local} & 
+\textbf{Interface} \\ \hline \hline
+ip6tnl1 & 2001:e::1 & 2001:d::fcfd:32ff:feff:42c9 & ip6tnl2 \\
+ \hline
+ip6tnl2 & 2001:d::1 & 2001:10::fcfd:32ff:feff:42c9 & eth0  \\ \hline
+\end{tabular}
+\end{small}
+\caption{Cenário 2: Túneis Mobilidade Global}
+\label{t_tun_inter}
+\end{table}
+
+Após a mobilidade local verificamos que os dois túneis (ver \ref{t_tun_intra})
+continuam presentes no nó móvel. Porém, o ponto local do túnel \textit{ip6tnl2}
+foi alterado para o novo LCoA gerado na sub-rede do RA4.
+
+\begin{table}[!htpb]
+\centering
+\begin{small}
+  \setlength{\tabcolsep}{3pt}
+\begin{tabular}{|c|c|c|c|c||}\hline \hline
+\textbf{Nome} & \textbf{Remoto} & \textbf{Local} & 
+\textbf{Interface} \\ \hline \hline
+ip6tnl1 & 2001:e::1 & 2001:d::fcfd:32ff:feff:42c9 & ip6tnl2 \\
+ \hline
+ip6tnl2 & 2001:d::1 & 2001:11::fcfd:32ff:feff:42c9 & eth0  \\ \hline
+\end{tabular}
+\end{small}
+\caption{Cenário 2: Túneis Mobilidade Local}
+\label{t_tun_intra}
+\end{table}
 
 \section{Análise dos Tempos de \textit{Handover}}
 O tempo do handover é um dos maiores problemas do MIPv6, esta seção do trabalho
@@ -719,4 +824,12 @@ perfeito funcionamento do MIPv6, ocorreram algumas perdas de pacotes, mas o nó
 móvel conseguiu continuar sendo alcançado pelo seu endereço domiciliar mesmo não
 estando em sua rede domiciliar.
 
-Falar algo sobre o cenário 2 e da implementação do HMIPv6.
+Na realização do cenário 2 foi possível verificar minimamente o funcionamento
+do 
+HMIPv6, claro que os problemas ainda existentes na implementação não permitiram
+comprovar uma melhora no \textit{handover}. Porém, pode-se ver um
+avanço já que não tinhamos nenhuma versão recente deste protocolo.
+
+Com a realização dos cenários é possível verificar que o \textit{handover} é o
+é o grande problema MIPv6, por isso, a necessidade de outras extensões para
+trabalharem juntos com o MIPv6 como: o HMIPv6 e FMIPv6.
