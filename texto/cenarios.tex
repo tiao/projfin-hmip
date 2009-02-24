@@ -1,3 +1,4 @@
+
 % ----------------------------------------------------------------------- %
 % Arquivo: cenarios.tex
 % ----------------------------------------------------------------------- %
@@ -185,68 +186,86 @@ Na rede com prefixo 2000:a::/64 está o nó correspondente com quem o nó móvel
 está se comunicando. Na rede com o prefixo 2000:c::/64 está presente um roteador
 (HA) que oferece o serviço de agente domiciliar ao nó móvel. A rede com prefixo
 2000:d::/64 é a rede que o nó móvel deve visitar.
-
-\begin{table}[!htpb]
-\centering
-\begin{small}
-  \setlength{\tabcolsep}{3pt}
-\begin{tabular}{|c|c|c|c|c||}\hline \hline
-\textbf{Nó} & \textbf{Interface} & \textbf{MAC} &
-\textbf{Endereço} & \textbf{Tipo}\\ \hline \hline
-
-% MN
-& & & 2001:c::2 & Domiciliar (Global) \\ 
-MN & eth0 & fe:fd:32:ff:42:c9 & 2001:c::fcfd:32ff:feff:42c9 & Auto-configurado\\
-& & & 2001:d::fcfd:32ff:feff:42c9 & Care-of-address \\
-& & & fe80::fcfd:32ff:feff:42c9 & Local \\ \hline
-
-% CN
-CN & eth0 & fe:fd:65:34:8a:44 & 2001:a::2 & Global \\
-& & & fe80::fcfd:65ff:fe34:8a44 & Local \\ \hline
-
-% HA
-& eth0 & fe:fd:b0:a2:9a:4c & 2001:b::2 & Global \\ 
-HA & & & fe80::fcfd:b0ff:fea2:9a4c & Local \\
-& eth1 & fe:fd:f5:49:32:bc & 2001:c::1 & Global \\ 
-& & & fe80::fcfd:f5ff:fe49:32bc & Local \\ \hline
-
-%AR1
-& eth0 & fe:fd:0d:0c:a2:22 & 2001:b::1 & Global \\ 
-RA1 & & & fe80::fcfd:dff:fe0c:a222 & Local \\ 
-& eth1 & fe:fd:ee:57:0a:cd & 2001:a::1 & Global \\
-& & & fe80::fcfd:eeff:fe57:acd & Local \\ \hline
-
-%AR2
-& eth0 & fe:fd:9f:3d:cf:8a & 2000:b::3 & Global \\ 
-RA2 & & & fe80::fcfd:9fff:fe3d:cf8a & Local \\ 
-& eth1 & fe:fd:71:bf:e3:e1 & 2000:d::1 & Global \\
-& & & fe80::fcfd:71ff:febf:e3e1 & Local \\ \hline
-\end{tabular} 
-\end{small}
-\caption{Endereços do Cenário 1}
-\label{t_addr1}
-\end{table} 
+% 
+% \begin{table}[!htpb]
+% \centering
+% \begin{small}
+%   \setlength{\tabcolsep}{3pt}
+% \begin{tabular}{|c|c|c|c|c||}\hline \hline
+% \textbf{Nó} & \textbf{Interface} & \textbf{MAC} &
+% \textbf{Endereço} & \textbf{Tipo}\\ \hline \hline
+% 
+% % MN
+% & & & 2001:c::2 & Domiciliar (Global) \\ 
+% MN & eth0 & fe:fd:32:ff:42:c9 & 2001:c::fcfd:32ff:feff:42c9 & Auto-configurado\\
+% & & & 2001:d::fcfd:32ff:feff:42c9 & Care-of-address \\
+% & & & fe80::fcfd:32ff:feff:42c9 & Local \\ \hline
+% 
+% % CN
+% CN & eth0 & fe:fd:65:34:8a:44 & 2001:a::2 & Global \\
+% & & & fe80::fcfd:65ff:fe34:8a44 & Local \\ \hline
+% 
+% % HA
+% & eth0 & fe:fd:b0:a2:9a:4c & 2001:b::2 & Global \\ 
+% HA & & & fe80::fcfd:b0ff:fea2:9a4c & Local \\
+% & eth1 & fe:fd:f5:49:32:bc & 2001:c::1 & Global \\ 
+% & & & fe80::fcfd:f5ff:fe49:32bc & Local \\ \hline
+% 
+% %AR1
+% & eth0 & fe:fd:0d:0c:a2:22 & 2001:b::1 & Global \\ 
+% RA1 & & & fe80::fcfd:dff:fe0c:a222 & Local \\ 
+% & eth1 & fe:fd:ee:57:0a:cd & 2001:a::1 & Global \\
+% & & & fe80::fcfd:eeff:fe57:acd & Local \\ \hline
+% 
+% %AR2
+% & eth0 & fe:fd:9f:3d:cf:8a & 2000:b::3 & Global \\ 
+% RA2 & & & fe80::fcfd:9fff:fe3d:cf8a & Local \\ 
+% & eth1 & fe:fd:71:bf:e3:e1 & 2000:d::1 & Global \\
+% & & & fe80::fcfd:71ff:febf:e3e1 & Local \\ \hline
+% \end{tabular} 
+% \end{small}
+% \caption{Endereços do Cenário 1}
+% \label{t_addr1}
+% \end{table} 
 
 \subsection{Variação 1: com Tunelamento Bidirecional e Sem Otimização de Rota}
 
 \subsubsection{Análise da Troca de Mesagens}
-Os dados obtidos na saída do comando \textit{tcpdump} foram compilados em forma
-de uma tabela para facilitar a visualização dos mesmos e podem ser observados na
-tabela \ref{t_resul_1}.
-Analisando os dados recolhidos conseguimos observar o momento que o nó móvel
-fez o movimento para a outra rede, no instante entre o echo reply seq 6 e o RA 
-recebido do AR1.
+Os dados obtidos na saída do comando \textit{tcpdump} podem ser observados na
+figura \ref{f_dump_1}. Analisando os dados recolhidos conseguimos observar:
+
+\begin{figure}[!htpb]
+	\centering
+	\includegraphics[scale=.7]{figs/dump1}
+	\caption{Cenário 1: Captura de mensagens}
+ 	\label{f_dump_1}
+\end{figure}
+
+
+\begin{enumerate}
+ \item O nó móvel recebe uma mensagem de \textit{Router Advertisement} do 
+roteador de acesso da rede visitada, o que indica que ocorreu mobilidade. Antes 
+de realizar o movimento o nó móvel recebia \textit{echo request} do nó 
+correspondente;
+ \item O nó móvel realiza o teste de duplicacao de endereco (DAD) do CoA gerado
+com o prefixo da rede visitada (2001:d::fcfd:32ff:feff:42c9);
+ \item O nó móvel a mensagem de BU para o agente Domiciliar informando o atual 
+endereço. Note que o CoA é o endereço fonte do pacote e o HoA é  informado na 
+opção DSTOPT;
+ \item O agente domiciliar envia um BA, confirmando o registro;
+ \item O nó movel volta a receber \textit{echo request} do nó correspondente,
+só que agora através do túnel. Note os endereços IP fonte e destinos deste
+pacote. O primeiro nível IP do agente domiciliar(2001:c::1) para nó móvel
+(2001:d::fcfd:32ff:feff:42c9). No segundo nível, do nó correspondente
+(2001:a::fcfd:65ff:fe34:8a44).
+
+\end{enumerate}
 
 \subsubsection{Análise das Tabelas de Roteamento e de Regras de Roteamento}
 
-Podemos constatar mudanças nas tabelas de roteamento do nó móvel e do agente
-domiciliar depois da mobilidade nas respecitivas tabelas \ref{t_rot_mn1} e
-\ref{t_rot_ha1}. Após o agente domiciliar receber o \textit{Binding Update},
-é adicionada a seguinte rota a sua tabela de roteamento, que todos os 
-pacotes com destino ao endereço domiciliar devem ser encaminhados para o túnel.
-Após o nó móvel receber o \textit{Router Advertisement}, é alterada a rota
-padrão, deletada a rota para rede 2001:c::/64 e adicionada uma rota para a rede 
-2001:d::/64, onde a interface eth0 está atrelada.
+Após o nó móvel deixar a rede domiciliar, podemos constatar mudanças nas tabelas
+de roteamento do nó móvel e do agente domiciliar, que são mostradas nas 
+respecitivas tabelas \ref{t_rot_mn1} e \ref{t_rot_ha1}.
 
 \begin{table}[!htpb]
 \centering
@@ -294,47 +313,17 @@ default		          & eth0	          & fe80::fcfd:71ff:febf:e3e1 &
 \label{t_rot_mn1}
 \end{table} 
 
+Após o agente domiciliar receber o \textit{Binding Update},
+é adicionada a seguinte rota a sua tabela de roteamento, que todos os 
+pacotes com destino ao endereço domiciliar devem ser encaminhados para o túnel.
+Após o nó móvel receber o \textit{Router Advertisement}, é alterada a rota
+padrão, deletada a rota para rede 2001:c::/64 e adicionada uma rota para a rede 
+2001:d::/64, onde a interface eth0 está atrelada.
+
 Para que o nó móvel tenha os pacotes com destino ao nó correspondente e ao 
 agente domiciliar encaminhados pelo túnel, o que caracteriza o tunelamento
-bidirecional, é utilizado regras de roteamento, mostradas na tabela
-\ref{t_rule_mn}.
-As rotas da tabela 252 são mostradas na tabela \ref{t_route_252_mn}.
-
-\begin{table}[!htpb]
-\centering
-\begin{small}
-  \setlength{\tabcolsep}{3pt}
-\begin{tabular}{|c|c|c||}\hline \hline
-\textbf{Prioridade} & \textbf{Regra} & \textbf{Ação}
-\\ \hline \hline
-0:	& from all        &  lookup local \\
-1001:	& from 2001:c::2  &  lookup 252 \\
-1002:	& from fe80::/64 &   lookup main \\
-1002:	& from 2001:d::/64 & lookup main \\
-%1003:	& from 2001:c::2  &  blackhole\\
-32766:	& from all        &  lookup main \\ \hline
-\end{tabular} 
-\end{small}
-\caption{Regras de Roteamento do Nó movel}
-\label{t_rule_mn}
-\end{table} 
-
-\begin{table}[!htpb]
-\centering
-\begin{small}
-  \setlength{\tabcolsep}{3pt}
-\begin{tabular}{|c|c|c||}\hline \hline
-\textbf{Prioridade} & \textbf{Regra} & \textbf{Ação}
-\\ \hline \hline
-0:	& from all        &  lookup local \\
-1005:	& from 2001:c::2  &  lookup 252 \\
-32766:	& from all        &  lookup main \\ \hline
-\end{tabular} 
-\end{small}
-\caption{Regras de Roteamento do Home Agente}
-\label{t_rule_ha}
-\end{table} 
-
+bidirecional, é adicionada regras na tabela 252, mostradas na tabela
+\ref{t_route_252_mn}.
 
 \begin{table}[!htpb]
 \centering
@@ -353,13 +342,66 @@ default                     & ip6tnl1 & ::        & \\ \hline
 \label{t_route_252_mn}
 \end{table}
 
-A tabela de Roteamento 252 do agente domiciliar, após o nó móvel realizar a 
-mobilidade, é adicionada a seguinte regra.
+No agente domiciliar é adicionada uma rota na tabela 252, para que os pacotes 
+capturados com destino ao nó móvel e origem no agente domiciliar.... 
 
-\begin{verbatim}
-2001:c::2 from 2001:c::1 dev eth1  proto 16  metric 128  mtu 1500 advmss 
-  1440 hoplimit 4294967295
-\end{verbatim}
+
+\begin{table}[!htpb]
+\centering
+\begin{small}
+  \setlength{\tabcolsep}{3pt}
+\begin{tabular}{|c|c|c|c||}\hline \hline
+\textbf{Destino} & \textbf{Origem} & \textbf{Via} & \textbf{Considerações}\\
+ \hline \hline
+2001:c::2 & 2001:c::1 & eth1 & Após a mobilidade do nó móvel \\ \hline
+\end{tabular}
+\end{small}
+\caption{Tabela de Roteamento 252 do agente domiciliar}
+\label{t_route_252_ha}
+\end{table}
+
+Como existe mais de uma tabela de roteamento, para fazer a seleção de qual 
+tabela é mais adequada para encaminhar determinado pacote, é determinado
+regras de roteamento. O MIPv6 adiciona um regra direcionando para tabela 252,
+no nó móvel e no agente domiciliar, mostradas nas tabelas \ref{t_rule_mn} e 
+\ref{t_rule_mn}, respectivamente.
+
+\begin{table}[!htpb]
+\centering
+\begin{small}
+  \setlength{\tabcolsep}{3pt}
+\begin{tabular}{|c|c|c||}\hline \hline
+\textbf{Prioridade} & \textbf{Regra} & \textbf{Ação}
+\\ \hline \hline
+0:	& from all        &  lookup local \\
+\textbf{1001}:	& \textbf{from 2001:c::2}  &  \textbf{lookup 252} \\
+1002:	& from fe80::/64 &   lookup main \\
+1002:	& from 2001:d::/64 & lookup main \\
+%1003:	& from 2001:c::2  &  blackhole\\
+32766:	& from all        &  lookup main \\ \hline
+\end{tabular} 
+\end{small}
+\caption{Regras de Roteamento do Nó movel}
+\label{t_rule_mn}
+\end{table} 
+
+\begin{table}[!htpb]
+\centering
+\begin{small}
+  \setlength{\tabcolsep}{3pt}
+\begin{tabular}{|c|c|c||}\hline \hline
+\textbf{Prioridade} & \textbf{Regra} & \textbf{Ação}
+\\ \hline \hline
+0:	& from all        &  lookup local \\
+\textbf{1005}:	& \textbf{from 2001:c::2 } &  \textbf{lookup 252} \\
+32766:	& from all        &  lookup main \\ \hline
+\end{tabular} 
+\end{small}
+\caption{Regras de Roteamento do Home Agente}
+\label{t_rule_ha}
+\end{table} 
+
+
 
 \subsubsection{Detalhes da Formação de Túneis}
 O túnel no nó móvel é criado antes de acontecer qualquer mobilidade. No agente
@@ -391,7 +433,7 @@ nó móvel \\ \hline
 \begin{tabular}{|c|c|c|c|c||}\hline \hline
 \textbf{Nome} & \textbf{Remoto} & \textbf{Local} & 
 \textbf{Interface} & \textbf{Considerações} \\ \hline \hline
-ip6tnl1 & :: & :: & eth0 & Antes da mobilidade do nó móvel \\ \hline
+*  & * & * & * & Antes da mobilidade do nó móvel \\ \hline
 ip6tnl1 & 2001:d::fcfd:32ff:feff:42c9 & 2001:c::1 & eth0 & Após a mobilidade do 
 nó móvel \\ \hline
 \end{tabular}
