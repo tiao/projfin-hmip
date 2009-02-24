@@ -2,11 +2,59 @@
 % Arquivo: conclusoes.tex
 % ----------------------------------------------------------------------- %
 
-\chapter{Conclusões}
+\chapter{Conclusões e Perspectivas}
 \label{c_conclusoes}
 
-Este trabalho procurou mostrar como deverá ser a apresentação da monografia a ser submetida à Coordenação do Curso Superior de Tecnologia em Sistemas de Telecomunicações do Centro Federal de Educação Tecnológica de Santa Catarina para a obtenção do diploma de Tecnólogo em Sistemas de Telecomunicações.
+%falar na contiuidade da manuteção da gum4mip
+%falar no fato de já existir pessoas interessadas no uso da plataforma
 
-No capítulo \ref{c_introducao} foi feita uma pequena introdução. No capítulo  foram apresentados alguns comentários sobre figuras. E no capítulo  foi apresentada uma forma para inserir tabela.
+Como perspectivas de trabalhos futuros, pode-se enumerar aspectos associados à
+plataforma de mobilidade e às extensões ao protocolo MIPL. No que se refere a
+plataforma, os seguintes trabalhos podem ser citados, além das correções dos
+problemas conhecidos já apontados no capítulo \ref{labelChapter4}:
+\begin{enumerate}
+\item Concepção de um simulador da rede sem fio nas máquinas UML, de forma
+similar ao desenvolvido em \cite{citarFrances}, possibilitando a análise dos
+problemas associados ao enlace e seus impactos na camada de rede;
+\item Implementação de modelos de mobilidade clássicos, de forma a produzir
+movimentos circulares, retilíneos, randomizados, ou mesmo, a acoplagem a um
+simulador de movimentos urbanos, tal como o \cite{citarSumoVerBibtexAbaixo};
+\item Incrementos na linguagem de descrição da UML, de forma a incorporar
+aspectos de configuração do IPv4 e facilitar a incorporação de novos protocolos
+e \textit{deamons};
+\item Melhorias na configuração dos terminais virtuais e consoles, de forma a
+obter Uma melhor visualização do sistema por parte do usuário. 
+\item Desenvolvimento de uma interface gráfica para a configuração das máquinas
+UML;
+\item Melhorias no instalador do sistema.
+\end{enumerate}
 
-Como trabalho futuro, fica a reescrita do texto deste documento de forma que ele possam indicar informações específicas a formatação do documento. Como o tamanho da fonte utilizada, o espaçamento da borda, o alinhamento e númeração das seções e capítulos, etc.
+No que se as extensões ao MIPL, as seguintes perspectivas são vislumbradas:
+\begin{itemize}
+\item implementação da otimização de rotas no HMIP, ou seja, a realização de
+BUs diretamente com os nós correspondentes;
+\item Exploração da implemetação do HMIP para estudar melhorias na seleção de
+MAPs
+por parte dos nós móveis;
+\item Estudo da integração do HMIP com protocolos de sinalização de QoS,
+desenvolvendo módulos/bibliotecas para o interfaceamento entre eles;
+\item Incorporação do protocolo FMIP (\cite{citarFMIP}) na plataforma de
+mobilidade;
+\end{itemize}
+
+Finalmente, a plataforma guml4mip está sendo avaliada para uso em sala de aula
+na disciplina de Redes de Computadores III do Curso de Tecnologia em
+Telecomunicações do Campus São José do IF-SC. Além disto, existem demandas
+externas de acadêmicos interessados na sua utilização para fins de pesquisa.
+Por este motivo, entende-se que o projeto atingiu plenamente os seus objetivos e
+plantou sementes para futuros trabalhos na instituição.
+
+ 
+@conference{krajzewicz:ssu,
+  title={{SUMO (Simulation of Urban MObility); An open-source traffic
+simulation}},
+  author={Krajzewicz, D. and Hertkorn, G. and Rossel, C. and Wagner, P.},
+  booktitle={4th Middle East Symposium on Simulation and Modelling (MESM2002)},
+  pages={183--187}
+}
+
