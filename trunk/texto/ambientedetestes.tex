@@ -29,7 +29,7 @@ dos experimentos.
 Em geral, uma plataforma de testes de mobilidade envolve o uso de redes sem fio.
 No entanto, como o objetivo principal da plataforma é possibilitar o estudo de
 protocolos de camada 3, decidiu-se por construir um ambiente de teste através de
-máquinas virtuais linux em modo usuário - UML \cite{uml09}
+máquinas virtuais linux em modo usuário - UML \cite{dike2009uml}
 adaptando os \textit{switches} virtuais para produzir a mobilidade. Desta forma,
 evita-se a complexidade adicional de instalação de hardware para a rede sem
 fio.
@@ -50,7 +50,7 @@ uma versão atualizada do protocolo HMIPv6. Parte do trabalho foi dedicada a uma
 extensão do MIPv6 para o HMIPv6;
 \item Outros protocolos e ferramentas de apoio: alguns protocolos e
 ferramentas adicionais foram instalados, tais como o protocolos RIP e o
-protocolo OSPF, através do pacote Zebra \cite{Zebra09}.
+protocolo OSPF, através do pacote Zebra \cite{quagga}.
 \end{itemize}
 
 Na sequência, apresentamos alguns detalhes sobre os componentes da plataforma
@@ -73,7 +73,7 @@ mesma máquina hospedeira e a construção de complexos cenários de rede.
 O Linux executa a máquina UML como um processo comum no sistema. O processo é
 executado em um ambiente isolado protegendo a camada física da máquina
 hospedeira, o que não impõe restrições de uso para a máquina virtual, tornando
-um ambiente excelente para testes \cite{artigo_uml}. A figura
+um ambiente excelente para testes \cite{luruo2005vnu}. A figura
 \ref{f_plataforma_uml} mostra o
 funcionamento do Linux em Modo Usuário em uma máquina hospedeira.
 
@@ -126,7 +126,7 @@ compilado e no sistema de arquivos são:
 e BGP4;\begin{large}       \end{large}
  \item Utilitários de rede: \textit{tcpdump}, \textit{ping}, \textit{ping6},
 \textit{traceroute}, \textit{ip}( mostra e manipula rotas, dispositivos,
-políticas de roteamento e túneis), \textit{iptables}, \textit{tc};% (citar mais)
+políticas de roteamento e túneis), \textit{iptables}, \textit{tc};
  \item Ferramentas IPSec;
  \item \textit{Kernel} suporte para \textit{Netfilter};
  \item \textit{Kernel} suporte para Qualidade de serviço (QoS);
@@ -222,7 +222,7 @@ fossem abertas, diminuindo a produtividade durante sua utilização.
 
 Após algumas pesquisas na \textit{internet} foi encontrado o projeto de código
 aberto ``Interface Gráfica para controle de terminais UML''
-(GUML)\cite{citarGUML}, implementada com a
+(GUML) \cite{guml}, implementada com a
 linguagem de programação \textit{Python} e que já contempla muitos dos recursos
 pretendidos. Decidiu-se fazer alterações no código fonte deste projeto de forma
 a implementar os novos recursos almejados.

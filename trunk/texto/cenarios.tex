@@ -197,7 +197,8 @@ está se comunicando. Na rede com o prefixo 2000:c::/64 está presente um roteador
 % 
 % % MN
 % & & & 2001:c::2 & Domiciliar (Global) \\ 
-% MN & eth0 & fe:fd:32:ff:42:c9 & 2001:c::fcfd:32ff:feff:42c9 & Auto-configurado\\
+% MN & eth0 & fe:fd:32:ff:42:c9 & 2001:c::fcfd:32ff:feff:42c9 &
+Auto-configurado\\
 % & & & 2001:d::fcfd:32ff:feff:42c9 & Care-of-address \\
 % & & & fe80::fcfd:32ff:feff:42c9 & Local \\ \hline
 % 
@@ -234,12 +235,12 @@ está se comunicando. Na rede com o prefixo 2000:c::/64 está presente um roteador
 Os dados obtidos na saída do comando \textit{tcpdump} podem ser observados na
 figura \ref{f_dump_1}. Analisando os dados recolhidos conseguimos observar:
 
-\begin{figure}[!htpb]
-	\centering
-	\includegraphics[scale=.7]{figs/dump1}
-	\caption{Cenário 1: Captura de mensagens}
- 	\label{f_dump_1}
-\end{figure}
+% \begin{figure}[!htpb]
+% 	\centering
+% 	\includegraphics[scale=.7]{figs/dump1}
+% 	\caption{Cenário 1: Captura de mensagens}
+%  	\label{f_dump_1}
+% \end{figure}
 
 
 \begin{enumerate}
@@ -250,7 +251,7 @@ correspondente;
  \item O nó móvel realiza o teste de duplicacao de endereco (DAD) do CoA gerado
 com o prefixo da rede visitada (2001:d::fcfd:32ff:feff:42c9);
  \item O nó móvel a mensagem de BU para o agente Domiciliar informando o atual 
-endereço. Note que o CoA é o endereço fonte do pacote e o HoA é  informado na 
+endereço. Note que o CoA é o endereço fonte do pacote e o HoA é informado na 
 opção DSTOPT;
  \item O agente domiciliar envia um BA, confirmando o registro;
  \item O nó movel volta a receber \textit{echo request} do nó correspondente,
@@ -486,87 +487,19 @@ deste domínio as sub-redes com os prefixos: 2001:d::/64 (\textit{Vlan} 4),
 2001:10::/64 (\textit{Vlan} 7) e 2001:11::/64 (\textit{Vlan} 8).
 \end{itemize}
 
-Os endereços atribuídos as interfaces dos nós, durante a realização do cenário,
-bem como seus endereços de hardware estão disponíveis na tabela \ref{t_addr2}.
-
 Durante a execução do cenário:
 \begin{enumerate}
  \item O nó móvel iniciará na rede domiciliar se comunicando via \textit{ping6}
 com o nó correspondente.
  \item Uma situação de mobilidade será ocasionada e o nó irá migrar para a
 \textit{Vlan} 7, domínio do MAP2, caracterizando uma mobilidade global.
- \item Na segunda situação de mobilidade o nó irá migrar para a \textit{Vlan} 7
+ \item Na segunda situação de mobilidade o nó irá migrar para a \textit{Vlan} 8
 caracterizando uma mobilidade local.
  \item Neste cenário, uma mobilidade global do domínio do MAP2 para o domínio do
-MAP1 também é possível. Neste caso, um novo registro como o Agente Domiciliar é
-necessário. No entanto, esta operação não será explorada aqui.
-(\textit{Vlan} 6).
+MAP1 também é possível (\textit{Vlan} 6). Neste caso, um novo registro como o
+Agente Domiciliar é necessário. No entanto, esta operação não será explorada
+aqui.
 \end{enumerate}
-
-\begin{table}[!htpb]
-\centering
-\begin{small}
-  \setlength{\tabcolsep}{3pt}
-\begin{tabular}{|c|c|c|c|c||}\hline \hline
-\textbf{Nó} & \textbf{Interface} & \textbf{MAC} &
-\textbf{Endereço} & \textbf{Tipo}\\ \hline \hline
-
-% MN
-& & & 2001:c::2 & Domiciliar (Global) \\ 
-MN & eth0 & fe:fd:32:ff:42:c9 & 2001:c::fcfd:32ff:feff:42c9 & Auto-configurado\\
-& & & 2001:d::fcfd:32ff:feff:42c9 & Care-of-address \\
-& & & fe80::fcfd:32ff:feff:42c9 & Local \\ \hline
-
-% CN
-CN & eth0 & fe:fd:65:34:8a:44 & 2001:a::2 & Global \\
-& & & fe80::fcfd:65ff:fe34:8a44 & Local \\ \hline
-
-% HA
-& eth0 & fe:fd:b0:a2:9a:4c & 2001:b::2 & Global \\ 
-HA & & & fe80::fcfd:b0ff:fea2:9a4c & Local \\
-& eth1 & fe:fd:f5:49:32:bc & 2001:c::1 & Global \\ 
-& & & fe80::fcfd:f5ff:fe49:32bc & Local \\ \hline
-
-% MAP1
-& eth0 & fe:fd:b0:a2:9a:4c & 2001:b::2 & Global \\ 
-MAP1 & & & fe80::fcfd:b0ff:fea2:9a4c & Local \\
-& eth1 & fe:fd:f5:49:32:bc & 2001:c::1 & Global \\ 
-& & & fe80::fcfd:f5ff:fe49:32bc & Local \\ \hline
-
-% MAP2
-& eth0 & fe:fd:b0:a2:9a:4c & 2001:b::2 & Global \\ 
-MAP2 & & & fe80::fcfd:b0ff:fea2:9a4c & Local \\
-& eth1 & fe:fd:f5:49:32:bc & 2001:c::1 & Global \\ 
-& & & fe80::fcfd:f5ff:fe49:32bc & Local \\ \hline
-
-%AR1
-& eth0 & fe:fd:0d:0c:a2:22 & 2001:b::1 & Global \\ 
-RA1 & & & fe80::fcfd:dff:fe0c:a222 & Local \\ 
-& eth1 & fe:fd:ee:57:0a:cd & 2001:a::1 & Global \\
-& & & fe80::fcfd:eeff:fe57:acd & Local \\ \hline
-
-%AR2
-& eth0 & fe:fd:9f:3d:cf:8a & 2000:b::3 & Global \\ 
-RA2 & & & fe80::fcfd:9fff:fe3d:cf8a & Local \\ 
-& eth1 & fe:fd:71:bf:e3:e1 & 2000:d::1 & Global \\
-& & & fe80::fcfd:71ff:febf:e3e1 & Local \\ \hline
-
-%AR3
-& eth0 & fe:fd:0d:0c:a2:22 & 2001:b::1 & Global \\ 
-RA3 & & & fe80::fcfd:dff:fe0c:a222 & Local \\ 
-& eth1 & fe:fd:ee:57:0a:cd & 2001:a::1 & Global \\
-& & & fe80::fcfd:eeff:fe57:acd & Local \\ \hline
-
-%AR4
-& eth0 & fe:fd:9f:3d:cf:8a & 2000:b::3 & Global \\ 
-RA4 & & & fe80::fcfd:9fff:fe3d:cf8a & Local \\ 
-& eth1 & fe:fd:71:bf:e3:e1 & 2000:d::1 & Global \\
-& & & fe80::fcfd:71ff:febf:e3e1 & Local \\ \hline
-\end{tabular} 
-\end{small}
-\caption{Endereços do Cenário 2}
-\label{t_addr2}
-\end{table} 
 
 \subsection{Análise da Troca de Mensagens}
 
@@ -597,7 +530,7 @@ gerado com o prefixo da rede visitada (endereço );
 (LCoA,RCoA). Note que LCoA é o  endereço fonte do pacote e o RCoA é informado
 na opção DSTOPT;
 \item O nó móvel envia a mensagem de BU para o Agente Domiciliar (dst=)
-informando a dupla (RCoA,HoA). Note que RCoA é o  endereço fonte do pacote e o
+informando a dupla (RCoA,HoA). Note que RCoA é o endereço fonte do pacote e o
 HoA é informado na opção DSTOPT;
  \item O nó móvel recebe a mensagem de BA do MAP2 como confirmação de registro
 bem sucedido;
@@ -610,7 +543,7 @@ duplamente tunelado. Note os endereços IPs fonte e destino destes pacotes: no
 primeiro nível IP do MAP para IP LCoA (src= e dst) e, no segundo nível, IP do
 Agente domiciliar para IP RCoA;
  \item Envia um \textit{echo reply} ao nó correspondente, com destino ao agente
-domiciliar, com a mensagem tunelada ao nó correspondente, via MAP2. 
+domiciliar, com a mensagem tunelada ao nó correspondente, via MAP2.
 \end{enumerate}
 
 \subsubsection{Mobilidade Local}
