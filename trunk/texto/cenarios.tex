@@ -136,7 +136,7 @@ mn# echo "200 OK" > header; cat header /dev/zero | nc6 -l -p 80
 
 Esta linha significa:
 \begin{description}
- \item[echo ``200 OK'' "> header:] cria um cabeçalho HTTP com a mensagem ``200 
+ \item[echo ``200 OK'' $>$ header:] cria um cabeçalho HTTP com a mensagem ``200 
 OK'', para responder as requisições ao servidor;
  \item[nc6 -l -p 80:] inicia um soquete TCP que (-l) escuta a (-p 80) porta 80;
  \item[cat header /dev/zero:] concatena para a entrada padrão do servidor o
@@ -269,7 +269,6 @@ figura \ref{f_dump_1}. Analisando os dados recolhidos consegue-se observar:
 	\caption{Cenário 1 : Captura de mensagens com Tunelamento Bidirecional}
  	\label{f_dump_1}
 \end{figure}
-
 
 \begin{enumerate}
  \item O nó móvel recebe uma mensagem de \textit{Router Advertisement} do 
@@ -478,7 +477,7 @@ nó móvel \\ \hline
 \subsubsection{Análise da Troca de Mensagens}
 
 Os dados obtidos na saída do comando \textit{tcpdump} podem ser observados na
-figura \ref{f_dump_2}. Analisando os dados recolhidos conseguimos observar:
+figura \ref{f_dump_2}. Analisando os dados recolhidos consegue-se observar:
 
 \begin{figure}[!htpb]
 	\centering
@@ -504,7 +503,7 @@ opção DSTOPT;
  \item O agente domiciliar envia um BA, confirmando o registro;
 %5
  \item O nó movel volta a receber \textit{echo request} do nó correspondente,
-só que ainda através do túnel. A otimização de rota só irá ocorrer após o ]
+só que ainda através do túnel. A otimização de rota só irá ocorrer após o
 processo de \textit{ruturn routability}. Note os endereços IP fonte e destinos
 deste pacote. O primeiro nível IP do agente domiciliar(2001:c::1) para nó móvel
 (2001:d::fcfd:32ff:feff:42c9). No segundo nível, do nó correspondente
@@ -526,7 +525,7 @@ tunel, ela é endereçada diretamente ao nó correspondente.
 correspondente, não passando pelo agente domiciliar.
 %10
  \item O nó móvel envia um \textit{Binding Update} ao nó correspondente com o
-\textit{binding management key}(kbm), comcluindo o processo de 
+\textit{binding management key}(kbm), concluindo o processo de 
 \textit{return routability}.
 %11
  \item O nó móvel recebe uma mensagem de \textit{echo request}, endereçada ao 
@@ -536,8 +535,13 @@ endereço domiciliar(2001:c::2) do nó móvel.
 \end{enumerate}
 
 \subsubsection{Estado das Tabelas de Roteamento e de Regras}
+Sobre as tabelas e as regras de roteamento, quando o nó móvel e o nó 
+correspondente estão configurados para realizar a otimização de rota, não existe
+nenhuma alteração em relação a variação 1.
 
 \subsubsection{Detalhes da Formação de Túneis}
+Sobre os tuneis, não há nenhuma alteração em relacão ao cenário configurado com
+tunelamento bidirecional sem otimização de rota.
 
 %=========================================================================
 
