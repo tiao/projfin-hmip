@@ -4,7 +4,7 @@ interface eth1 {
 	MaxRtrAdvInterval 3;
 	AdvHomeAgentFlag on;
 
-	prefix 2001:e::/64
+	prefix 2001:d::/64
 	{
 		AdvOnLink on;
 		AdvAutonomous on;
