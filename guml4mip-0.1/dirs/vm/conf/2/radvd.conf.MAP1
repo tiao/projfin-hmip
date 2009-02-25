@@ -16,10 +16,10 @@ interface eth1 {
 		MapValidLifetime   80;
 	};
 
-#	prefix 2001:c::/64
-#	{
-#		AdvOnLink on;
-#		AdvAutonomous on;
-#		AdvRouterAddr on; 
-#	};
+	prefix 2001:c::/64
+	{
+		AdvOnLink on;
+		AdvAutonomous on;
+		AdvRouterAddr on; 
+	};
 };
