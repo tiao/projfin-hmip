@@ -10,32 +10,32 @@
 \subsection{Cenários Estudados}
 Após os estudos bibliográficos sobre o protocolo MIPv6 e a preparação da
 Plataforma de Testes para Mobilidade, iniciou-se a etapa de definição e
-implementação de cenários com fins de analisar algumas funcionalidades dos
-protocolos instalados, demonstrando desta forma as potencialidades do ambiente
-desenvolvido.
+implementação de cenários de testes.  Esta etapa teve por objetivo  analisar
+algumas funcionalidades dos protocolos instalados, demonstrando
+desta forma as potencialidades do ambiente desenvolvido.
 
-Para analisar alguns mecanismos do protocolo e testar seus modos de operação,
-dois cenários base foram definidos: cenário 1, com o MIPv6, e o cenário 2,
-com o HMIPv6. Para o primeiro cenário, duas variações foram realizadas. Na
-primeira, descrita na figura \ref{f_cenario1}, é testado o modo de operação por
-tunelamento bi-direcional do MIPv6, sem a otimização de rota. A segunda variação
-testa o modo de operação por otimização de roteamento. O cenário 2, descrito na
-figura \ref{f_cenario2}, tem como objetivo verificar minimamente o
-funcionamento do HMIPv6 em comunicações onde os nós correspondentes não
-executam otimização de roteamento.
+Para analisar alguns mecanismos dos protocolos e testar os seus modos de
+operação, dois cenários base foram definidos: cenário 1, com o MIPv6, e o
+cenário 2, com o HMIPv6. Para o primeiro cenário, duas variações foram
+realizadas. Na primeira, descrita na figura \ref{f_cenario1}, é testado o modo
+de operação por tunelamento bi-direcional do MIPv6, sem a otimização de rota. A
+segunda variação testa o modo de operação por otimização de roteamento. O
+cenário 2, descrito na figura \ref{f_cenario2}, tem como objetivo verificar
+minimamente o funcionamento do HMIPv6 em comunicações onde os nós
+correspondentes não executam otimização de roteamento.
 
 Os arquivos para a configuração dos cenários usados no GUML4MIP estão
-disponíveis no diretório da documentação do projeto \cite{LinkProjeto}.
+disponíveis no diretório da documentação do projeto \cite{guml4mip}.
 
-\section{Fundamentos para a Análise dos Cenários}
-Na análise dos cenários estudados serão focados os seguintes aspectos:
+\subsection{Fundamentos para a Análise dos Cenários}
+Na análise dos cenários estudados foram focados os seguintes aspectos:
 \begin{itemize}
   \item a sequência e a natureza das mensagens trocadas entre os vários nós.
-Neste ponto, serão utilizadas as saídas geradas pelo programa \textit{tcpdump};
+Neste ponto, foram utilizadas as saídas geradas pelo programa \textit{tcpdump};
   \item as tabelas de roteamento e as regras de roteamento analisadas em
 situações chave, por exemplo, antes e depois da mobilidade;
   \item os aspectos de desempenho e perdas de pacotes, tendo ciência das
-limitações desta análise em um ambiente virtual. Os dados obtidos serão
+limitações desta análise em um ambiente virtual. Os dados obtidos foram
 também confrontados com os resultados esperados através de uma abordagem
 analítica;
   \item a criação e a manipulação dos túneis entre o agente domiciliar e o nó
@@ -48,7 +48,7 @@ conexão de uma sub-rede para outra. O tempo de latência envolvido neste processo
 \cite{xavier} pode ser dividido em quatro fases:
 
 \begin{enumerate}
- \item \textbf{Detecção de Movimento (\textit{TD})}: Em um cenário real, 
+\item \textbf{Detecção de Movimento (\textit{TD})}: Em um cenário real, 
 representa o tempo do \textit{handover} na camada de enlace até o primeiro
 \textit{Router Advertisement}. Na plataforma de testes construída não
 foi simulada a camada enlace e, portanto, não se pode precisar com a exatidão a
@@ -107,21 +107,21 @@ movimento, testes serão realizados para a coleta de dados que irão ajudar na
 análise do protocolo.
 
 Em um teste, o nó correspondente começa a enviar mensagens ICMPv6, por meio do
-\textit{ping6}, para o nó móvel.
+\textit{ping6}, para o nó móvel:
 \begin{verbatim}
 cn# ping6 mn
 \end{verbatim}
 
 O nó móvel executa o \textit{tcpdump} em modo \textit{verbose} (-vvv) para
 realizar o monitoramento da troca de mensagens do funcionamento do MIPv6 durante
-o processo de \textit{handover}.
+o processo de \textit{handover}:
 \begin{verbatim}
 mn# tcpdump -vvv
 \end{verbatim}
 
-Outro procedimento de teste que é eventualmente realizado durante a execução dos
-cenários é uma conexão utilizando os protocolos da camada transporte, por
-exemplo, o TCP. Tal teste visa comprovar a transparência do processo de
+Outro procedimento de teste, que é eventualmente realizado durante a execução
+dos cenários, é uma conexão utilizando o protocolo da camada transporte TCP.
+Tal teste visa comprovar a transparência do processo de
 mobilidade para as camadas superiores à de rede, além de permitir gerar um
 fluxo de dados maior do que com as mensagens ICMPv6 e de possibilitar
 uma melhor observação do impacto do protocolo MIPv6 sobre as conexões.
@@ -164,6 +164,34 @@ taxa é limitada (--limit-rate=1M) para 1MBps;
 eth0 em intervalos de 0.1 segundos.
 \end{itemize}
 
+\subsection{Subsídios para interpretação dos pacotes IPv6 no tcpdump}
+
+Nas listagens do tcpdump, utilizadas na seções que se seguem, os pacotes serão
+mostrados da seguinte forma:
+
+$<$estampa\_tempo$>$ IP6 ( .. next header $<$tipo\_next\_header$>$ ..) 
+          $<$endereço\_fonte$>$ $<$endereço\_destino$>$
+
+No caso de túneis, onde existe encapsulamento de IP sobre IP, o formato é
+repetido e o campo \textit{next header} do primeiro nível indica que o próximo
+cabeçalho é um pacote IPv6. No segundo nível, o \textit{next header} é a carga
+original transportada, por exemplo, um pacote ICMP6:
+
+$<$estampa\_tempo$>$ IP6 ( .. next header IPv6 ..) 
+        $<$endereço\_fonte$>$ $<$endereço\_destino$>$
+        IP6 ( .. next header ICMP6 ..) 
+        $<$endereço\_fonte$>$ $<$endereço\_destino$>$
+
+É interessante lembrar que os Router Advertisments são mensagens ICMP6, assim
+como os \textit{echo-request} e \textit{echo-reply} produzidos pelo ping. 
+
+O tcmpdump apresenta os cabeçalhos de mobilidade (BU e BA) com
+\textit{next-header
+unknown} no caso do BU e de \textit{source routing }no caso do BA. Entretanto, o
+\textit{next-header} é detalhado na sequência mostrando o tipo e eventualmente o
+DSTOPT (campo \textit{destination option}). 
+
+
 \section{Cenário 1 - Uso do Protocolo MIPv6}
 \label{s_cenario1}
 
@@ -182,7 +210,7 @@ endereços de hardware, estão disponíveis na tabela \ref{t_addr1}.
 \end{figure}
 
 
-Na rede com prefixo 2000:a::/64 está o nó correspondente com quem o nó móvel
+Na rede com prefixo 2000:a::/64 está o nó correspondente, com quem o nó móvel
 está se comunicando. Na rede com o prefixo 2000:c::/64 está presente um roteador
 (HA) que oferece o serviço de agente domiciliar ao nó móvel. A rede com prefixo
 2000:d::/64 é a rede que o nó móvel deve visitar.
@@ -198,7 +226,7 @@ está se comunicando. Na rede com o prefixo 2000:c::/64 está presente um roteador
 % % MN
 % & & & 2001:c::2 & Domiciliar (Global) \\ 
 % MN & eth0 & fe:fd:32:ff:42:c9 & 2001:c::fcfd:32ff:feff:42c9 &
-Auto-configurado\\
+% Auto-configurado\\
 % & & & 2001:d::fcfd:32ff:feff:42c9 & Care-of-address \\
 % & & & fe80::fcfd:32ff:feff:42c9 & Local \\ \hline
 % 
@@ -233,7 +261,7 @@ Auto-configurado\\
 
 \subsubsection{Análise da Troca de Mesagens}
 Os dados obtidos na saída do comando \textit{tcpdump} podem ser observados na
-figura \ref{f_dump_1}. Analisando os dados recolhidos conseguimos observar:
+figura \ref{f_dump_1}. Analisando os dados recolhidos consegue-se observar:
 
 \begin{figure}[!htpb]
 	\centering
@@ -245,20 +273,23 @@ figura \ref{f_dump_1}. Analisando os dados recolhidos conseguimos observar:
 
 \begin{enumerate}
  \item O nó móvel recebe uma mensagem de \textit{Router Advertisement} do 
-roteador de acesso da rede visitada, o que indica que ocorreu mobilidade. Antes 
-de realizar o movimento o nó móvel recebia \textit{echo request} do nó 
-correspondente;
- \item O nó móvel realiza o teste de duplicacao de endereco (DAD) do CoA gerado
+roteador de acesso da rede visitada (src=fe80::fcfd:71ff:febf:e3e1), o que
+indica que ocorreu mobilidade. Este movimento foi produzido pela comutação
+da vlan 3 para a 4. Antes de realizar o movimento o nó móvel recebia
+\textit{echo request} do nó correspondente (src=2001:a::fcfd:65ff:fe34:8a44) e
+ \textit{Router Advertisement} do Agente domiciliar
+(src=fe80::fcfd:f5ff:fe49:32bc);
+ \item O nó móvel realiza o teste de duplicaçãoo de endereco (DAD) do CoA gerado
 com o prefixo da rede visitada (2001:d::fcfd:32ff:feff:42c9);
- \item O nó móvel a mensagem de BU para o agente Domiciliar informando o atual 
-endereço. Note que o CoA é o endereço fonte do pacote e o HoA é informado na 
-opção DSTOPT;
+ \item O nó móvel envia a mensagem de BU para o agente Domiciliar informando o
+endereço CoA e o seu endereço domiciliar HoA. Note que o CoA é o endereço fonte
+do pacote e o HoA é informado na opção DSTOPT;
  \item O agente domiciliar envia um BA, confirmando o registro;
- \item O nó movel volta a receber \textit{echo request} do nó correspondente,
+ \item O nó móvel volta a receber \textit{echo request} do nó correspondente,
 só que agora através do túnel. Note os endereços IP fonte e destinos deste
-pacote. O primeiro nível IP do agente domiciliar(2001:c::1) para nó móvel
-(2001:d::fcfd:32ff:feff:42c9). No segundo nível, do nó correspondente
-(2001:a::fcfd:65ff:fe34:8a44).
+pacote. O primeiro nível IP do agente domiciliar(2001:c::1) para o CoA do nó
+móvel (2001:d::fcfd:32ff:feff:42c9). No segundo nível, do nó correspondente
+(2001:a::fcfd:65ff:fe34:8a44) para o HoA (2001:c::2).
 
 \end{enumerate}
 
