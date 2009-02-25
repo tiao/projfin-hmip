@@ -235,12 +235,12 @@ Auto-configurado\\
 Os dados obtidos na saída do comando \textit{tcpdump} podem ser observados na
 figura \ref{f_dump_1}. Analisando os dados recolhidos conseguimos observar:
 
-% \begin{figure}[!htpb]
-% 	\centering
-% 	\includegraphics[scale=.7]{figs/dump1}
-% 	\caption{Cenário 1: Captura de mensagens}
-%  	\label{f_dump_1}
-% \end{figure}
+\begin{figure}[!htpb]
+	\centering
+	\includegraphics[scale=.6]{figs/dump1}
+	\caption{Cenário 1 : Captura de mensagens com Tunelamento Bidirecional}
+ 	\label{f_dump_1}
+\end{figure}
 
 
 \begin{enumerate}
@@ -344,7 +344,7 @@ default                     & ip6tnl1 & ::        & \\ \hline
 \end{table}
 
 No agente domiciliar é adicionada uma rota na tabela 252, para que os pacotes 
-capturados com destino ao nó móvel e origem no agente domiciliar.... 
+capturados com destino ao nó móvel e origem no agente domiciliar.
 
 
 \begin{table}[!htpb]
@@ -402,8 +402,6 @@ no nó móvel e no agente domiciliar, mostradas nas tabelas \ref{t_rule_mn} e
 \label{t_rule_ha}
 \end{table} 
 
-
-
 \subsubsection{Detalhes da Formação de Túneis}
 O túnel no nó móvel é criado antes de acontecer qualquer mobilidade. No agente
 domiciliar o  túnel com o nó móvel é criado no recebimento do BU. As tabelas 
@@ -448,10 +446,67 @@ nó móvel \\ \hline
 
 \subsubsection{Análise da Troca de Mensagens}
 
+Os dados obtidos na saída do comando \textit{tcpdump} podem ser observados na
+figura \ref{f_dump_2}. Analisando os dados recolhidos conseguimos observar:
+
+\begin{figure}[!htpb]
+	\centering
+	\includegraphics[scale=.6]{figs/dump2}
+	\caption{Cenário 1 : Captura de mensagens com Otimização de Rota}
+ 	\label{f_dump_2}
+\end{figure}
+
+\begin{enumerate}
+%1
+ \item O nó móvel recebe uma mensagem de \textit{Router Advertisement} do 
+roteador de acesso da rede visitada, o que indica que ocorreu mobilidade. Antes 
+de realizar o movimento o nó móvel respondia um \textit{echo request} do nó 
+correspondente;
+%2
+ \item O nó móvel realiza o teste de duplicacao de endereco (DAD) do CoA gerado
+com o prefixo da rede visitada (2001:d::fcfd:32ff:feff:42c9);
+%3
+ \item O nó móvel a mensagem de BU para o agente Domiciliar informando o atual 
+endereço. Note que o CoA é o endereço fonte do pacote e o HoA é informado na 
+opção DSTOPT;
+%4
+ \item O agente domiciliar envia um BA, confirmando o registro;
+%5
+ \item O nó movel volta a receber \textit{echo request} do nó correspondente,
+só que ainda através do túnel. A otimização de rota só irá ocorrer após o ]
+processo de \textit{ruturn routability}. Note os endereços IP fonte e destinos
+deste pacote. O primeiro nível IP do agente domiciliar(2001:c::1) para nó móvel
+(2001:d::fcfd:32ff:feff:42c9). No segundo nível, do nó correspondente
+(2001:a::fcfd:65ff:fe34:8a44).
+%6
+ \item O nó móvel inicia o processo de \textit{ruturn routability} enviando
+via agente domiciliar a mensagem de \textit{Home Test Init}(HoTi) ao nó 
+correspondente, para adiquirir a \textit{home keygen token}.
+%7
+ \item O nó móvel recebe a mensagem de \textit{Home Test}(HoT) do nó
+correspondente, via agente domiciliar.
+%8
+ \item O nó móvel da continuação ao processo de \textit{ruturn routability}
+enviando a mensagem de \textit{Care-of Test Init}(CoTi) ao nó correspondente,
+para adiquirir a \textit{care-of keygen token}. Essa menssagem não passa pelo 
+tunel, ela é endereçada diretamente ao nó correspondente.
+%9
+ \item O nó móvel recebe a mensagem de \textit{Care-of Test}(CoT) do nó 
+correspondente, não passando pelo agente domiciliar.
+%10
+ \item O nó móvel envia um \textit{Binding Update} ao nó correspondente com o
+\textit{binding management key}(kbm), comcluindo o processo de 
+\textit{return routability}.
+%11
+ \item O nó móvel recebe uma mensagem de \textit{echo request}, endereçada ao 
+CoA, não passando mais pelo agente domiciliar. Note a opção DSTOPT que trás o
+endereço domiciliar(2001:c::2) do nó móvel.
+
+\end{enumerate}
+
 \subsubsection{Estado das Tabelas de Roteamento e de Regras}
 
 \subsubsection{Detalhes da Formação de Túneis}
-
 
 %=========================================================================
 
