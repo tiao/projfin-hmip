@@ -12,12 +12,12 @@ A utilização de dispositivos móveis para o acesso a Internet vem crescendo
 acentuadamente nos últimos anos. As novas aplicações multimídias incentivam esta
 expansão, aliadas a uma variedade de novas tecnologias de acesso sem fio que
 permitem suportar taxas de transmissão em níveis relativamente altos. Algumas
-destas tecnologias, consideradas como camada de enlace e física do
-ponto de vista da arquitetura TCP-IP, possuem mecanismos para o tratamento de
+destas tecnologias, consideradas como camada de enlace e física do ponto de
+vista da arquitetura \ac{TCP/IP}, possuem mecanismos para o tratamento de
 movimentos entre estações base, minimizando os efeitos destas operações para o
 usuário.
 
-Contudo, a utilização de redes IP em situações de mobilidade pode impactar
+Contudo, a utilização de redes \ac{IP} em situações de mobilidade pode impactar
 consideravelmente as camadas superiores, independentemente da tecnologia de
 acesso. Comunicações em andamento podem ser interrompidas de forma brusca e
 novas comunicações podem ser inviabilizadas quando um terminal móvel se
@@ -27,19 +27,18 @@ inviabiliza, a priori, a utilização de um endereço IP da rede de origem, dado
 que os protocolos de roteamento subjacentes não podem atualizar as rotas em
 tempo real, evidenciando um problema de escalabilidade.
 
-Uma série de propostas da IETF vem de encontro a este problema. Estas propostas
-orbitam em torno do protocolo IP móvel, nas versões 4 e 6. O estudo e teste
+Uma série de propostas da \ac{IETF} vem de encontro a este problema. Estas 
+propostas orbitam em torno do \ac{MIP}, nas versões 4 e 6. O estudo e teste
 destes protocolos envolve, normalmente, arranjos relativamente complexos com
 estruturas de rede sem fio além de entidades associadas aos protocolos de
 mobilidade da camada de rede. Esta constatação é um dos fatores primeiros que
 motivaram o desenvolvimento deste trabalho.
 
-
 \section{Objetivos}
 
 O presente trabalho visa o desenvolvimento de uma plataforma para o estudo
 de protocolos de mobilidade na camada de rede, em particular os protocolos
-MIPv6 e HMIPv6.
+\ac{MIPv6} e \ac{HMIPv6}.
 
 Como especificações básicas desta plataforma pode-se enumerar:
 \begin{itemize}
@@ -57,12 +56,12 @@ como protocolos de roteamento dinâmicos;
 \label{ci_s_organizacao}
 
 Este trabalho está organizado da seguinte forma. O capítulo 2 resume os dois
-protocolos de mobilidade de interesse: o protocolo IP móvel versão 6, MIPv6 e
-sua extensão, o protocolo IP móvel hierárquico, HMIPv6. O capítulo 3 apresenta
-a plataforma de mobilidade desenvolvida com apoio de máquinas virtuais. Tendo
-em vista que foram realizadas modificações em um código aberto do MIPv6, para
-que se comportasse tal como o HMIPv6, no capítulo 4 é apresentada uma visão
-geral deste código, bem como as modificações realizadas no mesmo para a
-obtenção do HMIPv6. No capítulo 5 a plataforma de mobilidade é explorada para a
-construção de alguns cenários de mobilidade com o MIPv6 e o HMIPv6. O capítulo
-6 conclui e apresenta as perspectivas futuras de trabalhos usando a plataforma.
+protocolos de mobilidade de interesse: o MIPv6 e sua extensão, o HMIPv6. O
+capítulo 3 apresenta a plataforma de mobilidade desenvolvida com apoio de
+máquinas virtuais. Tendo em vista que foram realizadas modificações em um código
+aberto do MIPv6, para que se comportasse tal como o HMIPv6, no capítulo 4 é
+apresentada uma visão geral deste código, bem como as modificações realizadas no
+mesmo para a obtenção do HMIPv6. No capítulo 5 a plataforma de mobilidade é
+explorada para a construção de alguns cenários de mobilidade com o MIPv6 e o
+HMIPv6. O capítulo 6 conclui e apresenta as perspectivas futuras de trabalhos
+usando a plataforma.
