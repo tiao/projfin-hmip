@@ -1,0 +1,74 @@
+%%%%%%%%%%%%%% Como usar o pacote acronym
+% \ac{acronimo} -- Na primeira vez que for citado o acronimo, o nome completo irá aparecer
+%                  seguido do acronimo entre parênteses. Na proxima vez somente o acronimo
+%                  irá aparecer. Se usou a opção footnote no pacote, entao o nome por extenso
+%                  irá aparecer aparecer no rodapé
+% 
+% \acf{acronimo} -- Para aparecer com nome completo + acronimo
+% \acs{acronimo} -- Para aparecer somente o acronimo
+% \acl{acronimo} -- Nome por extenso somente, sem o acronimo
+% \acp{acronimo} -- igual o \ac mas deixando no plural com S (ingles)
+% \acfp{acronimo}-- 
+% \acsp{acronimo}-- 
+% \aclp{acronimo}-- 
+%%%%%%%% ATENCAO
+% Criei o comando \acfe{}, resultando em: Extenso -- ACRO
+
+\chapter*{Lista de Abreviaturas e Siglas}%
+% \addcontentsline{toc}{chapter}{Lista de Abreviaturas e Siglas}
+
+
+\begin{acronym}
+	\acro{AH}{\eng{Authentication Header}}
+	\acro{ARP}{\eng{Address Resolution Protocol}}
+	\acro{BA}{\eng{Binding Acknowledgement}}
+	\acro{BE}{\eng{Binding Error}}
+	\acro{BGP}{\eng{Border Gateway Protocol}}
+	\acro{BU}{\eng{Binding Update}}
+	\acro{CoA}{\eng{Care-of-Address}}
+	\acro{DAD}{\eng{Duplicate Address Detection}}
+	\acro{DHCPv6}{\eng{Dynamic Host Configuration Protocol version 6}}
+	\acro{ESP}{\eng{Encapsulating Security Payload Header}}
+	\acro{FMIPv6}{\eng{Fast Handovers for Mobile IPv6}}
+	\acro{GPLv2}{\eng{General Public License version 2}}
+	\acro{GUML}{\eng{GUI Management console for User Mode Linux}}
+	\acro{GUML4MIP}{\eng{GUI Management console for User Mode Linux for Mobile IP}}
+	\acro{HMIPv6}{\eng{Hierarchical Mobile Internet Protocol version 6}}
+	\acro{HTTP}{\eng{HyperText Transfer Protocol}}
+	\acro{ICMPv4}{\eng{Internet Control Message Protocol version 4}}
+	\acro{ICMPv6}{\eng{Internet Control Message Protocol version 6}}
+	\acro{IETF}{\eng{Internet Engineering Task Force}}
+	\acro{IGMP}{\eng{Internet Group Management Protocol}}
+	\acro{IP}{\eng{Internet Protocol}}
+	\acro{IPSec}{\eng{Internet Protocol Security}}
+	\acro{IPv4}{\eng{Internet Protocol version 4}}
+	\acro{IPv6}{\eng{Internet Protocol version 6}}
+	\acro{LCoA}{\eng{Link Care-of-Address}}
+	\acro{MAC}{\eng{Media Access Control}}
+	\acro{MAP}{\eng{Mobile Anchor Point}}
+	\acro{MIP}{\eng{Mobile Internet Protocol}}
+	\acro{MIPL}{\eng{Mobile IPv6 for Linux}}
+	\acro{MIPv6}{\eng{ Mobile Internet Protocol version 6}}
+	\acro{MTU}{\eng{Maximum Transmit Unit}}
+	\acro{ND}{\eng{Neighbor Discovery}}
+	\acro{NS}{\eng{Neighbor Solicitation}}
+	\acro{OSPF}{\eng{Open Shortest Path First}}
+	\acro{PPPv6}{\eng{Point to Point Protocol version 6}}
+	\acro{PyGTK}{\eng{Python Gimp Tool Kit}}
+	\acro{QoS}{\eng{Quality of Service}}
+	\acro{RA}{\eng{Router Advertisement}}
+	\acro{RD}{\eng{Router Discovery}}
+	\acro{RADVD}{\eng{Router Advertisement Daemon}}
+	\acro{RCoA}{\eng{Regional Care-of-Address}}
+	\acro{RFC}{\eng{Request For Comments}}
+	\acro{RRP}{\eng{Return Routability Procedure}}
+	\acro{RS}{\eng{Router Solicitation}}
+	\acro{RIP}{\eng{Routing Information Protocol }}
+	\acro{TCP}{\eng{Transmission Control Protocol}}
+	\acro{TCP/IP}{\eng{Transmission Control Protocol over Internet Protocol}}
+	\acro{UML}{\eng{User Mode Linux}}
+	\acro{VLAN}{\eng{Virtual Local Area Networks}}
+\end{acronym}
+\endinput
+
+

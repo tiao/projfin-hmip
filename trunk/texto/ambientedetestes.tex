@@ -29,7 +29,7 @@ dos experimentos.
 Em geral, uma plataforma de testes de mobilidade envolve o uso de redes sem fio.
 No entanto, como o objetivo principal da plataforma é possibilitar o estudo de
 protocolos de camada 3, decidiu-se por construir um ambiente de teste através de
-máquinas virtuais linux em modo usuário - UML \cite{dike2009uml}
+máquinas virtuais \ac{UML} \cite{dike2009uml}
 adaptando os \textit{switches} virtuais para produzir a mobilidade. Desta forma,
 evita-se a complexidade adicional de instalação de hardware para a rede sem
 fio.
@@ -43,9 +43,9 @@ de mobilidade;
 possibilitar o comando de mobilidade;
 \item Ferramentas para estudo dos protocolos: gerador de tráfego, medidor de
 banda e de perda de pacotes;
-\item Protocolos de Mobilidade da Camada 3: instalação, nas UMLs, de uma versão
-do IPv6 móvel, do gerador de mensagens de advertência de roteador
-do IPv6 (RADVD) e de uma versão do HMIPv6. Como será visto adiante, não existe
+\item Protocolos de Mobilidade da Camada 3: instalação, nas \acp{UML}, de uma versão
+do MIPv6, do gerador de mensagens de advertência de roteador
+do IPv6 \ac{RADVD} e de uma versão do HMIPv6. Como será visto adiante, não existe
 uma versão atualizada do protocolo HMIPv6. Parte do trabalho foi dedicada a uma
 extensão do MIPv6 para o HMIPv6;
 \item Outros protocolos e ferramentas de apoio: alguns protocolos e
@@ -63,19 +63,18 @@ discutidos separadamente nos próximos capítulos.
 \subsection{UML - \textit{Linux} em Modo Usuário}
 \label{s_plataforma_uml}
 
-A máquina virtual \textit{Linux} em Modo Usuário (\textit{User Mode Linux} -
-UML) foi escolhida como base para a construção das redes virtuais na plataforma
-de testes. Ela oferece várias possibilidades de construção de redes, além de ser
-incorporada ao \textit{kernel} do Linux e de apresentar um alto desempenho na
-execução de programas. Isto permite iniciar multiplas instâncias UML em uma
-mesma máquina hospedeira e a construção de complexos cenários de rede.
+A máquina virtual UML foi escolhida como base para a construção das redes 
+virtuais na plataforma de testes. Ela oferece várias possibilidades de
+construção de redes, além de ser incorporada ao \textit{kernel} do Linux e de
+apresentar um alto desempenho na execução de programas. Isto permite iniciar
+multiplas instâncias UML em uma mesma máquina hospedeira e a construção de
+complexos cenários de rede.
 
 O Linux executa a máquina UML como um processo comum no sistema. O processo é
 executado em um ambiente isolado protegendo a camada física da máquina
 hospedeira, o que não impõe restrições de uso para a máquina virtual, tornando
 um ambiente excelente para testes \cite{luruo2005vnu}. A figura
-\ref{f_plataforma_uml} mostra o
-funcionamento do Linux em Modo Usuário em uma máquina hospedeira.
+\ref{f_plataforma_uml} mostra o funcionamento da UML em uma máquina hospedeira.
 
 \begin{figure}[!htpb]
     \centering
@@ -170,16 +169,16 @@ Em geral, uma plataforma de testes de mobilidade envolve o uso de redes sem fio,
 contudo os protocolos estudados são em níveis de camada 3 sendo a mudança de
 portas em um \textit{switch} suficiente para verificar boa parte do
 comportamento dos protocolos.  Tornou-se necessário então fazer alterações no
-programa do \textit{uml\_switch}, que é um software livre sobre a licença GPL
-versão 2, escrito na linguagem de programação C. 
+programa do \textit{uml\_switch}, que é um software livre sobre a \ac{GPLv2},
+escrito na linguagem de programação C. 
 
 \subsubsection{O uml\_switch para Mobilidade}
 \label{uml_switch_movel}
 A principal alteração no código fonte do \textit{uml\_switch} foi a inclusão da
 possibilidade de segmentação de redes, permitindo a criação de uma espécie de
-\textit{VLan}. Desta forma é possível realizar a mobilidade dos nós conectados
+\ac{VLAN}. Desta forma é possível realizar a mobilidade dos nós conectados
 ao \textit{switch}. Após a mudança, cada nó conectado ao \textit{switch}
-pertence a uma \textit{VLan} e é possível mover o nó para outra \textit{VLan}.
+pertence a uma VLAN e é possível mover o nó para outra VLAN.
 
 Outra implementação que foi realizada no \textit{uml\_switch} foi a adição de
 uma \textit{thread} que responde um servidor \textit{telnet}, que basicamente
@@ -191,14 +190,12 @@ utilizar-se deste recurso para gerar a interface.
 
 Os comandos que o servidor telnet do uml\_switch pode aceitar são:
 \begin{itemize}
- \item \textit{list}: Lista as portas do switch e as VLANs a elas associadas;
- \item \textit{move} porta vlan: move uma porta do \textit{swicth} para
+ \item \textit{list}: Lista as portas do switch e as \acp{VLAN} a elas associadas;
+ \item \textit{move} porta VLAN: move uma porta do \textit{swicth} para
 uma VLAN;
  \item \textit{quit}: encerra a conexão.
 \end{itemize}
 
-
-%\section{MobUML - }
 
 \section{GUML4MIP - Interface Gráfica de controle de terminais UML para o IP
 Móvel}
@@ -221,8 +218,7 @@ que, em cenários muito complexos, um grande número de janelas
 fossem abertas, diminuindo a produtividade durante sua utilização.
 
 Após algumas pesquisas na \textit{internet} foi encontrado o projeto de código
-aberto ``Interface Gráfica para controle de terminais UML''
-(GUML) \cite{guml}, implementada com a
+aberto \ac{GUML} \cite{guml}, implementada com a
 linguagem de programação \textit{Python} e que já contempla muitos dos recursos
 pretendidos. Decidiu-se fazer alterações no código fonte deste projeto de forma
 a implementar os novos recursos almejados.
@@ -231,8 +227,8 @@ Como citado, apesar de possuir vários recursos, o GUML não fornece suporte a
 configuração de cenários de rede integrado na ferramenta. O seu intuito não é
 ser uma interface para construção de cenários de redes móveis e sim para
 controle de terminais UML. Por esse motivo optou-se fazer uma derivação do
-projeto e criar um outro um chamado ``Interface Gráfica de controle de terminais
-UML para o IP Móvel'' (GUML4MIP), baseado-se no seu código fonte.
+projeto e criar um outro um chamado \ac{GUML4MIP}, baseado-se no seu código
+fonte.
 
 Os principais recursos incorporados ao GUML4MIP, que possibilitam e melhoram 
 o suporte as redes virtuais, são:
@@ -243,9 +239,9 @@ possível especificar:
 \begin{itemize}
  \item A função da máquina UML: um roteador ou um nó hospedeiro;
  \item Endereço IP das interfaces das máquinas UML;
- \item A \textit{VLan} que a interface da máquina UML será atrelada;
+ \item A VLAN que a interface da máquina UML será atrelada;
  \item Serviços adicionais que poderão ser iniciados no \textit{boot} da máquina
-UML. Por exemplo, o \textit{daemon} do \textit{mipl} ou do \textit{radvd};
+UML. Por exemplo, o \textit{daemon} do MIPL ou do RADVD;
 \end{itemize}
  \item Geração automática de \textit{scripts} de configuração de rede;
  \item Roteamento dinâmico utilizando o \textit{Zebra};
@@ -294,8 +290,8 @@ pode acessar o terminal das máquinas virtuais;
   \item[\textit{Uml Switch}] Clicando neste botão, uma nova janela será aberta.
 Na janela do \textit{uml\_switch}, figura \ref{f_plataforma_gswitch}, o usuário 
 pode observar todas as máquinas virtuais conectados a ele, e a qual
-\textit{VLan} cada interface de rede esta associada. Caso o usuário queira
-efetuar alguma mobilidade basta clicar no número da \textit{VLan} a qual queira
+VLAN cada interface de rede esta associada. Caso o usuário queira
+efetuar alguma mobilidade basta clicar no número da VLAN a qual queira
 se associar;
   \item[\textit{Load Scenario}] Por meio deste botão, o usuário busca o
 diretório onde estão os arquivos de configuração de um novo cenário de rede. O
@@ -353,7 +349,7 @@ monitora as conexões no \textit{uml\_switch}, apreentando em uma
 interface gráfica o estado do \textit{switch}. Apartir desta interface p
 ode-se provocar a mobilidade das máquinas UML;
  \item Os recursos do programa são disponibilizadoas ao usuário em uma janela 
-construída em \textit{PyGTK};
+construída em \ac{PyGTK};
  \item Ao utilizar função que permite carregar um novo cenário, através do
 botão \textit{Load Scenario}, o programa encerra os processos das máquinas do 
 cenário anterior e finaliza a conexão com servidor telnet do
@@ -362,9 +358,9 @@ porém, neste caso reiniciam-se todas as etapas.
 \end{enumerate}
 \item[linux.uml:] São os processos (\textit{kernel}) das máquinas UML iniciados
 pelo programa, configuradas conforme seu arquivo de configuração e conectadas em
-sua \textit{VLan}. Seus terminais tornam-se disponíveis na interface;
+sua VLAN. Seus terminais tornam-se disponíveis na interface;
 \item[uml\_switch:] Processo do \textit{uml\_switch} sempre iniciado no começo
-de um novo cenário de rede. Responsável por segmentar a rede em \textit{Vlan's},
+de um novo cenário de rede. Responsável por segmentar a rede em \acp{VLAN},
 entregar os pacotes as portas corretas e responder as requisições da
 sua interface gráfica, via \textit{telnet}.
 \end{description}

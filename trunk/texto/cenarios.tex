@@ -198,9 +198,7 @@ DSTOPT (campo \textit{destination option}).
 \subsection{Descrição da Topologia}
 O primeiro cenário de teste é formado por três redes interligadas entre si e
 cinco nós. A sua topologia pode ser observada na figura \ref{f_cenario1}, onde o
-numero nos balões cinza representam a vlan no \textit{uml-switch}. Os endereços
-atribuídos as interfaces dos nós, durante a realização do cenário, bem como seus
-endereços de hardware, estão disponíveis na tabela \ref{t_addr1}.
+numero nos balões cinza representam a vlan no \textit{uml-switch}.
 
 \begin{figure}[!htpb]
 	\centering
@@ -214,48 +212,6 @@ Na rede com prefixo 2000:a::/64 está o nó correspondente, com quem o nó móvel
 está se comunicando. Na rede com o prefixo 2000:c::/64 está presente um roteador
 (HA) que oferece o serviço de agente domiciliar ao nó móvel. A rede com prefixo
 2000:d::/64 é a rede que o nó móvel deve visitar.
-% 
-% \begin{table}[!htpb]
-% \centering
-% \begin{small}
-%   \setlength{\tabcolsep}{3pt}
-% \begin{tabular}{|c|c|c|c|c||}\hline \hline
-% \textbf{Nó} & \textbf{Interface} & \textbf{MAC} &
-% \textbf{Endereço} & \textbf{Tipo}\\ \hline \hline
-% 
-% % MN
-% & & & 2001:c::2 & Domiciliar (Global) \\ 
-% MN & eth0 & fe:fd:32:ff:42:c9 & 2001:c::fcfd:32ff:feff:42c9 &
-% Auto-configurado\\
-% & & & 2001:d::fcfd:32ff:feff:42c9 & Care-of-address \\
-% & & & fe80::fcfd:32ff:feff:42c9 & Local \\ \hline
-% 
-% % CN
-% CN & eth0 & fe:fd:65:34:8a:44 & 2001:a::2 & Global \\
-% & & & fe80::fcfd:65ff:fe34:8a44 & Local \\ \hline
-% 
-% % HA
-% & eth0 & fe:fd:b0:a2:9a:4c & 2001:b::2 & Global \\ 
-% HA & & & fe80::fcfd:b0ff:fea2:9a4c & Local \\
-% & eth1 & fe:fd:f5:49:32:bc & 2001:c::1 & Global \\ 
-% & & & fe80::fcfd:f5ff:fe49:32bc & Local \\ \hline
-% 
-% %AR1
-% & eth0 & fe:fd:0d:0c:a2:22 & 2001:b::1 & Global \\ 
-% RA1 & & & fe80::fcfd:dff:fe0c:a222 & Local \\ 
-% & eth1 & fe:fd:ee:57:0a:cd & 2001:a::1 & Global \\
-% & & & fe80::fcfd:eeff:fe57:acd & Local \\ \hline
-% 
-% %AR2
-% & eth0 & fe:fd:9f:3d:cf:8a & 2000:b::3 & Global \\ 
-% RA2 & & & fe80::fcfd:9fff:fe3d:cf8a & Local \\ 
-% & eth1 & fe:fd:71:bf:e3:e1 & 2000:d::1 & Global \\
-% & & & fe80::fcfd:71ff:febf:e3e1 & Local \\ \hline
-% \end{tabular} 
-% \end{small}
-% \caption{Endereços do Cenário 1}
-% \label{t_addr1}
-% \end{table} 
 
 \subsection{Variação 1: com Tunelamento Bidirecional e Sem Otimização de Rota}
 
