@@ -84,7 +84,7 @@ diretamente ao nó móvel.
 
 Duas formas de comunicação podem ser realizadas entre o nó móvel e o
 correspondente (ver figura \ref{f_mipv6}). No primeiro modo, com tunelamento
-bidirecional, todos os pacotes são encaminhados via Agente Domiciliar e o o nó
+bidirecional, todos os pacotes são encaminhados via Agente Domiciliar e o nó
 correspondente não precisa ter suporte ao MIPv6. Os pacotes com origem no nó
 correspondente são roteados para o Agente Domiciliar e este envia ao nó móvel
 via túnel. No sentido contrário, pacotes enviados pelo nó móvel, com destino ao
@@ -113,10 +113,11 @@ um ou mais CoA. Ele poderá usar qualquer um destes como
 endereço fonte para se comunicar. Com o intuito de manter a trasparência para
 as camadas superiores à de rede, o nó móvel irá utilizar geralmente seu endereço
 domiciliar. É interessante observar que os pacotes enviados pelo nó móvel
-deverão ser modificados, inserindo-se o CoA no campo
-endereço de origem e, movendo o endereço domiciliar para o cabeçalho 
-de mobilidade \textit{home address}. No receptor do pacote, estas alterações
-devem ser revertidas para manter a transparência para as camadas superiores.
+deverão ser modificados, inserindo-se o CoA no campo endereço de origem e 
+movendo o endereço domiciliar para campo \textit{home address}, em um novo tipo
+de cabeçalho de extenção de roteamento\cite{koodli2007min}.
+No receptor do pacote, estas alteraçõesdevem ser revertidas para manter a 
+transparência para as camadas superiores.
 
 \subsection{O Procedimento de Handover no MIPv6}
 \label{sub_mipv6_handover}
@@ -212,23 +213,23 @@ As mensagens enviadas utilizando o cabeçalho de mobilidade são as seguintes:
  \item \textbf{\textit{Binding Refresh Request} (BRR)}: mensagem enviada
 pelos nós correspondentes ao nó móvel, para requisitar a atualização do registro
 de mobilidade;
- \item \textbf{\textit{Home Test Init} (HoTI)}: mensagem enviada pelo nó móvel
+ \item \textbf{\ac{HoTI}}: mensagem enviada pelo nó móvel
 para o nó correspondente, via agente domiciliar, utilizada para iniciar o
-procedimento de \textit{Return Routability}. Requisita o \textit{home keygen
+procedimento de \acf{RRP}. Requisita o \textit{home keygen
 token}. utilizado pelo nó móvel para gerar a chave \textit{Kbm};
- \item \textbf{\textit{Care-of Test Init} (CoTI)}: mensagem envianda pelo nó
+ \item \textbf{\ac{CoTI}}: mensagem envianda pelo nó
 móvel para o nó correspondente, pertencente ao processo de
 \textit{Return Routability}. Requisita o \textit{care-of keygen token} utilizado
 pelo nó móvel para gerar a chave \textit{Kbm};
- \item \textbf{\textit{Home Test} (HOT)}: mensagem em resposta ao HoTI enviada
+ \item \textbf{\ac{HoT}}: mensagem em resposta ao HoTI enviada
 pelo nó correspondente ao nó móvel;
- \item \textbf{\textit{Care-of Test} (COT)}: mensagem em resposta ao CoTI
+ \item \textbf{\ac{CoT}}: mensagem em resposta ao CoTI
 enviada pelo nó correspondente ao nó móvel;
- \item \textbf{Binding Update}: mensagem utilizada para notificar o agente
+ \item \textbf{\acf{BU}}: mensagem utilizada para notificar o agente
 domiciliar e os nós correspondentes, do novo CoA;
- \item \textbf{Binding Acknowledgement}: mensagem utilizada para confirmar o
-\textit{Binding Update};
- \item \textbf{Binding Error}: mensagem enviada pelos nós correspondentes ao nó
+ \item \textbf{\acf{BA}}: mensagem utilizada para confirmar o
+BU;
+ \item \textbf{\acf{BE}}: mensagem enviada pelos nós correspondentes ao nó
 móvel, para informar erro na mobilidade relatada.
 \end{enumerate}
 
