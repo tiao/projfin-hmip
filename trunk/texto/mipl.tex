@@ -30,7 +30,8 @@ parte da linha principal de desenvolvimento, não sendo mais necessário aplicar
 \textit{patchs}.
 
 No que se refere ao HMIPv6, uma implementação foi proposta pela Universidade
-de Monash \cite{moore}, baseando-se no MIPL 0.94 e na versão 2.4 do \textit{kernel linux}.
+de Monash \cite{moore}, baseando-se no MIPL 0.94 e na versão 2.4 do 
+\textit{kernel linux}.
 Também foram realizadas alterações no RADVD 0.7.2 para este divulgar mensagens
 de MAP. Neste momento, o projeto está parado e não atende mais as necessidades
 deste trabalho, pois, ocorreram mudanças significativas no desenvolvimento do
@@ -52,10 +53,10 @@ como umip-0.4. O MIPL é um projeto de codigo aberto sobre a licença GPL versão
 
 O programa é executado na forma de um \textit{daemon} chamado de \textit{mip6d},
 ou seja, um processo executado no segundo plano e que não está associado a um
-terminal controlador \cite{stevens2005unp}. Este mesmo \textit{daemon} desempenha o
-papel de nó móvel, de agente domiciliar e de nó correspondente. A sua função é
-definida em um arquivo de configuração, sendo que todos os nós são em pontencial
-um nó correspondente.
+terminal controlador \cite{stevens2005unp}. Este mesmo \textit{daemon} 
+desempenha o papel de nó móvel, de agente domiciliar e de nó correspondente. A 
+sua função é definida em um arquivo de configuração, sendo que todos os nós são
+em pontencial um nó correspondente.
 
 O foco principal do estudo foi na parte responsável pelo
 funcionamento do nó móvel, pois as principais mudanças do MIPv6 para o HMIPv6 é
@@ -100,7 +101,8 @@ tabelas;
 \end{itemize}
 
 Os soquetes brutos também são utilizados pelo MIPL para permitir a leitura e
-envio de pacotes puramente IP sem a interferência do \textit{kernel}\cite{rfc3542}.
+envio de pacotes puramente IP sem a interferência do \textit{kernel}
+\cite{rfc3542}.
 Em condições normais quando o kernel não entende o campo de protocolo do
 datagrama IP, como por exemplo, os que possuim cabeçalho de mobilidade, eles são
 passados diretamente para um soquete bruto. O único processamento feito pelo
@@ -126,7 +128,7 @@ ser removido, para isso, o \textit{daemon} cria uma tarefa que remove o
 endereço da interface, e a insere em uma fila global de tarefas.
 
 Para inserir tarefas na fila o \textit{daemon} utiliza a função
-\textit{add\_task\_abs}, passando como parâmetro:
+\textit{add\_task\_abs}, passando como parâme-tro:
 \begin{itemize}
  \item o tempo em milisegundos para a execução da tarefa;
  \item ponteiro para função que deve ser chamada quando o tempo da tarefa
@@ -298,7 +300,8 @@ A estrutura contêm:
 \end{itemize}
 
 No processamento da mensagem RA foram adicionados novos eventos de
-movimento:\textbf{ME\_MAP\_NEW}, \textbf{ME\_MAP\_UPDATE} e
+movimento:\\
+\textbf{ME\_MAP\_NEW}, \textbf{ME\_MAP\_UPDATE} e
 \textbf{ME\_MAP\_EXPIRED} Estes eventos tem a função de colher os
 dados que serão utilizados no momento do registro e  manter os dados para o
 funcionamento do protocolo.

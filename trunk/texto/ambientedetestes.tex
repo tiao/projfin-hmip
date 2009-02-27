@@ -15,7 +15,7 @@ mobilidade da camada de rede, em particular o MIPv6 e HMIPv6. Outros protocolos
 poderão ser instalados no futuro;
  \item facilidades para a rápida construção de cenários de rede, sem se ater a
 procedimentos de configuração e instalação de equipamentos de rede sem fio;
-\item facilidades para a rápida instalação da platforma nas máquinas
+\item facilidades para a rápida instalação da plataforma nas máquinas
 hospedeiras.
 \end{itemize}
 
@@ -43,11 +43,11 @@ de mobilidade;
 possibilitar o comando de mobilidade;
 \item Ferramentas para estudo dos protocolos: gerador de tráfego, medidor de
 banda e de perda de pacotes;
-\item Protocolos de Mobilidade da Camada 3: instalação, nas \acp{UML}, de uma versão
-do MIPv6, do gerador de mensagens de advertência de roteador
-do IPv6 \ac{RADVD} e de uma versão do HMIPv6. Como será visto adiante, não existe
-uma versão atualizada do protocolo HMIPv6. Parte do trabalho foi dedicada a uma
-extensão do MIPv6 para o HMIPv6;
+\item Protocolos de Mobilidade da Camada 3: instalação, nas \acp{UML}, de uma 
+versão do MIPv6, do gerador de mensagens de advertência de roteador
+do IPv6 \ac{RADVD} e de uma versão do HMIPv6. Como será visto adiante, não
+existe uma versão atualizada do protocolo HMIPv6. Parte do trabalho foi dedicada
+a uma extensão do MIPv6 para o HMIPv6;
 \item Outros protocolos e ferramentas de apoio: alguns protocolos e
 ferramentas adicionais foram instalados, tais como o protocolos RIP e o
 protocolo OSPF, através do pacote Zebra \cite{quagga}.
@@ -190,7 +190,8 @@ utilizar-se deste recurso para gerar a interface.
 
 Os comandos que o servidor telnet do uml\_switch pode aceitar são:
 \begin{itemize}
- \item \textit{list}: Lista as portas do switch e as \acp{VLAN} a elas associadas;
+ \item \textit{list}: Lista as portas do switch e as \acp{VLAN} a elas 
+associadas;
  \item \textit{move} porta VLAN: move uma porta do \textit{swicth} para
 uma VLAN;
  \item \textit{quit}: encerra a conexão.
@@ -223,8 +224,8 @@ linguagem de programação \textit{Python} e que já contempla muitos dos recursos
 pretendidos. Decidiu-se fazer alterações no código fonte deste projeto de forma
 a implementar os novos recursos almejados.
 
-Como citado, apesar de possuir vários recursos, o GUML não fornece suporte a
-configuração de cenários de rede integrado na ferramenta. O seu intuito não é
+Como citado, apesar de possuir vários recursos, o GUML não fornece suporte para
+configu-ração de cenários de rede integrado na ferramenta. Não é seu intuito
 ser uma interface para construção de cenários de redes móveis e sim para
 controle de terminais UML. Por esse motivo optou-se fazer uma derivação do
 projeto e criar um outro um chamado \ac{GUML4MIP}, baseado-se no seu código
