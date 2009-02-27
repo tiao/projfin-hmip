@@ -50,21 +50,19 @@ conexão de uma sub-rede para outra. O tempo de latência envolvido neste processo
 \begin{enumerate}
 \item \textbf{Detecção de Movimento (\textit{TD})}: Em um cenário real, 
 representa o tempo do \textit{handover} na camada de enlace até o primeiro
-\textit{Router Advertisement}. Na plataforma de testes construída não
-foi simulada a camada enlace e, portanto, não se pode precisar com a exatidão a
-latência envolvida no processo. Porém, para fins de estudo, considerar-se-á o
-tempo entre a entrega do último pacote, de alguma conexão, recebido na rede
-domiciliar ($t0$)e o primeiro \textit{Router Advertisement} na rede
-visitada($t1$).
+RA. Na plataforma de testes construída não foi simulada a camada enlace e,
+portanto, não se pode precisar com a exatidão a latência envolvida no processo.
+Porém, para fins de estudo, considerar-se-á o tempo entre a entrega do último
+pacote, de alguma conexão, recebido na rede domiciliar ($t0$)e o primeiro RA na
+rede visitada ($t1$).
 
 \begin{equation}
  TD = t1 - t0
 \label{eq.td}
 \end{equation}
 
-\item \textbf{Configuração do \textit{Care-of-address} (\textit{TA})}: Tempo
-entre o primeiro \textit{Router Advertisement} e o envio do
-\textit{Binding Update}($t2$).
+\item \textbf{Configuração do CoA (\textit{TA})}: Tempo
+entre o primeiro RA e o envio do BU ($t2$).
 
 \begin{equation}
  TA = t2 -t1
@@ -72,8 +70,7 @@ entre o primeiro \textit{Router Advertisement} e o envio do
 \end{equation}
 
 \item \textbf{Registro com agente domiciliar (\textit{TR})}: Intervalo de tempo
-entre o envio do \textit{Binding Update} ao agente domiciliar e o recebimento do
-\textit{Binding Acknowledgement}($t3$).
+entre o envio do BU ao agente domiciliar e o recebimento do BA($t3$).
 
 \begin{equation}
  TR = t3 - t2
@@ -81,8 +78,7 @@ entre o envio do \textit{Binding Update} ao agente domiciliar e o recebimento do
 \end{equation}
 
 \item \textbf{Otimização de Roteamento (\textit{TO})}: Intervalo de tempo entre
-o envio das mensagens do \textit{Return Routability Procedure}($t4$) e o
-recebimento do \textit{Binding Acknowledgement} do nó correspondente.
+o envio das mensagens do RRP ($t4$) e o recebimento do BA do nó correspondente.
 
 \begin{equation}
  TO = t4 - t3
@@ -127,7 +123,8 @@ fluxo de dados maior do que com as mensagens ICMPv6 e de possibilitar
 uma melhor observação do impacto do protocolo MIPv6 sobre as conexões.
 
 Para realização do teste é iniciado, no nó móvel, um servidor TCP. Este 
-servidor responde a requisição GET do protocolo HTTP, além de ser capaz de gerar
+servidor responde a requisição GET do protocolo \ac{HTTP}, além de ser capaz de
+gerar
 tráfego. Para realizar esta tarrefa é utilizado a ferramenta \textit{netcat6},
 da forma:
 \begin{verbatim}
@@ -166,10 +163,12 @@ eth0 em intervalos de 0.1 segundos.
 
 \subsection{Subsídios para interpretação dos pacotes IPv6 no tcpdump}
 
-Nas listagens do tcpdump, utilizadas na seções que se seguem, os pacotes serão
+Nas listagens do \textit{tcpdump}, utilizadas na seções que se seguem, os
+pacotes serão
 mostrados da seguinte forma:
 
-$<$estampa\_tempo$>$ IP6 ( .. next header $<$tipo\_next\_header$>$ ..) $<$endereço\_fonte$>$ \\ $<$endereço\_destino$>$
+$<$estampa\_tempo$>$ IP6 ( .. next header $<$tipo\_next\_header$>$ ..)
+$<$endereço\_fonte$>$ \\ $<$endereço\_destino$>$
 
 No caso de túneis, onde existe encapsulamento de IP sobre IP, o formato é
 repetido e o campo \textit{next header} do primeiro nível indica que o próximo
@@ -181,14 +180,14 @@ $<$estampa\_tempo$>$ IP6 ( .. next header IPv6 ..)
         IP6 ( .. next header ICMP6 ..) 
         $<$endereço\_fonte$>$ $<$endereço\_destino$>$
 
-É interessante lembrar que os Router Advertisments são mensagens ICMP6, assim
-como os \textit{echo-request} e \textit{echo-reply} produzidos pelo ping. 
+É interessante lembrar que os RA são mensagens ICMP6, assim
+como os \textit{echo-request} e \textit{echo-reply} produzidos pelo ping.
 
-O tcmpdump apresenta os cabeçalhos de mobilidade (BU e BA) com
+O \textit{tcmpdump} apresenta os cabeçalhos de mobilidade (BU e BA) com
 \textit{next-header
-unknown} no caso do BU e de \textit{source routing }no caso do BA. Entretanto, o
+unknown} no caso do BU e de \textit{source routing} no caso do BA. Entretanto, o
 \textit{next-header} é detalhado na sequência mostrando o tipo e eventualmente o
-DSTOPT (campo \textit{destination option}). 
+DSTOPT (campo \textit{destination option}).
 
 
 \section{Cenário 1 - Uso do Protocolo MIPv6}
@@ -197,7 +196,7 @@ DSTOPT (campo \textit{destination option}).
 \subsection{Descrição da Topologia}
 O primeiro cenário de teste é formado por três redes interligadas entre si e
 cinco nós. A sua topologia pode ser observada na figura \ref{f_cenario1}, onde o
-numero nos balões cinza representam a vlan no \textit{uml-switch}.
+numero nos balões cinza representam a VLAN no \textit{uml\_switch}.
 
 \begin{figure}[!htpb]
 	\centering
@@ -205,7 +204,6 @@ numero nos balões cinza representam a vlan no \textit{uml-switch}.
 	\caption{Topologia do Cenário 1}
 	\label{f_cenario1}
 \end{figure}
-
 
 Na rede com prefixo 2000:a::/64 está o nó correspondente, com quem o nó móvel
 está se comunicando. Na rede com o prefixo 2000:c::/64 está presente um roteador
@@ -226,13 +224,12 @@ figura \ref{f_dump_1}. Analisando os dados recolhidos consegue-se observar:
 \end{figure}
 
 \begin{enumerate}
- \item O nó móvel recebe uma mensagem de \textit{Router Advertisement} do 
-roteador de acesso da rede visitada (src=fe80::fcfd:71ff:febf:e3e1), o que
+ \item O nó móvel recebe uma mensagem de RA do
+roteador de acesso da rede visitada (src = fe80::fcfd:71ff:febf:e3e1), o que
 indica que ocorreu mobilidade. Este movimento foi produzido pela comutação
 da vlan 3 para a 4. Antes de realizar o movimento o nó móvel recebia
-\textit{echo request} do nó correspondente (src=2001:a::fcfd:65ff:fe34:8a44) e
- \textit{Router Advertisement} do Agente domiciliar
-(src=fe80::fcfd:f5ff:fe49:32bc);
+\textit{echo request} do nó correspondente (src = 2001:a::fcfd:65ff:fe34:8a44) e
+RA do Agente domiciliar (src = fe80::fcfd:f5ff:fe49:32bc);
  \item O nó móvel realiza o teste de duplicaçãoo de endereco (DAD) do CoA gerado
 com o prefixo da rede visitada (2001:d::fcfd:32ff:feff:42c9);
  \item O nó móvel envia a mensagem de BU para o agente Domiciliar informando o
@@ -363,7 +360,7 @@ no nó móvel e no agente domiciliar, mostradas nas tabelas \ref{t_rule_mn} e
 \textbf{1001}:	& \textbf{from 2001:c::2}  &  \textbf{lookup 252} \\
 1002:	& from fe80::/64 &   lookup main \\
 1002:	& from 2001:d::/64 & lookup main \\
-%1003:	& from 2001:c::2  &  blackhole\\
+1003:	& from 2001:c::2  &  blackhole \\
 32766:	& from all        &  lookup main \\ \hline
 \end{tabular} 
 \end{small}
@@ -443,7 +440,7 @@ figura \ref{f_dump_2}. Analisando os dados recolhidos consegue-se observar:
 
 \begin{enumerate}
 %1
- \item O nó móvel recebe uma mensagem de \textit{Router Advertisement} do 
+ \item O nó móvel recebe uma mensagem de RA do 
 roteador de acesso da rede visitada, o que indica que ocorreu mobilidade. Antes 
 de realizar o movimento o nó móvel respondia um \textit{echo request} do nó 
 correspondente;
@@ -451,7 +448,7 @@ correspondente;
  \item O nó móvel realiza o teste de duplicacao de endereco (DAD) do CoA gerado
 com o prefixo da rede visitada (2001:d::fcfd:32ff:feff:42c9);
 %3
- \item O nó móvel a mensagem de BU para o agente Domiciliar informando o atual 
+ \item O nó móvel a mensagem de BU para o Agente domiciliar informando o atual 
 endereço. Note que o CoA é o endereço fonte do pacote e o HoA é informado na 
 opção DSTOPT;
 %4
@@ -459,7 +456,7 @@ opção DSTOPT;
 %5
  \item O nó movel volta a receber \textit{echo request} do nó correspondente,
 só que ainda através do túnel. A otimização de rota só irá ocorrer após o
-processo de \textit{ruturn routability}. Note os endereços IP fonte e destinos
+processo de RRP. Note os endereços IP fonte e destinos
 deste pacote. O primeiro nível IP do agente domiciliar(2001:c::1) para nó móvel
 (2001:d::fcfd:32ff:feff:42c9). No segundo nível, do nó correspondente
 (2001:a::fcfd:65ff:fe34:8a44).
@@ -516,20 +513,17 @@ componentes (ver figura \ref{f_cenario2}):
 \end{figure}
 
 \begin{itemize}
- \item Rede domiciliar com o prefixo 2001:e::/64 (\textit{Vlan} 1), onde estão o
+ \item Rede domiciliar com o prefixo 2001:d::/64 (VLAN 4), onde estão o
 agente domiciliar (HA) e o nó móvel (MN), no início do teste;
- \item Rede com o prefixo 2001:a::/64 (\textit{Vlan} 5), onde estão presentes um
-roteador de acesso (RA1) e o nó correspondente (CN). Este último irá se
+ \item Rede com o prefixo 2001:a::/64 (VLAN 1), onde estão presentes um
+roteador de acesso (AR1) e o nó correspondente (CN). Este último irá se
 comunicar com o nó móvel durante o teste;
- \item Um domínio formado pelo MAP1,que executa o \textit{daemon} MIPL na função
-de agente domiciliar, e um roteador de acesso (RA2). Neste domínio
-estão as sub-redes com prefixos: 2001:c::/64 (\textit{Vlan} 3) e 2001:f::/64
-(\textit{Vlan} 6);
- \item Um domínio formado pelo MAP2, que executa o \textit{daemon} MIPL na
-função de agente domiciliar, e dois roteadores de acesso (RA3 e RA4), que
+ \item Um domínio formado pelo roteador MAP, que executa o \textit{daemon} MIPL
+na
+função de agente domiciliar, e dois roteadores de acesso (AR2 e AR3), que
 possibilitam o teste de mobilidade em um mesmo domínio. Fazem parte
-deste domínio as sub-redes com os prefixos: 2001:d::/64 (\textit{Vlan} 4),
-2001:10::/64 (\textit{Vlan} 7) e 2001:11::/64 (\textit{Vlan} 8).
+deste domínio as sub-redes com os prefixos: 2001:c::/64 (VLAN 3),
+2001:e::/64 (VLAN 5) e 2001:f::/64 (VLAN 6).
 \end{itemize}
 
 Durante a execução do cenário:
@@ -537,13 +531,9 @@ Durante a execução do cenário:
  \item O nó móvel iniciará na rede domiciliar se comunicando via \textit{ping6}
 com o nó correspondente.
  \item Uma situação de mobilidade será ocasionada e o nó irá migrar para a
-\textit{Vlan} 7, domínio do MAP2, caracterizando uma mobilidade global.
- \item Na segunda situação de mobilidade o nó irá migrar para a \textit{Vlan} 8
+VLAN 5, domínio do MAP, caracterizando uma mobilidade global.
+ \item Na segunda situação de mobilidade o nó irá migrar para a VLAN 6
 caracterizando uma mobilidade local.
- \item Neste cenário, uma mobilidade global do domínio do MAP2 para o domínio do
-MAP1 também é possível (\textit{Vlan} 6). Neste caso, um novo registro como o
-Agente Domiciliar é necessário. No entanto, esta operação não será explorada
-aqui.
 \end{enumerate}
 
 \subsection{Análise da Troca de Mensagens}
@@ -562,33 +552,36 @@ os dados coletados com a ferramenta \textit{tcpdump} estão disponíveis na figura
 
 \begin{enumerate}
  \item Inicialmente o nó móvel está na sua rede domiciliar recebendo 
-\textit{echo request}s do nó correspondente (não mostrados) e mensagens RA do
+\textit{echo request}s do nó correspondente e mensagens RA do
 agente domiciliar. Pode-se evidenciar este fato pelo campo
 src=fe80::fcfd:f5ff:fe49:32bc do RA que é o endereço link local do agente
 domiciliar. A mensagem 1 evidencia a mobilidade do nó móvel pois ele passa a
-receber mensagens RA do roteador de acesso RA3 (src= ??, endereço link local de
-AR3) com a opção de MAP propagada pelo MAP2. Esta opção não é mostrada pelo
-tcpdump. Com este RA o nó móvel forma os endereços LCoA() e RCoA();
- \item O nó móvel realiza o teste de duplicação de endereço (DAD) do LCoA
-gerado com o prefixo da rede visitada (endereço ); 
- \item O nó móvel envia a mensagem de BU para o MAP2 (dst=) informando a dupla
+receber mensagens RA do roteador de acesso AR2 (src=fe80::fcfd:71ff:febf:e3e1,
+endereço link local de AR2) com a opção de MAP propagada pelo roteador MAP.
+Esta opção não é mostrada pelo tcpdump. Com este RA o nó móvel forma os
+endereços LCoA(2001:e::fcfd:32ff:feff:42c9) e RCoA(2001:e::fcfd:32ff:feff:42c9);
+ \item O nó móvel realiza o DAD do LCoA
+gerado com o prefixo da rede visitada (endereço fe80::fcfd:32ff:feff:42c9); 
+ \item O nó móvel envia a mensagem de BU para o MAP (dst=2001:c::1) informando a
+dupla
 (LCoA,RCoA). Note que LCoA é o  endereço fonte do pacote e o RCoA é informado
 na opção DSTOPT;
-\item O nó móvel envia a mensagem de BU para o Agente Domiciliar (dst=)
+\item O nó móvel envia a mensagem de BU para o Agente Domiciliar (dst=2001:d::1)
 informando a dupla (RCoA,HoA). Note que RCoA é o endereço fonte do pacote e o
 HoA é informado na opção DSTOPT;
- \item O nó móvel recebe a mensagem de BA do MAP2 como confirmação de registro
+ \item O nó móvel recebe a mensagem de BA do MAP como confirmação de registro
 bem sucedido;
  \item O nó móvel recebe a mensagem de BA do agente domiciliar, como confirmação
-de registro bem sucedido, via MAP2, de forma tunelada. Note no primeiro nível os
-endereços IP do MAP () e IP LCoA(). Na sequência também chega um pacote
-provindo do nó correspondente que, embora não explícito pelo
-tcpdump, provavelmente pertence a um ECHO REQUEST
+de registro bem sucedido, via MAP, de forma tunelada. Note no primeiro nível os
+endereços IP do MAP (2001:d::1) e IP LCoA (2001:e::fcfd:32ff:feff:42c9). Na
+sequência também chega um pacote provindo do nó correspondente que, embora
+não explícito pelo \textit{tcpdump}, provavelmente pertence a um \textit{echo
+request}
 duplamente tunelado. Note os endereços IPs fonte e destino destes pacotes: no
-primeiro nível IP do MAP para IP LCoA (src= e dst) e, no segundo nível, IP do
+primeiro nível IP do MAP para IP LCoA e, no segundo nível, IP do
 Agente domiciliar para IP RCoA;
  \item Envia um \textit{echo reply} ao nó correspondente, com destino ao agente
-domiciliar, com a mensagem tunelada ao nó correspondente, via MAP2.
+domiciliar, com a mensagem tunelada ao nó correspondente, via MAP.
 \end{enumerate}
 
 \subsubsection{Mobilidade Local}
@@ -598,9 +591,9 @@ Por meio delas pode-se observar que:
 
 \begin{enumerate}
  \item É realizada a mobilidade e passa receber mensagens RA do roteador de
-acesso RA4 ainda sobre cobertura do mesmo MAP.
+acesso AR3 ainda sobre cobertura do mesmo MAP.
  \item Realiza o DAD do novo LCoA gerado.
- \item Envia a mensagem de BU para o MAP2 com os seguintes campos:
+ \item Envia a mensagem de BU para o MAP com os seguintes campos:
 \begin{itemize}
  \item Care-of-Address = LCoA;
  \item Endereço domiciliar = RCoA, gerado a partir da opção de MAP da mensagem
@@ -608,9 +601,9 @@ RA.
 \end{itemize}
  Como é uma mobilidade local não é necessário enviar mensagem ao agente 
 domiciliar.
- \item Recebe a mensagem de BA do MAP2 como confirmação de registro bem
+ \item Recebe a mensagem de BA do MAP como confirmação de registro bem
 sucedido.
- \item Recebe um \textit{echo reply} do nó correspondente, via MAP2 com a 
+ \item Recebe um \textit{echo reply} do nó correspondente, via MAP com a 
 mensagem tunelada do agente domiciliar.
 \end{enumerate}
 \begin{figure}[!htpb]
@@ -636,7 +629,7 @@ considerações sobre as regras e tabelas de roteamento do cenário 2:
 \textbf{Destino} & \textbf{Via} & \textbf{Proximo
 salto}\\ \hline \hline
 2001:a::fcfd:65ff:fe34:8a44 & ip6tnl1 & 2001:a::fcfd:65ff:fe34:8a44 \\
-2001:e::1                   & ip6tnl1 & 2001:e::1\\
+2001:d::1                   & ip6tnl1 & 2001:d::1\\
 default                     & ip6tnl1 & :: \\ \hline
 \end{tabular} 
 \end{small}
@@ -652,7 +645,7 @@ default                     & ip6tnl1 & :: \\ \hline
 \begin{tabular}{|c|c|c|c||}\hline \hline
 \textbf{Destino} & \textbf{Via} & \textbf{Proximo
 salto} \\ \hline \hline
-2001:d::::fcfd:32ff:feff:42c9 & ip6tnl2		  & :: \\
+2001:d::fcfd:32ff:feff:42c9 & ip6tnl2		  & :: \\
 2001:e::2	          & ip6tnl1		  & :: \\
 2001:10::/64              & eth0		  & :: \\
 default		          & eth0	          & fe80::fcfd:53ff:fe16:31aa \\
@@ -678,21 +671,25 @@ segunda situação de mobilidade para o roteador AR4;
 \end{itemize}
 
 \subsection{Detalhes da Formação de Túneis}
-Os detalhes da formação dos túneis do cenário 2 diferem um pouco do cenário 1,
-estas alterações feitas pela implementação são responsáveis pelo funcionamento
-do HMIPv6. Nas tabelas \ref{t_tun_inter} e \ref{t_tun_intra} é possível ver os
-túneis presentes no nó móvel após as mobilidades global e local. As principais
-diferenças do cenário 1 são:
+Os detalhes da formação dos túneis do cenário 2 diferem um pouco do cenário 1 a
+implementação do HMIPv6 é a responsável. Nas tabelas \ref{t_tun_inter} e
+\ref{t_tun_intra} é possível ver os túneis presentes no nó móvel após as
+mobilidades global e local. As principais diferenças do cenário 1 são:
 
 \begin{itemize}
- \item a criação do túnel entre o nó móvel e o MAP, com os pontos finais sendo o
-LCoA e o endereço do MAP2;
- \item a alteração dos pontos finais do túnel entre o nó móvel e agente
-domiciliar, RCoA e endereço agente domciliar, e a interface que este túnel
-está ligado agora é o túnel entre nó móvel e MAP.
+ \item a criação do túnel (ip6tnl2) entre o LCoA do nó móvel 
+(2001:e::fcfd:32ff:feff:42c9) e o MAP (2001:c::1). Este túnel é necessário, pois
+os pacotes oriundos do Agente domiciliar serão endereçados agora ao
+RCoA(2001:c::fcfd:32ff:feff:42c9). Como há no MAP um registro do LCoA-RCOA, este
+túnel passa a encaminhar os pacotes do HA ao nó móvel;
+ \item para que os pacotes vindos via MAP destinados ao endereço domiciliar 
+(2001:d::2) sejam entregues ao nó móvel é necessário a alteração dos pontos
+finais do túnel entre o nó móvel e o Agente domiciliar, para o RCoA e o endereço
+do agente domciliar, e a interface que este túnel está ligado agora deve ser o
+outro túnel criado entre nó móvel e o MAP.
 \end{itemize}
 
-Os túneis dos MAP's e agente domiciliar se mantém iguais aos de um cenário
+Os túneis dos MAP e agente domiciliar se mantém iguais aos de um cenário
 rodando o MIPv6.
 
 \begin{table}[!htpb]
@@ -702,9 +699,9 @@ rodando o MIPv6.
 \begin{tabular}{|c|c|c|c|c||}\hline \hline
 \textbf{Nome} & \textbf{Remoto} & \textbf{Local} & 
 \textbf{Interface} \\ \hline \hline
-ip6tnl1 & 2001:e::1 & 2001:d::fcfd:32ff:feff:42c9 & ip6tnl2 \\
+ip6tnl1 & 2001:d::1 & 2001:c::fcfd:32ff:feff:42c9 & ip6tnl2 \\
  \hline
-ip6tnl2 & 2001:d::1 & 2001:10::fcfd:32ff:feff:42c9 & eth0  \\ \hline
+ip6tnl2 & 2001:c::1 & 2001:e::fcfd:32ff:feff:42c9 & eth0  \\ \hline
 \end{tabular}
 \end{small}
 \caption{Cenário 2: Túneis Mobilidade Global}
@@ -713,7 +710,8 @@ ip6tnl2 & 2001:d::1 & 2001:10::fcfd:32ff:feff:42c9 & eth0  \\ \hline
 
 Após a mobilidade local verificamos que os dois túneis (ver \ref{t_tun_intra})
 continuam presentes no nó móvel. Porém, o ponto local do túnel \textit{ip6tnl2}
-foi alterado para o novo LCoA gerado na sub-rede do RA4.
+foi alterado para o novo LCoA (2001:f::fcfd:32ff:feff:42c9) gerado na sub-rede
+do AR3.
 
 \begin{table}[!htpb]
 \centering
@@ -722,9 +720,9 @@ foi alterado para o novo LCoA gerado na sub-rede do RA4.
 \begin{tabular}{|c|c|c|c|c||}\hline \hline
 \textbf{Nome} & \textbf{Remoto} & \textbf{Local} & 
 \textbf{Interface} \\ \hline \hline
-ip6tnl1 & 2001:e::1 & 2001:d::fcfd:32ff:feff:42c9 & ip6tnl2 \\
+ip6tnl1 & 2001:d::1 & 2001:c::fcfd:32ff:feff:42c9 & ip6tnl2 \\
  \hline
-ip6tnl2 & 2001:d::1 & 2001:11::fcfd:32ff:feff:42c9 & eth0  \\ \hline
+ip6tnl2 & 2001:c::1 & 2001:f::fcfd:32ff:feff:42c9 & eth0  \\ \hline
 \end{tabular}
 \end{small}
 \caption{Cenário 2: Túneis Mobilidade Local}
@@ -782,7 +780,7 @@ Na tabela \ref{t_handover}, encontram-se os tempos das fases do processo de
 
 Algumas tentativas podem ser feitas para tentar diminuir a latência do
 \textit{handover} nas fases de detecção de movimento e de configuração do
-\textit{care-of-address}.
+CoA.
 
 \begin{figure}[!htpb]
 	\centering
@@ -793,7 +791,7 @@ Advertisement}}
 \end{figure}
 
 Na tentativa de diminuir o tempo da fase de detecção de movimento, podemos
-diminuir o intervalo entre as mensagens de \textit{Router Advertisement} do
+diminuir o intervalo entre as mensagens de RA do
 roteador presente na rede que irá ser visitada pelo nó móvel. Pois, é por meio
 desta mensagem que o nó móvel detecta o movimento e desencadeia o processo de
 registro.
@@ -804,19 +802,18 @@ estudado foi repetido variando o intervalo entre as mensagens de
 \ref{f_radvd}.
 
 Com os dados levantados, é possível perceber que o intervalo entre as
-mensagens de \textit{Router Advertisement} esta diretamente ligado com a perda
+mensagens de RA esta diretamente ligado com a perda
 de pacotes durante o \textit{handover}. Porém, esta não é uma boa prática para
 tentar amenizar a latência do handover, pois um numero muito grande de mensagen
 \textit{multicasting} inundaria a rede prejudicando a perfomance principalmente
 em redes sem fio.
 
-No processo de formação de um novo \textit{care-of-address} o DAD é necessário
+No processo de formação de um novo CoA o DAD é necessário
 para se certificar que o endereço formado é exclusivo. Para o teste ser bem
-sucedido nenhum nó vizinho deve enviar um \textit{Neighbor Advertisement}, em
-resposta ao teste, ou \textit{Neighbor Solicitation}, como o mesmo endereço em
+sucedido nenhum nó vizinho deve enviar um \ac{NA}, em
+resposta ao teste, ou NS, como o mesmo endereço em
 questão, em um período de \textit{1000ms} segundo a RFC 2462 \cite{rfc2462}.
-Este tempo de espera compromete a fase de configuração do
-\textit{care-of-address}.
+Este tempo de espera compromete a fase de configuração do CoA.
 
 \begin{figure}[!htpb]
 	\centering
@@ -828,16 +825,16 @@ intervalo de RA}
 
 Existe uma variável chamada \textit{dad\_transmits} no \textit{kernel} do Linux
 que é usada para configurar o DAD em um nó. Com a intenção de diminuir a
-latência na fase de configuração do \textit{care-of-address}, foi configurado a
+latência na fase de configuração do CoA, foi configurado a
 variável com o valor 0, isso significa que o procedimento de DAD é cancelado, e
-foi alterado o valor do intervalo das mensagens de \textit{Router Advertisement}
+foi alterado o valor do intervalo das mensagens de RA
 no roteador de acesso da rede visitada para 0.03 segundos. Então foi repetido o
 teste. O resultado pode ser observado na figura \ref{f_banda2}.
 
 Apartir, deste teste é possível perceber uma queda de 3 segundos para
 aproximadamente 1 segundo no tempo do \textit{handover} com as mudanças
 realizadas. Entretanto há um protocolo dedicado a acelerar o processo de
-handover o \textit{Fast Handover} MIPv6. A idéia do FMIPv6 é providenciar
+handover o \ac{FMIPv6}. A idéia do FMIPv6 é providenciar
 informação relativa à camada de rede, com o objetivo de prever ou responder
 prontamente a um evento de handover \cite{rfc4068}.
 
@@ -853,7 +850,8 @@ perfeito funcionamento do MIPv6, ocorreram algumas perdas de pacotes, mas o nó
 móvel conseguiu continuar sendo alcançado pelo seu endereço domiciliar mesmo não
 estando em sua rede domiciliar.
 
-Na realização do segundo cenário, foi possível verificar minimamente o funcionamento
+Na realização do segundo cenário, foi possível verificar minimamente o
+funcionamento
 do HMIPv6, claro que os problemas ainda existentes na implementação não
 permitiram comprovar uma melhora no \textit{handover}. Porém, pode-se ver um
 avanço já que não tinhamos nenhuma versão recente deste protocolo.
