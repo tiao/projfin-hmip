@@ -120,7 +120,7 @@ mn# tcpdump -vvv
 \end{verbatim}
 
 Outro procedimento de teste, que é eventualmente realizado durante a execução
-dos cenários, é uma conexão utilizando o protocolo da camada transporte TCP.
+dos cenári-os, é uma conexão utilizando o protocolo da camada transporte TCP.
 Tal teste visa comprovar a transparência do processo de
 mobilidade para as camadas superiores à de rede, além de permitir gerar um
 fluxo de dados maior do que com as mensagens ICMPv6 e de possibilitar
@@ -169,8 +169,7 @@ eth0 em intervalos de 0.1 segundos.
 Nas listagens do tcpdump, utilizadas na seções que se seguem, os pacotes serão
 mostrados da seguinte forma:
 
-$<$estampa\_tempo$>$ IP6 ( .. next header $<$tipo\_next\_header$>$ ..) 
-          $<$endereço\_fonte$>$ $<$endereço\_destino$>$
+$<$estampa\_tempo$>$ IP6 ( .. next header $<$tipo\_next\_header$>$ ..) $<$endereço\_fonte$>$ \\ $<$endereço\_destino$>$
 
 No caso de túneis, onde existe encapsulamento de IP sobre IP, o formato é
 repetido e o campo \textit{next header} do primeiro nível indica que o próximo
@@ -485,8 +484,8 @@ correspondente, não passando pelo agente domiciliar.
 \textit{return routability}.
 %11
  \item O nó móvel recebe uma mensagem de \textit{echo request}, endereçada ao 
-CoA, não passando mais pelo agente domiciliar. Note a opção DSTOPT que trás o
-endereço domiciliar(2001:c::2) do nó móvel.
+CoA, não passando mais pelo agente domiciliar. Note que a opção DSTOPT que trás
+o endereço domiciliar (2001:c::2) do nó móvel.
 
 \end{enumerate}
 
@@ -854,10 +853,9 @@ perfeito funcionamento do MIPv6, ocorreram algumas perdas de pacotes, mas o nó
 móvel conseguiu continuar sendo alcançado pelo seu endereço domiciliar mesmo não
 estando em sua rede domiciliar.
 
-Na realização do cenário 2 foi possível verificar minimamente o funcionamento
-do 
-HMIPv6, claro que os problemas ainda existentes na implementação não permitiram
-comprovar uma melhora no \textit{handover}. Porém, pode-se ver um
+Na realização do segundo cenário, foi possível verificar minimamente o funcionamento
+do HMIPv6, claro que os problemas ainda existentes na implementação não
+permitiram comprovar uma melhora no \textit{handover}. Porém, pode-se ver um
 avanço já que não tinhamos nenhuma versão recente deste protocolo.
 
 Com a realização dos cenários é possível verificar que o \textit{handover} é o
