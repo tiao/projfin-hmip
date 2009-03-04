@@ -52,7 +52,7 @@ representa o tempo do \textit{handover} na camada de enlace até o primeiro
 RA. Na plataforma de testes construída não foi simulada a camada enlace e,
 portanto, não se pode precisar com a exatidão a latência envolvida no processo.
 Porém, para fins de estudo, considerar-se-á o tempo entre a entrega do último
-pacote, de alguma conexão, recebido na rede domiciliar ($t0$)e o primeiro RA na
+pacote, de alguma conexão, recebido na rede domiciliar ($t0$) e o primeiro RA na
 rede visitada ($t1$).
 
 \begin{equation}
@@ -135,8 +135,8 @@ Esta linha significa:
  \item[echo ``200 OK'' $>$ header:] cria um cabeçalho HTTP com a mensagem ``200 
 OK'', para responder as requisições ao servidor;
  \item[nc6 -l -p 80:] inicia um soquete TCP que (-l) escuta a (-p 80) porta 80;
- \item[cat header /dev/zero:] concatena para a entrada padrão do servidor o
-arquivo contendo a mensagem HTTP e o dispositivo caracter /dev/zero que é
+ \item[cat header \texttt{/dev/zero}:] concatena para a entrada padrão do servidor o
+arquivo contendo a mensagem HTTP e o dispositivo caracter \texttt{/dev/zero} que é
 responsável por gerar o tráfego.
  \end{description}
 
@@ -160,11 +160,10 @@ taxa é limitada (--limit-rate=1M) para 1MBps;
 eth0 em intervalos de 0.1 segundos.
 \end{itemize}
 
-\subsection{Subsídios para interpretação dos pacotes IPv6 no tcpdump}
+\subsection{Subsídios para interpretação dos pacotes IPv6 no \textit{tcpdump}}
 
 Nas listagens do \textit{tcpdump}, utilizadas na seções que se seguem, os
-pacotes serão
-mostrados da seguinte forma:
+pacotes serão mostrados da seguinte forma:
 
 $<$estampa\_tempo$>$ IP6 ( .. next header $<$tipo\_next\_header$>$ ..)
 $<$endereço\_fonte$>$ \\ $<$endereço\_destino$>$
@@ -180,13 +179,13 @@ $<$estampa\_tempo$>$ IP6 ( .. next header IPv6 ..)
         $<$endereço\_fonte$>$ $<$endereço\_destino$>$
 
 É interessante lembrar que os RA são mensagens ICMP6, assim
-como os \textit{echo-request} e \textit{echo-reply} produzidos pelo ping.
+como os \textit{echo request} e \textit{echo reply} produzidos pelo 
+\textit{ping6}.
 
-O \textit{tcmpdump} apresenta os cabeçalhos de mobilidade (BU e BA) com
-\textit{next-header
-unknown} no caso do BU e de \textit{source routing} no caso do BA. Entretanto, o
-\textit{next-header} é detalhado na sequência mostrando o tipo e eventualmente o
-DSTOPT (campo \textit{destination option}).
+O \textit{tcpdump} apresenta os cabeçalhos de mobilidade (BU e BA) com
+\textit{next-header unknown} no caso do BU e de \textit{source routing}
+no caso do BA. Entretanto, o \textit{next-header} é detalhado na sequência
+mostrando o tipo e eventualmente o DSTOPT (campo \textit{destination option}).
 
 
 \section{Cenário 1 - Uso do Protocolo MIPv6}
@@ -246,7 +245,7 @@ móvel (2001:d::fcfd:32ff:feff:42c9). No segundo nível, do nó correspondente
 
 Após o nó móvel deixar a rede domiciliar, podemos constatar mudanças nas tabelas
 de roteamento do nó móvel e do agente domiciliar, que são mostradas nas 
-respectivas tabelas \ref{t_rot_mn1} e \ref{t_rot_ha1}.
+respectivas tabelas \ref{t_rot_ha1} e \ref{t_rot_mn1}.
 
 \begin{table}[!htpb]
 \centering
@@ -306,7 +305,7 @@ Desde as versões do \textit{kernel linux} 2.x pode-se ter múltiplas tabelas
 de roteamento no kernel. Estas tabelas são identificadas por um número variando
 de 1 a 255 ou por um nome de acordo com o arquivo \texttt{/etc/iproute2/rt\_tables}.
 Com novas tabelas pode-se criar uma estrutura flexível para implementar uma
-Politica de Roteamento\cite{lyra:crl}.
+Politica de Roteamento \cite{lyra:crl}.
 
 Existem três tabelas que são criadas pelo \textit{kernel}. A \textit{local}(255), é uma tabela de 
 roteamento especial mantida pelo kernel, onde usuários não podem adicionar novas
@@ -338,7 +337,7 @@ default                     & ip6tnl1 & ::        & \\ \hline
 
 No agente domiciliar é adicionada uma rota na tabela 252, para que os pacotes 
 com destino ao nó móvel(2001:c::2) e origem no agente domiciliar(2001:c::1) sejam
-encaminhados via eth0.
+encaminhados via eth1 para a rede visitada.
 
 \begin{table}[!htpb]
 \centering
@@ -353,7 +352,6 @@ encaminhados via eth0.
 \caption{Tabela de Roteamento 252 do agente domiciliar}
 \label{t_route_252_ha}
 \end{table}
-
 
 O Banco de Dados da Política de Roteamento ou \ac{RPDB} 
 controla a ordem na qual o \textit{kernel} faz sua busca através das tabelas de roteamento.
@@ -533,8 +531,7 @@ agente domiciliar (HA) e o nó móvel (MN), no início do teste;
 roteador de acesso (AR1) e o nó correspondente (CN). Este último irá se
 comunicar com o nó móvel durante o teste;
  \item Um domínio formado pelo roteador MAP, que executa o \textit{daemon} MIPL
-na
-função de agente domiciliar, e dois roteadores de acesso (AR2 e AR3), que
+na função de agente domiciliar, e dois roteadores de acesso (AR2 e AR3), que
 possibilitam o teste de mobilidade em um mesmo domínio. Fazem parte
 deste domínio as sub-redes com os prefixos: 2001:c::/64 (VLAN 3),
 2001:e::/64 (VLAN 5) e 2001:f::/64 (VLAN 6).
@@ -545,7 +542,7 @@ Durante a execução do cenário:
  \item O nó móvel iniciará na rede domiciliar se comunicando via \textit{ping6}
 com o nó correspondente.
  \item Uma situação de mobilidade será ocasionada e o nó irá migrar para a
-VLAN 5, domínio do MAP, caracterizando uma mobilidade global.
+VLAN 5, domínio do MAP1, caracterizando uma mobilidade global.
  \item Na segunda situação de mobilidade o nó irá migrar para a VLAN 6
 caracterizando uma mobilidade local.
 \end{enumerate}
@@ -686,24 +683,24 @@ segunda situação de mobilidade para o roteador AR4;
 
 \subsection{Detalhes da Formação de Túneis}
 Os detalhes da formação dos túneis do cenário 2 diferem um pouco do cenário 1, a
-imple-mentação do HMIPv6 é a responsável. Nas tabelas \ref{t_tun_inter} e
+implementação do HMIPv6 é a responsável. Nas tabelas \ref{t_tun_inter} e
 \ref{t_tun_intra} é possível ver os túneis presentes no nó móvel após as
 mobilidades global e local. As principais diferenças do cenário 1 são:
 
 \begin{itemize}
  \item a criação do túnel (ip6tnl2) entre o LCoA do nó móvel 
-(2001:e::fcfd:32ff:feff:42c9) e o MAP (2001:c::1). Este túnel é necessário, pois
+(2001:e::fcfd:32ff:feff:42c9) e o MAP1 (2001:c::1). Este túnel é necessário, pois
 os pacotes oriundos do Agente domiciliar serão endereçados agora ao
-RCoA(2001:c::fcfd:32ff:feff:42c9). Como há no MAP um registro do LCoA-RCOA, este
+RCoA(2001:c::fcfd:32ff:feff:42c9). Como no MAP1 há uma associação LCoA-RCOA, este
 túnel passa a encaminhar os pacotes do HA ao nó móvel;
- \item para que os pacotes vindos via MAP destinados ao endereço domiciliar 
+ \item para que os pacotes vindos via MAP1 destinados ao endereço domiciliar 
 (2001:d::2) sejam entregues ao nó móvel é necessário a alteração dos pontos
 finais do túnel entre o nó móvel e o Agente domiciliar, para o RCoA e o endereço
-do agente domciliar, e a interface que este túnel está ligado agora deve ser o
-outro túnel criado entre nó móvel e o MAP.
+do agente domiciliar, e a interface que este túnel está ligado agora deve ser o
+outro túnel criado entre nó móvel e o MAP1.
 \end{itemize}
 
-Os túneis dos MAP e agente domiciliar se mantém iguais aos de um cenário
+Os túneis dos MAP1 e agente domiciliar se mantém iguais aos de um cenário
 rodando o MIPv6.
 
 \begin{table}[!htpb]
@@ -725,7 +722,7 @@ ip6tnl2 & 2001:c::1 & 2001:e::fcfd:32ff:feff:42c9 & eth0  \\ \hline
 Após a mobilidade local verificamos que os dois túneis (ver \ref{t_tun_intra})
 continuam presentes no nó móvel. Porém, o ponto local do túnel \textit{ip6tnl2}
 foi alterado para o novo LCoA gerado (2001:f::fcfd:32ff:feff:42c9) na sub-rede
-do AR3.
+do AR4.
 
 \begin{table}[!htpb]
 \centering
@@ -744,15 +741,15 @@ ip6tnl2 & 2001:c::1 & 2001:f::fcfd:32ff:feff:42c9 & eth0  \\ \hline
 \end{table}
 
 \section{Análise dos Tempos de \textit{Handover}}
-O tempo do handover é um dos maiores problemas do MIPv6, esta seção do trabalho
-pretende fazer uma análise deste processo apontar as causas e possíveis
-soluções. Como base para estudo dos tempos de \textit{handover} o cenário 1 com
-tunelamento bidirecional foi utilizado.
+O tempo do \textit{handover} é um dos maiores problemas do MIPv6, esta seção do trabalho
+pretende fazer uma análise deste processo, apontar as causas e possíveis
+soluções. Como base para estudo dos tempos de \textit{handover} foi utilizado o cenário
+1 com tunelamento bidirecional.
 
 Para verificar a perda na taxa de transmissão em um processo de
 \textit{handover}, foi realizado o segundo teste especificado na seção sobre a
 metodologia na realização dos cenários. Utilizando a ferramenta \textit{GNUPLOT}
-com a saída do teste foi gerado o gráfico que pode ser observado na figura
+com a saída do teste foi gerado um gráfico, que pode ser observado na figura
 \ref{f_banda}.
 
 \begin{figure}[!htpb]
@@ -762,13 +759,13 @@ com a saída do teste foi gerado o gráfico que pode ser observado na figura
 	\label{f_banda}
 \end{figure}
 
-A partir  da figura é possível concluir que cada \textit{handover} é de
+A partir da figura é possível concluir que cada \textit{handover} é de
 aproximadamente 3 segundos, há perdas consideráveis de pacotes que prejudicariam
 muito comunicações interativas como videoconferência e \textit{VoIP}, porém,
 navegação em páginas da \textit{Internet} e visualização de \textit{e-mail} a
 instabilidade é tolerável.
 
-Como cenário estudo foi simulado todos os tempos medidos são estimados. Porém,
+Como o cenário de estudo foi simulado todos os tempos medidos são estimados. Porém,
 segundo algumas bibliografias estudadas que realizaram experimentos fisicamente
 os tempos medidos na simulação estão dentro do esperado.
 
@@ -812,7 +809,7 @@ registro.
 
 Para verificar se há uma melhora no processo de handover. O cenário
 estudado foi repetido variando o intervalo entre as mensagens de
-\textit{Router Advertisement}. O resultado deste teste esta disponível na figura
+RA. O resultado deste teste esta disponível na figura
 \ref{f_radvd}.
 
 Com os dados levantados, é possível perceber que o intervalo entre as
@@ -848,13 +845,13 @@ teste. O resultado pode ser observado na figura \ref{f_banda2}.
 A Partir, deste teste é possível perceber uma queda de 3 segundos para
 aproximadamente 1 segundo no tempo do \textit{handover} com as mudanças
 realizadas. Entretanto há um protocolo dedicado a acelerar o processo de
-handover o \ac{FMIPv6}. A idéia do FMIPv6 é providenciar
+\textit{handover} o \ac{FMIPv6}. A idéia do FMIPv6 é providenciar
 informação relativa à camada de rede, com o objetivo de prever ou responder
-prontamente a um evento de handover \cite{rfc4068}.
+prontamente a um evento de \textit{handover} \cite{rfc4068}.
 
 \section{Conclusões sobre a Análise dos Cenários}
-Com a realização dos experimentos podemos constatar o funcionamento do protocolo
-e perceber continuação da comunicação entre os pontos comunicantes após a
+Com a realização dos experimentos podemos constatar o funcionamento do protocolo,
+perceber continuação da comunicação entre os pontos comunicantes após a
 mobilidade de forma transparente as camadas superiores a de rede, observar todas
 as mensagens trocadas no processo e estimar o tempo de latência com a
 mobilidade.
@@ -865,10 +862,9 @@ móvel conseguiu continuar sendo alcançado pelo seu endereço domiciliar mesmo não
 estando em sua rede domiciliar.
 
 Na realização do segundo cenário, foi possível verificar minimamente o
-funcionamento
-do HMIPv6, claro que os problemas ainda existentes na implementação não
-permitiram comprovar uma melhora no \textit{handover}. Porém, pode-se ver um
-avanço já que não tinhamos nenhuma versão recente deste protocolo.
+funcionamento do HMIPv6, claro que os problemas ainda existentes na implementação
+não permitiram comprovar uma melhora no \textit{handover}. Porém, pode-se ver um
+avanço já que não existe nenhuma versão recente deste protocolo.
 
 Com a realização dos cenários é possível verificar que o \textit{handover} é o
 é o grande problema MIPv6, por isso, a necessidade de outras extensões para
