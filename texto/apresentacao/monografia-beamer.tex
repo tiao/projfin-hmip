@@ -1,0 +1,408 @@
+% Emerson Ribeiro de Mello (emerson_ml@yahoo.com.br)
+\documentclass{beamer}
+%% comente a linha acima e descomente a debaixo para gerar
+%% lâminas para serem impressas
+% \documentclass[handout]{beamer}
+
+% Outras classes: [notes], [notes=only], [trans], [handout],
+% [red], [compress], [draft], [class=article]
+
+\mode<presentation>{
+  %% Temas
+  \usepackage{beamerthemeshadow}
+%   \usepackage{beamerthemebars}
+%   \usepackage[headheight=12pt,footheight=12pt]{beamerthemeboxes}
+%   \usepackage{beamerthemeclassic}
+%   \usepackage{beamerthemelined}
+%   \usepackage{beamerthemeplain}
+%   \usepackage[width=12pt,dark,tab]{beamerthemesidebar}
+%   \usepackage{beamerthemesplit}
+%   \usepackage{beamerthemetree}
+%   \usepackage[bar]{beamerthemetree}
+  
+  \usepackage{pgf,pgfarrows,pgfnodes,pgfautomata,pgfheaps,pgfshade}
+  \beamertemplatetransparentcovereddynamic
+  \beamertemplateballitem
+  %\beamertemplatefootpagenumber
+}
+
+\mode<handout>{
+  % tema simples para ser impresso
+  \usepackage[bar]{beamerthemetree}
+  % Colocando um fundo cinza quando for gerar transparências para serem impressas
+  % mais de uma transparência por página
+  \beamertemplatesolidbackgroundcolor{black!5}
+}
+
+\usepackage{amsmath,amssymb}
+\usepackage[brazil]{varioref}
+\usepackage[english,brazil]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{url}
+\usepackage{colortbl}
+% um outro tipo de fonte
+% \usepackage{pslatex}
+
+\beamertemplatetransparentcovereddynamic
+
+\title[Mobilidade em Redes IP]{Plataforma para o Estudo de Mobilidade na Camada de Rede}
+\author[Cleiber Marques da Silva \and Filipe Medeiros de Almeida]{%
+  Cleiber Marques da Silva \and Filipe Medeiros de Almeida}
+
+% Se comentar a linha abaixo, irá aparecer a data quando foi compilada a apresentação  
+\date{Março, 2009}
+
+% \pgfdeclareimage[height=1cm]{ifsc_logo}{ifsc}
+
+% pode-se colocar o LOGO assim
+% \logo{\pgfuseimage{ifsc_logo}}
+
+% ou...
+%\logo{\vbox{\hbox to 1cm{\hfil\pgfuseimage{ufsc}}\vskip0.1cm\hbox{\pgfuseimage{das}}}}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\section[Sumário]{}
+\frame{\tableofcontents}
+
+\AtBeginSection[]{
+  \frame<handout:0>{
+    \frametitle{Sumário}
+    \tableofcontents[current,currentsection]
+  }
+}
+
+\include{protocolos}
+\include{plataforma}
+\include{mipl}
+\include{cenarios}
+
+% \section{Introdução}
+% 
+% \pgfdeclareimage[height=5cm]{user}{figs/user}
+% \pgfdeclareimage[height=6cm]{mobil1}{figs/mobil1}
+% \pgfdeclareimage[height=6cm]{mobil2}{figs/mobil2}
+% 
+% \frame{
+% 	\begin{itemize}
+% 		\item As tecnologias de comunicação sem fio estão em constante evolução
+% 		\item A Internet continua em rápida expansão
+% 		\item Cada dia é maior número de dispositivos móveis capaz de acessar a Internet
+% 		\item Há uma necessidade na continuidade dos serviços
+% 	\end{itemize}	
+% }
+% 
+% \frame{
+% 	\frametitle{Uso da Internet através de dispositivos sem fio}
+% 	\pgfuseimage{user}
+% }
+% 
+% \subsection{Mobilidade em Redes IP}
+% 
+% \frame{
+% 	\frametitle{Problemas na Mobilidade em Redes IP}
+% 	\begin{itemize}
+% 		\item O modelo atual da Internet (TCP/IP) permite a mobilidade entre redes?
+% 		\item Os endereços IP's definem a localização geográfica de um \textit{host}
+% 		\item Os protocolos atuais da Internet assumem que o \textit{host} não muda seu endereço IP durante uma comunicação
+% 		\item Caso um \textit{host} mude seu ponto de conexão na Internet, ele deve reconfigurar seu endereço e o roteador padrão 
+% 		\item Para continuar sua comunicação a sua nova rota deveria ser propagada por toda a Internet. Obviamente essa alternativa é inaceitável, por questões de escabilidade 
+% 	\end{itemize} 
+% }
+% 
+% \frame{
+% 	\frametitle{Mobilidade na Internet Atual}
+%  	\pgfuseimage{mobil1}
+% }
+% 
+% \frame{
+% 	\frametitle{Mobilidade na Internet Atual}
+% 	\pgfuseimage{mobil2}
+%  
+% }
+% 
+% \frame{
+% 	\frametitle{Solução para Mobilidade em Redes IP}
+% 	\begin{itemize}
+% 	 \item Para resolver os problemas de mobilidade a \textit{Internet Engineering Task Force} (IETF), propôs uma extensão ao protocolo IP o IP Móvel
+% 	 \item 
+% 	\end{itemize}
+% }
+% 
+% \frame{
+% 	\frametitle{Por que IPv6?}
+% 	\begin{itemize}
+% 	 \item 
+% 	\end{itemize} 
+% }
+% 
+% \frame{
+% 	\frametitle{IPv6 versus IPv4}
+% 	Vantagens do IPv6 sobre o IPv4:
+% 	\begin{itemize}
+% 		\item Endereçamento de 128 bits
+% 		\item Simplificação do cabeçalho
+% 		\item Redução das tabelas de roteamento
+% 		\item Segurança dos dados
+% 		\item Mecanismos de autoconfiguração
+% 		\item Suporte eficiente ao roteamento \textit{multicasting}
+% 		\item Projetado para suportar mobilidade
+% 	\end{itemize} 
+% }
+% 
+% \section{Protocolos de Mobilidade da Camada Rede}
+% 
+% \frame{
+% 	\frametitle{Soluções Propostas}
+% 	\begin{itemize}
+% 		\item Para contornar os problemas da mobilidade ...
+% 	\end{itemize} 
+% }
+% 
+% \subsection{Mobile IPv6}
+% 
+% \pgfdeclareimage[height=6cm]{mipv6}{figs/mipv6}
+% 
+% \frame{
+% 	\frametitle{Tipos de listas}
+% 	\begin{itemize}
+% 		\item A classe \LaTeX \, BEAMER proporciona alguns tipos de listas, os quais já permitem fazer sobreposição camadas (\textit{overlays}) de uma forma bem simples.
+% 		\item As próximas transparências irão mostrar tais facilidades
+% 	\end{itemize} 
+% }
+% 
+% \frame{
+% 	\frametitle{Modos de operação simplificados do MIPv6}
+% 	\pgfuseimage{mipv6}
+% }
+% 
+% \subsection{Hierarchical Mobile IPv6}
+% 
+% \pgfdeclareimage[height=6cm]{intra_site}{figs/intra_site}
+% \pgfdeclareimage[height=6cm]{inter_site}{figs/inter_site}
+% 
+% \frame{
+% 	\frametitle{Tipos de listas}
+% 	\begin{itemize}
+% 		\item A classe \LaTeX \, BEAMER proporciona alguns tipos de listas, os quais já permitem fazer sobreposição camadas (\textit{overlays}) de uma forma bem simples.
+% 		\item As próximas transparências irão mostrar tais facilidades
+% 	\end{itemize} 
+% }
+% 
+% \frame{
+% 	\frametitle{Mobilidade Local}
+% 	\pgfuseimage{intra_site}
+% }
+% 
+% \frame{
+% 	\frametitle{Mobilidade Global}
+% 	\pgfuseimage{inter_site}
+% }
+% 
+% \subsection{Fast Handovers for Mobile IPv6}
+% 
+% \frame{
+% 	\frametitle{Tipos de listas}
+% 	\begin{itemize}
+% 		\item A classe \LaTeX \, BEAMER proporciona alguns tipos de listas, os quais já permitem fazer sobreposição camadas (\textit{overlays}) de uma forma bem simples.
+% 		\item As próximas transparências irão mostrar tais facilidades
+% 	\end{itemize} 
+% }
+% 
+% \section{Plataforma de Testes}
+% 
+% \frame{
+% 	\frametitle{Um teorema, prova e exemplo}
+% 	\begin{itemize}
+% 	 \item Para o estudo dos protocolos de mobilidade uma plataforma de simulação foi desenvolvida 
+% 	 \item O uso desta plataforma proporciona facilidade e rapidez na construção de cenários
+% 	 \item Além disso realizar os experimentos fisicamente envolvem um alto custo e demandam muito tempo
+% 	\end{itemize}
+% }
+% 
+% \pgfdeclareimage[height=2.6cm]{uml}{figs/uml}
+% \pgfdeclareimage[height=6.5cm]{machine}{figs/machine}
+% \subsection{User Mode Linux}
+% 
+% \frame{
+% 	\frametitle{Máquinas Virtuais UML}
+% 	\begin{itemize}
+% 		\item UML é uma implementação que permite que um kernel Linux rode em um sistema hospedeiro como um processo de usuário
+% 		\item É uma arquitetura suportada pelo kernel Linux, assim como i486, Sparc, ARM. A arquitetura é o próprio kernel Linux
+% 		\item As máquinas virtuais UML são incorporadas ao kernel e apresentam um alto desempenho em execução
+% 		\item Diferente de outras tecnologias de virtualização UML não faz emulação de uma plataforma física
+% 	\end{itemize} 
+% 	
+% 	\pgfuseimage{uml}
+% }
+% 
+% \frame{
+% 	\frametitle{Utilizando o UML}
+% 	\begin{columns}
+% 		\column{6cm}
+% 			\begin{itemize}
+% 				\item Para fazer o uso das máquinas UML é necessário somente um sistema de arquivos e um kernel compilado para esta aquitetura
+% 				\item No site \url http://uml.nagafix.co.uk há disponível vários sistemas de arquivos
+% 			\end{itemize} 
+% 		\column{5.5cm}
+% 		\begin{block}{Compilar e executar kernel UML}
+% 		 \$ export ARCH=um\\
+% 		 \$ make menuconfig\\
+% 		 \$ make\\
+% 		 \$ ./vmlinux ubda=root\_fs.ext3
+% 		\end{block}
+% 	\end{columns}
+% }
+% 
+% \frame{
+% 	\frametitle{Utilitários UML}
+% 	Há um pacote de ferramentas chamado \textit{uml\_utilities} que fornecem alguns utilitários que ajudam no uso das máquinas virtuais:
+% 	\begin{itemize}
+% 	 \item \textbf{\textit{uml\_switch}}: permite conectar as máquinas virtuais em rede
+% 	 \item \textbf{\textit{uml\_mconsole}}: é um programa utilizado para se conectar há um console de gerenciamento do UML
+% 	 \item \textbf{\textit{uml\_mkcow}}: permite criar COW (\textit{Copy-On-Write}) arquivos
+% 	 \item \textbf{\textit{tunctl}}: utilizado para criar e deletar interfaces \textit{tap}
+% 	\end{itemize} 
+% 
+% }
+% 
+% \frame{
+% 	\frametitle{\textit{uml\_switch}}
+% 	\begin{itemize}
+% 		\item O \textit{uml\_switch} é um \textit{switch Ethernet} implementado em software
+% 		\item Utiliza \textit{UNIX-domain sockets} para encaminhar pacotes entre as UML's conectadas a ele
+% 		\item Pode operar em modo \textit{hub} ou \textit{switch}
+% 		\item O uml\_switch não permite a simulação de mobilidade, para isso foram feitas algumas alterações no seu código fonte
+% 	\end{itemize} 
+% }
+% 
+% \frame{
+% 	\frametitle{\textit{Alterações no uml\_switch}}
+% 	\begin{columns}
+% 	\column{6cm}
+% 		\pgfuseimage{machine}
+% 		\column{6cm}
+% 		\begin{block}{Provocar Mobilidade}
+% 		 \$ kill -USR1 pid\\
+% 		 \$ set
+% 		\end{block}
+%  		 \begin{itemize}
+%  	 	  \item Com a alteração efetuada no \textit{switch} é possivel segmentar redes de forma similar a VLAN's
+% 		  \item Para provocar a mobilidade pode ser enviado um sinal ao \textit{switch} ou um comando na entrada padrão
+%  		 \end{itemize}
+% 	\end{columns}
+% }
+% 
+% \subsection{Mobile IP for Linux}
+% 
+% \frame{
+% 	\frametitle{IP Móvel no Linux}
+% 	\begin{itemize}
+% 	 \item O \textit{Mobile IPv6 for Linux} (MIPL) é uma implementação de Suporte a Mobilidade no IPv6 (RFC 3775), desenvolvida na Universidade Tecnólogica de Helsinki sob a lincença GPLv2 \url http://www.linux-ipv6.org/
+% 	 \item É um programa em \textit{user space} que trabalha junto com MIPv6 habilitado no kernel
+% 	 \item O MIPL é executado como um \textit{daemon} no nó móvel, agente domiciliar e nó correspondente
+% 	\end{itemize} 
+% }
+% 
+% \frame{
+% 	\frametitle{Kernel para o MIPL}
+% 	\begin{itemize}
+% 	 \item O MIPL 1.1 destina-se aos kernels 2.4.x, e o MIPL 2.0 para a série 2.6 do kernel
+% 	 \item No kernel o suporte nativo do protocolo MIPv6 está disponível desde a versão 2.6.17, para versões mais antigas é necessário aplicar um patch
+% 	 \item A documentação que acompanha o MIPL detalha as configurações que devem ser habilitadas no kernel, também é fornecido um \textit{shell script} \textbf{\textit{chkconf\_kernel.sh}} que verifica se o kernel esta configurado corretamente  
+% 	\end{itemize}
+% 
+% }
+% 
+% \frame{
+% 	\frametitle{Se aprofundando um pouco mais}
+% 	Figura do MIPL acessando o kernel
+% }
+% 
+% \subsection{Implementação do HMIPv6}
+% \frame{
+% 	\frametitle{}
+% 	Falar sobre a falta de um codigo atual do hmipv6, que somente uma versão para kernel space e para as series 2.4, e estamos trabalhando em um versao
+% }
+% 
+% \subsection{fmipv6.org}
+% \frame{
+% 	\frametitle{}
+% 	Falar sobre o codigo do fmipv6 no maximo dois slides
+% }
+% 
+% \section{Cenários}
+% 
+% \pgfdeclareimage[height=6cm]{cenario}{figs/cenario}
+% \pgfdeclareimage[height=6cm]{taxa}{figs/taxa}
+% 
+% \frame{
+% 	\frametitle{Cenário Proposto}
+% 	\begin{itemize}
+% 	 \item Após a construção da plataforma de testes, foi definido um cenário para analisar a funcionalidade e a eficiência do protocolo
+% 	 \item O cenário envolve uma comunicação entre um nó móvel e um estático, onde nó móvel move-se para uma outra sub-rede e depois retorna a sua rede domiciliar
+% 	 \item O cenário foi implementado nos dois modos de operaçao do MIPv6: com tunelamento bidirecional e com o otimização de roteamento
+% 	\end{itemize}
+% 
+% }
+% 
+% \subsection{Cenário Proposto}
+% \frame{
+% 	\frametitle{Cenário proposto}
+% 	\pgfuseimage{cenario}
+% }
+% 
+% \subsection{Resultados}
+% \frame{
+% 	\frametitle{Conclusão com o Cenário}
+% 	Com a realização do cenário foi possível constatar:
+% 	\begin{itemize}
+% 	 \item Que o MIPv6 é um eficiente protocolo para tratar a mobilidade
+% 	 \item A continuidade da comunicação de forma transparente as camadas superiores a de rede
+% 	 \item A leveza do protocolo
+% 	 \item As mudanças nas tabelas de roteamento dos nós envolvidos na mobilidade
+% 	 \item Estimar o tempo de latência no processo de \textit{handover}
+% 	\end{itemize}
+% 
+% }
+% 
+% \frame{
+% 	\frametitle{Taxa de transmissão no \textit{Handover}}
+% 	\pgfuseimage{taxa}
+% }
+% 
+% \section*{Bibliografia}
+% 
+% \frame{
+% 	% estilo para aparecer um icone de um livro
+% 	%\beamertemplatebookbibitems
+% 	% estilo para aparecer um icone de um paper =)
+% 	\beamertemplatearticlebibitems
+% 	\begin{thebibliography}{1}
+% 
+% 	\bibitem{rfc3775}
+% 	JOHNSON, D. ; PERKINS, C.; ARKKO, J.
+% 	\newblock{\em Mobility Support in IPv6. RFC 3775}
+% 	\newblock{\url http://www.ietf.org/rfc/rfc3775.txt}
+% 
+% 	\bibitem{rfc4140}
+% 	SOLIMAN, H.; CASTELLUCCIA, C.; EL MALKI, K.; BELLIER, L.
+% 	\newblock {\em Hierarchical Mobile IPv6 Mobility Management, RFC 4140}
+% 	\newblock{\url http://www.ietf.org/rfc/rfc4140.txt}
+% 
+% 	\bibitem{rfc4068}
+% 	KOODLI, R. 
+% 	\newblock {\em Fast Handovers for Mobile IPv6, RFC 4068}
+% 	\newblock{\url http://www.ietf.org/rfc/rfc4068.txt}
+% 	
+% 	\bibitem{mipl}
+% 	NUORVALA, V.; PETANDER, H.; TUOMINEN,
+% 	\newblock MIPL PROJECT. Mobile IPv6 for Linux, Version 2.0 RC1. 2004
+% 	\end{thebibliography}
+% }
+
+\end{document}
