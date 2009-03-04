@@ -18,7 +18,7 @@ Para analisar alguns mecanismos dos protocolos e testar os seus modos de
 operação, dois cenários base foram definidos: cenário 1, com o MIPv6, e o
 cenário 2, com o HMIPv6. Para o primeiro cenário, duas variações foram
 realizadas. Na primeira, descrita na figura \ref{f_cenario1}, é testado o modo
-de operação por tunelamento bi-direcional do MIPv6, sem a otimização de rota. A
+de operação por tunelamento bidirecional do MIPv6, sem a otimização de rota. A
 segunda variação testa o modo de operação por otimização de roteamento. O
 cenário 2, descrito na figura \ref{f_cenario2}, tem como objetivo verificar
 minimamente o funcionamento do HMIPv6 em comunicações onde os nós
@@ -125,7 +125,7 @@ uma melhor observação do impacto do protocolo MIPv6 sobre as conexões.
 Para realização do teste é iniciado, no nó móvel, um servidor TCP. Este 
 servidor responde a requisição GET do protocolo \ac{HTTP}, além de ser capaz de
 gerar
-tráfego. Para realizar esta tarrefa é utilizado a ferramenta \textit{netcat6},
+tráfego. Para realizar esta tarefa é utilizado a ferramenta \textit{netcat6},
 da forma:
 \begin{verbatim}
 mn# echo "200 OK" > header; cat header /dev/zero | nc6 -l -p 80
@@ -142,7 +142,7 @@ responsável por gerar o tráfego.
  \end{description}
 
 O nó correspondente irá se conectar ao servidor utilizando da ferramenta 
-\textit{wget}. Também no nó correpodente executamos a ferramenta 
+\textit{wget}. Também no nó correspondente executamos a ferramenta 
 \textit{speedometer} que é capaz de medir a taxa média de dados de uma interface
 de rede. A saída do \textit{speedometer} permite criar um gráfico para
 visualizar o efeito do MIPv6 em uma conexão.
@@ -196,7 +196,7 @@ DSTOPT (campo \textit{destination option}).
 \subsection{Descrição da Topologia}
 O primeiro cenário de teste é formado por três redes interligadas entre si e
 cinco nós. A sua topologia pode ser observada na figura \ref{f_cenario1}, onde o
-numero nos balões cinza representam a VLAN no \textit{uml\_switch}.
+número nos balões cinza representam a VLAN no \textit{uml\_switch}.
 
 \begin{figure}[!htpb]
 	\centering
@@ -212,13 +212,13 @@ está se comunicando. Na rede com o prefixo 2000:c::/64 está presente um roteador
 
 \subsection{Variação 1: com Tunelamento Bidirecional e Sem Otimização de Rota}
 
-\subsubsection{Análise da Troca de Mesagens}
+\subsubsection{Análise da Troca de Mensagens}
 Os dados obtidos na saída do comando \textit{tcpdump} podem ser observados na
 figura \ref{f_dump_1}. Analisando os dados recolhidos consegue-se observar:
 
 \begin{figure}[!htpb]
 	\centering
-	\includegraphics[scale=.6]{figs/dump1}
+	\includegraphics[scale=.65]{figs/dump1}
 	\caption{Cenário 1 : Captura de mensagens com Tunelamento Bidirecional}
  	\label{f_dump_1}
 \end{figure}
@@ -227,10 +227,10 @@ figura \ref{f_dump_1}. Analisando os dados recolhidos consegue-se observar:
  \item O nó móvel recebe uma mensagem de RA do
 roteador de acesso da rede visitada (src = fe80::fcfd:71ff:febf:e3e1), o que
 indica que ocorreu mobilidade. Este movimento foi produzido pela comutação
-da vlan 3 para a 4. Antes de realizar o movimento o nó móvel recebia
+da VLAN 3 para a 4. Antes de realizar o movimento o nó móvel recebia
 \textit{echo request} do nó correspondente (src = 2001:a::fcfd:65ff:fe34:8a44) e
 RA do Agente domiciliar (src = fe80::fcfd:f5ff:fe49:32bc);
- \item O nó móvel realiza o teste de duplicaçãoo de endereco (DAD) do CoA gerado
+ \item O nó móvel realiza o teste de duplicação de endereço (DAD) do CoA gerado
 com o prefixo da rede visitada (2001:d::fcfd:32ff:feff:42c9);
  \item O nó móvel envia a mensagem de BU para o agente Domiciliar informando o
 endereço CoA e o seu endereço domiciliar HoA. Note que o CoA é o endereço fonte
@@ -241,21 +241,20 @@ só que agora através do túnel. Note os endereços IP fonte e destinos deste
 pacote. O primeiro nível IP do agente domiciliar(2001:c::1) para o CoA do nó
 móvel (2001:d::fcfd:32ff:feff:42c9). No segundo nível, do nó correspondente
 (2001:a::fcfd:65ff:fe34:8a44) para o HoA (2001:c::2).
-
 \end{enumerate}
 
 \subsubsection{Análise das Tabelas de Roteamento e de Regras de Roteamento}
 
 Após o nó móvel deixar a rede domiciliar, podemos constatar mudanças nas tabelas
 de roteamento do nó móvel e do agente domiciliar, que são mostradas nas 
-respecitivas tabelas \ref{t_rot_mn1} e \ref{t_rot_ha1}.
+respectivas tabelas \ref{t_rot_mn1} e \ref{t_rot_ha1}.
 
 \begin{table}[!htpb]
 \centering
 \begin{small}
   \setlength{\tabcolsep}{3pt}
 \begin{tabular}{|c|c|c|c||}\hline \hline
-\textbf{Destino} & \textbf{Via} & \textbf{Proximo
+\textbf{Destino} & \textbf{Via} & \textbf{Próximo
  salto} & \textbf{Considerações} \\ \hline \hline
 2001:a::/64 &	eth0	&	fe80::fcfd:dff:fe0c:a222 & \\
 2001:b::/64 &   eth0	&	::  & \\
@@ -280,7 +279,7 @@ do nó móvel \\
 \begin{small}
   \setlength{\tabcolsep}{3pt}
 \begin{tabular}{|c|c|c|c||}\hline \hline
-\textbf{Destino} & \textbf{Via} & \textbf{Proximo
+\textbf{Destino} & \textbf{Via} & \textbf{Próximo
 salto} & \textbf{Considerações}\\ \hline \hline
 2001:c::2	          & ip6tnl1		  & :: &  \\
 2001:c::/64               & eth0		  & :: & Na rede domiciliar \\
@@ -296,24 +295,37 @@ default		          & eth0	          & fe80::fcfd:71ff:febf:e3e1 &
 \label{t_rot_mn1}
 \end{table} 
 
-Após o agente domiciliar receber o \textit{Binding Update},
-é adicionada a seguinte rota a sua tabela de roteamento, que todos os 
-pacotes com destino ao endereço domiciliar devem ser encaminhados para o túnel.
-Após o nó móvel receber o \textit{Router Advertisement}, é alterada a rota
-padrão, deletada a rota para rede 2001:c::/64 e adicionada uma rota para a rede 
-2001:d::/64, onde a interface eth0 está atrelada.
+Após o agente domiciliar receber o \textit{Binding Update}, enviado pelo
+nó móvel para efetuar o registro, é adicionada na sua tabela de roteamento
+uma rota para que todos os pacotes com destino ao endereço domiciliar sejam
+encaminhados para o túnel.
+Após o nó móvel receber o \textit{Router Advertisement} na rede visitada, o
+roteador padrão é alterado. é deletada a rota para rede 2001:c::/64 e adicionada
+uma rota para a rede 2001:d::/64, onde a interface eth0 está atrelada.
 
-Para que o nó móvel tenha os pacotes com destino ao nó correspondente e ao 
-agente domiciliar encaminhados pelo túnel, o que caracteriza o tunelamento
-bidirecional, é adicionada regras na tabela 252, mostradas na tabela
-\ref{t_route_252_mn}.
+Desde as versões do \textit{kernel linux} 2.x pode-se ter múltiplas tabelas 
+de roteamento no kernel. Estas tabelas são identificadas por um número variando
+de 1 a 255 ou por um nome de acordo com o arquivo \texttt{/etc/iproute2/rt\_tables}.
+Com novas tabelas pode-se criar uma estrutura flexível para implementar uma
+Politica de Roteamento\cite{lyra:crl}.
+
+Existem três tabelas que são criadas pelo kernel. A local(255), é uma tabela de 
+roteamento especial mantida pelo kernel, onde usuários não podem adicionar novas
+entradas nessa tabela. A main(254), é a tabela de roteamento principal, onde ficam
+as rotas quando adicionamos com o comando \texttt{route} ou \texttt{ip route}.
+A default(253) é outra tabela especial e a unspec(0), qualquer operações sobre esta
+tabela refletem em todas as tabelas.
+
+O nó móvel adiciona regras na tabela 252, mostradas na tabela
+\ref{t_route_252_mn}, para que os pacotes com destino ao nó correspondente e ao 
+agente domiciliar sejam encaminhados via túnel.
 
 \begin{table}[!htpb]
 \centering
 \begin{small}
   \setlength{\tabcolsep}{3pt}
 \begin{tabular}{|c|c|c|c||}\hline \hline
-\textbf{Destino} & \textbf{Via} & \textbf{Proximo
+\textbf{Destino} & \textbf{Via} & \textbf{Próximo
 salto} & \textbf{Considerações}\\ \hline \hline
           *                 &   *     &     *     &  Na rede domiciliar\\ \hline
 2001:a::fcfd:65ff:fe34:8a44 & ip6tnl1 & 2001:a::fcfd:65ff:fe34:8a44 & \\
@@ -326,8 +338,8 @@ default                     & ip6tnl1 & ::        & \\ \hline
 \end{table}
 
 No agente domiciliar é adicionada uma rota na tabela 252, para que os pacotes 
-capturados com destino ao nó móvel e origem no agente domiciliar.
-
+com destino ao nó móvel(2001:c::2) e origem no agente domiciliar(2001:c::1) sejam
+encaminhados via eth0.
 
 \begin{table}[!htpb]
 \centering
@@ -343,9 +355,13 @@ capturados com destino ao nó móvel e origem no agente domiciliar.
 \label{t_route_252_ha}
 \end{table}
 
-Como existe mais de uma tabela de roteamento, para fazer a seleção de qual 
-tabela é mais adequada para encaminhar determinado pacote, é determinado
-regras de roteamento. O MIPv6 adiciona um regra direcionando para tabela 252,
+
+O Banco de Dados da Política de Roteamento ou Routing Policy Database (RPDB) 
+controla a ordem na qual o kernel faz sua busca através das tabelas de roteamento.
+Cada regra possui uma prioridade, e as regras são examindadas sequencialmente da
+regra 0 até a regra 32767.
+
+O MIPv6 adiciona algumas regras no RPDB direcionando para tabela 252,
 no nó móvel e no agente domiciliar, mostradas nas tabelas \ref{t_rule_mn} e 
 \ref{t_rule_mn}, respectivamente.
 
@@ -364,7 +380,7 @@ no nó móvel e no agente domiciliar, mostradas nas tabelas \ref{t_rule_mn} e
 32766:	& from all        &  lookup main \\ \hline
 \end{tabular} 
 \end{small}
-\caption{Regras de Roteamento do Nó movel}
+\caption{Regras de Roteamento do Nó móvel}
 \label{t_rule_mn}
 \end{table} 
 
@@ -387,7 +403,7 @@ no nó móvel e no agente domiciliar, mostradas nas tabelas \ref{t_rule_mn} e
 \subsubsection{Detalhes da Formação de Túneis}
 O túnel no nó móvel é criado antes de acontecer qualquer mobilidade. No agente
 domiciliar o  túnel com o nó móvel é criado no recebimento do BU. As tabelas 
-\ref{t_tun_ha1} e \ref{t_tun_mn1} apresentam o endereçamento do tunel, no HA e 
+\ref{t_tun_ha1} e \ref{t_tun_mn1} apresentam o endereçamento do túnel, no HA e 
 MN, antes e depois da mobilidade.
 
 \begin{table}[!htpb]
@@ -403,7 +419,7 @@ ip6tnl1 & 2001:c::1 & 2001:d::fcfd:32ff:feff:42c9 & eth0 & Após a mobilidade do
 nó móvel \\ \hline
 \end{tabular}
 \end{small}
-\caption{Descrição dos \texttt{end-points} do tunel do nó móvel}
+\caption{Descrição dos \texttt{end-points} do túnel do nó móvel}
 \label{t_tun_mn1}
 \end{table}
 
@@ -419,7 +435,7 @@ ip6tnl1 & 2001:d::fcfd:32ff:feff:42c9 & 2001:c::1 & eth0 & Após a mobilidade do
 nó móvel \\ \hline
 \end{tabular}
 \end{small}
-\caption{Descrição dos \texttt{end-points} do tunel do agente domiciliar}
+\caption{Descrição dos \texttt{end-points} do túnel do agente domiciliar}
 \label{t_tun_ha1}
 \end{table}
 
@@ -433,7 +449,7 @@ figura \ref{f_dump_2}. Analisando os dados recolhidos consegue-se observar:
 
 \begin{figure}[!htpb]
 	\centering
-	\includegraphics[scale=.6]{figs/dump2}
+	\includegraphics[scale=.65]{figs/dump2}
 	\caption{Cenário 1 : Captura de mensagens com Otimização de Rota}
  	\label{f_dump_2}
 \end{figure}
@@ -445,7 +461,7 @@ roteador de acesso da rede visitada, o que indica que ocorreu mobilidade. Antes
 de realizar o movimento o nó móvel respondia um \textit{echo request} do nó 
 correspondente;
 %2
- \item O nó móvel realiza o teste de duplicacao de endereco (DAD) do CoA gerado
+ \item O nó móvel realiza o teste de duplicação de endereço (DAD) do CoA gerado
 com o prefixo da rede visitada (2001:d::fcfd:32ff:feff:42c9);
 %3
  \item O nó móvel a mensagem de BU para o Agente domiciliar informando o atual 
@@ -454,7 +470,7 @@ opção DSTOPT;
 %4
  \item O agente domiciliar envia um BA, confirmando o registro;
 %5
- \item O nó movel volta a receber \textit{echo request} do nó correspondente,
+ \item O nó móvel volta a receber \textit{echo request} do nó correspondente,
 só que ainda através do túnel. A otimização de rota só irá ocorrer após o
 processo de RRP. Note os endereços IP fonte e destinos
 deste pacote. O primeiro nível IP do agente domiciliar(2001:c::1) para nó móvel
@@ -463,15 +479,15 @@ deste pacote. O primeiro nível IP do agente domiciliar(2001:c::1) para nó móvel
 %6
  \item O nó móvel inicia o processo de \textit{ruturn routability} enviando
 via agente domiciliar a mensagem de \textit{Home Test Init}(HoTi) ao nó 
-correspondente, para adiquirir a \textit{home keygen token}.
+correspondente, para adquirir a \textit{home keygen token}.
 %7
  \item O nó móvel recebe a mensagem de \textit{Home Test}(HoT) do nó
 correspondente, via agente domiciliar.
 %8
  \item O nó móvel da continuação ao processo de \textit{ruturn routability}
 enviando a mensagem de \textit{Care-of Test Init}(CoTi) ao nó correspondente,
-para adiquirir a \textit{care-of keygen token}. Essa menssagem não passa pelo 
-tunel, ela é endereçada diretamente ao nó correspondente.
+para adquirir a \textit{care-of keygen token}. Essa mensagem não passa pelo 
+túnel, ela é endereçada diretamente ao nó correspondente.
 %9
  \item O nó móvel recebe a mensagem de \textit{Care-of Test}(CoT) do nó 
 correspondente, não passando pelo agente domiciliar.
@@ -492,7 +508,7 @@ correspondente estão configurados para realizar a otimização de rota, não existe
 nenhuma alteração em relação a variação 1.
 
 \subsubsection{Detalhes da Formação de Túneis}
-Sobre os tuneis, não há nenhuma alteração em relacão ao cenário configurado com
+Sobre os túneis, não há nenhuma alteração em relação ao cenário configurado com
 tunelamento bidirecional sem otimização de rota.
 
 %=========================================================================
@@ -545,7 +561,7 @@ os dados coletados com a ferramenta \textit{tcpdump} estão disponíveis na figura
 
 \begin{figure}[!htpb]
 	\centering
-	\includegraphics[scale=.55]{figs/dump_inter}
+	\includegraphics[scale=.65]{figs/dump_inter}
 	\caption{Cenário 2: \textit{Logs} Mobilidade Global}
  	\label{f_dump_inter}
 \end{figure}
@@ -608,7 +624,7 @@ mensagem tunelada do agente domiciliar.
 \end{enumerate}
 \begin{figure}[!htpb]
 	\centering
-	\includegraphics[scale=.55]{figs/dump_intra}
+	\includegraphics[scale=.65]{figs/dump_intra}
 	\caption{Cenário 2: \textit{Logs} Mobilidade Local}
  	\label{f_dump_intra}
 \end{figure}
@@ -626,7 +642,7 @@ considerações sobre as regras e tabelas de roteamento do cenário 2:
 \begin{small}
   \setlength{\tabcolsep}{3pt}
 \begin{tabular}{|c|c|c|c||}\hline \hline
-\textbf{Destino} & \textbf{Via} & \textbf{Proximo
+\textbf{Destino} & \textbf{Via} & \textbf{Próximo
 salto}\\ \hline \hline
 2001:a::fcfd:65ff:fe34:8a44 & ip6tnl1 & 2001:a::fcfd:65ff:fe34:8a44 \\
 2001:d::1                   & ip6tnl1 & 2001:d::1\\
@@ -643,7 +659,7 @@ default                     & ip6tnl1 & :: \\ \hline
 \begin{small}
   \setlength{\tabcolsep}{3pt}
 \begin{tabular}{|c|c|c|c||}\hline \hline
-\textbf{Destino} & \textbf{Via} & \textbf{Proximo
+\textbf{Destino} & \textbf{Via} & \textbf{Próximo
 salto} \\ \hline \hline
 2001:d::fcfd:32ff:feff:42c9 & ip6tnl2		  & :: \\
 2001:e::2	          & ip6tnl1		  & :: \\
@@ -671,8 +687,8 @@ segunda situação de mobilidade para o roteador AR4;
 \end{itemize}
 
 \subsection{Detalhes da Formação de Túneis}
-Os detalhes da formação dos túneis do cenário 2 diferem um pouco do cenário 1 a
-implementação do HMIPv6 é a responsável. Nas tabelas \ref{t_tun_inter} e
+Os detalhes da formação dos túneis do cenário 2 diferem um pouco do cenário 1, a
+imple-mentação do HMIPv6 é a responsável. Nas tabelas \ref{t_tun_inter} e
 \ref{t_tun_intra} é possível ver os túneis presentes no nó móvel após as
 mobilidades global e local. As principais diferenças do cenário 1 são:
 
@@ -710,7 +726,7 @@ ip6tnl2 & 2001:c::1 & 2001:e::fcfd:32ff:feff:42c9 & eth0  \\ \hline
 
 Após a mobilidade local verificamos que os dois túneis (ver \ref{t_tun_intra})
 continuam presentes no nó móvel. Porém, o ponto local do túnel \textit{ip6tnl2}
-foi alterado para o novo LCoA (2001:f::fcfd:32ff:feff:42c9) gerado na sub-rede
+foi alterado para o novo LCoA gerado (2001:f::fcfd:32ff:feff:42c9) na sub-rede
 do AR3.
 
 \begin{table}[!htpb]
@@ -804,8 +820,8 @@ estudado foi repetido variando o intervalo entre as mensagens de
 Com os dados levantados, é possível perceber que o intervalo entre as
 mensagens de RA esta diretamente ligado com a perda
 de pacotes durante o \textit{handover}. Porém, esta não é uma boa prática para
-tentar amenizar a latência do handover, pois um numero muito grande de mensagen
-\textit{multicasting} inundaria a rede prejudicando a perfomance principalmente
+tentar amenizar a latência do handover, pois um número muito grande de mensagens
+\textit{multicasting} inundaria a rede prejudicando a performance principalmente
 em redes sem fio.
 
 No processo de formação de um novo CoA o DAD é necessário
@@ -831,7 +847,7 @@ foi alterado o valor do intervalo das mensagens de RA
 no roteador de acesso da rede visitada para 0.03 segundos. Então foi repetido o
 teste. O resultado pode ser observado na figura \ref{f_banda2}.
 
-Apartir, deste teste é possível perceber uma queda de 3 segundos para
+A Partir, deste teste é possível perceber uma queda de 3 segundos para
 aproximadamente 1 segundo no tempo do \textit{handover} com as mudanças
 realizadas. Entretanto há um protocolo dedicado a acelerar o processo de
 handover o \ac{FMIPv6}. A idéia do FMIPv6 é providenciar

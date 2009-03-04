@@ -21,7 +21,7 @@ durante uma comunicação, ou seja, não altera o seu ponto de conexão à rede.
 Caso um nó mude seu ponto de conexão, ele deverá, normalmente, configurar um
 novo endereço IP e, possivelmente, um novo roteador padrão. Se uma comunicação
 estiver estabelecida quando o nó efetuar a mobilidade, os protocolos de
-roteamento não corrijirão a rota para o novo destino. Para continuar a
+roteamento não corrigirão a rota para o novo destino. Para continuar a
 comunicação, sua nova rota deveria ser propagada para toda estrutura de
 roteamento da rede. Obviamente esta alternativa é inaceitável, pois seria
 inviável fazer isso em uma rede IP, por questões de escalabilidade.
@@ -88,7 +88,7 @@ bidirecional, todos os pacotes são encaminhados via Agente Domiciliar e o nó
 correspondente não precisa ter suporte ao MIPv6. Os pacotes com origem no nó
 correspondente são roteados para o Agente Domiciliar e este envia ao nó móvel
 via túnel. No sentido contrário, pacotes enviados pelo nó móvel, com destino ao
-nó correspondente, são enviandos, via túnel, ao Agente Domiciliar (túnel
+nó correspondente, são enviados, via túnel, ao Agente Domiciliar (túnel
 reverso) e estes são roteados normalmente da rede domiciliar para o nó
 correspondente. O Agente Domiciliar utiliza \textit{proxy Neighbor Discovery}
 para interceptar os pacotes com destino ao nó móvel.
@@ -110,12 +110,12 @@ tráfego de rede.
 Como citado anteriormente, enquanto estiver em uma rede visitada, o nó móvel
 terá mais de um endereço configurado em sua interface: o endereço domiciliar e
 um ou mais CoA. Ele poderá usar qualquer um destes como
-endereço fonte para se comunicar. Com o intuito de manter a trasparência para
+endereço fonte para se comunicar. Com o intuito de manter a transparência para
 as camadas superiores à de rede, o nó móvel irá utilizar geralmente seu endereço
 domiciliar. É interessante observar que os pacotes enviados pelo nó móvel
 deverão ser modificados, inserindo-se o CoA no campo endereço de origem e 
 movendo o endereço domiciliar para campo \textit{home address}, em um novo tipo
-de cabeçalho de extenção de roteamento\cite{koodli2007min}.
+de cabeçalho de extensão de roteamento\cite{koodli2007min}.
 No receptor do pacote, estas alteraçõesdevem ser revertidas para manter a 
 transparência para as camadas superiores.
 
@@ -170,7 +170,7 @@ na sua rede domiciliar e depois mudará para outra rede.
 \begin{figure}[!htpb]
 	\centering
 	\includegraphics[scale=.37]{figs/fluxo_mipv6}
-	\caption{Diagrama de sequencia do MIPv6}
+	\caption{Diagrama de sequência do MIPv6}
 	\label{f_messages}
 \end{figure}
 
@@ -217,7 +217,7 @@ de mobilidade;
 para o nó correspondente, via agente domiciliar, utilizada para iniciar o
 procedimento de \acf{RRP}. Requisita o \textit{home keygen
 token}. utilizado pelo nó móvel para gerar a chave \textit{Kbm};
- \item \textbf{\ac{CoTI}}: mensagem envianda pelo nó
+ \item \textbf{\ac{CoTI}}: mensagem enviada pelo nó
 móvel para o nó correspondente, pertencente ao processo de
 \textit{Return Routability}. Requisita o \textit{care-of keygen token} utilizado
 pelo nó móvel para gerar a chave \textit{Kbm};
@@ -247,7 +247,7 @@ mensagens é feita utilizando um dos cabeçalhos de segurança:
 \begin{itemize}
  \item \ac{AH} \cite{rfc2402}: representa
 um cabeçalho de extensão do protocolo IPv6 e foi criado para
-indentificar/autenticar os pontos comunicantes.
+identificar/autenticar os pontos comunicantes.
  \item \ac{ESP} \cite{rfc2406}:
 representa um cabeçalho de extensão do protocolo IPv6 que fornece integridade e
 confidencialidade aos datagramas IP por meio da cifra dos dados contidos no
@@ -313,13 +313,13 @@ cenários estudados neste trabalho. Dentre estes problemas podemos destacar:
  \item tempo do registro com o seu Agente Domiciliar;
 \end{itemize}
 
-Em um ambiente utilizando o MIPv6 com um excessivo numero de nós móveis a
+Em um ambiente utilizando o MIPv6 com um excessivo número de nós móveis a
 tendência é que se tenha perda na qualidade de serviço e o aumento do
 \textit{delay} na entrega dos pacotes.
 
 Com o intuito de minimizar os efeitos dos longos retardos no envio dos
 \acp{BU}, para o registro com o Agente Domiciliar ou com os nós
-correspondentes e, reduzir o tráfego de pacotes de controle na
+correspondentes e reduzir o tráfego de pacotes de controle na
 \textit{Internet}, foi proposto um protocolo complementar ao MIPv6, o 
 \acf{HMIPv6} \cite{rfc4140}.
 
@@ -345,7 +345,7 @@ a mobilidade em um determinado domínio. O funcionamento do Agente
 Domiciliar e dos nós correspondentes permanece idêntico ao do MIPv6. Assim como
 no MIPv6, o funcionamento do HMIPv6 não depende da tecnologia de acesso.
 
-Quando um nó movel entra em um domínio com a presença de um MAP, ele
+Quando um nó móvel entra em um domínio com a presença de um MAP, ele
 irá receber uma mensagem RA com informações sobre os roteadores de acesso. Isso
 permite que ele autoconfigure dois endereços: o \ac{RCoA}, que será
 baseado em um prefixo de uma rede do MAP, e o \ac{LCoA}, que utilizará o
@@ -380,13 +380,13 @@ Neste caso, é necessário o envio de \acp{BU} para o MAP e os
 correspondentes
 locais, atualizando a associação RCoA-LCoA. Como resultado, os pacotes com
 origem no agente domiciliar e nos nós
-correspondentes continuarão a serem enviandos para o mesmo RCoA, minimizando o
+correspondentes continuarão a serem enviados para o mesmo RCoA, minimizando o
 tempo do \textit{handover} e a perda de pacotes. Também notamos que todo tráfego
 gerado é dentro do mesmo domínio.
 
 \item[Mobilidade global:] neste caso o nó móvel reconfigura o seu RCoA e LCoA, e
 envia \acp{BU} para o MAP, os nós comunicantes fora do domínio
-informando o novo RCoA e os nós do mesmo site para informar o LCoA.
+informando o novo RCoA e os nós do mesmo domínio para informar o LCoA.
 \end{description}
 
 A figura \ref{f_hmipv6} ilustra um exemplo de domínios HMIPv6 onde o nó móvel
@@ -422,7 +422,7 @@ são descritas a seguir:
 correspondente.
  \item O MAP1 envia mensagens de RA. Os
 roteadores de acesso RA1 e RA2, sob a cobertura de MAP1, irão anexar as
-informaçãos recebidas das mensagens RA do MAP 1 e, encaminhar para suas
+informações recebidas das mensagens RA do MAP 1 e, encaminhar para suas
 subredes, via RA. O nó móvel recebe uma mensagem de RA do RA1, realizando
 a mobilidade para a respectiva rede;
  \item O nó móvel realizará o registro com o MAP1, enviando-lhe um BU,
@@ -432,17 +432,17 @@ LCoA1. Após efetuar o registro, o MAP1 enviará um BA;
 domiciliar. A diferença será que o registro irá associar o endereço domiciliar
 com o RCoA1;
  \item O fluxo de dados percorre o seguinte caminho: sai do nó correspondente
-com destino ao endereço domiciliar. Como o nó movel não está na rede domiciliar,
+com destino ao endereço domiciliar. Como o nó móvel não está na rede domiciliar,
 o Agente Domiciliar interceptará os pacotes, e encaminhará para o endereço
 registrado, via túnel, no caso o RCoA1. Quando chegar no MAP1, será tunelado
 novamente até o LCoA1. O fluxo de dados passa pelo RA1, mas ele só encaminha o
 pacote para o nó móvel, onde termina os túneis;
  \item O nó móvel se movimenta e sai do alcance do RA1 e entra na cobertura
-de RA2. Como foi feita uma mobilidade local, será neccessário somente configurar
+de RA2. Como foi feita uma mobilidade local, será necessário somente configurar
 um novo LCoA (LCoA2);
  \item Será necessário atualizar o registro com o MAP1, associando o
 LCoA2 ao endereço domiciliar. Não é necessário novo registro com o MAP1;
- \item O trajeto do fluxo de dados será alterádo do MAP1 para frente, sendo
+ \item O trajeto do fluxo de dados será alterado do MAP1 para frente, sendo
 transparente para o nó correspondente e para o Agente Domiciliar. O túnel entre
 o MAP1 e o nó móvel terá como destino o LCoA2, e passará pelo RA2, o roteador
 padrão do nó móvel.
@@ -481,7 +481,7 @@ situação, deverá ser feito um Binding Update para cada RCoA .
 
 Depois de fazer o registro com o MAP o nó móvel deve fazer a associação do RCoA
 com o endereço domiciliar no agente domiciliar e nos nós correspondentes. A
-mensagem de BU deve ser envianda utilizando a opção de
+mensagem de BU deve ser enviada utilizando a opção de
 CoA alternativo preenchida com o RCoA e o tempo de vida
 deve ser menor que o do recebido no BA do registro
 com o MAP.
@@ -501,5 +501,5 @@ roteadores de acesso devem ser configurados para receberem as mensagens com
 opções de MAP e as re-enviarem, incrementando o vetor de distância;
 \item[Configuração manual:] neste método, a opção de MAP é configurada
 manualmente nos roteadores de acesso, por um administrador da rede. Em muitos
-domínios esse é o mescanismo padrão.
+domínios esse é o mecanismo padrão.
  \end{description}

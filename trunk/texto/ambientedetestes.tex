@@ -67,7 +67,7 @@ A máquina virtual UML foi escolhida como base para a construção das redes
 virtuais na plataforma de testes. Ela oferece várias possibilidades de
 construção de redes, além de ser incorporada ao \textit{kernel} do Linux e de
 apresentar um alto desempenho na execução de programas. Isto permite iniciar
-multiplas instâncias UML em uma mesma máquina hospedeira e a construção de
+múltiplas instâncias UML em uma mesma máquina hospedeira e a construção de
 complexos cenários de rede.
 
 O Linux executa a máquina UML como um processo comum no sistema. O processo é
@@ -95,7 +95,7 @@ de reproduzir, por exemplo, é possível criar uma máquina com \textit{n}
 interfaces de rede e discos. Devido a sua flexibilidade, a UML pode ser
 utilizada para inúmeras aplicações tais como:
 \begin{itemize}
- \item Consolidação de servidores de rede: é possivel reproduzir todo sistema em
+ \item Consolidação de servidores de rede: é possível reproduzir todo sistema em
 UML e testá-lo antes de colocá-lo em produção;
  \item Em ambientes de ensino: com UML os alunos podem desenvolver as atividades
 ensinadas sem a preocupação de danificar o sistema;
@@ -192,7 +192,7 @@ Os comandos que o servidor telnet do uml\_switch pode aceitar são:
 \begin{itemize}
  \item \textit{list}: Lista as portas do switch e as \acp{VLAN} a elas 
 associadas;
- \item \textit{move} porta VLAN: move uma porta do \textit{swicth} para
+ \item \textit{move} porta VLAN: move uma porta do \textit{switch} para
 uma VLAN;
  \item \textit{quit}: encerra a conexão.
 \end{itemize}
@@ -214,7 +214,7 @@ Pelo motivo apontado teve-se a idéia de construir uma interface gráfica,
 amigável para o usuário, de forma a possibilitar: a construção rápida de
 cenários com
 redes, o controle da mobilidade dos nós e a centralização de todos os terminais
-das máquinas virtuais em uma única janela. Esta última caraterística evitaria
+das máquinas virtuais em uma única janela. Esta última característica evitaria
 que, em cenários muito complexos, um grande número de janelas
 fossem abertas, diminuindo a produtividade durante sua utilização.
 
@@ -263,7 +263,7 @@ especificado neste capítulo para a plataforma de testes.
 Para utilizar o GUML4MIP o usuário deve configurar um arquivo para cada máquina
 UML. No arquivo de configuração é possível declarar: 
 \begin{itemize}
- \item O sistema de aquivo que a máquina virtual irá utilizar;
+ \item O sistema de arquivo que a máquina virtual irá utilizar;
  \item Quantidade de memória para a máquina virtual;
  \item Interfaces de rede;
  \item Discos;
@@ -296,7 +296,7 @@ efetuar alguma mobilidade basta clicar no número da VLAN a qual queira
 se associar;
   \item[\textit{Load Scenario}] Por meio deste botão, o usuário busca o
 diretório onde estão os arquivos de configuração de um novo cenário de rede. O
-ultimo cenário executado é salvo e na proxima execução do programa já é
+ultimo cenário executado é salvo e na próxima execução do programa já é
 carregado automaticamente.
   \item[\textit{Quit}] Encerra o programa.
 \end{description}
@@ -346,8 +346,8 @@ inicia os \textit{daemons} especificados pelo usuário;
 máquinas UML irão se conectar. Em paralelo uma \textit{thread} é criada e se
 conecta ao servidor;
 \textit{telnet} do \textit{uml\_switch}. Por meio desta conexão, o GUML4MIP
-monitora as conexões no \textit{uml\_switch}, apreentando em uma
-interface gráfica o estado do \textit{switch}. Apartir desta interface p
+monitora as conexões no \textit{uml\_switch}, apresentando em uma
+interface gráfica o estado do \textit{switch}. A partir desta interface p
 ode-se provocar a mobilidade das máquinas UML;
  \item Os recursos do programa são disponibilizadoas ao usuário em uma janela 
 construída em \ac{PyGTK};
