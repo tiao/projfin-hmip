@@ -476,14 +476,14 @@ deste pacote. O primeiro nível IP do agente domiciliar(2001:c::1) para nó móvel
 (2001:d::fcfd:32ff:feff:42c9). No segundo nível, do nó correspondente
 (2001:a::fcfd:65ff:fe34:8a44).
 %6
- \item O nó móvel inicia o processo de \textit{ruturn routability} enviando
+ \item O nó móvel inicia o processo de \acf{RRP} enviando
 via agente domiciliar a mensagem de \textit{Home Test Init}(HoTi) ao nó 
 correspondente, para adquirir a \textit{home keygen token}.
 %7
  \item O nó móvel recebe a mensagem de \textit{Home Test}(HoT) do nó
 correspondente, via agente domiciliar.
 %8
- \item O nó móvel da continuação ao processo de \textit{ruturn routability}
+ \item O nó móvel da continuação ao processo de RRP
 enviando a mensagem de \textit{Care-of Test Init}(CoTi) ao nó correspondente,
 para adquirir a \textit{care-of keygen token}. Essa mensagem não passa pelo 
 túnel, ela é endereçada diretamente ao nó correspondente.
@@ -491,9 +491,8 @@ túnel, ela é endereçada diretamente ao nó correspondente.
  \item O nó móvel recebe a mensagem de \textit{Care-of Test}(CoT) do nó 
 correspondente, não passando pelo agente domiciliar.
 %10
- \item O nó móvel envia um \textit{Binding Update} ao nó correspondente com o
-\textit{binding management key}(kbm), concluindo o processo de 
-\textit{return routability}.
+ \item O nó móvel envia um BU ao nó correspondente com o
+Kbm, concluindo o processo de RRP.
 %11
  \item O nó móvel recebe uma mensagem de \textit{echo request}, endereçada ao 
 CoA, não passando mais pelo agente domiciliar. Note que a opção DSTOPT que trás

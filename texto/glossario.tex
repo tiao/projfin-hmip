@@ -9,15 +9,15 @@
 
 \Glossary{Endereço domiciliar}{é o endereço estático associado ao nó móvel na rede domiciliar}
 
-\Glossary{\textit{Link} domiciliar}{\textit{link} onde o prefixo de subrede do nó móvel é definido}
+\Glossary{Rede domiciliar}{Rede onde o prefixo de sub-rede do nó móvel é definido}
 
-\Glossary{\textit{Link} externo}{algum \textit{link} que não seja \textit{link} domiciliar do nó móvel}
+\Glossary{Rede visitada}{alguma rede que não seja a rede domiciliar do nó móvel}
 
-\Glossary{\textit{Care-of-address}}{endereço IP dado ao nó móvel quando estiver em um \textit{link} externo, o prefixo da rede deste endereço é o da rede externa}
+\Glossary{\textit{Care-of-address}}{endereço IP dado ao nó móvel quando estiver em uma rede visitada, o prefixo da rede deste endereço é o da rede externa}
 
 \Glossary{Nó correspondente}{é o nó com quem o nó móvel esta se correspondendo, pode ser móvel ou fixo}
 
-\Glossary{Agente domiciliar}{é um roteador no \textit{link} domiciliar com quem o nó móvel registra seu \textit{care-of-address} sempre que esta em um \textit{link} externo}
+\Glossary{Agente domiciliar}{é um roteador da rede domiciliar com quem o nó móvel registra seu \textit{care-of-address} sempre que esta em uma rede visitada}
 
 \Glossary{Movimento}{é uma troca de ponto de acesso na Internet}
 
@@ -27,12 +27,16 @@
 
 \Glossary{\textit{Mobility Anchor Point}}{é um roteador localizado na rede visitada, o MAP é usado como um agente domiciliar pelo nó móvel. Um ou mais MAPs podem existir em uma rede visitada}
 
-\Glossary{Nó móvel HMIPv6}{é um nó móvel capaz de receber e processar mensagens do roteador padrão que contenham a opção MAP. Um nó móvel HMIPv6 deve ser apto para enviar \textit{Binding Updates} locais com o bit M ligado}
-
 \Glossary{Regional \textit{care-of-address}}{é o endereço obtido pelo nó móvel na rede visitado com o mesmo prefixo de rede do MAP. Ele é auto-configurado quando recebe a opção de MAP divulgada nas mensagens do roteador padrão}
 
-\Glossary{\textit{Link care-of-address}}{é o endereço configurado pelo nó móvel com o mesmo prefixo do roteador padrão. Uma simples referência ao care-of-address}
+\Glossary{\textit{Link care-of-address}}{é o endereço configurado pelo nó móvel com o mesmo prefixo do roteador padrão. Uma simples referência ao \textit{care-of-address}}
 
-\Glossary{\textit{Binding Update} local}{é o \textit{Binding Update} que o nó móvel envia para o MAP fazer a associação do LCoA com o RCoA}
+\Glossary{Registro}{O processo durante o qual um nó móvel envia um \textit{Binding Update} para agente domiciliar ou um nó correspondente}
+
+\Glossary{\textit{Return Routability Procedure}}{Procedimento que autoriza registro de forma segura utilizando criptografia}
+
+\Glossary{\textit{Binding Management Key}}{Chave usada para autorizar a associação. O \textit{Return Routability Procedure} fornece a maneira de criar a chave}
+
+% \Glossary{Túnel}{}
 \clearpage
 \printglossary
