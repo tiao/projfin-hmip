@@ -5,8 +5,27 @@
 \chapter{Conclusões e Perspectivas}
 \label{c_conclusoes}
 
-%falar na continuidade da manutenção da gum4mip
-%falar no fato de já existir pessoas interessadas no uso da plataforma
+O trabalho apresentou uma plataforma de testes para avaliação dos protocolos de
+mobilidade da camada rede. A plataforma de testes implementada atingiu o
+objetivo desejado e vem demonstrando bons resultados nos cenários implementados,
+principalmente por:
+
+\begin{itemize}
+ \item permitir realizar mobilidade entre sub-redes, devido a implementação
+realizada no \textit{switch} virtual;
+ \item facilitar a construção e realização dos cenários;
+ \item não necessitar de conhecimentos específicos obre as máquinas virtuiais
+UML, compilação do \textit{kernel linux} e dos \textit{daemons} dos protocolos;
+ \item por ser flexível podendo ser utilizada para outros estudos sobre redes de
+computadores;
+\end{itemize}
+
+Na realização do trabalho foi gerado uma versão experimental do HMIPv6, a qual
+permite estudos iniciais já que não havia nenhuma versão recente. Mesmo não
+tendo alcançado uma versão completa do protocolo, a realização do trabalho
+contribui para o enriquecimento de vários conhecimentos. Princilpamente na
+linguagem de programação C, desenvolvimento em sistemas \textit{linux}, \ac{API}
+de soquetes IPv6, \ac{POSIX} \textit{Threads}.
 
 Como perspectivas de trabalhos futuros, pode-se enumerar aspectos associados à
 plataforma de mobilidade e às extensões ao protocolo MIPL. No que se refere a
@@ -23,7 +42,7 @@ simulador de movimentos urbanos, tal como o \cite{krajzewicz};
 aspectos de configuração do IPv4 e facilitar a incorporação de novos protocolos
 e \textit{deamons};
 \item Melhorias na configuração dos terminais virtuais e consoles, de forma a
-obter Uma melhor visualização do sistema por parte do usuário. 
+obter Uma melhor visualização do sistema por parte do usuário.
 \item Desenvolvimento de uma interface gráfica para a configuração das máquinas
 UML;
 \item Criação automática de uma conexão virtual entre a máquina hospedeira e as

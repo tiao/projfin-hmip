@@ -5,9 +5,8 @@
 
 \chapter{Cenários de Testes}
 
-\section{A Preparação dos Cenários}
+\section{Cenários Estudados}
 
-\subsection{Cenários Estudados}
 Após os estudos bibliográficos sobre o protocolo MIPv6 e a preparação da
 Plataforma de Testes para Mobilidade, iniciou-se a etapa de definição e
 implementação de cenários de testes.  Esta etapa teve por objetivo  analisar
@@ -295,25 +294,25 @@ default		          & eth0	          & fe80::fcfd:71ff:febf:e3e1 &
 \label{t_rot_mn1}
 \end{table} 
 
-Após o agente domiciliar receber o \textit{Binding Update}, enviado pelo
+Após o agente domiciliar receber o BU, enviado pelo
 nó móvel para efetuar o registro, é adicionada na sua tabela de roteamento
 uma rota para que todos os pacotes com destino ao endereço domiciliar sejam
 encaminhados para o túnel.
-Após o nó móvel receber o \textit{Router Advertisement} na rede visitada, o
+Após o nó móvel receber o RA na rede visitada, o
 roteador padrão é alterado. é deletada a rota para rede 2001:c::/64 e adicionada
 uma rota para a rede 2001:d::/64, onde a interface eth0 está atrelada.
-
+ 
 Desde as versões do \textit{kernel linux} 2.x pode-se ter múltiplas tabelas 
 de roteamento no kernel. Estas tabelas são identificadas por um número variando
 de 1 a 255 ou por um nome de acordo com o arquivo \texttt{/etc/iproute2/rt\_tables}.
 Com novas tabelas pode-se criar uma estrutura flexível para implementar uma
 Politica de Roteamento\cite{lyra:crl}.
 
-Existem três tabelas que são criadas pelo kernel. A local(255), é uma tabela de 
+Existem três tabelas que são criadas pelo \textit{kernel}. A \textit{local}(255), é uma tabela de 
 roteamento especial mantida pelo kernel, onde usuários não podem adicionar novas
-entradas nessa tabela. A main(254), é a tabela de roteamento principal, onde ficam
+entradas nessa tabela. A \textit{main}(254), é a tabela de roteamento principal, onde ficam
 as rotas quando adicionamos com o comando \texttt{route} ou \texttt{ip route}.
-A default(253) é outra tabela especial e a unspec(0), qualquer operações sobre esta
+A \textit{default}(253) é outra tabela especial e a \textit{unspec}(0), qualquer operações sobre esta
 tabela refletem em todas as tabelas.
 
 O nó móvel adiciona regras na tabela 252, mostradas na tabela
@@ -356,8 +355,8 @@ encaminhados via eth0.
 \end{table}
 
 
-O Banco de Dados da Política de Roteamento ou Routing Policy Database (RPDB) 
-controla a ordem na qual o kernel faz sua busca através das tabelas de roteamento.
+O Banco de Dados da Política de Roteamento ou \ac{RPDB} 
+controla a ordem na qual o \textit{kernel} faz sua busca através das tabelas de roteamento.
 Cada regra possui uma prioridade, e as regras são examindadas sequencialmente da
 regra 0 até a regra 32767.
 
@@ -419,7 +418,7 @@ ip6tnl1 & 2001:c::1 & 2001:d::fcfd:32ff:feff:42c9 & eth0 & Após a mobilidade do
 nó móvel \\ \hline
 \end{tabular}
 \end{small}
-\caption{Descrição dos \texttt{end-points} do túnel do nó móvel}
+\caption{Descrição dos túneis do nó móvel}
 \label{t_tun_mn1}
 \end{table}
 
@@ -435,7 +434,7 @@ ip6tnl1 & 2001:d::fcfd:32ff:feff:42c9 & 2001:c::1 & eth0 & Após a mobilidade do
 nó móvel \\ \hline
 \end{tabular}
 \end{small}
-\caption{Descrição dos \texttt{end-points} do túnel do agente domiciliar}
+\caption{Descrição dos túneis do agente domiciliar}
 \label{t_tun_ha1}
 \end{table}
 
@@ -561,8 +560,8 @@ os dados coletados com a ferramenta \textit{tcpdump} estão disponíveis na figura
 
 \begin{figure}[!htpb]
 	\centering
-	\includegraphics[scale=.65]{figs/dump_inter}
-	\caption{Cenário 2: \textit{Logs} Mobilidade Global}
+	\includegraphics[scale=.64]{figs/dump_inter}
+	\caption{Cenário 2: Captura de mensagens Mobilidade Global}
  	\label{f_dump_inter}
 \end{figure}
 
@@ -625,7 +624,7 @@ mensagem tunelada do agente domiciliar.
 \begin{figure}[!htpb]
 	\centering
 	\includegraphics[scale=.65]{figs/dump_intra}
-	\caption{Cenário 2: \textit{Logs} Mobilidade Local}
+	\caption{Cenário 2: Captura de mensagens Mobilidade Local}
  	\label{f_dump_intra}
 \end{figure}
 
