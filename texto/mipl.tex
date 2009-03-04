@@ -8,10 +8,10 @@
 
 O projeto \textit{Mobile IPv6 for Linux} (MIPL) \cite{nuorvala2005mil} é uma
 implementação de suporte a mobilidade no IPv6 (RFC 3775), desenvolvida na
-Universidade Tecnólogica de Helsinki . O codigo foi desenvolvido acompanhando os
+Universidade Tecnológica de Helsinki . O código foi desenvolvido acompanhando os
 \textit{drafts} da RFC e as versões do \textit{kernel linux}. No início do
 desenvolvimento, a versão do kernel utilizada foi a 2.3.59 e o \textit{draft} 8,
-porém, devido as substânciais mudanças na especificação do MIPv6, os gestores 
+porém, devido as substanciais mudanças na especificação do MIPv6, os gestores 
 do projeto decidiram dividir o código fonte uma parte em espaço de kernel
 e outra em espaço de usuário. A última versão foi o MIPL 1.1 que trabalhava com
 a versão 2.4.26 do \textit{kernel linux}.
@@ -48,7 +48,7 @@ Monash.
 Com fins de gerar uma versão do HMIPv6 a partir do projeto MIP, iniciou-se
 um estudo aprofundado do código fonte do MIPL. O estudo do código do
 MIPL2 foi realizado na sua última versão estável, anunciada pelo projeto USAGI
-como umip-0.4. O MIPL é um projeto de codigo aberto sobre a licença GPL versão
+como umip-0.4. O MIPL é um projeto de código aberto sobre a licença GPL versão
 2, escrito na linguagem de programação C.
 
 O programa é executado na forma de um \textit{daemon} chamado de \textit{mip6d},
@@ -56,7 +56,7 @@ ou seja, um processo executado no segundo plano e que não está associado a um
 terminal controlador \cite{stevens2005unp}. Este mesmo \textit{daemon} 
 desempenha o papel de nó móvel, de agente domiciliar e de nó correspondente. A 
 sua função é definida em um arquivo de configuração, sendo que todos os nós são
-em pontencial um nó correspondente.
+em potencial um nó correspondente.
 
 O foco principal do estudo foi na parte responsável pelo
 funcionamento do nó móvel, pois as principais mudanças do MIPv6 para o HMIPv6 é
@@ -104,7 +104,7 @@ Os soquetes brutos também são utilizados pelo MIPL para permitir a leitura e
 envio de pacotes puramente IP sem a interferência do \textit{kernel}
 \cite{rfc3542}.
 Em condições normais quando o kernel não entende o campo de protocolo do
-datagrama IP, como por exemplo, os que possuim cabeçalho de mobilidade, eles são
+datagrama IP, como por exemplo, os que possuem cabeçalho de mobilidade, eles são
 passados diretamente para um soquete bruto. O único processamento feito pelo
 \textit{kernel} é a verificação mínima de alguns campos de cabeçalho IP.
 
@@ -199,7 +199,7 @@ previamente instalado em uma lista global, para tratar a mensagem.
 \subsubsection{\textit{xfrm\_listen}}
 O \textit{daemon} cria a \textit{thread xfrm\_listen} que escuta mensagens
 \textit{netlink} do \textit{framework} XFRM. Um manipulador é instalado para
-tratar essas mensagens. As mensagens são: XFRM\_MSG\_ACQUIRE e
+tratar essas mensagens. As mensagens tratadas são: XFRM\_MSG \_ACQUIRE e
 XFRM\_MSG\_REPORT.
 
 \subsubsection{\textit{md\_nl\_listen}}
@@ -217,7 +217,7 @@ informam:
 \end{itemize}
 
 \subsubsection{\textit{vt\_server\_recv}}
-É possivel habilitar em tempo de compilação um terminal virtual. O terminal
+É possível habilitar em tempo de compilação um terminal virtual. O terminal
 virtual permite que os usuários se conectem ao \textit{daemon}, via protocolo
 \textit{telnet}, para obter informações sobre o MIPv6, por exemplo:
 \begin{itemize}
@@ -268,7 +268,7 @@ utilizados, mas com tempo de vida não expirados;
 de novo roteador, e apaga todas as informações de roteamento que não são do
 prefixo atual.
 \end{enumerate}
-Devido a estas duas características, o MIPL sempe escolhe um novo roteador. Este
+Devido a estas duas características, o MIPL sempre escolhe um novo roteador. Este
 método de seleção agressiva de roteadores traz uma melhora na detecção de 
 movimento, ou seja, no tempo de \textit{handover}.
 
@@ -378,7 +378,7 @@ deve ser, então, realizado com os agentes:
 nó móvel e MAP.
  \end{itemize}
  \item Periodicamente, com a chegada dos RA's, o evento de movimento
-\textbf{ME\_MAP\_UDATE} é disparado e o tempo de vida do RCoA é atualizado.
+\textbf{ME\_MAP\_UPDATE} é disparado e o tempo de vida do RCoA é atualizado.
 \end{enumerate}
 
 \subsection{Problemas conhecidos}
