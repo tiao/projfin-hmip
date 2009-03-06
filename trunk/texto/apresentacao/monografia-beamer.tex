@@ -47,17 +47,22 @@
 
 \beamertemplatetransparentcovereddynamic
 
-\title[Mobilidade em Redes IP]{Plataforma para o Estudo de Mobilidade na Camada de Rede}
-\author[Cleiber Marques da Silva \and Filipe Medeiros de Almeida]{%
+\title[Plataforma para o Estudo de Mobilidade na Camada de Rede]{Plataforma para o Estudo de Mobilidade na Camada de Rede}
+\author[Silva, Almeida]{%
   Cleiber Marques da Silva \and Filipe Medeiros de Almeida}
 
-% Se comentar a linha abaixo, irá aparecer a data quando foi compilada a apresentação  
-\date{Março, 2009}
+\institute[Instituto Federal, Ciência e Tecnologia de Santa Catarina]{
+	Instituto Federal, Ciência e Tecnologia de Santa Catarina -- Campus São José\\
+	Curso Superior de Tecnologia em Sistemas de Telecomunicações
+}
 
-% \pgfdeclareimage[height=1cm]{ifsc_logo}{ifsc}
+% Se comentar a linha abaixo, irá aparecer a data quando foi compilada a apresentação  
+\date{Defesa Projeto Conclusão de Curso, 2009}
+
+\pgfdeclareimage[height=1cm]{logo}{../figs/logo}
 
 % pode-se colocar o LOGO assim
-% \logo{\pgfuseimage{ifsc_logo}}
+\logo{\pgfuseimage{logo}}
 
 % ou...
 %\logo{\vbox{\hbox to 1cm{\hfil\pgfuseimage{ufsc}}\vskip0.1cm\hbox{\pgfuseimage{das}}}}
@@ -75,32 +80,14 @@
     \tableofcontents[current,currentsection]
   }
 }
-
+\include{introducao}
 \include{protocolos}
 \include{plataforma}
 \include{mipl}
 \include{cenarios}
+\include{conclusao}
 
-% \section{Introdução}
-% 
-% \pgfdeclareimage[height=5cm]{user}{figs/user}
-% \pgfdeclareimage[height=6cm]{mobil1}{figs/mobil1}
-% \pgfdeclareimage[height=6cm]{mobil2}{figs/mobil2}
-% 
-% \frame{
-% 	\begin{itemize}
-% 		\item As tecnologias de comunicação sem fio estão em constante evolução
-% 		\item A Internet continua em rápida expansão
-% 		\item Cada dia é maior número de dispositivos móveis capaz de acessar a Internet
-% 		\item Há uma necessidade na continuidade dos serviços
-% 	\end{itemize}	
-% }
-% 
-% \frame{
-% 	\frametitle{Uso da Internet através de dispositivos sem fio}
-% 	\pgfuseimage{user}
-% }
-% 
+
 % \subsection{Mobilidade em Redes IP}
 % 
 % \frame{
@@ -375,34 +362,34 @@
 % 	\pgfuseimage{taxa}
 % }
 % 
-% \section*{Bibliografia}
-% 
-% \frame{
-% 	% estilo para aparecer um icone de um livro
-% 	%\beamertemplatebookbibitems
-% 	% estilo para aparecer um icone de um paper =)
-% 	\beamertemplatearticlebibitems
-% 	\begin{thebibliography}{1}
-% 
-% 	\bibitem{rfc3775}
-% 	JOHNSON, D. ; PERKINS, C.; ARKKO, J.
-% 	\newblock{\em Mobility Support in IPv6. RFC 3775}
-% 	\newblock{\url http://www.ietf.org/rfc/rfc3775.txt}
-% 
-% 	\bibitem{rfc4140}
-% 	SOLIMAN, H.; CASTELLUCCIA, C.; EL MALKI, K.; BELLIER, L.
-% 	\newblock {\em Hierarchical Mobile IPv6 Mobility Management, RFC 4140}
-% 	\newblock{\url http://www.ietf.org/rfc/rfc4140.txt}
-% 
-% 	\bibitem{rfc4068}
-% 	KOODLI, R. 
-% 	\newblock {\em Fast Handovers for Mobile IPv6, RFC 4068}
-% 	\newblock{\url http://www.ietf.org/rfc/rfc4068.txt}
-% 	
-% 	\bibitem{mipl}
-% 	NUORVALA, V.; PETANDER, H.; TUOMINEN,
-% 	\newblock MIPL PROJECT. Mobile IPv6 for Linux, Version 2.0 RC1. 2004
-% 	\end{thebibliography}
-% }
+\section*{Bibliografia}
+
+\frame{
+	% estilo para aparecer um icone de um livro
+	%\beamertemplatebookbibitems
+	% estilo para aparecer um icone de um paper =)
+	\beamertemplatearticlebibitems
+	\begin{thebibliography}{1}
+
+	\bibitem{rfc3775}
+	JOHNSON, D. ; PERKINS, C.; ARKKO, J.
+	\newblock{\em Mobility Support in IPv6. RFC 3775}
+	\newblock{\url http://www.ietf.org/rfc/rfc3775.txt}
+
+	\bibitem{rfc4140}
+	SOLIMAN, H.; CASTELLUCCIA, C.; EL MALKI, K.; BELLIER, L.
+	\newblock {\em Hierarchical Mobile IPv6 Mobility Management, RFC 4140}
+	\newblock{\url http://www.ietf.org/rfc/rfc4140.txt}
+
+	\bibitem{rfc4068}
+	KOODLI, R. 
+	\newblock {\em Fast Handovers for Mobile IPv6, RFC 4068}
+	\newblock{\url http://www.ietf.org/rfc/rfc4068.txt}
+	
+	\bibitem{mipl}
+	NUORVALA, V.; PETANDER, H.; TUOMINEN,
+	\newblock MIPL PROJECT. Mobile IPv6 for Linux, Version 2.0 RC1. 2004
+	\end{thebibliography}
+}
 
 \end{document}

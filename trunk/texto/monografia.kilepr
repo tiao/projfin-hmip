@@ -3,7 +3,7 @@ img_extIsRegExp=false
 img_extensions=.eps .jpg .jpeg .png .pdf .ps .fig .gif .dvi
 kileprversion=2
 kileversion=2.0
-lastDocument=monografia.tex
+lastDocument=cenarios.tex
 masterDocument=
 name=monografia
 pkg_extIsRegExp=false
@@ -17,21 +17,21 @@ QuickBuild=
 
 [item:abstract.tex]
 archive=true
-column=0
+column=36
 encoding=ISO 8859-1
 highlight=LaTeX
-line=0
+line=13
 open=false
 order=-1
 
 [item:acronimos.tex]
 archive=true
-column=54
+column=0
 encoding=ISO 8859-1
 highlight=LaTeX
-line=66
-open=true
-order=1
+line=50
+open=false
+order=2
 
 [item:acronym-emerson.sty]
 archive=true
@@ -44,19 +44,19 @@ order=-1
 
 [item:agradecimentos.tex]
 archive=true
-column=0
+column=1
 encoding=ISO 8859-1
 highlight=LaTeX
-line=0
+line=3
 open=false
 order=2
 
 [item:ambientedetestes.tex]
 archive=true
-column=17
+column=15
 encoding=ISO 8859-1
 highlight=LaTeX
-line=224
+line=357
 open=false
 order=2
 
@@ -71,30 +71,30 @@ order=-1
 
 [item:capa.tex]
 archive=true
-column=0
+column=22
 encoding=ISO 8859-1
 highlight=LaTeX
-line=30
+line=12
 open=false
 order=2
 
 [item:cenarios.tex]
 archive=true
-column=15
+column=46
 encoding=ISO 8859-1
 highlight=LaTeX
-line=501
+line=505
 open=false
-order=1
+order=0
 
 [item:conclusoes.tex]
 archive=true
-column=145
+column=12
 encoding=ISO 8859-1
 highlight=LaTeX
-line=9
+line=16
 open=false
-order=2
+order=0
 
 [item:dedicatoria.tex]
 archive=true
@@ -119,61 +119,61 @@ archive=true
 column=0
 encoding=ISO 8859-1
 highlight=LaTeX
-line=18
+line=5
 open=false
 order=3
 
 [item:glossario.tex]
 archive=true
-column=1
+column=109
 encoding=ISO 8859-1
 highlight=LaTeX
-line=2
+line=39
 open=false
-order=2
+order=1
 
 [item:introducao.tex]
 archive=true
-column=0
+column=50
 encoding=ISO 8859-1
 highlight=LaTeX
-line=6
-open=true
+line=15
+open=false
 order=2
 
 [item:ipv6.tex]
 archive=true
-column=15
+column=3
 encoding=ISO 8859-1
 highlight=LaTeX
-line=0
+line=104
 open=false
 order=2
 
 [item:makeglo.sty]
 archive=true
-column=16
+column=59
 encoding=ISO 8859-1
 highlight=LaTeX
-line=33
+line=38
 open=false
-order=-1
+order=2
 
 [item:mipl.tex]
 archive=true
-column=0
+column=73
 encoding=ISO 8859-1
 highlight=LaTeX
-line=119
+line=9
 open=false
 order=1
 
 [item:mipv6ehmipv6.tex]
 archive=true
-column=53
+column=34
 encoding=ISO 8859-1
 highlight=LaTeX
-line=339
+line=281
 open=false
 order=1
 
@@ -188,27 +188,27 @@ order=-1
 
 [item:monografia.tex]
 archive=false
-column=19
+column=20
 encoding=ISO 8859-1
 highlight=LaTeX
-line=47
-open=true
+line=51
+open=false
 order=0
 
 [item:resumo.tex]
 archive=true
-column=75
+column=42
 encoding=ISO 8859-1
 highlight=LaTeX
-line=6
+line=9
 open=false
 order=-1
 
 [item:rfc.bib]
 archive=true
-column=20
+column=61
 encoding=ISO 8859-1
 highlight=BibTeX
-line=64428
+line=64452
 open=false
-order=2
+order=3
