@@ -1,19 +1,257 @@
+
 \section{Plataforma de Testes para Mobilidade em Redes IP}
+\pgfdeclareimage[height=4cm]{uml}{../figs/uml}
+\pgfdeclareimage[height=2.3cm]{line_uml}{../figs/line_uml}
+\pgfdeclareimage[height=6cm]{vnuml}{../figs/vnuml}
+\pgfdeclareimage[height=6cm]{guml4mip}{../figs/guml4mip}
+\pgfdeclareimage[height=6cm]{guml4mip_func}{../figs/guml4mip_func}
+\pgfdeclareimage[height=1.5cm]{guml4mip_logo}{../figs/guml4mip_logo}
+\pgfdeclareimage[height=3cm]{uml_switch}{../figs/uml_switch}
+
+\frame{
+	\frametitle{Objetivos da Plataforma de Testes}
+	O objetivo geral da plataforma de testes é prover ao usuário:
+	\begin{itemize}[<+-| alert@+>]
+	 \item Ambiente virtual para o estudo dos protocolos de
+mobilidade da camada rede
+	 \item Facilidade e rapidez na construção de cenários de
+rede 
+	 \item Facilidade de instalação e uso da plataforma
+	\end{itemize}
+}
 
 \frame{
 	\frametitle{Descrição Geral da Plataforma}
-	O objetivo geral da plataforma de testes é prover ao usuário:
-	\begin{itemize}
-	 \item 
-	 \item 
-	 \item
+	Componentes presentes na Plataforma de Testes:
+	\begin{itemize}[<+-| alert@+>]
+	 \item Máquinas e \textit{switches} virtuais UML
+	 \item Interface gráfica para:
+	 \begin{itemize}
+ 	  \item controlar os terminais UML
+	  \item construção rápida de cenários de rede
+	  \item comandar a mobilidade
+	 \end{itemize}
+	 \item Protocolos da camada de rede:
+	 \begin{itemize}
+	  \item protocolos de mobilidade: MIPv6 e HMIPv6
+	  \item protocolos de roteamento dinâmicos: RIP, OSPF
+	  \item RADVD gerador de mensagens RA
+	 \end{itemize}
+	 \item Ferramentas para o estudo dos protocolos
 	\end{itemize}
-
 }
 
 \subsection{Linux em Modo Usuário}
 
+\frame{
+	\frametitle{Máquinas Virtuais UML}
+	\begin{itemize}[<+-| alert@+>]
+	 \item UML é uma implementação que permite executar um
+kernel Linux em um sistema hospedeiro como um processo de usuário
+	 \item É uma arquitetura suportada pelo kernel Linux, assim
+como i386, Sparc, ARM. A arquitetura é o próprio kernel Linux
+	\end{itemize} 
+	\pgfuseimage{uml}
+}
+
+\frame{
+	\frametitle{Usando a UML}
+	\begin{itemize}[<+-| alert@+>]
+	 \item Para fazer o uso das máquinas UML é necessário
+somente um sistema de arquivos e um kernel compilado para esta aquitetura
+	 \item Para a plataforma foi criado um sistema de arquivos
+a partir o GNU/Linux Debian, os principais recursos presentes são:
+	 \begin{itemize}
+	  \item Implementações do MIPv6 e HMIPv6
+	  \item Protocolos de roteamento dinâmico com o pacote \textit{Zebra}
+	  \item Utilitários de rede: tcpdump, ping, ip, tc, netcat, iptables
+	  \item Suporte no kernel: mobilidade, Netfilter, QoS, IPSec
+	 \end{itemize}
+	 \item  Outros recursos podem ser facilmente instalados na
+Plataforma
+	\end{itemize} 
+}
+
+\frame{
+	\frametitle{Usando a UML}
+	\pgfuseimage{line_uml}
+	\begin{columns}
+    	 \column{4.5cm}
+	 \begin{block}{Compilar kernel UML}
+	  \$ export ARCH=um\\
+	  \$ make defconfig\\
+	  \$ make menuconfig\\
+	  \$ make\\
+	 \end{block}
+	 \column{3.5cm}
+	\end{columns}
+}
+
+\frame{
+	\frametitle{UML x VMWare}
+	\begin{itemize}[<+-| alert@+>]
+	 \item UML é um sistema operacional virtual
+	 \item Tecnologias de virtualização como VMWare, simulam
+uma plataforma física, onde o sistema é executado
+	 \item UML tem um alto desempenho em execução
+	 \item UML tem problemas para utilizar recursos de
+hardware, por exemplo PCI
+	 \item UML permite iniciar maior número de máquinas
+	\end{itemize}
+}
+
+\frame{
+	\frametitle{Utilização das Máquinas UML}
+	Devido a sua flexibilidade as máquinas UML podem ser utilizadas para
+inúmeras aplicações, tais como:
+	\begin{itemize}[<+-| alert@+>]
+	 \item Consolidação de servidores de rede
+	 \item Ambientes de ensino
+	 \item Desenvolvimento de software:
+	 \begin{itemize}
+	  \item aplicações em nível usuário
+	  \item protocolos de rede
+	  \item próprio kernel linux
+	 \end{itemize}
+	\end{itemize}
+}
+
+\subsection{Redes Virtuais com UML}
+
+\frame{
+	\frametitle{Redes Virtuais com UML}
+	Redes para as máquinas UML:
+	\begin{itemize}[<+-| alert@+>]
+	 \item Conectando UML com o hospedeiro, utilizando as
+tecnologias de transporte:
+	 \begin{itemize}
+	  \item TUN/TAP
+	  \item \textit{Ethertap}
+	  \item SLIP
+	  \item \textit{Slirp}
+	 \end{itemize}
+	 \item Rede entre instâncias UML, utilizando um 
+\textit{switch} virtual
+	\end{itemize}
+
+}
+
+\frame{
+	\frametitle{UML Switch}
+	\begin{itemize}[<+-| alert@+>]
+	 \item \textit{uml\_switch} programa integrante do pacote
+UML permite interligação da máquinas UML
+	 \item Implementa um \textit{switch Ethernet} em
+\textit{software}
+	 \item As máquinas se conectam ao switch e se comunicam por
+meio de um arquivo UNIX soquetes no hospedeiro
+	\end{itemize}
+
+}
+
+\frame{
+	\frametitle{Redes virtuais UML}
+	\pgfuseimage{vnuml}
+}
+
+\frame{
+	\frametitle{Alterações realizadas no UML Switch}
+	Para permitir a simulação de mobilidade nos cenários foram feitas as
+seguintes alterações no \textit{switch} virtual:
+	\begin{itemize}[<+-| alert@+>]
+	 \item Possibilidade de segmentação de redes (VLAN)
+	 \item Mobilidade entre as VLANs
+	 \item Servidor \textit{telnet} que tem a função basica de
+efetuar a mobilidade entre os nós conectados ao switch. Seus comandos são:
+	 \begin{itemize}
+	  \item move $<$porta$>$ $<$VLAN$>$
+	  \item list
+	  \item quit
+	 \end{itemize}
+	\end{itemize}
+}
+
 \subsection{Interface Gráfica de controle de terminais UML para o IP Móvel}
 \frame{
-	\frametitle{Utilizando GUML4MIP}
+	\frametitle{Uso amigável das máquinas UML}
+	\begin{columns}
+    	 \column{11cm}
+	\begin{itemize}[<+-| alert@+>]
+	 \item Dificuldade na construção de cenários de rede
+utilizando UML
+	 \item Decidiu-se criar uma interface gráfica amigável
+	 \item O projeto GUML (Python) já comtempla muitos dos 
+recursos, porém seu foco não é a construção de cenários de rede
+	 \item Derivação do projeto e criação do GUML4MIP
+	\end{itemize}
+	 \column{1.5cm}
+	\pgfuseimage{guml4mip_logo}
+	\end{columns}
+}
+
+\frame{
+	\frametitle{Recursos GUML4MIP}
+	\begin{columns}
+    	 \column{11cm}
+	Principais recursos adicionados que melhoram o suporte a redes virtuais:
+	\begin{itemize}[<+-| alert@+>]
+	 \item Parâmetros no arquivo de configuração:
+	 \begin{itemize}
+	  \item função da máquina UML: roteador ou host
+	  \item Endereço da interfaces
+	  \item VLAN da interface
+	  \item Serviços para iniciar no boot, por exemplo: mipl, radvd
+	 \end{itemize}
+	 \item Geração automatica de scripts de configuração de
+rede
+	 \item Roteamento dinâmico
+	 \item Interface gráfica para o \textit{uml\_switch}
+	 \item Controle da mobilidade por meio da interface do
+switch
+	\item \textit{create\_fs} programa que constrói
+automaticamente o sistema de arquivos
+	\end{itemize}
+	 \column{1.5cm}
+	\pgfuseimage{guml4mip_logo}
+	\end{columns}
+}
+
+\frame{
+	\frametitle{Interface GUML4MIP}
+	\begin{columns}
+    	 \column{11cm}
+	\hspace{1cm}
+	\pgfuseimage{guml4mip}
+	 \column{1.5cm}
+	\pgfuseimage{guml4mip_logo}
+	\end{columns}
+
+}
+
+\frame{
+	\frametitle{Interface gráfica para o uml\_switch}
+	\begin{columns}
+    	 \column{11cm}
+	Na interface gráfica do \textit{uml\_switch} o usuário pode:
+	\begin{itemize}[<+-| alert@+>]
+	 \item Observar todas as máquinas conectadas a ele
+	 \item Qual VLAN cada interface esta associada
+	 \item Efetuar a mobilidade clicando no número da VLAN
+	\end{itemize}
+	\column{1.5cm}
+	\pgfuseimage{guml4mip_logo}
+	\end{columns}
+	\vspace{0.5cm}
+	\pgfuseimage{uml_switch}
+}
+
+\frame{
+	\frametitle{Funcionamento do GUML4MIP}
+	\begin{columns}
+    	 \column{11cm}
+	\hspace{1cm}
+	\pgfuseimage{guml4mip_func}
+	 \column{1.5cm}
+	\pgfuseimage{guml4mip_logo}
+	\end{columns}
 }
