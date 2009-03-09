@@ -1,5 +1,126 @@
 \section{Implementação do HMIPv6 basendo-se no projeto MIPL}
+\pgfdeclareimage[height=6cm]{mipl_kernel_block}{../figs/mipl_kernel_block}
 
 \subsection{Mobile IP for Linux}
 
+\frame{
+	\frametitle{IP Móvel para o Linux}
+	\begin{itemize}[<+-| alert@+>]
+	 \item O \textit{Mobile IPv6 for Linux} (MIPL) é uma implementação de
+Suporte a Mobilidade no IPv6 (RFC 3775), desenvolvida na Universidade
+Tecnólogica de Helsinki sob a lincença GPLv2
+	 \item As primeiras versões eram todas em kernel-space
+	 \item No MIPL2 a USAGI começou a participar do projeto, nesta versões
+houveram mudanças significativas:
+	 \begin{itemize}
+	  \item um \textit{daemon} passou a controlar a sinalização e a detecção
+de movimento
+	  \item o kernel passou a ser uma camada de suporte ao MIPv6
+	  \item hoje o MIPv6 já faz parte da linha principal de desenvolvimento
+do kernel 
+	 \end{itemize}
+	\end{itemize}
+}
+
+\frame{
+	\frametitle{Implementação do HMIPv6}
+	\begin{itemize}[<+-| alert@+>]
+	 \item A Universidade de Monash na Austrália propôs uma versão do HMIPv6
+baseando-se no MIPL 0.94 e na versão 2.4 do kernel
+	 \item Alterações no RADVD para divulgar mensagens RA com opção de MAP
+	 \item Devido as grandes modificações na estrutura do projeto MIPL,
+pode-se dizer que não há uma implementação aberta e recente do HMIPv6
+	\end{itemize}
+
+}
+
+\subsection{Estudo do código do projeto MIPL}
+
+\frame{
+	\frametitle{Interação entre o Kernel e o MIPL}
+	\begin{itemize}[<+-| alert@+>]
+	 \item A maioria da implementação do MIPv6 esta em espaço de usuário o
+que torna o desenvolvimento mais fácil, seguro e independente de versão de
+kernel
+	 \item A comunicação entre o kernel e espaço de usuário é feita
+utilizando a interface \textit{netlink}. A interface permite o MIPL:
+	 \begin{itemize}
+	  \item acessar as informações do MIPv6 no kernel
+	  \item alterar endereços IPs
+	  \item manipular tabelas e regras de roteamento
+	  \item criar túneis
+	 \end{itemize}
+	 \item Os soquetes brutos também são utilizados para permitir a leitura
+de pacotes puramente IP sem a interferência do kernel. Esta capacidade permite
+que estes pacotes sejam tratados por aplicações independentes do kernel
+	\end{itemize}
+
+}
+
+\frame{
+	\frametitle{Threads importantes do MIPL}
+	Para realizar as várias funções o MIPL utiliza a técnica de 
+Multithreading.
+	\begin{itemize}[<+-| alert@+>]
+	 \item \textbf{\textit{runner}} execução de tarefas agendadas
+	 \item \textbf{\textit{icmp6_listen}} escutar mensagens ICMPv6
+	 \item \textbf{\textit{mh_listen}} escutar mensagens 
+	 \item \textbf{\textit{xfrm_listen}} escutar mensagens do framework XFRM
+	 \item \textbf{\textit{md_nl_listen}} escutar e tratar mensagens
+\textit{netlink} do tipo NETLINK_ROUTE
+	 \item \textbf{\textit{vt_server_recv}} servidor telnet que
+disponibiliza informações sobre o \textit{daemon}
+	 \item \textbf{\textit{sigh}} tratar sinais do sistema
+	\end{itemize}
+
+}
+
+\frame{
+	\frametitle{Comunicação do MIPL com o Kernel}
+	\pgfuseimage{mipl_kernel_block}
+}
+
+\frame{
+	\frametitle{Detecção de Movimento}
+	\begin{itemize}[<+-| alert@+>]
+	 \item O algoritmo de detecção de movimento é baseado na escuta das
+mensagens de RA
+	 \item Mesmo sendo uma extensão do IPv6, apresenta algumas 
+características na administração de roteadores:
+	 \begin{itemize}
+	  \item possui uma lista própria de roteadores que contém o atual
+roteador, e outros com tempo de vida não expirado
+	  \item força atualizações na tabela de roteamento a cada RA, e apaga
+informações que não são do prefixo atual
+	 \end{itemize}
+
+	\end{itemize}
+
+}
+
 \subsection{Alterações no MIPL}
+
+\frame{
+	\frametitle{Principais modificações no MIPL}
+	\begin{itemize}
+	 \item Adicionado suporte a leitura de mensagens RA com opção de MAP
+	 \item adicionada uma lista de MAPs na estrutura de roteador
+	 \item Acrescentado no mecanismo de registro, o envio do BU para o MAP
+	 \item Alteração do BU para o agente domiciliar
+	 \item Criação do túnel com o MAP
+	 \item Modificação do túnel do agente domiciliar
+	\end{itemize}
+
+}
+
+\frame{
+	\frametitle{Problemas conhecidos}
+	\begin{itemize}[<+-| alert@+>]
+	 \item ausência de suporte a otimização de rotas
+	 \item ausência de suporte a segurança (IPSec)
+	 \item ausência de suporte ao HMIPv6 em arquivo de configuração
+	 \item sem tarefas pra deletar MAPs expirados
+	 \item problemas para receber BA provindos do MAP
+	 \item problemas no retorno para rede domiciliar
+	\end{itemize}
+}
