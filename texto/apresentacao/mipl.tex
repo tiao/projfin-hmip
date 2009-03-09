@@ -63,12 +63,12 @@ que estes pacotes sejam tratados por aplicações independentes do kernel
 Multithreading.
 	\begin{itemize}[<+-| alert@+>]
 	 \item \textbf{\textit{runner}} execução de tarefas agendadas
-	 \item \textbf{\textit{icmp6_listen}} escutar mensagens ICMPv6
-	 \item \textbf{\textit{mh_listen}} escutar mensagens 
-	 \item \textbf{\textit{xfrm_listen}} escutar mensagens do framework XFRM
-	 \item \textbf{\textit{md_nl_listen}} escutar e tratar mensagens
-\textit{netlink} do tipo NETLINK_ROUTE
-	 \item \textbf{\textit{vt_server_recv}} servidor telnet que
+	 \item \textbf{\textit{icmp6\_listen}} escutar mensagens ICMPv6
+	 \item \textbf{\textit{mh\_listen}} escutar mensagens 
+	 \item \textbf{\textit{xfrm\_listen}} escutar mensagens do framework XFRM
+	 \item \textbf{\textit{md\_nl\_listen}} escutar e tratar mensagens
+\textit{netlink} do tipo NETLINK\_ROUTE
+	 \item \textbf{\textit{vt\_server\_recv}} servidor telnet que
 disponibiliza informações sobre o \textit{daemon}
 	 \item \textbf{\textit{sigh}} tratar sinais do sistema
 	\end{itemize}
@@ -102,7 +102,7 @@ informações que não são do prefixo atual
 
 \frame{
 	\frametitle{Principais modificações no MIPL}
-	\begin{itemize}
+	\begin{itemize}[<+-| alert@+>]
 	 \item Adicionado suporte a leitura de mensagens RA com opção de MAP
 	 \item adicionada uma lista de MAPs na estrutura de roteador
 	 \item Acrescentado no mecanismo de registro, o envio do BU para o MAP
@@ -116,11 +116,11 @@ informações que não são do prefixo atual
 \frame{
 	\frametitle{Problemas conhecidos}
 	\begin{itemize}[<+-| alert@+>]
-	 \item ausência de suporte a otimização de rotas
-	 \item ausência de suporte a segurança (IPSec)
-	 \item ausência de suporte ao HMIPv6 em arquivo de configuração
-	 \item sem tarefas pra deletar MAPs expirados
-	 \item problemas para receber BA provindos do MAP
-	 \item problemas no retorno para rede domiciliar
+	 \item Ausência de suporte a otimização de rotas
+	 \item Ausência de suporte a segurança (IPSec)
+	 \item Ausência de suporte ao HMIPv6 em arquivo de configuração
+	 \item Sem tarefas pra deletar MAPs expirados
+	 \item Problemas para receber BA provindos do MAP
+	 \item Problemas no retorno para rede domiciliar
 	\end{itemize}
 }
