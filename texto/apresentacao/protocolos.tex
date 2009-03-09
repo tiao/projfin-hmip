@@ -33,7 +33,7 @@ mesmo endereço IP, o \textit{Home Address}(HoA) ou endereço domiciliar;
 		\item Não depende da tecnologia de acesso;
 		\item Para cada rede visitada será configurado um \textit{Care-of Address}
 (CoA);
-		\item após detectar o movimento e configurar seu CoA, o nó móvel realiza o
+		\item Após detectar o movimento e configurar seu CoA, o nó móvel realiza o
 registro com o seu Agente Domiciliar;
 \end{itemize}
 
@@ -50,12 +50,6 @@ visitada;
 	
 }
 
-\pgfdeclareimage[height=6cm]{mipv6}{../figs/mipv6}
-\frame{
-	\frametitle{Modos de Funcionamento}
-		\pgfuseimage{mipv6}
-}
-
 \frame{
 	\frametitle{O Procedimento de Handover}
 	\begin{itemize}[<+-| alert@+>]
@@ -70,6 +64,12 @@ visitada;
 	\end{itemize}
 }
 
+\pgfdeclareimage[height=6cm]{mipv6}{../figs/mipv6}
+\frame{
+	\frametitle{Modos de Funcionamento}
+		\pgfuseimage{mipv6}
+}
+
 \pgfdeclareimage[height=6cm]{fluxo_mipv6}{../figs/fluxo_mipv6}
 \frame{
 	\frametitle{O Procedimento de Handover}
@@ -82,7 +82,7 @@ visitada;
 		\item O uso de BUs não autenticados é um sério problema de segurança;
 		\item Proteção no registro(BU) com o Agente Domiciliar, utilizando o
 protocolo IPSec;
-		\item é necessário uma chave secreta deve ser configurada nos dois nós,
+		\item É necessário uma chave secreta deve ser configurada nos dois nós,
 inviabilizando a segurança entre nó movel e nó correspondente;
 		\item\textit{Return Routability Procedure}(RRP);
 	\end{itemize}
@@ -161,13 +161,18 @@ irá gerar os endereços RCoA e LCoA;
 
 \frame{
 	\frametitle{Funcionamento IP Móvel Hierarquico}
-o nó móvel irá atualizar suas associações:
-\begin{enumerate}[<+- | alert@+>]
-\item MAP = (RCoA com o LCoA);
-\item Agente Domiciliar = (RCoA com endereço domiciliar)
-\item Correspondente(opcional) = (RCoA com endereço domiciliar)
-\item Correspondente locais(opcional) = (LCoA com endereço domiciliar)
-\end{enumerate}
+\begin{itemize}[<+- | alert@+>]
+  \item O funcionamento do Agente Domiciliar e dos nós correspondentes permanece
+        idêntico ao do MIPv6.
+  \item O MAP intercepta os pacotes destinados ao RCoA.
+  \item O nó móvel irá atualizar suas associações:
+  \begin{enumerate}[<+- | alert@+>]
+    \item MAP = (RCoA com o LCoA);
+    \item Agente Domiciliar = (RCoA com endereço domiciliar)
+    \item Correspondente(opcional) = (RCoA com endereço domiciliar)
+    \item Correspondente locais(opcional) = (LCoA com endereço domiciliar)
+  \end{enumerate}
+\end{itemize}
 }
 
 \pgfdeclareimage[height=6cm]{hmip}{../figs/hmipv6}
