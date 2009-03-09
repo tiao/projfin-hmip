@@ -1,0 +1,179 @@
+\section{Protocolos de Mobilidade da Camada Rede}
+
+\subsection{O Problema da Mobilidade na Camada de Rede}
+\frame{
+\frametitle{Problemas atuais...}
+	\begin{itemize}[<+-| alert@+>]
+		\item Funcionamento das redes IP;
+		\item O endereços IP definine a localização geográfica de um hospedeiro;
+		\item A Internet assumem que o um nó não muda seu endereço IP durante uma
+comunicação;
+		\item Quando o nó muda seu ponto de conexão, não é possivel atualizar a rota
+ para o novo destino (escalabilidade);
+	\end{itemize}
+}
+\frame{
+	\frametitle{Propostas da IETF}
+	\begin{itemize}[<+-| alert@+>]
+		\item \textit{Mobile Internet Protocol}(MIP) ou IP Móvel;
+		\item Permitir os nós movimentar-se, para diferentes subredes, continuando 
+as comunicações já estabelecidas;
+		\item MIPv4 ou MIPv6?
+		\item Uma extensão do MIPv6: \textit{Hierarchical Mobile Internet Protocol}
+(HMIP) ou IP Móvel Hierárquico;
+	\end{itemize}
+}
+
+\subsection{Visão Geral dos protocolo de mobilidade}
+\frame{
+	\frametitle{Funcionamento MIPv6}
+	\begin{itemize}[<+-| alert@+>]
+		\item O \textit{Mobile Node}(MN) ou nó móvel sempre está acessível pelo 
+mesmo endereço IP, o \textit{Home Address}(HoA) ou endereço domiciliar;
+		\item Não depende da tecnologia de acesso;
+		\item Para cada rede visitada será configurado um \textit{Care-of Address}
+(CoA);
+		\item após detectar o movimento e configurar seu CoA, o nó móvel realiza o
+registro com o seu Agente Domiciliar;
+\end{itemize}
+
+\begin{columns}
+\column{10cm}
+		\begin{block}{\textit{Agente Domiciliar}}
+		\begin{itemize}
+			\item<5-| alert@5> O \textit{Home Agent}(HA) ou agente domiciliar é
+responsavel em encaminhar os pacotes para o nó móvel, quando está na rede
+visitada;
+		\end{itemize}
+		\end{block}
+\end{columns}
+	
+}
+
+\pgfdeclareimage[height=6cm]{mipv6}{../figs/mipv6}
+\frame{
+	\frametitle{Modos de Funcionamento}
+		\pgfuseimage{mipv6}
+}
+
+\frame{
+	\frametitle{O Procedimento de Handover}
+	\begin{itemize}[<+-| alert@+>]
+		\item \textit{Handover} Camada 2(enlace) e {Handover} Camada 3(rede);
+		\item O \textit{handover} na camada rede, na arquitetura IPv6, envolve:
+		\begin{enumerate}
+			\item Descoberta de um novo roteador;
+			\item Auto configuração do CoA;
+			\item Teste de duplicidade do CoA (DAD), e;
+			\item Registro com o agente domiciliar e o nó correspondente;
+		\end{enumerate}
+	\end{itemize}
+}
+
+\pgfdeclareimage[height=6cm]{fluxo_mipv6}{../figs/fluxo_mipv6}
+\frame{
+	\frametitle{O Procedimento de Handover}
+	\pgfuseimage{fluxo_mipv6}
+}
+
+\frame{
+	\frametitle{Consideração sobre Segurança}
+	\begin{itemize}[<+-| alert@+>]
+		\item O uso de BUs não autenticados é um sério problema de segurança;
+		\item Proteção no registro(BU) com o Agente Domiciliar, utilizando o
+protocolo IPSec;
+		\item é necessário uma chave secreta deve ser configurada nos dois nós,
+inviabilizando a segurança entre nó movel e nó correspondente;
+		\item\textit{Return Routability Procedure}(RRP);
+	\end{itemize}
+}
+
+\pgfdeclareimage[height=6cm]{rrp}{../figs/rrp}
+
+\frame{
+	\frametitle{O Procedimento de Return Routability}
+	\pgfuseimage{rrp}
+}
+
+\frame{
+	\frametitle{Problemas do MIPv6}
+	\begin{itemize}[<+- | alert@+>]
+		\item O MIPv6 apresenta alguns problemas que comprometem a sua
+escalabilidade na \textit{Internet};
+		\begin{itemize}
+			\item<2- | alert@2> tempo na detecção do movimento;
+			\item<2- | alert@2> tempo na configuração do novo endereço na rede
+visitada, o CoA;
+			\item<2- | alert@2> tempo do registro com o seu Agente Domiciliar;
+		\end{itemize}
+		\item<3- | alert@3>Uma solução é minimizar os longos retardos no envio dos
+BU, tratando a mobilidade global e local de formas distintas;
+	\end{itemize}
+}
+
+\frame{
+	\frametitle{Problemas do MIPv6}
+\begin{columns}
+\column{10cm}
+
+\begin{block}{Mobilidade Local} 
+	\begin{itemize}\item<1- | alert@1> É a que acontece dentro de um mesmo
+ domínio.\end{itemize}
+\end{block}
+
+\begin{block}{Mobilidade Global} 
+	\begin{itemize}\item<2- | alert@2> Ocorre entre domínios
+diferentes\end{itemize}
+\end{block}
+
+\begin{block}{Domínio}
+ \begin{itemize}\item<3- | alert@3> Domínio é uma dimensão arbitrária, por
+  exemplo, uma rede de uma empresa ou universidade com uma ou mais
+ subredes.\end{itemize}
+\end{block}
+
+\end{columns}
+}
+
+\frame{
+	\frametitle{Funcionamento IP Móvel Hierarquico}
+\begin{itemize}[<+- | alert@+>]
+	\item Introdução de um novo agente, o \textit{Mobile Ancor Point}(MAP)
+	\item Quando o nó móvel entra em um domínio com a presença de um MAP, ele
+irá gerar os endereços RCoA e LCoA;
+\end{itemize}
+
+\begin{columns}
+\column{10cm}
+\begin{block}{RCoA}
+ \begin{itemize}[<+- | alert@+>]
+	\item que será baseado no prefixo da rede do MAP.
+ \end{itemize}
+\end{block}
+ 
+\begin{block}{LCoA}
+ \begin{itemize}[<+- | alert@+>]
+\item	utiliza o mesmo prefixo anunciado pelo roteador padrão.
+ \end{itemize}
+\end{block}
+\end{columns}
+}
+
+\frame{
+	\frametitle{Funcionamento IP Móvel Hierarquico}
+o nó móvel irá atualizar suas associações:
+\begin{enumerate}[<+- | alert@+>]
+\item MAP = (RCoA com o LCoA);
+\item Agente Domiciliar = (RCoA com endereço domiciliar)
+\item Correspondente(opcional) = (RCoA com endereço domiciliar)
+\item Correspondente locais(opcional) = (LCoA com endereço domiciliar)
+\end{enumerate}
+}
+
+\pgfdeclareimage[height=6cm]{hmip}{../figs/hmipv6}
+\frame{
+	\frametitle{Funcionamento IP Móvel Hierarquico}
+	\pgfuseimage{hmip}
+}
+%\pgfdeclareimage[height=6cm]{intra_site}{figs/intra_site}
+%\pgfdeclareimage[height=6cm]{inter_site}{figs/inter_site}
