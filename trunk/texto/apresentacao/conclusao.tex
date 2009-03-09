@@ -1,34 +1,88 @@
 \section{Conclusão}
 
 \frame{
-\frametitle{Trabalhos Futuros}
+\frametitle{Conclusão}
 
 \begin{itemize}
-\item Concepção de um simulador da rede sem fio nas máquinas UML, de forma
-similar ao MobUML, possibilitando a análise dos problemas associados ao enlace e
-seus impactos na camada de rede;
-\item Implementação de modelos de mobilidade
-clássicos, de forma a produzir
-movimentos circulares, retilíneos, randomizados, ou mesmo, a acoplagem a um
-simulador de movimentos urbanos, tal como o \cite{krajzewicz};
-\item Incrementos na linguagem de descrição da UML, de forma a incorporar
-aspectos de configuração do IPv4 e facilitar a incorporação de novos protocolos
-e \textit{deamons};
+\item A platarfoma implementada possibilita:
+\begin{itemize}
+ \item Realizar mobilidade entre sub-redes, devido a implementação
+realizada no \textit{switch} virtual;
+ \item Construção e realização facilitada de cenários de mobilidade;
+ \item Utilização sem conhecimentos específicos obre as máquinas virtuiais
+UML, compilação do \textit{kernel linux} e dos \textit{daemons} dos protocolos;
+ \item Ser utilizada para outros estudos sobre redes de computadores, 
+mostrando-se flexível.
+\end{itemize}
+\item A plataforma de testes  atingiu o objetivo desejado e vem 
+demonstrando bons resultados.
+
 \end{itemize}
 
 }
 
 \frame{
-\frametitle{Trabalhos Futuros}
+\frametitle{Conclusão}
+
+\begin{itemize}
+\item Foi gerado uma versão experimental do HMIPv6.
+\item  Mesmo não tendo alcançado uma versão completa do protocolo, a realização
+do trabalho contribui para o enriquecimento de vários conhecimentos.
+\begin{itemize}
+\item Linguagem de programação C
+\item Desenvolvimento em sistemas \textit{linux}
+\item Kernel \textit{linux}
+\item API de soquetes IPv6
+\item POSIX \textit{Threads}.
+\end{itemize}
+\end{itemize}
+
+}
+
+
+
+
+\frame{
+\frametitle{Trabalhos Futuros(Plataforma)}
+
+\begin{itemize}
+\item Concepção de um simulador da rede sem fio nas máquinas UML, de forma
+similar ao MobUML, possibilitando a análise dos problemas associados ao enlace e
+seus impactos na camada de rede.
+\item Implementação de modelos de mobilidade clássicos, de forma a produzir
+movimentos circulares, retilíneos, randomizados, ou mesmo, a acoplagem a um
+simulador de movimentos urbanos, tal como o
+\textit{Simulation of Urban MObility}.
+\item Incrementos na linguagem de descrição da UML, de forma a incorporar
+aspectos de configuração do IPv4 e facilitar a incorporação de novos protocolos
+e \textit{deamons}.
+\end{itemize}
+
+}
+
+\frame{
+\frametitle{Trabalhos Futuros(Plataforma)}
 \begin{itemize}
 \item Melhorias na configuração dos terminais virtuais e consoles, de forma a
 obter Uma melhor visualização do sistema por parte do usuário.
 \item Desenvolvimento de uma interface gráfica para a configuração das
-máquinas
-UML;
+máquinas UML.
 \item Criação automática de uma conexão virtual entre a máquina hospedeira e
-as
-máquinas virtuais; 
+as máquinas virtuais.
 \item Melhorias no instalador do sistema.
+\end{itemize}
+}
+
+\frame{
+\frametitle{Trabalhos Futuros(Extensões MIPLs)}
+\begin{itemize}
+\item Implementação da otimização de rotas no HMIP, ou seja, a realização de
+BUs diretamente com os nós correspondentes;
+\item Exploração da implementação do HMIP para estudar melhorias na seleção de
+MAPs por parte dos nós móveis;
+\item Estudo da integração do HMIP com protocolos de sinalização de QoS,
+desenvolvendo módulos/bibliotecas para o interfaceamento entre eles;
+\item Incorporação do protocolo FMIPv6(rfc4068) na plataforma de
+mobilidade;
 \end{itemize}
 }
