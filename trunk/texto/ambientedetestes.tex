@@ -12,12 +12,22 @@ A plataforma desenvolvida neste trabalho tem como objetivo prover o usuário com:
 \begin{itemize}
  \item um sistema que permita facilidades no estudo dos protocolos de
 mobilidade da camada de rede, em particular o MIPv6 e HMIPv6. Outros protocolos
-poderão ser instalados no futuro;
+poderão ser instalados no futuro. Em adição,  os protocolos não devem ser
+executados como simulações de comportamento, mas sim na forma de implementações
+reais;
  \item facilidades para a rápida construção de cenários de rede, sem se ater a
 procedimentos de configuração e instalação de equipamentos de rede sem fio;
 \item facilidades para a rápida instalação da plataforma nas máquinas
 hospedeiras.
 \end{itemize}
+
+Os requisitos básicos do projeto descartam a utilização de simuladores de rede
+do tipo NS2 \cite{citarNS2} e Omnet \cite{citarOmnet}. A utilização destes
+simuladores é interessante para a análise de desempenho dos protocolos mas não
+refletem os problemas reais de configuração e execução do sistema, uma vez que
+tendem a abstrair detalhes de funcionamento considerados irrelevantes na
+simulação. Alé disto, as implementações do MIP e HMIP sobre estes simuladores
+são bastantes precárias. O NS2 não possui nem mesmo uma versão estável do IPv6. 
 
 Na concepção da plataforma de testes, optou-se por utilizar um ambiente baseado
 em máquinas virtuais devido a rapidez na realização de experimentos: em somente
