@@ -22,12 +22,24 @@ hospedeiras.
 \end{itemize}
 
 Os requisitos básicos do projeto descartam a utilização de simuladores de rede
-do tipo NS2 \cite{citarNS2} e Omnet \cite{citarOmnet}. A utilização destes
-simuladores é interessante para a análise de desempenho dos protocolos mas não
-refletem os problemas reais de configuração e execução do sistema, uma vez que
-tendem a abstrair detalhes de funcionamento considerados irrelevantes na
-simulação. Alé disto, as implementações do MIP e HMIP sobre estes simuladores
-são bastantes precárias. O NS2 não possui nem mesmo uma versão estável do IPv6. 
+como NS2 \cite{citarNS2} e OMNeT \cite{varga2001ode}:
+
+\begin{itemize}
+\item O OMNeT é um ambiente de simulação de eventos discretos com código
+aberto. É baseado em componentes(modular) e possui uma interface gráfica para
+vizualização da execução. Sua principal aplicação é a simulação de redes de
+comunicação, mas devido à sua arquitetura flexível e genérica, é utilizado com
+sucesso também em outras áreas como a simulação de sistemas complexos de TI,
+redes de filas ou arquiteturas de hardware.
+\item O NS2 é..
+\end{itemize}
+
+A utilização destes simuladores é interessante para a análise de desempenho dos
+protocolos mas não refletem os problemas reais de configuração e execução do
+sistema, uma vez que tendem a abstrair detalhes de funcionamento considerados
+irrelevantes na simulação. Além disto, as implementações do MIP e HMIP sobre
+estes simuladores são bastantes precárias. O NS2 não possui nem mesmo uma versão
+estável do IPv6.
 
 Na concepção da plataforma de testes, optou-se por utilizar um ambiente baseado
 em máquinas virtuais devido a rapidez na realização de experimentos: em somente
